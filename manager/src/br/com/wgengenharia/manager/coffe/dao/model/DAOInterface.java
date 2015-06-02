@@ -1,5 +1,7 @@
 package br.com.wgengenharia.manager.coffe.dao.model;
 
+
+
 public interface DAOInterface<T,K> {
 
 	void insert(T entity);

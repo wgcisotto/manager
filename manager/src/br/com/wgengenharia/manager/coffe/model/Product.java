@@ -2,16 +2,29 @@ package br.com.wgengenharia.manager.coffe.model;
 
 import java.io.Serializable;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "TAB_PRODUCT")
+@SequenceGenerator(name="seqProduct", sequenceName="SEQ_PRODUCT",allocationSize=1)
 public class Product implements ProductInterface, Serializable {
 	
 	private static final long serialVersionUID = -8371022467959133760L;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProduct")
 	private int id_product;
+	@Column(name="barcode", length=100)
 	private Integer barcode;
+	@Column(name="name", length=50, nullable=false)
 	private String name;
+	@Column(name="description", length=100)
 	private String description;
+	@Column(name="price", length=10, nullable=false)
 	private Double price;
-	private Double Cost;
+	@Column(name="cost", length=10, nullable=false)
+	private Double cost;
+	@Column(name="category")
 	private CategoryInterface Category;
 
 	public int getId_product() {
@@ -55,11 +68,11 @@ public class Product implements ProductInterface, Serializable {
 	}
 
 	public Double getCost() {
-		return Cost;
+		return cost;
 	}
 	
 	public void setCost(Double cost) {
-		Cost = cost;
+		this.cost = cost;
 	}
 	
 	public CategoryInterface getCategory() {

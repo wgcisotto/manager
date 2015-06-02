@@ -3,6 +3,7 @@ package br.com.wgengenharia.manager.coffe.business;
 import br.com.wgengenharia.manager.coffe.dao.CategoryDAO;
 import br.com.wgengenharia.manager.coffe.dao.CategoryDAOImpl;
 import br.com.wgengenharia.manager.coffe.dao.model.DAOInterface;
+import br.com.wgengenharia.manager.coffe.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.coffe.model.Category;
 
 public class CategoryBO implements DAOInterface<Category, Integer> {
@@ -10,7 +11,7 @@ public class CategoryBO implements DAOInterface<Category, Integer> {
 	private CategoryDAO DAO;
 	
 	public CategoryBO() {
-		DAO = new CategoryDAOImpl();
+		DAO = new CategoryDAOImpl(EntityManagerFactorySingleton.getInstance().createEntityManager());
 	}
 	
 	@Override

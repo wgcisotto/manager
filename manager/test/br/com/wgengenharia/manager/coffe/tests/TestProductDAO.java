@@ -2,8 +2,7 @@ package br.com.wgengenharia.manager.coffe.tests;
 
 import org.junit.Test;
 
-import br.com.wgengenharia.manager.coffe.dao.ProductDAO;
-import br.com.wgengenharia.manager.coffe.dao.ProductDAOImpl;
+import br.com.wgengenharia.manager.coffe.business.ProductBO;
 import br.com.wgengenharia.manager.coffe.model.Category;
 import br.com.wgengenharia.manager.coffe.model.CategoryInterface;
 import br.com.wgengenharia.manager.coffe.model.Product;
@@ -24,8 +23,8 @@ public class TestProductDAO {
 		product.setName("Produto Teste");
 		product.setPrice(10.0);
 		
-		ProductDAO dao = new ProductDAOImpl();
-		dao.insert(product);
+		ProductBO pBO = new ProductBO();
+		pBO.insert(product);
 		
 	}
 

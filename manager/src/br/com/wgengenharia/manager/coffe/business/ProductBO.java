@@ -3,6 +3,7 @@ package br.com.wgengenharia.manager.coffe.business;
 import br.com.wgengenharia.manager.coffe.dao.ProductDAO;
 import br.com.wgengenharia.manager.coffe.dao.ProductDAOImpl;
 import br.com.wgengenharia.manager.coffe.dao.model.DAOInterface;
+import br.com.wgengenharia.manager.coffe.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.coffe.model.Product;
 
 public class ProductBO implements DAOInterface<Product, Integer>{
@@ -10,7 +11,7 @@ public class ProductBO implements DAOInterface<Product, Integer>{
 	private ProductDAO DAO;
 	
 	public ProductBO() {
-		DAO = new ProductDAOImpl();
+		DAO = new ProductDAOImpl(EntityManagerFactorySingleton.getInstance().createEntityManager());
 	}
 	
 	@Override
