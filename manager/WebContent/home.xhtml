@@ -16,8 +16,8 @@
         <p:menubar>
         <p:submenu label="File" icon="ui-icon-document">
             <p:submenu label="New" icon="ui-icon-contact">
-                <p:menuitem value="Project" url="#" />
-                <p:menuitem value="Other" url="#" />
+                <p:menuitem value="Project" url="#" action="#{manager.executar}"/>
+                <p:menuitem value="Other" url="#" action="#{docesBean.carregar}"/>
             </p:submenu>
             <p:menuitem value="Open" url="#" />
             <p:separator />
@@ -56,6 +56,9 @@
             <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
         </f:facet>
     </p:menubar>
+    
+    <p:commandButton value="vai la campeao 2" action="#{manager.executar('Agora tem que ir tambem.. ')}" />
+    
     </h:form>
   </f:view>
 </h:body>

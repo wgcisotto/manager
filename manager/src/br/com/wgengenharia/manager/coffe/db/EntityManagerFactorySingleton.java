@@ -3,6 +3,7 @@ package br.com.wgengenharia.manager.coffe.db;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+
 public class EntityManagerFactorySingleton {
 
 	private static EntityManagerFactory factory;
@@ -13,7 +14,7 @@ public class EntityManagerFactorySingleton {
 	
 	public static EntityManagerFactory getInstance(){
 		if (factory == null){
-			factory = Persistence.createEntityManagerFactory("PERSISTENCIA_ORACLE");
+			factory = Persistence.createEntityManagerFactory("CLIENTE_ORACLE");
 		}
 		return factory;
 	}

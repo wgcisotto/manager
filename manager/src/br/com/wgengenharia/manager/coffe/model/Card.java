@@ -4,12 +4,34 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TAB_CARD")
+@SequenceGenerator(name="seqCard", sequenceName="SEQ_CARD",allocationSize=1)
 public class Card implements CardInterface, Serializable {
 	
 	private static final long serialVersionUID = 8533658292055517665L;
 	
-	private int id;
+	@Id
+	@Column(name="ID_CARD")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCard")
+	private int id_card;
+	
+	@ManyToMany
+  @JoinTable(name="TAB_CARD_PRODUCT", joinColumns={@JoinColumn(name="ID_CARD")}, inverseJoinColumns={@JoinColumn(name="ID_PRODUCT")})
 	private List<Product> products;
+
+	@Column(name="TOTAL",length=100)
 	private Double total;
 	
 	public Card() {
@@ -17,11 +39,11 @@ public class Card implements CardInterface, Serializable {
 		products = new ArrayList<Product>();
 	}
 	
-	public int getId() {
-		return id;
+	public int getId_card() {
+		return id_card;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId_card(int id_card) {
+		this.id_card = id_card;
 	}
 	public List<Product> getProducts() {
 		return products;

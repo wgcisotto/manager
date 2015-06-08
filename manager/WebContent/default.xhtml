@@ -10,7 +10,8 @@
 </h:head>
 
 <h:body>
-    <p:outputLabel value="#{docesBean.valor}"/>
-    <p:commandButton value="Carregar" action="#{docesBean.carregar()}"/>
+  <p:commandButton value="#{manager.teste}" action="#{manager.insertProduct}"/>
+  <p:commandButton value="#{manager.teste}" action="#{manager.executar}"/>
+  <p:commandButton value="carregar" action="#{docesBean.carregar}"/>
 </h:body>
 </html>

@@ -2,12 +2,17 @@ package br.com.wgengenharia.manager.coffe.model;
 
 public interface CategoryInterface {
 
-	public abstract int getId();
+	public int getId();
 
-	public abstract void setId(int id);
+	public void setId(int id);
 	
-	public abstract String getName();
+	public String getName();
 
-	public abstract void setName(String name);
+	public void setName(String name);
+	
+	public String getDescription();
+	
+	public void setDescription(String description);
+	
 
 }

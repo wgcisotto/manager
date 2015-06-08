@@ -2,7 +2,14 @@ package br.com.wgengenharia.manager.coffe.model;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "TAB_PRODUCT")
@@ -12,20 +19,21 @@ public class Product implements ProductInterface, Serializable {
 	private static final long serialVersionUID = -8371022467959133760L;
 	
 	@Id
+	@Column(name="ID_PRODUCT")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProduct")
 	private int id_product;
-	@Column(name="barcode", length=100)
+	@Column(name="BARCODE", length=100)
 	private Integer barcode;
-	@Column(name="name", length=50, nullable=false)
+	@Column(name="NAME", length=50, nullable=false)
 	private String name;
-	@Column(name="description", length=100)
+	@Column(name="DESCRIPTION", length=100)
 	private String description;
-	@Column(name="price", length=10, nullable=false)
+	@Column(name="PRICE", length=10, nullable=false)
 	private Double price;
-	@Column(name="cost", length=10, nullable=false)
+	@Column(name="COST", length=10, nullable=false)
 	private Double cost;
-	@Column(name="category")
-	private CategoryInterface Category;
+	@ManyToOne
+	private Category Category;
 
 	public int getId_product() {
 		return id_product;
@@ -75,11 +83,11 @@ public class Product implements ProductInterface, Serializable {
 		this.cost = cost;
 	}
 	
-	public CategoryInterface getCategory() {
+	public Category getCategory() {
 		return Category;
 	}
 	
-	public void setCategory(CategoryInterface category) {
+	public void setCategory(Category category) {
 		Category = category;
 	}
 	
