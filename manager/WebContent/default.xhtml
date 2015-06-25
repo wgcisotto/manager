@@ -1,17 +1,115 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:p="http://primefaces.org/ui"
-  xmlns:ui="http://java.sun.com/jsf/facelets">
-
-<h:head>
-  <title>MANAGER</title>
-</h:head>
-
-<h:body>
-  <p:commandButton value="#{manager.teste}" action="#{manager.insertProduct}"/>
-  <p:commandButton value="#{manager.teste}" action="#{manager.executar}"/>
-  <p:commandButton value="carregar" action="#{docesBean.carregar}"/>
-</h:body>
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>WG - Manager</title>
+		<link rel="stylesheet" href="resources/css/screen.css" type="text/css" media="screen" title="default" />
+	</h:head>
+	
+	<h:body>
+	 <f:view>
+    <h:form id="formManager">
+			
+			<!-- Start: page-top-outer -->
+			<div id="page-top-outer">    
+				<!-- Start: page-top -->
+				<div id="page-top">
+					<!-- start logo -->
+					<div id="logo">
+					 <!--  <a href=""><img src="resources/images/shared/logo.png" width="329" height="96" alt="" /></a> -->
+					</div>
+					<!-- end logo -->
+				</div>
+				<!-- End: page-top -->
+			</div>
+			<!-- End: page-top-outer -->
+			
+					
+			 
+		  <!--  start nav-outer-repeat................................................................................................. START -->
+			
+	  <p:growl id="messages"/>
+ 
+ 
+    <p:menubar>
+        <p:submenu label="Financeiro" icon="ui-icon-home">
+            <p:menuitem value="Caixa"  icon="ui-icon-folder-open"/>
+            <p:menuitem value="Historico" icon="ui-icon-disk" />
+        </p:submenu>
+ 
+        <p:submenu label="Cadastros" icon="ui-icon-pencil">
+            <p:menuitem value="Produto" icon="ui-icon-cart" />
+            <p:menuitem value="Categoria"  icon="ui-icon-flag" />
+            <p:menuitem value="Cliente"  icon="ui-icon-person" />
+            <p:menuitem value="Comanda"  icon="ui-icon-person" />
+        </p:submenu>
+ 
+        <p:submenu label="Encomendas" icon="ui-icon-note">
+            <p:menuitem value="Nova"  icon="ui-icon-plus" />
+            <p:menuitem value="Agenda"  icon="ui-icon-calendar" />
+            <p:menuitem value="Pendentes"  icon="ui-icon-clock" />
+            <p:menuitem value="Histórico"  icon="ui-icon-disk" />
+        </p:submenu>
+ 
+        <p:submenu label="Estoque" icon="ui-icon-cart">
+            <p:menuitem value="Abrir"  icon="ui-icon-folder-open" />
+        </p:submenu>
+ 
+        <f:facet name="options">
+				    <p:menuButton value="Configuração">
+				        <p:menuitem value="Usuarios" update="messages" icon="ui-icon-person"/>
+				        <p:menuitem value="Perfil" update="messages" icon="ui-icon-contact"/>
+				        <p:separator />
+				        <p:menuitem value="Logout" icon="ui-icon-extlink"/>
+				    </p:menuButton>
+            <p:commandButton value="Logout" icon="ui-icon-extlink" />
+        </f:facet>
+        
+    </p:menubar>  
+			<!--  start nav-outer-repeat................................................... END -->
+			
+				 
+				<!-- start content-outer ........................................................................................................................START -->
+				<div id="content-outer">
+				<!-- start content -->
+				<div id="content">
+				
+					<!--  start page-heading -->
+					<div id="page-heading">
+						<h1>
+						  <ui:insert name="hearder">
+						    Hearder de Apresentação
+               </ui:insert>
+						</h1>
+					</div>
+					<!-- end page-heading -->
+				
+				
+				  <p:fieldset>
+            <ui:insert name="default">
+              O que estiver aqui será substituido!
+            </ui:insert>
+				  </p:fieldset>
+				
+				</div>
+				
+				<!--  end content -->
+				</div>
+				<!--  end content-outer........................................................END -->
+				
+				    
+				<!-- start footer -->         
+				<div id="footer">
+					<div id="footer-left">
+					WG Enhenharia. <a href="">www.wgenhenharia.com.br</a>. All rights reserved.</div>
+					<!--  end footer-left -->
+				</div>
+				<!-- end footer -->
+	 		
+	   </h:form>
+    </f:view>	 
+	</h:body>
 </html>

@@ -58,5 +58,14 @@ public class Card implements CardInterface, Serializable {
 	public void setTotal(Double total) {
 		this.total = total;
 	}
+	public String getStatus(){
+		String status = "";
+		if(products.size() == 0){
+			status = "Fechada";
+		}else{
+			status = "Pendente";
+		}
+		return status;
+	}
 
 }

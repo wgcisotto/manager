@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="hearder">
+          Produto
+        </ui:define>
+        <ui:define name="default">
+        
+         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+          <p:commandButton value="Incluir" onstart="PF('dlgProduct').show();" />
+          <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" emptyMessage="Nenhum Item encontrado" >
+                 
+              <p:ajax event="rowEdit" update="dtbProducts" />
+              <p:ajax event="rowEditCancel" update="dtbProducts" />
+			 
+			        <p:column headerText="Nome">
+				        <p:cellEditor>
+	               <f:facet name="output">
+	                 <h:outputText value="#{prd.name}" />
+                 </f:facet>
+	               <f:facet name="input">
+	                   <h:inputText value="#{prd.name}" />
+	               </f:facet>
+	               </p:cellEditor>
+			          
+			        </p:column>
+			 
+       
+              <p:column headerText="Descrição">
+                  <h:outputText value="#{prd.description}" />
+              </p:column>
+              
+              <p:column headerText="Edição" style="width:44px">
+                <p:rowEditor />
+              </p:column>
+			    </p:dataTable>
+  
+                    
+         </p:panelGrid>
+         
+         <p:dialog header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40">
+          
+			    <p:tabView>
+			        <p:tab id="tabCadProd" title="Rapido">
+		            <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+		              <h:outputLabel value="ID: "/>
+		              <h:inputText value="#{manager.newProduct.id_product}" size="10" disabled="true"/>
+		              <h:outputLabel value="Nome: "/>
+		              <h:inputText value="#{manager.newProduct.name}" size="75"/>      
+                  <h:outputLabel value="Descrição: "/>
+                  <h:inputText value="#{manager.newProduct.description}"/>
+                </p:panelGrid>
+    		        <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+    		          <h:outputLabel value="Preço Custo: "/>
+    		          <h:outputLabel value="Lucro: "/>
+    		          <h:outputLabel value="Preço de venda: "/>
+    		          <h:inputText value="#{manager.newProduct.cost}"/>
+    		          <h:inputText value="#{manager.newProduct.lucre}"/>
+    		          <h:inputText value="#{manager.newProduct.price}"/>
+    		        </p:panelGrid>
+    		        <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+    		          <h:outputLabel value="Categoria: "/>
+    		          <h:outputLabel value="Quantidade: "/>
+					        <p:selectOneMenu value="#{manager.selectedCategory}">
+					            <f:selectItem itemLabel="Selecione" itemValue="" />
+					            <f:selectItems value="#{manager.categories}" />
+					        </p:selectOneMenu>
+    		          <h:inputText value="#{manager.newProduct.quantity}"/>
+    		        </p:panelGrid>
+    		        <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                  <h:outputLabel value="Codigo de Barras: "/>
+                  <h:inputText value="#{manager.newProduct.barcode}" size="50" disabled="true"/>
+                  <br/>
+		              <p:commandButton value="Incluir" action="#{manager.addProduct}" oncomplete="PF('dlgProduct').hide();" />
+                </p:panelGrid>
+    		        
+			        </p:tab>
+			        <p:tab title="Completo">
+                <p:panelGrid id="pngCadProdComp"  columns="4" styleClass="panelgrid_sem_borda">
+                  <h:outputLabel value="Nome: "/>
+                  <h:outputLabel value="Descrição: "/>
+                </p:panelGrid>
+			        </p:tab>
+			    </p:tabView>
+				</p:dialog>
+         
+          
+        </ui:define>
+    </ui:decorate>
+</html>

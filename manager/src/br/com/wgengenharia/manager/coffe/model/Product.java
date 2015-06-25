@@ -32,6 +32,10 @@ public class Product implements ProductInterface, Serializable {
 	private Double price;
 	@Column(name="COST", length=10, nullable=false)
 	private Double cost;
+	@Column(name="LUCRE", length=10, nullable=false)
+	private Double lucre;
+	@Column(name="QUANTITY", length=10, nullable=false)
+	private Double quantity;
 	@ManyToOne
 	private Category Category;
 
@@ -83,6 +87,22 @@ public class Product implements ProductInterface, Serializable {
 		this.cost = cost;
 	}
 	
+	public Double getLucre() {
+		return lucre;
+	}
+
+	public void setLucre(Double lucre) {
+		this.lucre = lucre;
+	}
+
+	public Double getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Double quantity) {
+		this.quantity = quantity;
+	}
+
 	public Category getCategory() {
 		return Category;
 	}

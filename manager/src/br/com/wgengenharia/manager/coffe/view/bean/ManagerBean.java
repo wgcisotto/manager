@@ -1,101 +1,133 @@
 package br.com.wgengenharia.manager.coffe.view.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 
+import br.com.wgengenharia.manager.coffe.business.CardBO;
+import br.com.wgengenharia.manager.coffe.business.CategoryBO;
 import br.com.wgengenharia.manager.coffe.business.ProductBO;
-import br.com.wgengenharia.manager.coffe.dao.CardDAO;
-import br.com.wgengenharia.manager.coffe.dao.CardDAOImpl;
 import br.com.wgengenharia.manager.coffe.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.coffe.model.Card;
 import br.com.wgengenharia.manager.coffe.model.Category;
 import br.com.wgengenharia.manager.coffe.model.Product;
 
 @ManagedBean(name="manager")
-@RequestScoped
+@SessionScoped
 public class ManagerBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private ProductBO productBO;
+	private Product newProduct;
+	private List<Product> products;
 	
-	private String teste;
+	private CardBO cardBO;
+	private List<Card> cards;
+	
+	private CategoryBO categoryBO;
+	private Category newCategory;
+	private Category selectedCategory;
+	private List<Category> categories;
+	
+	
 	
 	public ManagerBean() {
 		//new no BO
 		try {
 			EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-    	
-    	CardDAO cardDAO = new CardDAOImpl(em);
-    	
-    	Card card = new Card();
-    	
-    	Category categ = new Category();
-    	categ.setDescription("categoria de teste");
-    	categ.setName("Categ Teste");
-    	
-    	Product a = new Product();
-    	a.setName("a");
-    	a.setCategory(categ);
-    	a.setPrice(1.0);
-    	a.setCost(1.0);
-    	
-    	Product b = new Product();
-    	b.setName("b");
-    	b.setCategory(categ);
-    	b.setPrice(1.0);
-    	b.setCost(1.0);
-    
-    	card.setTotal(10.0);
-    	card.addProduct(a);
-    	card.addProduct(b);
-    	
-    	
-    	cardDAO.insert(card);
-       
+			// Estaciar as listas
+			products = new ArrayList<>(); // Aqui deve carregar os produtos que estao no banco.
+			cards = new ArrayList<>();  // Aqui deve carregar os cards  que estao no banco.
+			categories = new ArrayList<>();  // Aqui deve carregar os cards  que estao no banco.
+			
+			
+			
+			productBO = new ProductBO(em);
+			cardBO = new CardBO(em);
+			categoryBO = new CategoryBO(em);
+			
+			newProduct = new Product();
+			newCategory = new Category();
+			
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
-		
-//		
-//		try {
-//			
-//			Connection db = DBManager.getInstace().getConnection();
-//			
-//			String selectSQL = "SELECT * FROM customersteste";
-//			PreparedStatement preparedStatement = db.prepareStatement(selectSQL);
-//			ResultSet rs = preparedStatement.executeQuery(selectSQL );
-//			
-//			while (rs.next()) {
-//				String userid = rs.getString("customer_id");
-//				String username = rs.getString("customer_name");	
-//				System.out.println(userid);
-//				System.out.println(username);
-//			}
-//			
-//			
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-		
-		teste = "Testeeeeeeeeeeee";
 	}
 	
-	public void setTeste(String manager) {
-		this.teste = manager;
-	}
-	public String getTeste() {
-		return teste;
-	}
-	
-	public void executar(String algo){
-		System.out.println(algo);
+	//Metodos Produto
+	public void addProduct(){
+		// inserir no banco **** Aviso
+		productBO.insert(newProduct);
+		products.add(newProduct);
+		// limpa o product
+		newProduct = new Product();
 	}
 	
-
-
+	
+	//Metodos Comanda
+	public void createCard(){
+		// inserir no banco **** Aviso
+		cards.add(new Card());
+	}
+	
+//Metodos Categoria
+	public void addCategory(){
+		// inserir no banco **** Aviso
+		categories.add(newCategory);
+		// limpa categoria
+		newCategory = new Category();
+	}
+	
+	
+	
+	
+	//get and setters
+	
+	
+	// ## produto ##
+	public List<Product> getProducts() {
+		return products;
+	}
+	public Product getNewProduct() {
+		return newProduct;
+	}
+	public void setNewProduct(Product newProduct) {
+		this.newProduct = newProduct;
+	}
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+	// ## Comandas ##
+	public List<Card> getCards() {
+		return cards;
+	}
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
+	}
+	// ## Categorias ##
+	public Category getNewCategory() {
+		return newCategory;
+	}
+	public void setNewCategory(Category newCategory) {
+		this.newCategory = newCategory;
+	}
+	public Category getSelectedCategory() {
+		return selectedCategory;
+	}
+	public void setSelectedCategory(Category selectedCategory) {
+		this.selectedCategory = selectedCategory;
+	}
+	public List<Category> getCategories() {
+		return categories;
+	}
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+	
 }

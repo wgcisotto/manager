@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="hearder">
+          Produto
+        </ui:define>
+        <ui:define name="default">
+        
+         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+          <p:commandButton value="Incluir" action="#{manager.createCard}" update="dtbCard"/>
+          <p:dataTable id="dtbCard"  var="card" value="#{manager.cards}" emptyMessage="Nenhuma Comanda encontrada" >
+           
+			        <p:column headerText="Id">
+                <h:outputText value="#{card.id_card}" />
+			        </p:column>
+			 
+       
+              <p:column headerText="Status">
+                  <h:outputText value="#{card.status}" />
+              </p:column>
+              
+              <p:column headerText="Edição">
+                <h:outputText value="#{card.total}" />
+              </p:column>
+			    </p:dataTable>
+  
+                    
+         </p:panelGrid>
+          
+        </ui:define>
+    </ui:decorate>
+</html>

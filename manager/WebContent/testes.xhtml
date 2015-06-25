@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>WG - Manager</title>
+		<link rel="stylesheet" href="resources/css/screen.css" type="text/css" media="screen" title="default" />
+	</h:head>
+	
+	<h:body>
+	 <f:view>
+    <h:form id="formManager">
+			    <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+          <p:commandButton value="Incluir" action="#{manager.createProduct}" onclick="PF('dlgProduct').show();"/>
+          <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" emptyMessage="Nenhum Item encontrado" >
+                 
+              <p:ajax event="rowEdit" update="dtbProducts" />
+              <p:ajax event="rowEditCancel" update="dtbProducts" />
+       
+              <p:column headerText="Nome">
+                <p:cellEditor>
+                 <f:facet name="output">
+                   <h:outputText value="#{prd.name}" />
+                 </f:facet>
+                 <f:facet name="input">
+                     <h:inputText value="#{prd.name}" />
+                 </f:facet>
+                 </p:cellEditor>
+                
+              </p:column>
+       
+       
+              <p:column headerText="Descrição">
+                  <h:outputText value="#{prd.description}" />
+              </p:column>
+              
+              <p:column headerText="Edição" style="width:44px">
+                <p:rowEditor />
+              </p:column>
+          </p:dataTable>
+  
+                    
+         </p:panelGrid>
+         
+         <p:dialog header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40">
+            <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
+              <h:outputLabel value="Nome: "/>
+              <h:inputText value="#{manager.newProduct.name}"/>
+              <h:outputLabel value="Descrição: "/>
+              <h:inputText value="#{manager.newProduct.description}"/>
+              <p:commandButton value="Incluir" action="#{manager.addProduct}"/>
+            </p:panelGrid>
+        </p:dialog>
+        
+        <p:commandButton value="Teste" action="#{docesBean.carregar()}"/>
+			
+	   </h:form>
+    </f:view>	 
+	</h:body>
+</html>

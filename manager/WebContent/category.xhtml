@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="hearder">
+          Categoria
+        </ui:define>
+        <ui:define name="default">
+        
+         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+          <p:commandButton value="Incluir" onstart="PF('dlgCategory').show();" update="pngCadCat"/>
+          <p:dataTable id="dtbCategory"  var="categ" value="#{manager.categories}" emptyMessage="Nenhuma categoria encontrada" >
+                 
+              <p:ajax event="rowEdit" update="dtbCategory" />
+              <p:ajax event="rowEditCancel" update="dtbCategory" />
+			 
+			        <p:column headerText="Nome">
+				        <p:cellEditor>
+	               <f:facet name="output">
+	                 <h:outputText value="#{categ.name}" />
+                 </f:facet>
+	               <f:facet name="input">
+	                   <h:inputText value="#{categ.name}" />
+	               </f:facet>
+	               </p:cellEditor>
+			          
+			        </p:column>
+			 
+       
+              <p:column headerText="Descrição">
+                  <h:outputText value="#{categ.description}" />
+              </p:column>
+              
+              <p:column headerText="Edição" style="width:44px">
+                <p:rowEditor />
+              </p:column>
+			    </p:dataTable>
+  
+                    
+         </p:panelGrid>
+         
+         <p:dialog header="Cadastro de Categoria" widgetVar="dlgCategory" minHeight="40">
+				    <p:panelGrid id="pngCadCat"  columns="4" styleClass="panelgrid_sem_borda">
+				      <h:outputLabel value="Nome: "/>
+				      <h:inputText value="#{manager.newCategory.name}"/>
+              <h:outputLabel value="Descrição: "/>
+              <h:inputText value="#{manager.newCategory.description}"/>
+              <p:commandButton value="Incluir" action="#{manager.addCategory}" oncomplete="PF('dlgCategory').hide();" update="dtbCategory"/>
+				    </p:panelGrid>
+				</p:dialog>
+         
+          
+        </ui:define>
+    </ui:decorate>
+</html>
