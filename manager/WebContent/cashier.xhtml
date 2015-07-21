@@ -14,7 +14,7 @@
           
           <p:dataTable id="dtbCashCard"  var="card" value="#{manager.cards}" emptyMessage="Nenhuma Comanda encontrada" >
            
-              <p:column headerText="Id">
+              <p:column headerText="Comanda">
                 <h:outputText value="#{card.id_card}" />
               </p:column>
        
@@ -23,8 +23,14 @@
                   <h:outputText value="#{card.status}" />
               </p:column>
               
-              <p:column headerText="Edição">
+              <p:column headerText="Total">
                 <h:outputText value="#{card.total}" />
+              </p:column>
+              
+              <p:column headerText="Acões">
+                <p:commandButton value="Incluir" onstart="PF('dlgAddProduct').show();"/>
+                <p:commandButton value="Produtos" onstart="PF('dlgListProdCard').show();"/>
+                <p:commandButton value="Fechar" onstart="PF('dlgCloseCard').show();"/>
               </p:column>
           </p:dataTable>
   
@@ -37,7 +43,7 @@
           
           <p:dataTable id="dtbProducts"  var="card" value="#{manager.products}" emptyMessage="Nenhuma comanda cadastrada" >
                  
-              <p:column headerText="Comanda">
+              <p:column headerText="Produto">
                 <p:cellEditor>
                  <f:facet name="output">
                    <h:outputText value="#{prd.name}" />
@@ -50,12 +56,12 @@
               </p:column>
        
        
-              <p:column headerText="Status">
+              <p:column headerText="Quantidade">
                   <h:outputText value="#{prd.description}" />
               </p:column>
        
        
-              <p:column headerText="Total">
+              <p:column headerText="Valor">
                   <h:outputText value="#{prd.description}" />
               </p:column>
           </p:dataTable>
@@ -63,6 +69,96 @@
             
          
          </p:panelGrid>
+         
+         <p:dialog header="Busca Produto" widgetVar="dlgAddProduct" minHeight="40" resizable="false">
+            <p:fieldset>
+              <p:panelGrid id="pngFindPro"  columns="5" styleClass="panelgrid_sem_borda">
+                <h:outputLabel value="ID: "/>
+                <h:inputText value="#{manager.newCategory.name}"/>
+                <h:outputLabel value="Nome: "/>
+                <h:inputText value="#{manager.newCategory.description}"/>
+              </p:panelGrid>
+              <p:panelGrid id="pngFindProTab"  columns="1" styleClass="panelgrid_sem_borda">
+				        <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" editable="true" emptyMessage="Nenhum Produto encontrado" >
+				               
+				            <p:column headerText="Nome">
+				              <h:outputText value="#{prd.name}" />
+				            </p:column>
+				     
+				            <p:column headerText="Preço">
+				              <h:outputText value="#{prd.price}" />
+				            </p:column>
+				     
+				            <p:column headerText="Barcode">
+				              <h:outputText value="#{prd.barcode}" />
+				            </p:column>
+				            
+                    <p:column headerText="Selecionar">
+                     <p:commandButton value="Selecionar" />
+                    </p:column>
+				            
+				        </p:dataTable>
+              </p:panelGrid>
+            </p:fieldset>
+            <br/>
+            <p:commandButton value="Incluir" oncomplete="PF('dlgAddProduct').hide();"/>
+        </p:dialog>
+         
+         <p:dialog header="Produtos da Comanda" widgetVar="dlgListProdCard" minHeight="40" resizable="false">
+            <p:fieldset>
+              <p:panelGrid id="pngListProdCard"  columns="1" styleClass="panelgrid_sem_borda">
+                <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" editable="true" emptyMessage="Nenhum Produto encontrado" >
+                       
+                    <p:column headerText="Nome">
+                      <h:outputText value="#{prd.name}" />
+                    </p:column>
+             
+                    <p:column headerText="Preço">
+                      <h:outputText value="#{prd.price}" />
+                    </p:column>
+             
+                    <p:column headerText="Barcode">
+                      <h:outputText value="#{prd.barcode}" />
+                    </p:column>
+                    
+                    <p:column headerText="Selecionar">
+                     <p:commandButton value="Selecionar" />
+                    </p:column>
+                    
+                </p:dataTable>
+              </p:panelGrid>
+            </p:fieldset>
+            <br/>
+            <p:commandButton value="Incluir" oncomplete="PF('dlgListProdCard').hide();"/>
+        </p:dialog>
+         
+         <p:dialog header="Fechamento da Comanda" widgetVar="dlgCloseCard" minHeight="40" resizable="false">
+            <p:fieldset>
+              <p:panelGrid id="pngCloseProdCard"  columns="1" styleClass="panelgrid_sem_borda">
+                <p:dataTable id="dtbCloseProducts"  var="prd" value="#{manager.products}" editable="true" emptyMessage="Nenhum Produto encontrado" >
+                       
+                    <p:column headerText="Nome">
+                      <h:outputText value="#{prd.name}" />
+                    </p:column>
+             
+                    <p:column headerText="Preço">
+                      <h:outputText value="#{prd.price}" />
+                    </p:column>
+             
+                    <p:column headerText="Barcode">
+                      <h:outputText value="#{prd.barcode}" />
+                    </p:column>
+                    
+                    <p:column headerText="Selecionar">
+                     <p:commandButton value="Selecionar" />
+                    </p:column>
+                    
+                </p:dataTable>
+              </p:panelGrid>
+            </p:fieldset>
+            <br/>
+            <p:commandButton value="Incluir" oncomplete="PF('dlgCloseCard').hide();"/>
+        </p:dialog>
          
        
      

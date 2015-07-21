@@ -33,39 +33,39 @@
 			
 	  <p:growl id="messages"/>
  
- 
+
     <p:menubar>
         <p:submenu label="Financeiro" icon="ui-icon-home">
-            <p:menuitem value="Caixa"  icon="ui-icon-folder-open"/>
-            <p:menuitem value="Historico" icon="ui-icon-disk" />
+            <p:menuitem value="Caixa"  icon="ui-icon-folder-open"  outcome="cashier.xhtml" />
+            <p:menuitem value="Historico" icon="ui-icon-disk"  outcome="cashier.xhtml"/>
         </p:submenu>
  
         <p:submenu label="Cadastros" icon="ui-icon-pencil">
-            <p:menuitem value="Produto" icon="ui-icon-cart" />
-            <p:menuitem value="Categoria"  icon="ui-icon-flag" />
-            <p:menuitem value="Cliente"  icon="ui-icon-person" />
-            <p:menuitem value="Comanda"  icon="ui-icon-person" />
+            <p:menuitem value="Produto" icon="ui-icon-cart" outcome="product.xhtml" />
+            <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" />
+            <p:menuitem value="Cliente"  icon="ui-icon-person" outcome="client.xhtml" />
+            <p:menuitem value="Comanda"  icon="ui-icon-person" outcome="card.xhtml" />
         </p:submenu>
  
-        <p:submenu label="Encomendas" icon="ui-icon-note">
-            <p:menuitem value="Nova"  icon="ui-icon-plus" />
-            <p:menuitem value="Agenda"  icon="ui-icon-calendar" />
-            <p:menuitem value="Pendentes"  icon="ui-icon-clock" />
-            <p:menuitem value="Histórico"  icon="ui-icon-disk" />
+        <p:submenu label="Encomenda" icon="ui-icon-note">
+            <p:menuitem value="Nova" icon="ui-icon-plus" outcome="product.xhtml" />
+            <p:menuitem value="Agenda"  icon="ui-icon-calendar" outcome="category.xhtml" />
+            <p:menuitem value="Pendente"  icon="ui-icon-clock" outcome="cashier.xhtml" />
+            <p:menuitem value="Historico"  icon="ui-icon-disk" outcome="card.xhtml" />
         </p:submenu>
- 
+
         <p:submenu label="Estoque" icon="ui-icon-cart">
-            <p:menuitem value="Abrir"  icon="ui-icon-folder-open" />
+            <p:menuitem value="Abrir"  icon="ui-icon-folder-open" outcome="cashier.xhtml"/>
         </p:submenu>
- 
+        
         <f:facet name="options">
 				    <p:menuButton value="Configuração">
-				        <p:menuitem value="Usuarios" update="messages" icon="ui-icon-person"/>
-				        <p:menuitem value="Perfil" update="messages" icon="ui-icon-contact"/>
+				        <p:menuitem value="Usuarios" update="messages" icon="ui-icon-person" outcome="cashier.xhtml"/>
+				        <p:menuitem value="Perfil" update="messages" icon="ui-icon-contact" outcome="cashier.xhtml"/>
 				        <p:separator />
-				        <p:menuitem value="Logout" icon="ui-icon-extlink"/>
+				        <p:menuitem value="Logout" icon="ui-icon-extlink" outcome="cashier.xhtml"/>
 				    </p:menuButton>
-            <p:commandButton value="Logout" icon="ui-icon-extlink" />
+            <p:commandButton value="Logout" icon="ui-icon-extlink"  />
         </f:facet>
         
     </p:menubar>  

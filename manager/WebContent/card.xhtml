@@ -5,12 +5,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:decorate template="default.xhtml">
         <ui:define name="hearder">
-          Produto
+          Comanda
         </ui:define>
         <ui:define name="default">
         
+          <p:messages id="msgCard" showDetail="true" autoUpdate="true" closable="true" />
          <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-          <p:commandButton value="Incluir" action="#{manager.createCard}" update="dtbCard"/>
+          <p:commandButton value="Incluir" action="#{manager.addCard}" update="dtbCard"/>
           <p:dataTable id="dtbCard"  var="card" value="#{manager.cards}" emptyMessage="Nenhuma Comanda encontrada" >
            
 			        <p:column headerText="Id">
@@ -21,9 +22,14 @@
               <p:column headerText="Status">
                   <h:outputText value="#{card.status}" />
               </p:column>
+       
+       
+              <p:column headerText="Total">
+                  <h:outputText value="#{card.total}" />
+              </p:column>
               
               <p:column headerText="Edição">
-                <h:outputText value="#{card.total}" />
+                <p:commandButton value="Excluir"/>
               </p:column>
 			    </p:dataTable>
   

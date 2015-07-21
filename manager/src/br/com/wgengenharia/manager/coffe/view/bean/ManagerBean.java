@@ -4,16 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+
+import org.primefaces.event.RowEditEvent;
 
 import br.com.wgengenharia.manager.coffe.business.CardBO;
 import br.com.wgengenharia.manager.coffe.business.CategoryBO;
+import br.com.wgengenharia.manager.coffe.business.ClientBO;
 import br.com.wgengenharia.manager.coffe.business.ProductBO;
 import br.com.wgengenharia.manager.coffe.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.coffe.model.Card;
 import br.com.wgengenharia.manager.coffe.model.Category;
+import br.com.wgengenharia.manager.coffe.model.Client;
 import br.com.wgengenharia.manager.coffe.model.Product;
 
 @ManagedBean(name="manager")
@@ -34,6 +40,10 @@ public class ManagerBean implements Serializable {
 	private Category selectedCategory;
 	private List<Category> categories;
 	
+	private ClientBO clientBO;
+	private Client newClient;
+	private List<Client> clients;
+	
 	
 	
 	public ManagerBean() {
@@ -44,15 +54,19 @@ public class ManagerBean implements Serializable {
 			products = new ArrayList<>(); // Aqui deve carregar os produtos que estao no banco.
 			cards = new ArrayList<>();  // Aqui deve carregar os cards  que estao no banco.
 			categories = new ArrayList<>();  // Aqui deve carregar os cards  que estao no banco.
-			
+			clients = new ArrayList<>();
 			
 			
 			productBO = new ProductBO(em);
 			cardBO = new CardBO(em);
 			categoryBO = new CategoryBO(em);
+			clientBO = new ClientBO(em);
 			
 			newProduct = new Product();
 			newCategory = new Category();
+			newClient = new Client();
+			
+			selectedCategory = new Category();
 			
 			
 		} catch (Exception e) {
@@ -62,28 +76,92 @@ public class ManagerBean implements Serializable {
 	
 	//Metodos Produto
 	public void addProduct(){
-		// inserir no banco **** Aviso
-		productBO.insert(newProduct);
-		products.add(newProduct);
-		// limpa o product
-		newProduct = new Product();
+		try {
+			newProduct.setCategory(selectedCategory);
+			productBO.insert(newProduct);
+			products.add(newProduct);
+			// limpa o product
+			newProduct = new Product();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
+	public void updateProduct(RowEditEvent event){
+		Product product = (Product) event.getObject();
+		try {
+			productBO.update(product);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+		FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucess!", "Produto Atualizado com sucesso"));
 	}
 	
 	
 	//Metodos Comanda
-	public void createCard(){
-		// inserir no banco **** Aviso
-		cards.add(new Card());
+	public void addCard(){
+		try {
+			Card card = new Card();
+			cardBO.insert(card);
+			cards.add(card);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCard", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
 	}
 	
 //Metodos Categoria
 	public void addCategory(){
-		// inserir no banco **** Aviso
-		categories.add(newCategory);
-		// limpa categoria
-		newCategory = new Category();
+		try {
+			categoryBO.insert(newCategory);
+			categories.add(newCategory);
+			// limpa categoria
+			newCategory = new Category();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
 	}
 	
+	public void updateCategory(RowEditEvent event){
+		Category category = (Category) event.getObject();
+		try {
+			categoryBO.update(category);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+		FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucess!", "Categoria Atualizada com sucesso"));
+	}
+	
+	public void delCategory(Category category){
+		try {
+			categoryBO.delete(category);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+		FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucess!", "Categoria Excluida com sucesso"));
+	}
+	
+	//Metodos Cliente
+	public void addClient(){
+		try {
+//			newProduct.setCategory(selectedCategory);
+			clientBO.insert(newClient);
+			clients.add(newClient);
+			// limpa o product
+			newClient = new Client();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgClient", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
+	public void updateClient(RowEditEvent event){
+		Client client = (Client) event.getObject();
+		try {
+			clientBO.update(client);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgClient", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",  e.getMessage() + " " + e.getCause()));
+		}
+		FacesContext.getCurrentInstance().addMessage("formManager:msgClient", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucess!", "Cliente Atualizado com sucesso"));
+	}
 	
 	
 	
@@ -100,15 +178,9 @@ public class ManagerBean implements Serializable {
 	public void setNewProduct(Product newProduct) {
 		this.newProduct = newProduct;
 	}
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
 	// ## Comandas ##
 	public List<Card> getCards() {
 		return cards;
-	}
-	public void setCards(List<Card> cards) {
-		this.cards = cards;
 	}
 	// ## Categorias ##
 	public Category getNewCategory() {
@@ -126,8 +198,15 @@ public class ManagerBean implements Serializable {
 	public List<Category> getCategories() {
 		return categories;
 	}
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	//## Clientes ##
+	public Client getNewClient() {
+		return newClient;
+	}
+	public void setNewClient(Client newClient) {
+		this.newClient = newClient;
+	}
+	public List<Client> getClients() {
+		return clients;
 	}
 	
 }

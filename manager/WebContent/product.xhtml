@@ -9,12 +9,13 @@
         </ui:define>
         <ui:define name="default">
         
-         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+         <p:messages id="msgProduct" showDetail="true" autoUpdate="true" closable="true" />
+         <p:panelGrid id="pngProduts" columns="1" styleClass="panelgrid_sem_borda">
           <p:commandButton value="Incluir" onstart="PF('dlgProduct').show();" />
-          <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" emptyMessage="Nenhum Item encontrado" >
+          <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" editable="true" emptyMessage="Nenhum Produto encontrado" >
                  
-              <p:ajax event="rowEdit" update="dtbProducts" />
-              <p:ajax event="rowEditCancel" update="dtbProducts" />
+            <p:ajax event="rowEdit" listener="#{manager.updateProduct}" update="dtbProducts" />
+            <p:ajax event="rowEditCancel" update="dtbProducts" />
 			 
 			        <p:column headerText="Nome">
 				        <p:cellEditor>
@@ -30,7 +31,66 @@
 			 
        
               <p:column headerText="Descrição">
+                <p:cellEditor>
+                 <f:facet name="output">
                   <h:outputText value="#{prd.description}" />
+                 </f:facet>
+                 <f:facet name="input">
+                     <h:inputText value="#{prd.description}" />
+                 </f:facet>
+                 </p:cellEditor>
+              </p:column>
+       
+       
+              <p:column headerText="Preço">
+                <p:cellEditor>
+                 <f:facet name="output">
+                  <h:outputText value="#{prd.price}" />
+                 </f:facet>
+                 <f:facet name="input">
+                     <h:inputText value="#{prd.price}" />
+                 </f:facet>
+                 </p:cellEditor>
+              </p:column>
+       
+       
+              <p:column headerText="Custo">
+                <p:cellEditor>
+                 <f:facet name="output">
+                  <h:outputText value="#{prd.cost}" />
+                 </f:facet>
+                 <f:facet name="input">
+                     <h:inputText value="#{prd.cost}" />
+                 </f:facet>
+                 </p:cellEditor>
+              </p:column>
+       
+       
+       
+              <p:column headerText="Lucro">
+                <p:cellEditor>
+                 <f:facet name="output">
+                  <h:outputText value="#{prd.lucre}" />
+                 </f:facet>
+                 <f:facet name="input">
+                     <h:inputText value="#{prd.lucre}" />
+                 </f:facet>
+                 </p:cellEditor>
+              </p:column>
+       
+              <p:column headerText="Quantidade">
+                <p:cellEditor>
+                 <f:facet name="output">
+                  <h:outputText value="#{prd.quantity}" />
+                 </f:facet>
+                 <f:facet name="input">
+                     <h:inputText value="#{prd.quantity}" />
+                 </f:facet>
+                 </p:cellEditor>
+              </p:column>
+       
+              <p:column headerText="Barcode">
+                <h:outputText value="#{prd.barcode}" />
               </p:column>
               
               <p:column headerText="Edição" style="width:44px">
@@ -41,9 +101,9 @@
                     
          </p:panelGrid>
          
-         <p:dialog header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40">
+         <p:dialog header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40" resizable="false">
           
-			    <p:tabView>
+			    <p:tabView id="tbvProduct">
 			        <p:tab id="tabCadProd" title="Rapido">
 		            <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
 		              <h:outputLabel value="ID: "/>
@@ -64,27 +124,22 @@
     		        <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
     		          <h:outputLabel value="Categoria: "/>
     		          <h:outputLabel value="Quantidade: "/>
-					        <p:selectOneMenu value="#{manager.selectedCategory}">
+					        <p:selectOneMenu value="#{manager.selectedCategory}" >
 					            <f:selectItem itemLabel="Selecione" itemValue="" />
-					            <f:selectItems value="#{manager.categories}" />
+					            <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat}" />
 					        </p:selectOneMenu>
     		          <h:inputText value="#{manager.newProduct.quantity}"/>
     		        </p:panelGrid>
     		        <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
                   <h:outputLabel value="Codigo de Barras: "/>
-                  <h:inputText value="#{manager.newProduct.barcode}" size="50" disabled="true"/>
+                  <h:inputText value="#{manager.newProduct.barcode}" size="50"/>
                   <br/>
-		              <p:commandButton value="Incluir" action="#{manager.addProduct}" oncomplete="PF('dlgProduct').hide();" />
                 </p:panelGrid>
     		        
 			        </p:tab>
-			        <p:tab title="Completo">
-                <p:panelGrid id="pngCadProdComp"  columns="4" styleClass="panelgrid_sem_borda">
-                  <h:outputLabel value="Nome: "/>
-                  <h:outputLabel value="Descrição: "/>
-                </p:panelGrid>
-			        </p:tab>
 			    </p:tabView>
+			    <br/>
+          <p:commandButton value="Incluir" action="#{manager.addProduct}" oncomplete="PF('dlgProduct').hide();" update="tbvProduct, dtbProducts"/>
 				</p:dialog>
          
           

@@ -24,17 +24,17 @@ public class Product implements ProductInterface, Serializable {
 	private int id_product;
 	@Column(name="BARCODE", length=100)
 	private Integer barcode;
-	@Column(name="NAME", length=50, nullable=false)
+	@Column(name="NAME", length=50)
 	private String name;
 	@Column(name="DESCRIPTION", length=100)
 	private String description;
-	@Column(name="PRICE", length=10, nullable=false)
+	@Column(name="PRICE", length=10)
 	private Double price;
-	@Column(name="COST", length=10, nullable=false)
+	@Column(name="COST", length=10)
 	private Double cost;
-	@Column(name="LUCRE", length=10, nullable=false)
+	@Column(name="LUCRE", length=10)
 	private Double lucre;
-	@Column(name="QUANTITY", length=10, nullable=false)
+	@Column(name="QUANTITY", length=10)
 	private Double quantity;
 	@ManyToOne
 	private Category Category;

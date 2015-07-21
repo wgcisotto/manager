@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TAB_ORDER")
-@SequenceGenerator(name="seqOrder", sequenceName="SEQ_ORDERT",allocationSize=1)
+@SequenceGenerator(name="seqOrder", sequenceName="SEQ_ORDER",allocationSize=1)
 public class Order implements OrderInterface {
 	
 	@Id

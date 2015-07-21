@@ -9,12 +9,13 @@
         </ui:define>
         <ui:define name="default">
         
+         <p:messages id="msgCategory" showDetail="true" autoUpdate="true" closable="true" />
          <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
           <p:commandButton value="Incluir" onstart="PF('dlgCategory').show();" update="pngCadCat"/>
-          <p:dataTable id="dtbCategory"  var="categ" value="#{manager.categories}" emptyMessage="Nenhuma categoria encontrada" >
+          <p:dataTable id="dtbCategory"  var="categ" value="#{manager.categories}" editable="true" emptyMessage="Nenhuma categoria encontrada" >
                  
-              <p:ajax event="rowEdit" update="dtbCategory" />
-              <p:ajax event="rowEditCancel" update="dtbCategory" />
+            <p:ajax event="rowEdit" listener="#{manager.updateCategory}" update="dtbCategory" />
+            <p:ajax event="rowEditCancel" update="dtbCategory" />
 			 
 			        <p:column headerText="Nome">
 				        <p:cellEditor>
@@ -36,19 +37,29 @@
               <p:column headerText="Edição" style="width:44px">
                 <p:rowEditor />
               </p:column>
+              
+              <p:column headerText="Excluir" style="width:88px">
+                <p:commandButton id="btnExcluirCateg" value="Excluir" action="#{manager.delCategory(categ)}" update="dtbCategory"/>
+              </p:column>
+              
+              
+              
 			    </p:dataTable>
   
                     
          </p:panelGrid>
          
-         <p:dialog header="Cadastro de Categoria" widgetVar="dlgCategory" minHeight="40">
-				    <p:panelGrid id="pngCadCat"  columns="4" styleClass="panelgrid_sem_borda">
-				      <h:outputLabel value="Nome: "/>
-				      <h:inputText value="#{manager.newCategory.name}"/>
-              <h:outputLabel value="Descrição: "/>
-              <h:inputText value="#{manager.newCategory.description}"/>
-              <p:commandButton value="Incluir" action="#{manager.addCategory}" oncomplete="PF('dlgCategory').hide();" update="dtbCategory"/>
-				    </p:panelGrid>
+         <p:dialog header="Cadastro de Categoria" widgetVar="dlgCategory" minHeight="40" resizable="false">
+            <p:fieldset>
+					    <p:panelGrid id="pngCadCat"  columns="2" styleClass="panelgrid_sem_borda">
+					      <h:outputLabel value="Nome: "/>
+					      <h:inputText value="#{manager.newCategory.name}"/>
+	              <h:outputLabel value="Descrição: "/>
+	              <h:inputText value="#{manager.newCategory.description}"/>
+					    </p:panelGrid>
+				    </p:fieldset>
+				    <br/>
+           <p:commandButton value="Incluir" action="#{manager.addCategory}" oncomplete="PF('dlgCategory').hide();" update="pngCadCat, dtbCategory"/>
 				</p:dialog>
          
           

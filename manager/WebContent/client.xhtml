@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="hearder">
+          Cliente
+        </ui:define>
+        <ui:define name="default">
+        
+         <p:messages id="msgClient" showDetail="true" autoUpdate="true" closable="true" />
+         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+          <p:commandButton value="Incluir" onstart="PF('dlgClient').show();" update="pngCadCat"/>
+          <p:dataTable id="dtbClient"  var="cli" value="#{manager.clients}" editable="true" emptyMessage="Nenhum cliente encontrado" >
+                 
+            <p:ajax event="rowEdit" listener="#{manager.updateClient}" update="dtbClient" />
+            <p:ajax event="rowEditCancel" update="dtbClient" />
+			 
+			        <p:column headerText="Nome">
+				        <p:cellEditor>
+	               <f:facet name="output">
+	                 <h:outputText value="#{cli.name}" />
+                 </f:facet>
+	               <f:facet name="input">
+	                   <h:inputText value="#{cli.name}" />
+	               </f:facet>
+	               </p:cellEditor>
+			          
+			        </p:column>
+			 
+       
+              <p:column headerText="Telefone">
+                  <h:outputText value="#{cli.tel}" />
+              </p:column>
+              
+              <p:column headerText="Edição" style="width:44px">
+                <p:rowEditor />
+              </p:column>
+			    </p:dataTable>
+  
+                    
+         </p:panelGrid>
+         
+         <p:dialog header="Cadastro de Cliente" widgetVar="dlgClient" minHeight="40" resizable="false">
+				    <p:panelGrid id="pngCadCat"  columns="4" styleClass="panelgrid_sem_borda">
+				      <h:outputLabel value="Nome: "/>
+				      <h:inputText value="#{manager.newClient.name}"/>
+              <h:outputLabel value="Telefone "/>
+              <h:inputText value="#{manager.newClient.tel}"/>
+              <p:commandButton value="Incluir" action="#{manager.addClient}" oncomplete="PF('dlgClient').hide();" update="dtbClient"/>
+				    </p:panelGrid>
+				</p:dialog>
+         
+          
+        </ui:define>
+    </ui:decorate>
+</html>

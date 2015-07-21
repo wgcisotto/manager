@@ -6,9 +6,9 @@ public interface ClientInterface {
 
 	public void setId_client(int id_client);
 
-	public String getNome();
+	public String getName();
 
-	public void setNome(String nome);
+	public void setName(String name);
 
 	public String getTel();
 

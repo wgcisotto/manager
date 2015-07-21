@@ -22,8 +22,8 @@ public class Client implements Serializable, ClientInterface{
 	@Column(name="ID_CLIENT")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqClient")
 	private int id_client;
-	@Column(name="NOME", length=100)
-	private String nome;
+	@Column(name="NAME", length=100)
+	private String name;
 	@Column(name="TEL", length=100)
 	private String tel;
 	
@@ -33,11 +33,11 @@ public class Client implements Serializable, ClientInterface{
 	public void setId_client(int id_client) {
 		this.id_client = id_client;
 	}
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getTel() {
 		return tel;

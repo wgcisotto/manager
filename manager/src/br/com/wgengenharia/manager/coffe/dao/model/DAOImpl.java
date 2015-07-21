@@ -31,14 +31,14 @@ public abstract class DAOImpl<T,K> implements DAOInterface<T,K> {
 	@Override
 	public void delete(T entity) {
 		em.getTransaction().begin();
-		em.persist(entity);
+		em.remove(entity);
 		em.getTransaction().commit();
 	}
 
 	@Override
 	public void update(T entity) {
 		em.getTransaction().begin();
-		em.persist(entity);
+		em.merge(entity);
 		em.getTransaction().commit();
 	}
 
