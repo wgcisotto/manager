@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
@@ -7,141 +8,208 @@
         <ui:define name="hearder">
           Produto
         </ui:define>
-        <ui:define name="default">
-        
-         <p:messages id="msgProduct" showDetail="true" autoUpdate="true" closable="true" />
-         <p:panelGrid id="pngProduts" columns="1" styleClass="panelgrid_sem_borda">
-          <p:commandButton value="Incluir" onstart="PF('dlgProduct').show();" />
-          <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" editable="true" emptyMessage="Nenhum Produto encontrado" >
+        <ui:define name="default">           
+   
+        <p:messages id="msgProduct" showDetail="true" autoUpdate="false" closable="true" /> 
+
+        <p:panelGrid id="pngProduts" columns="1" styleClass="panelgrid_sem_borda">
+         
+         <p:panelGrid id="pngControle" columns="3" styleClass="panelgrid_sem_borda"> 
+	        <h:commandButton id="btnOpendlg" styleClass="btn btn-primary btn-lg" value="Novo Produto">
+	          <p:ajax event="click" oncomplete="PF('dlgProduct').show();" />
+	        </h:commandButton>
+	        <h:commandButton id="btnOpendlgEdit" styleClass="btn btn-success btn-lg" value="Editar Produto" disabled="#{manager.selectedProduct == null}">
+	          <p:ajax event="click" oncomplete="PF('dlgProductEdit').show();" update="pngProductEdit"/>
+	        </h:commandButton>
+          <h:commandButton id="btnOpendlgDel" styleClass="btn btn-danger btn-lg" value="Excluir Produto">
+            <p:ajax event="click" listener="#{manager.delProduct}" update="dtbProducts"/>
+          </h:commandButton>
+         </p:panelGrid>          
+          					          
+          <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}"  emptyMessage="Nenhum Produto encontrado" 
+              selectionMode="single" rowKey="#{prd.id_product}">
                  
-            <p:ajax event="rowEdit" listener="#{manager.updateProduct}" update="dtbProducts" />
-            <p:ajax event="rowEditCancel" update="dtbProducts" />
-			 
-			        <p:column headerText="Nome">
-				        <p:cellEditor>
-	               <f:facet name="output">
-	                 <h:outputText value="#{prd.name}" />
-                 </f:facet>
-	               <f:facet name="input">
-	                   <h:inputText value="#{prd.name}" />
-	               </f:facet>
-	               </p:cellEditor>
-			          
+              <p:ajax event="rowSelect" listener="#{manager.onRowSelectProduct}" update="@form"/>
+               
+			        <p:column headerText="Nomea">
+                <h:outputText value="#{prd.name}" />
 			        </p:column>
 			 
        
               <p:column headerText="Descrição">
-                <p:cellEditor>
-                 <f:facet name="output">
-                  <h:outputText value="#{prd.description}" />
-                 </f:facet>
-                 <f:facet name="input">
-                     <h:inputText value="#{prd.description}" />
-                 </f:facet>
-                 </p:cellEditor>
+                <h:outputText value="#{prd.description}" />
               </p:column>
        
        
               <p:column headerText="Preço">
-                <p:cellEditor>
-                 <f:facet name="output">
-                  <h:outputText value="#{prd.price}" />
-                 </f:facet>
-                 <f:facet name="input">
-                     <h:inputText value="#{prd.price}" />
-                 </f:facet>
-                 </p:cellEditor>
+                <h:outputText value="#{prd.price}">
+                  <f:convertNumber pattern="#,##0.00"/>  
+                </h:outputText>
               </p:column>
        
        
               <p:column headerText="Custo">
-                <p:cellEditor>
-                 <f:facet name="output">
-                  <h:outputText value="#{prd.cost}" />
-                 </f:facet>
-                 <f:facet name="input">
-                     <h:inputText value="#{prd.cost}" />
-                 </f:facet>
-                 </p:cellEditor>
+                <h:outputText value="#{prd.cost}">
+                  <f:convertNumber pattern="#,##0.00"/>  
+                </h:outputText>
               </p:column>
        
-       
-       
               <p:column headerText="Lucro">
-                <p:cellEditor>
-                 <f:facet name="output">
-                  <h:outputText value="#{prd.lucre}" />
-                 </f:facet>
-                 <f:facet name="input">
-                     <h:inputText value="#{prd.lucre}" />
-                 </f:facet>
-                 </p:cellEditor>
+                <h:outputText value="#{prd.lucre}">
+                  <f:convertNumber pattern="#,##0.00"/>  
+                </h:outputText>
               </p:column>
        
               <p:column headerText="Quantidade">
-                <p:cellEditor>
-                 <f:facet name="output">
-                  <h:outputText value="#{prd.quantity}" />
-                 </f:facet>
-                 <f:facet name="input">
-                     <h:inputText value="#{prd.quantity}" />
-                 </f:facet>
-                 </p:cellEditor>
+                <h:outputText value="#{prd.quantity}" />
               </p:column>
        
-              <p:column headerText="Barcode">
+              <p:column headerText="Cod Barras">
                 <h:outputText value="#{prd.barcode}" />
               </p:column>
-              
-              <p:column headerText="Edição" style="width:44px">
-                <p:rowEditor />
-              </p:column>
+        
 			    </p:dataTable>
   
                     
          </p:panelGrid>
          
-         <p:dialog header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40" resizable="false">
-          
-			    <p:tabView id="tbvProduct">
-			        <p:tab id="tabCadProd" title="Rapido">
-		            <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-		              <h:outputLabel value="ID: "/>
-		              <h:inputText value="#{manager.newProduct.id_product}" size="10" disabled="true"/>
-		              <h:outputLabel value="Nome: "/>
-		              <h:inputText value="#{manager.newProduct.name}" size="75"/>      
-                  <h:outputLabel value="Descrição: "/>
-                  <h:inputText value="#{manager.newProduct.description}"/>
-                </p:panelGrid>
-    		        <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-    		          <h:outputLabel value="Preço Custo: "/>
-    		          <h:outputLabel value="Lucro: "/>
-    		          <h:outputLabel value="Preço de venda: "/>
-    		          <h:inputText value="#{manager.newProduct.cost}"/>
-    		          <h:inputText value="#{manager.newProduct.lucre}"/>
-    		          <h:inputText value="#{manager.newProduct.price}"/>
-    		        </p:panelGrid>
-    		        <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-    		          <h:outputLabel value="Categoria: "/>
-    		          <h:outputLabel value="Quantidade: "/>
-					        <p:selectOneMenu value="#{manager.selectedCategory}" >
-					            <f:selectItem itemLabel="Selecione" itemValue="" />
-					            <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat}" />
-					        </p:selectOneMenu>
-    		          <h:inputText value="#{manager.newProduct.quantity}"/>
-    		        </p:panelGrid>
-    		        <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-                  <h:outputLabel value="Codigo de Barras: "/>
-                  <h:inputText value="#{manager.newProduct.barcode}" size="50"/>
-                  <br/>
-                </p:panelGrid>
-    		        
-			        </p:tab>
-			    </p:tabView>
-			    <br/>
-          <p:commandButton value="Incluir" action="#{manager.addProduct}" oncomplete="PF('dlgProduct').hide();" update="tbvProduct, dtbProducts"/>
+         <p:dialog id="dlgProduct" header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40" resizable="false" >
+          <p:panelGrid id="pngProduct" columns="1" styleClass="panelgrid_sem_borda">
+            <p:growl id="growlDlgProduct" sticky="true" showDetail="true" life="3000" />
+            <p:tabView id="tbvProduct">
+                <p:tab id="tabCadProd" title="Rapido">
+                  <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                    <h:outputLabel value="ID: "/>
+                    <h:inputText value="#{manager.newProduct.id_product}" size="10" disabled="true"/>
+                    <h:outputLabel value="Nome: "/>
+                    <h:inputText value="#{manager.newProduct.name}" size="65"/>      
+                    <h:outputLabel value="Descrição: "/>
+                    <h:inputText value="#{manager.newProduct.description}"/>
+                  </p:panelGrid>
+                  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+                    <h:outputLabel value="Preço Custo: "/>
+                    <h:outputLabel value="Lucro: "/>
+                    <h:outputLabel value="Preço de venda: "/>
+                    <p:inputText id="txtCost" maxlength="15" size="10" required="true" value="#{manager.newProduct.cost}"  requiredMessage="Preencha este campo com o valor do custo" >  
+										    <f:convertNumber pattern="#,##0.00"/>  
+										    <p:ajax update="txtCost" process="txtCost" event="change" />  
+										</p:inputText>  
+                    <p:inputText id="txtLucre" maxlength="15" size="10" value="#{manager.newProduct.lucre}"  >  
+                        <f:convertNumber pattern="#,##0.00"/>  
+                        <p:ajax update="txtLucre" process="txtLucre" event="change" />  
+                    </p:inputText>  
+                    <p:inputText id="txtPrice" maxlength="15" size="10" required="true" value="#{manager.newProduct.price}" equiredMessage="Preencha este campo com o valor do preço" >  
+                        <f:convertNumber pattern="#,##0.00"/>  
+                        <p:ajax update="txtPrice" process="txtPrice" event="change" />  
+                    </p:inputText>   
+                  </p:panelGrid>
+                  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                    <h:outputLabel value="Categoria: "/>
+                    <h:outputLabel value="Quantidade: "/>
+                    <p:selectOneMenu value="#{manager.idCategProdct}">
+                        <f:selectItem itemLabel="Selecione" itemValue="" />
+                        <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id_category}" />
+                    </p:selectOneMenu>
+                    <h:inputText value="#{manager.newProduct.quantity}"/>
+                  </p:panelGrid>
+                  <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                    <h:outputLabel value="Codigo de Barras: "/>
+                    <h:inputText value="#{manager.newProduct.barcode}" size="50"/>
+                    <br/>
+                  </p:panelGrid>
+                  
+                </p:tab>
+            </p:tabView>
+                
+            <f:facet name="footer">
+		        
+		          <h:commandButton styleClass="btn btn-default" value="Cancelar">
+		            <p:ajax event="click" oncomplete="PF('dlgProduct').hide();" />
+		          </h:commandButton>
+            
+              <h:commandButton styleClass="btn btn-primary" value="Incluir">
+                <p:ajax event="click" listener="#{manager.addProduct}" process="@this tbvProduct"  oncomplete="handleLoginRequest(xhr, status, args)" update="tbvProduct dtbProducts growlDlgProduct" />
+              </h:commandButton>
+		          
+               
+            </f:facet>
+			   </p:panelGrid>
 				</p:dialog>
          
+         <p:dialog id="dlgProductEdit" header="Edicao de Produto" widgetVar="dlgProductEdit" minHeight="40" resizable="false">
+          <p:panelGrid id="pngProductEdit" columns="1" styleClass="panelgrid_sem_borda"> 
+            <p:tabView id="tbvProductEdit">
+                <p:tab id="tabCadProdEdit" title="Rapido">
+                  <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                    <h:outputLabel value="ID: "/>
+                    <h:inputText value="#{manager.selectedProduct.id_product}" size="10" disabled="true"/>
+                    <h:outputLabel value="Nome: "/>
+                    <h:inputText value="#{manager.selectedProduct.name}" size="65" required="true" requiredMessage="Preencha o nome do produto"/>      
+                    <h:outputLabel value="Descrição: "/>
+                    <h:inputText value="#{manager.selectedProduct.description}"/>
+                  </p:panelGrid>
+                  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+                    <h:outputLabel value="Preço Custo: "/>
+                    <h:outputLabel value="Lucro: "/>
+                    <h:outputLabel value="Preço de venda: "/>
+                    <p:inputText id="txtCost" maxlength="15" size="10" required="true" value="#{manager.selectedProduct.cost}"  requiredMessage="Preencha o valor do custo" >  
+                        <f:convertNumber pattern="#,##0.00"/>  
+                        <p:ajax update="txtCost" process="txtCost" event="change" />  
+                    </p:inputText>  
+                    <p:inputText id="txtLucre" maxlength="15" size="10" required="true" value="#{manager.selectedProduct.lucre}" disabled="true"  >  
+                        <f:convertNumber pattern="#,##0.00"/>  
+                        <p:ajax update="txtLucre" process="txtLucre" event="change" />  
+                    </p:inputText>  
+                    <p:inputText id="txtPrice" maxlength="15" size="10" required="true" value="#{manager.selectedProduct.price}" requiredMessage="Preencha o valor do preço" >  
+                        <f:convertNumber pattern="#,##0.00"/>  
+                        <p:ajax update="txtPrice" process="txtPrice" event="change" />  
+                    </p:inputText>   
+                  </p:panelGrid>
+                  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                    <h:outputLabel value="Categoria: "/>
+                    <h:outputLabel value="Quantidade: "/>
+                    <p:selectOneMenu value="#{manager.selectedCategory.id_category}" required="true" requiredMessage="Selecione a categoria">
+                        <f:selectItem itemLabel="Selecione" itemValue="" />
+                        <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id_category}" />
+                    </p:selectOneMenu>
+                    <h:inputText value="#{manager.selectedProduct.quantity}"/>
+                  </p:panelGrid>
+                  <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                    <h:outputLabel value="Codigo de Barras: "/>
+                    <h:inputText value="#{manager.selectedProduct.barcode}" size="50"/>
+                    <br/>
+                  </p:panelGrid>
+                  
+                </p:tab>
+            </p:tabView>
+                
+            <f:facet name="footer">
+            
+              <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                <p:ajax event="click" oncomplete="PF('dlgProductEdit').hide();" />
+              </h:commandButton>
+            
+              <h:commandButton styleClass="btn btn-primary" value="Editar">
+                <p:ajax event="click" listener="#{manager.updateProduct}" process="@this tbvProductEdit" oncomplete="PF('dlgProductEdit').hide();" update="tbvProductEdit dtbProducts" />
+              </h:commandButton>
+              
+               
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+ 
+			<script type="text/javascript">
+			    function handleLoginRequest(xhr, status, args) {
+			        if(args.validationFailed || !args.loggedIn) {
+			            PF('dlgProduct').jq.effect("shake", {times:5}, 100);
+			        }
+			        else {
+			            PF('dlgProduct').hide();
+			            $('#loginLink').fadeOut();
+			        }
+			    }
+			</script>
+							
           
         </ui:define>
     </ui:decorate>
