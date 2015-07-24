@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 
 public abstract class DAOImpl<T,K> implements DAOInterface<T,K> {
 
-	private EntityManager em;
+	protected EntityManager em;
 	
 	private Class<T> entityClass;
 	
