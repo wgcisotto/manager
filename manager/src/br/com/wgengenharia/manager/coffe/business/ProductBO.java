@@ -1,13 +1,14 @@
 package br.com.wgengenharia.manager.coffe.business;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.coffe.dao.ProductDAO;
 import br.com.wgengenharia.manager.coffe.dao.ProductDAOImpl;
-import br.com.wgengenharia.manager.coffe.dao.model.DAOInterface;
 import br.com.wgengenharia.manager.coffe.model.Product;
 
-public class ProductBO implements DAOInterface<Product, Integer>{
+public class ProductBO implements ProductDAO{
 
 	private ProductDAO DAO;
 	
@@ -33,6 +34,11 @@ public class ProductBO implements DAOInterface<Product, Integer>{
 	@Override
 	public Product findById(Integer id) {
 		return DAO.findById(id);
+	}
+
+	@Override
+	public List<Product> listProducts() {
+		return DAO.listProducts();
 	}
 	
 }

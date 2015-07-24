@@ -4,10 +4,9 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.coffe.dao.CardDAO;
 import br.com.wgengenharia.manager.coffe.dao.CardDAOImpl;
-import br.com.wgengenharia.manager.coffe.dao.model.DAOInterface;
 import br.com.wgengenharia.manager.coffe.model.Card;
 
-public class CardBO implements DAOInterface<Card, Integer> {
+public class CardBO implements CardDAO {
 
 	private CardDAO DAO;
 	

@@ -4,10 +4,9 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.coffe.dao.CategoryDAO;
 import br.com.wgengenharia.manager.coffe.dao.CategoryDAOImpl;
-import br.com.wgengenharia.manager.coffe.dao.model.DAOInterface;
 import br.com.wgengenharia.manager.coffe.model.Category;
 
-public class CategoryBO implements DAOInterface<Category, Integer> {
+public class CategoryBO implements CategoryDAO {
 
 	private CategoryDAO DAO;
 	

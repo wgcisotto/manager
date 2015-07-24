@@ -4,10 +4,9 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.coffe.dao.OrderDAO;
 import br.com.wgengenharia.manager.coffe.dao.OrderDAOImpl;
-import br.com.wgengenharia.manager.coffe.dao.model.DAOInterface;
 import br.com.wgengenharia.manager.coffe.model.Order;
 
-public class OrderBO implements DAOInterface<Order, Integer>{
+public class OrderBO implements OrderDAO{
 
 	private OrderDAO orderDAO;
 	

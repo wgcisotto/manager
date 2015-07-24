@@ -4,10 +4,9 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.coffe.dao.UserDAO;
 import br.com.wgengenharia.manager.coffe.dao.UserDAOImpl;
-import br.com.wgengenharia.manager.coffe.dao.model.DAOInterface;
 import br.com.wgengenharia.manager.coffe.model.User;
 
-public class UserBO implements DAOInterface<User, Integer> {
+public class UserBO implements UserDAO {
 
 	private UserDAO userDAO;
 	

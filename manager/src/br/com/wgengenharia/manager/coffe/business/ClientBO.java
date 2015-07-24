@@ -4,10 +4,9 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.coffe.dao.ClientDAO;
 import br.com.wgengenharia.manager.coffe.dao.ClientDAOImpl;
-import br.com.wgengenharia.manager.coffe.dao.model.DAOInterface;
 import br.com.wgengenharia.manager.coffe.model.Client;
 
-public class ClientBO implements DAOInterface<Client, Integer> {
+public class ClientBO implements ClientDAO {
 
 	private ClientDAO clientDAO;
 	
