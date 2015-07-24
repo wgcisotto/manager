@@ -1,19 +1,17 @@
 package br.com.wgengenharia.manager.coffe.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,8 +20,10 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "TAB_ORDER")
 @SequenceGenerator(name="seqOrder", sequenceName="SEQ_ORDER",allocationSize=1)
-public class Order implements OrderInterface {
+public class Order implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name="ID_ORDER")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqOrder")

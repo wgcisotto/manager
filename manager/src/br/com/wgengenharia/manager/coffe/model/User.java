@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TAB_USER")
 @SequenceGenerator(name="seqUser", sequenceName="SEQ_USER",allocationSize=1)
-public class User implements Serializable, UserInterface {
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

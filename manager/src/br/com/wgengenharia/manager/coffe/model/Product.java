@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TAB_PRODUCT")
 @SequenceGenerator(name="seqProduct", sequenceName="SEQ_PRODUCT",allocationSize=1)
-public class Product implements ProductInterface, Serializable {
+public class Product implements Serializable {
 	
 	private static final long serialVersionUID = -8371022467959133760L;
 	

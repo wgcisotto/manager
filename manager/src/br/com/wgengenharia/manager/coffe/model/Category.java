@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TAB_CATEGORY")
 @SequenceGenerator(name="seqCategory", sequenceName="SEQ_CATEGORY",allocationSize=1)
-public class Category implements CategoryInterface, Serializable {
+public class Category implements Serializable {
 	
 	private static final long serialVersionUID = 1709126584637764224L;
 	
@@ -36,12 +36,12 @@ public class Category implements CategoryInterface, Serializable {
 		this.name = name;
 	}
 
-	public int getId() {
+	public int getId_category() {
 		return id_category;
 	}
 
-	public void setId(int id) {
-		this.id_category = id;
+	public void setId_category(int id_category) {
+		this.id_category = id_category;
 	}
 
 	public String getDescription() {

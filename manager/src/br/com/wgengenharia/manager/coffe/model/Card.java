@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TAB_CARD")
 @SequenceGenerator(name="seqCard", sequenceName="SEQ_CARD",allocationSize=1)
-public class Card implements CardInterface, Serializable {
+public class Card implements Serializable {
 	
 	private static final long serialVersionUID = 8533658292055517665L;
 	
