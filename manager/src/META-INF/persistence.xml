@@ -3,15 +3,21 @@
   <persistence-unit name="CLIENTE_ORACLE" transaction-type="RESOURCE_LOCAL">
   <provider>org.hibernate.ejb.HibernatePersistence</provider>
   <!-- funciona para testes apenas -->
+  <jta-data-source>java:jboss/datasources/OracleDS</jta-data-source>
+   <class>br.com.wgengenharia.manager.coffe.model.Card</class>
+   <class>br.com.wgengenharia.manager.coffe.model.Category</class>
+   <class>br.com.wgengenharia.manager.coffe.model.Client</class>
+   <class>br.com.wgengenharia.manager.coffe.model.Order</class>  
+   <class>br.com.wgengenharia.manager.coffe.model.Product</class>  
+   <class>br.com.wgengenharia.manager.coffe.model.User</class> 
     <properties>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.hbm2ddl.auto" value="create"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
       <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
-      <property name="javax.persistence.jdbc.user" value="SYSTEM"/>
-      <property name="javax.persistence.jdbc.password" value="Admin123"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+      <property name="javax.persistence.jdbc.user" value="DCV7_FUS_DES"/>
+      <property name="javax.persistence.jdbc.password" value="DCV7_FUS_DES"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@DEVHMLL64:1521:hml64"/>
     </properties> 
   </persistence-unit>
 </persistence>
-
