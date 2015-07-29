@@ -4,45 +4,52 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:decorate template="default.xhtml">
-        <ui:define name="hearder">
+        <ui:define name="header">
           Categoria
         </ui:define>
         <ui:define name="default">
         
          <p:messages id="msgCategory" showDetail="true" autoUpdate="true" closable="true" />
+         
          <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-          <p:commandButton value="Incluir" onstart="PF('dlgCategory').show();" update="pngCadCat"/>
-          <p:dataTable id="dtbCategory"  var="categ" value="#{manager.categories}" editable="true" emptyMessage="Nenhuma categoria encontrada" >
+         
+	         <p:panelGrid id="pngControleCateg" columns="3" styleClass="panelgrid_sem_borda"> 
+	          <h:commandButton id="btnOpenDlgCateg" styleClass="btn btn-primary btn-lg" value="Nova Categoria">
+	            <p:ajax event="click" oncomplete="PF('dlgCategory').show();" update="pngCadCat"/>
+	          </h:commandButton>
+	          <h:commandButton id="btnOpendlgEditCateg" styleClass="btn btn-success btn-lg" value="Editar Categoria" disabled="#{manager.selectedCategory == null}">
+	            <p:ajax event="click" oncomplete="PF('dlgCategoryEdit').show();" update="pngCategoryEdit"/>
+	          </h:commandButton>
+	          <h:commandButton id="btnDelCateg" styleClass="btn btn-danger btn-lg" value="Excluir Categoria" disabled="#{manager.selectedCategory == null}">
+	            <p:ajax event="click" listener="#{manager.delCategory}" oncomplete="PF('dtbCategory').unselectAllRows();" update="dtbCategory"/>
+	          </h:commandButton>
+	         </p:panelGrid>   
+	         
+          <p:dataTable id="dtbCategory" widgetVar="dtbCategory" var="categ" value="#{manager.categories}" editable="true" emptyMessage="Nenhuma categoria encontrada" 
+              selectionMode="single" rowKey="#{categ.id_category}" filteredValue="#{manager.filteredCategories}">
+              
+              <p:ajax event="rowSelect" listener="#{manager.onRowSelectCategory}" update="@form"/>
+ 
+              <f:facet name="header">
+                  <p:outputPanel id="dtbHeaderCategory" styleClass="search_align" >
+                      <h:outputText value="Search: " />
+                      <p:inputText id="globalFilter" onkeyup="PF('dtbCategory').filter()" value="#{manager.globalFilterCategory}" style="width:150px" placeholder="Digite"/>
+                  </p:outputPanel>
+              </f:facet>
                  
-            <p:ajax event="rowEdit" listener="#{manager.updateCategory}" update="dtbCategory" />
-            <p:ajax event="rowEditCancel" update="dtbCategory" />
-			 
-			        <p:column headerText="Nome">
-				        <p:cellEditor>
-	               <f:facet name="output">
-	                 <h:outputText value="#{categ.name}" />
-                 </f:facet>
-	               <f:facet name="input">
-	                   <h:inputText value="#{categ.name}" />
-	               </f:facet>
-	               </p:cellEditor>
-			          
+			        <p:column headerText="Nome" sortBy="#{categ.name}" filterBy="#{categ.name}" filterMatchMode="contains">
+                <h:outputText value="#{categ.name}" />
+                <f:facet name="filter">
+                  <h:inputText style="display:none;"/>
+                </f:facet>
 			        </p:column>
 			 
-       
-              <p:column headerText="Descrição">
-                  <h:outputText value="#{categ.description}" />
+              <p:column headerText="Descrição" sortBy="#{categ.description}" filterBy="#{categ.description}" filterMatchMode="contains">
+                <h:outputText value="#{categ.description}" />
+                <f:facet name="filter">
+                  <h:inputText style="display:none;"/>
+                </f:facet>
               </p:column>
-              
-              <p:column headerText="Edição" style="width:44px">
-                <p:rowEditor />
-              </p:column>
-              
-              <p:column headerText="Excluir" style="width:88px">
-                <p:commandButton id="btnExcluirCateg" value="Excluir" action="#{manager.delCategory(categ)}" update="dtbCategory"/>
-              </p:column>
-              
-              
               
 			    </p:dataTable>
   
@@ -50,18 +57,73 @@
          </p:panelGrid>
          
          <p:dialog header="Cadastro de Categoria" widgetVar="dlgCategory" minHeight="40" resizable="false">
+          <p:panelGrid id="pngCategory" columns="1" styleClass="panelgrid_sem_borda">
+            <p:growl id="growlDlgCategory" sticky="true" showDetail="true" life="3000" />
             <p:fieldset>
 					    <p:panelGrid id="pngCadCat"  columns="2" styleClass="panelgrid_sem_borda">
 					      <h:outputLabel value="Nome: "/>
-					      <h:inputText value="#{manager.newCategory.name}"/>
+					      <h:inputText value="#{manager.newCategory.name}" required="True" requiredMessage="Preencha o Nome da categoria."/>
 	              <h:outputLabel value="Descrição: "/>
-	              <h:inputText value="#{manager.newCategory.description}"/>
+	              <h:inputText value="#{manager.newCategory.description}" required="True" requiredMessage="Preencha a Descrição da categoria."/>
 					    </p:panelGrid>
 				    </p:fieldset>
-				    <br/>
-           <p:commandButton value="Incluir" action="#{manager.addCategory}" oncomplete="PF('dlgCategory').hide();" update="pngCadCat, dtbCategory"/>
+          </p:panelGrid>
+          <f:facet name="footer">
+            <h:commandButton styleClass="btn btn-default" value="Cancelar">
+              <p:ajax event="click" oncomplete="PF('pngCategory').hide();" />
+            </h:commandButton>
+          
+            <h:commandButton styleClass="btn btn-primary" value="Incluir">
+              <p:ajax event="click" listener="#{manager.addCategory}" process="@this pngCadCat"  oncomplete="handleAddCategoryRequest(xhr, status, args)" update="pngCadCat, dtbCategory growlDlgCategory" />
+            </h:commandButton>
+          </f:facet>
 				</p:dialog>
          
+         <p:dialog header="Edição de Categoria" widgetVar="dlgCategoryEdit" minHeight="40" resizable="false">
+          <p:panelGrid id="pngCategoryEdit" columns="1" styleClass="panelgrid_sem_borda">
+            <p:growl id="growlDlgCategoryEdit" sticky="true" showDetail="true" life="3000" />
+            <p:fieldset>
+              <p:panelGrid id="pngEditCat"  columns="2" styleClass="panelgrid_sem_borda">
+                <h:outputLabel value="Nome: "/>
+                <h:inputText value="#{manager.selectedCategory.name}" required="True" requiredMessage="Preencha o Nome da categoria."/>
+                <h:outputLabel value="Descrição: "/>
+                <h:inputText value="#{manager.selectedCategory.description}" required="True" requiredMessage="Preencha a Descrição da categoria."/>
+              </p:panelGrid>
+            </p:fieldset>
+          </p:panelGrid>
+          <f:facet name="footer">
+            <h:commandButton styleClass="btn btn-default" value="Cancelar">
+              <p:ajax event="click" oncomplete="PF('dlgCategoryEdit').hide();" />
+            </h:commandButton>
+          
+            <h:commandButton styleClass="btn btn-primary" value="Editar">
+              <p:ajax event="click" listener="#{manager.updateCategory}" process="@this pngEditCat" oncomplete="handleEditCategoryRequest(xhr, status, args);" update="pngEditCat dtbCategory growlDlgCategoryEdit" />
+            </h:commandButton>
+          </f:facet>
+        </p:dialog>
+        
+       
+        <script type="text/javascript">
+            function handleAddCategoryRequest(xhr, status, args) {
+                if(args.validationFailed) {
+                    PF('dlgCategory').jq.effect("shake", {times:5}, 100);
+                }
+                else {
+                    PF('dlgCategory').hide();
+                 
+                }
+            }
+            function handleEditCategoryRequest(xhr, status, args) {
+                if(args.validationFailed) {
+                	  PF('dlgCategoryEdit').jq.effect("shake", {times:5}, 100);
+                }
+                else {
+                	  PF('dtbCategory').unselectAllRows();
+                	  PF('dlgCategoryEdit').hide();
+                 
+                }
+            }
+        </script>
           
         </ui:define>
     </ui:decorate>

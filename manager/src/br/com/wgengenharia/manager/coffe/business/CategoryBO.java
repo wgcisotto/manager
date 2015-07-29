@@ -1,5 +1,7 @@
 package br.com.wgengenharia.manager.coffe.business;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.coffe.dao.CategoryDAO;
@@ -32,6 +34,11 @@ public class CategoryBO implements CategoryDAO {
 	@Override
 	public Category findById(Integer id) {
 		return DAO.findById(id);
+	}
+
+	@Override
+	public List<Category> listCategories() {
+		return DAO.listCategories();
 	}
 
 }

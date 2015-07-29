@@ -23,7 +23,7 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProduct")
 	private int id_product;
 	@Column(name="BARCODE", length=100)
-	private Integer barcode;
+	private Long barcode;
 	@Column(name="NAME", length=50)
 	private String name;
 	@Column(name="DESCRIPTION", length=100)
@@ -35,7 +35,9 @@ public class Product implements Serializable {
 	@Column(name="LUCRE", length=10)
 	private Double lucre;
 	@Column(name="QUANTITY", length=10)
-	private Double quantity;
+	private Integer quantity;
+	@Column(name="QUANTITY_ALERT", length=10)
+	private Integer quantity_alert;
 	@ManyToOne
 	private Category Category;
 
@@ -47,11 +49,11 @@ public class Product implements Serializable {
 		this.id_product = id_product;
 	}
 	
-	public Integer getBarcode() {
+	public Long getBarcode() {
 		return barcode;
 	}
 	
-	public void setBarcode(Integer barcode) {
+	public void setBarcode(Long barcode) {
 		this.barcode = barcode;
 	}
 
@@ -95,12 +97,20 @@ public class Product implements Serializable {
 		this.lucre = lucre;
 	}
 
-	public Double getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Double quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public Integer getQuantity_alert() {
+		return quantity_alert;
+	}
+
+	public void setQuantity_alert(Integer quantity_alert) {
+		this.quantity_alert = quantity_alert;
 	}
 
 	public Category getCategory() {

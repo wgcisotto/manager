@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Estoque de Produtos
+        </ui:define>
+        <ui:define name="default">           
+   
+        <p:messages id="msgStockProduct" showDetail="true" autoUpdate="true" closable="true" /> 
+
+        <p:panelGrid id="pngStockProduts" columns="1" styleClass="panelgrid_sem_borda">
+         
+         <p:panelGrid id="pngStockProdctsControle" columns="3" styleClass="panelgrid_sem_borda"> 
+	       
+         </p:panelGrid>          
+          					          
+          <p:dataTable id="dtbStockProducts" widgetVar="dtbStockProducts" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado" 
+              rowKey="#{prd.id_product}" filteredValue="#{manager.filteredProductsStock}">
+     
+              <!--  <p:ajax event="rowSelect" listener="#{manager.onRowSelectProduct}" update="@form"/> -->
+ 
+			        <f:facet name="header">
+			            <p:outputPanel id="dtbStockHeader" styleClass="search_align">
+			                <h:outputText value="Search: " />
+			                <p:inputText id="globalFilter" onkeyup="PF('dtbStockProducts').filter()" value="#{manager.globalFilterProductStock}" style="width:150px" placeholder="Digite"/>
+			            </p:outputPanel>
+			        </f:facet>
+ 
+               
+			        <p:column headerText="Nome" sortBy="#{prd.name}" filterBy="#{prd.name}" filterMatchMode="contains" >
+                <h:outputText value="#{prd.name}" />
+                <f:facet name="filter">
+                  <h:inputText style="display:none;"/>
+                </f:facet>
+			        </p:column>
+			 
+       
+              <p:column headerText="Descrição" sortBy="#{prd.description}" >
+                <h:outputText value="#{prd.description}" />
+              </p:column>
+       
+       
+              <p:column headerText="Preço" sortBy="#{prd.price}">
+                <h:outputText value="#{prd.price}">
+                  <f:convertNumber pattern="#,##0.00"/>  
+                </h:outputText>
+              </p:column>
+       
+              <p:column headerText="Quantidade" sortBy="#{prd.quantity}">
+                <h:outputText value="#{prd.quantity}" />
+              </p:column>
+       
+              <p:column headerText="Cod Barras" sortBy="#{prd.barcode}" >
+                <h:outputText value="#{prd.barcode}" />
+              </p:column>
+       
+              <p:column headerText="Status" >
+                <b:label text="Estoque no limite previsto" severity="warning" rendered="#{prd.quantity == prd.quantity_alert}"/>
+                <b:label text="Estoque abaixo do previsto" severity="Danger" rendered="#{prd.quantity_alert > prd.quantity}" />
+                <b:label text="Estoque acima do previsto" severity="Default" rendered="#{prd.quantity > prd.quantity_alert}" />
+              </p:column>
+        
+			    </p:dataTable>
+  
+                    
+         </p:panelGrid>
+          
+        </ui:define>
+    </ui:decorate>
+</html>

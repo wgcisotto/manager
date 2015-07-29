@@ -1,36 +1,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:decorate template="default.xhtml">
-        <ui:define name="hearder">
+        <ui:define name="header">
           Caixa
         </ui:define>
         <ui:define name="default">
+         
+         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+          
+          <h:commandButton styleClass="btn btn-primary btn-lg" value="Venda Rapida">
+          </h:commandButton>
+          
+         
+         </p:panelGrid>
         
          <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
           
           
-          <p:dataTable id="dtbCashCard"  var="card" value="#{manager.cards}" emptyMessage="Nenhuma Comanda encontrada" >
-           
-              <p:column headerText="Comanda">
+          <p:dataTable id="dtbCardCash" widgetVar="dtbCard" var="card" value="#{manager.cards}" emptyMessage="Nenhuma Comanda encontrada" 
+              selectionMode="single" rowKey="#{card.id_card}">
+          
+             <p:ajax event="rowSelect" listener="#{manager.onRowSelectCard}" update="@form"/>
+             
+              <p:column headerText="Id" style="width: 89px;">
                 <h:outputText value="#{card.id_card}" />
               </p:column>
        
-       
               <p:column headerText="Status">
-                  <h:outputText value="#{card.status}" />
+                <b:label text="Pendente" severity="warning" rendered="#{card.status eq 'Pendente'}"/>
+                <b:badge value="#{card.size}" rendered="#{card.status eq 'Pendente'}"/>
+                <b:label text="Fechada" severity="success" rendered="#{card.status eq 'Fechada'}" />
               </p:column>
-              
+       
               <p:column headerText="Total">
-                <h:outputText value="#{card.total}" />
+                  <h:outputText value="#{card.total}" />
               </p:column>
               
-              <p:column headerText="Acões">
-                <p:commandButton value="Incluir" onstart="PF('dlgAddProduct').show();"/>
-                <p:commandButton value="Produtos" onstart="PF('dlgListProdCard').show();"/>
-                <p:commandButton value="Fechar" onstart="PF('dlgCloseCard').show();"/>
+              <p:column headerText="Acões" style="width: 89px;">
+                <p:commandLink
+                  icon="ui-icon-plusthick"
+                  onstart="PF('dlgAddProduct').show();">
+                  <img src="resources/images/icons/add182.png" width="20" height="20" title="Adicionar Produto"/>
+                  <f:setPropertyActionListener value="#{card}" target="#{manager.selectedCard}"/>
+                </p:commandLink>
+	              <p:commandLink
+	                icon="ui-icon-cart"
+	                onstart="PF('dlgAddProduct').show();">
+	                <img src="resources/images/icons/list-1.png" width="20" height="20" title="Produtos"/>
+	              </p:commandLink>
+                <p:commandLink
+                  icon="ui-icon-check"
+                  onstart="PF('dlgCloseCard').show();">
+                  <img src="resources/images/icons/check52.png" width="20" height="20" title="Fechar comanda"/>
+                </p:commandLink>
               </p:column>
           </p:dataTable>
   
@@ -38,99 +64,107 @@
                     
          </p:panelGrid>
          
-         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-          <p:commandButton value="Venda Rapida"/>
-          
-          <p:dataTable id="dtbProducts"  var="card" value="#{manager.products}" emptyMessage="Nenhuma comanda cadastrada" >
-                 
-              <p:column headerText="Produto">
-                <p:cellEditor>
-                 <f:facet name="output">
-                   <h:outputText value="#{prd.name}" />
-                 </f:facet>
-                 <f:facet name="input">
-                     <h:inputText value="#{prd.name}" />
-                 </f:facet>
-                 </p:cellEditor>
-                
-              </p:column>
-       
-       
-              <p:column headerText="Quantidade">
-                  <h:outputText value="#{prd.description}" />
-              </p:column>
-       
-       
-              <p:column headerText="Valor">
-                  <h:outputText value="#{prd.description}" />
-              </p:column>
-          </p:dataTable>
-  
-            
          
-         </p:panelGrid>
          
          <p:dialog header="Busca Produto" widgetVar="dlgAddProduct" minHeight="40" resizable="false">
-            <p:fieldset>
-              <p:panelGrid id="pngFindPro"  columns="5" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="ID: "/>
-                <h:inputText value="#{manager.newCategory.name}"/>
-                <h:outputLabel value="Nome: "/>
-                <h:inputText value="#{manager.newCategory.description}"/>
-              </p:panelGrid>
-              <p:panelGrid id="pngFindProTab"  columns="1" styleClass="panelgrid_sem_borda">
-				        <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" editable="true" emptyMessage="Nenhum Produto encontrado" >
-				               
-				            <p:column headerText="Nome">
-				              <h:outputText value="#{prd.name}" />
-				            </p:column>
-				     
-				            <p:column headerText="Preço">
-				              <h:outputText value="#{prd.price}" />
-				            </p:column>
-				     
-				            <p:column headerText="Barcode">
-				              <h:outputText value="#{prd.barcode}" />
-				            </p:column>
-				            
-                    <p:column headerText="Selecionar">
-                     <p:commandButton value="Selecionar" />
-                    </p:column>
-				            
-				        </p:dataTable>
-              </p:panelGrid>
-            </p:fieldset>
+	         <p:panelGrid id="pngFindProTab"  columns="1" styleClass="panelgrid_sem_borda">          
+                              
+	          <p:dataTable id="dtbProductsCash" widgetVar="dtbProductsCash" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado" 
+	             filteredValue="#{manager.filteredProducts}">
+	     
+	              <p:ajax event="rowSelect" listener="#{manager.onRowSelectProduct}" update="@form"/>
+	 
+	              <f:facet name="header">
+	                  <p:outputPanel id="dtbHeader" styleClass="search_align">
+	                      <h:outputText value="Search: " />
+	                      <p:inputText id="globalFilter" onkeyup="PF('dtbProductsCash').filter()" value="#{manager.globalFilterProduct}" style="width:150px" placeholder="Digite"/>
+	                  </p:outputPanel>
+	              </f:facet>
+	 
+	               
+	              <p:column headerText="Nome" sortBy="#{prd.name}" filterBy="#{prd.name}" filterMatchMode="contains" >
+	                <h:outputText value="#{prd.name}" />
+	                <f:facet name="filter">
+	                  <h:inputText style="display:none;"/>
+	                </f:facet>
+	              </p:column>
+	       
+	       
+	              <p:column headerText="Descrição" sortBy="#{prd.description}" >
+	                <h:outputText value="#{prd.description}" />
+	              </p:column>
+	       
+	       
+	              <p:column headerText="Preço" sortBy="#{prd.price}">
+	                <h:outputText value="#{prd.price}">
+	                  <f:convertNumber pattern="#,##0.00"/>  
+	                </h:outputText>
+	              </p:column>
+	       
+	              <p:column headerText="Quantidade" sortBy="#{prd.quantity}">
+	                <h:outputText value="#{prd.quantity}" />
+	              </p:column>
+	       
+	              <p:column headerText="Cod Barras" sortBy="#{prd.barcode}" >
+	                <h:outputText value="#{prd.barcode}" />
+	              </p:column>
+         
+                <p:column headerText="Opcoes" style="width:89px">
+	                <p:commandLink
+	                  action="#{manager.addProductCard(prd)}"
+	                  update="@form"
+	                  icon="ui-icon-check">
+	                  <img src="resources/images/icons/check52.png" width="20" height="20" title="Adicionar Produto"/>
+	                </p:commandLink>
+                </p:column>
+	        
+	          </p:dataTable>
+	         </p:panelGrid>
             <br/>
             <p:commandButton value="Incluir" oncomplete="PF('dlgAddProduct').hide();"/>
         </p:dialog>
          
-         <p:dialog header="Produtos da Comanda" widgetVar="dlgListProdCard" minHeight="40" resizable="false">
-            <p:fieldset>
-              <p:panelGrid id="pngListProdCard"  columns="1" styleClass="panelgrid_sem_borda">
-                <p:dataTable id="dtbProducts"  var="prd" value="#{manager.products}" editable="true" emptyMessage="Nenhum Produto encontrado" >
-                       
-                    <p:column headerText="Nome">
-                      <h:outputText value="#{prd.name}" />
-                    </p:column>
-             
-                    <p:column headerText="Preço">
-                      <h:outputText value="#{prd.price}" />
-                    </p:column>
-             
-                    <p:column headerText="Barcode">
-                      <h:outputText value="#{prd.barcode}" />
-                    </p:column>
-                    
-                    <p:column headerText="Selecionar">
-                     <p:commandButton value="Selecionar" />
-                    </p:column>
-                    
-                </p:dataTable>
-              </p:panelGrid>
-            </p:fieldset>
-            <br/>
-            <p:commandButton value="Incluir" oncomplete="PF('dlgListProdCard').hide();"/>
+         <p:dialog header="Produtos Comanda" widgetVar="dlgListProdCard" minHeight="40" resizable="false">
+	         <p:panelGrid id="pngListProdCard"  columns="1" styleClass="panelgrid_sem_borda">
+	           <p:commandButton value="Adicionar Produto"/>
+	           
+	           <p:dataTable id="dtbProductsCard"  var="prd" value="#{manager.products}" editable="true" emptyMessage="Nenhum Produto encontrado" >
+							   <f:facet name="header">
+							       Produtos Comanda X
+							   </f:facet>
+ 
+	               <p:column headerText="Cod Prod">
+	                 <h:outputText value="#{prd.id_product}" />
+	               </p:column>
+	        
+	               <p:column headerText="Nome">
+	                 <h:outputText value="#{prd.name}" />
+	               </p:column>
+          
+                 <p:column headerText="Quantidade">
+                   <h:outputText value="#{prd.name}" />
+                 </p:column>
+	        
+	               <p:column headerText="Unitário R$">
+	                 <h:outputText value="#{prd.price}" />
+	               </p:column>
+          
+                 <p:column headerText="Total R$">
+                   <h:outputText value="#{prd.price}" />
+                 </p:column>
+	               
+	               <p:column headerText="Opções">
+	                 remover 1 item
+	                 remover todos
+	               </p:column>
+	               
+	           </p:dataTable>
+	          </p:panelGrid>
+	        <br/>
+	        <p:commandButton value="Fechar Comanda" oncomplete="PF('dlgListProdCard').hide();"/>
         </p:dialog>
+        
+        
          
          <p:dialog header="Fechamento da Comanda" widgetVar="dlgCloseCard" minHeight="40" resizable="false">
             <p:fieldset>

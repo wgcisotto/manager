@@ -67,5 +67,9 @@ public class Card implements Serializable {
 		}
 		return status;
 	}
+	
+	public String getSize(){
+		return String.valueOf(products.size());
+	}
 
 }

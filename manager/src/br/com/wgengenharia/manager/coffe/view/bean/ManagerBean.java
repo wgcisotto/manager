@@ -33,15 +33,22 @@ public class ManagerBean implements Serializable {
 	private Product newProduct;
 	private Product selectedProduct;
 	private List<Product> products;
+	private List<Product> filteredProducts;
+	private List<Product> filteredProductsStock;
 	private Integer idCategProdct;
+	private String globalFilterProduct;
+	private String globalFilterProductStock;
 	
 	private CardBO cardBO;
+	private Card selectedCard;
 	private List<Card> cards;
 	
 	private CategoryBO categoryBO;
 	private Category newCategory;
 	private Category selectedCategory;
 	private List<Category> categories;
+	private List<Category> filteredCategories;
+	private String globalFilterCategory;
 	
 	private ClientBO clientBO;
 	private Client newClient;
@@ -54,7 +61,6 @@ public class ManagerBean implements Serializable {
 		try {
 			EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 			cards = new ArrayList<>();  
-			categories = new ArrayList<>();
 			clients = new ArrayList<>();
 			
 			productBO = new ProductBO(em);
@@ -66,7 +72,10 @@ public class ManagerBean implements Serializable {
 			newCategory = new Category();
 			newClient = new Client();
 			
-			selectedCategory = new Category();
+			//Carrega as informacoes do banco
+			products = productBO.listProducts();
+			categories = categoryBO.listCategories();
+			cards = cardBO.listCards();
 			
 			
 		} catch (Exception e) {
@@ -83,11 +92,10 @@ public class ManagerBean implements Serializable {
 			productBO.insert(newProduct);
 			products = productBO.listProducts();
 			newProduct = new Product();
-			// limpa o product
+			FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Produto Inserido com sucesso"));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
-		FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Produto Inserido com sucesso"));
 	}
   
 	 public void onRowSelectProduct(SelectEvent event) {
@@ -130,47 +138,80 @@ public class ManagerBean implements Serializable {
 		try {
 			Card card = new Card();
 			cardBO.insert(card);
-			cards.add(card);
+			cards = cardBO.listCards();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCard", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
+  
+ public void onRowSelectCard(SelectEvent event) {
+	 selectedCard = (Card) event.getObject();
+ }
+ 
+ public void delCard(){
+	 try {
+			if(selectedCard!=null){
+				cardBO.delete(selectedCard);
+				cards = cardBO.listCards();
+				selectedCard = null;
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCard", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Comanda Excluida com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCard", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Nescessário selecionar uma Comanda"));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCard", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+ }
+ 
 	
 //Metodos Categoria
 	public void addCategory(){
 		try {
 			categoryBO.insert(newCategory);
-			categories.add(newCategory);
-			// limpa categoria
+			categories =  categoryBO.listCategories();
 			newCategory = new Category();
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
-	
-	public void updateCategory(RowEditEvent event){
-		Category category = (Category) event.getObject();
+  
+  public void onRowSelectCategory(SelectEvent event) {
+	 selectedCategory= (Category) event.getObject();
+  }
+
+	public void updateCategory(){
 		try {
-			categoryBO.update(category);
+			if(selectedCategory != null){
+				categoryBO.update(selectedCategory);
+				categories = categoryBO.listCategories();
+				selectedCategory = null;
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Categoria Atualizada com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Nescessário selecionar uma Categoria"));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
-		FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Categoria Atualizada com sucesso"));
 	}
 	
-	public void delCategory(Category category){
+	public void delCategory(){
 		try {
-			categoryBO.delete(category);
+			if(selectedCategory != null){
+				categoryBO.delete(selectedCategory);
+				categories = categoryBO.listCategories();
+				selectedCategory = null;
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Categoria Excluida com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Nescessário selecionar uma Categoria"));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
-		FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Categoria Excluida com sucesso"));
 	}
 	
 	//Metodos Cliente
 	public void addClient(){
 		try {
-//			newProduct.setCategory(selectedCategory);
 			clientBO.insert(newClient);
 			clients.add(newClient);
 			// limpa o product
@@ -192,12 +233,31 @@ public class ManagerBean implements Serializable {
 	
 	
 	
+	// Metodos para o CAIXA
+	
+	public void addProductCard(Product prod){
+		selectedCard.addProduct(prod);
+	}
+	
+	
 	//get and setters
 	
 	
 	// ## produto ##
 	public List<Product> getProducts() {
 		return products;
+	}
+	public List<Product> getFilteredProducts() {
+		return filteredProducts;
+	}
+	public void setFilteredProducts(List<Product> filteredProducts) {
+		this.filteredProducts = filteredProducts;
+	}
+	public List<Product> getFilteredProductsStock() {
+		return filteredProductsStock;
+	}
+	public void setFilteredProductsStock(List<Product> filteredProductsStock) {
+		this.filteredProductsStock = filteredProductsStock;
 	}
 	public Product getNewProduct() {
 		return newProduct;
@@ -217,10 +277,28 @@ public class ManagerBean implements Serializable {
 	public void setIdCategProdct(Integer idCategProdct) {
 		this.idCategProdct = idCategProdct;
 	}
+	public String getGlobalFilterProduct() {
+		return globalFilterProduct;
+	}
+	public void setGlobalFilterProduct(String globalFilterProduct) {
+		this.globalFilterProduct = globalFilterProduct;
+	}
+	public String getGlobalFilterProductStock() {
+		return globalFilterProductStock;
+	}
+	public void setGlobalFilterProductStock(String globalFilterProductStock) {
+		this.globalFilterProductStock = globalFilterProductStock;
+	}
 
 	// ## Comandas ##
 	public List<Card> getCards() {
 		return cards;
+	}
+	public Card getSelectedCard() {
+		return selectedCard;
+	}
+	public void setSelectedCard(Card selectedCard) {
+		this.selectedCard = selectedCard;
 	}
 	// ## Categorias ##
 	public Category getNewCategory() {
@@ -237,6 +315,18 @@ public class ManagerBean implements Serializable {
 	}
 	public List<Category> getCategories() {
 		return categories;
+	}
+	public List<Category> getFilteredCategories() {
+		return filteredCategories;
+	}
+	public void setFilteredCategories(List<Category> filteredCategories) {
+		this.filteredCategories = filteredCategories;
+	}
+	public String getGlobalFilterCategory() {
+		return globalFilterCategory;
+	}
+	public void setGlobalFilterCategory(String globalFilterCategory) {
+		this.globalFilterCategory = globalFilterCategory;
 	}
 	//## Clientes ##
 	public Client getNewClient() {

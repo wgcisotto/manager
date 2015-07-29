@@ -34,15 +34,18 @@
 			
 	  <p:growl id="messages"/>
   
-
     <p:menubar>
         <p:submenu label="Financeiro" icon="ui-icon-home">
             <p:menuitem value="Caixa"  icon="ui-icon-folder-open"  outcome="cashier.xhtml" />
             <p:menuitem value="Historico" icon="ui-icon-disk"  outcome="cashier.xhtml"/>
         </p:submenu>
+        
+        <p:submenu label="Mural" icon="ui-icon-clipboard">
+            <p:menuitem value="Avisos"  icon="ui-icon-alert"  outcome="cashier.xhtml" />
+        </p:submenu>
  
         <p:submenu label="Cadastros" icon="ui-icon-pencil">
-            <p:menuitem value="Produto" icon="ui-icon-cart" outcome="product.xhtml" />
+            <p:menuitem value="Produto" icon="ui-icon-cart" outcome="product.xhtml"  oncomplete="PF('dtbProducts').clearFilters()"/>
             <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" />
             <p:menuitem value="Cliente"  icon="ui-icon-person" outcome="client.xhtml" />
             <p:menuitem value="Comanda"  icon="ui-icon-person" outcome="card.xhtml" />
@@ -56,7 +59,7 @@
         </p:submenu>
 
         <p:submenu label="Estoque" icon="ui-icon-cart">
-            <p:menuitem value="Abrir"  icon="ui-icon-folder-open" outcome="cashier.xhtml"/>
+            <p:menuitem value="Abrir"  icon="ui-icon-folder-open" outcome="stock.xhtml" oncomplete="PF('formManager:dtbStockProducts').clearFilters()"/>
         </p:submenu>
         
         <f:facet name="options">
@@ -81,8 +84,8 @@
 					<!--  start page-heading -->
 					<div id="page-heading">
 						<h1>
-						  <ui:insert name="hearder">
-						    Hearder de Apresentação
+						  <ui:insert name="header">
+						    Header de Apresentação
                </ui:insert>
 						</h1>
 					</div>

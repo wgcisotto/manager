@@ -16,7 +16,7 @@ public class TestProductDAO {
 		Product product = new Product();
 //		CategoryInterface category = new Category();
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-		product.setBarcode(2313123);
+		product.setBarcode((long) 2313123);
 //		product.setCategory(category);
 		product.setCost(23.8);
 		product.setDescription("Inserindo produto por Teste");

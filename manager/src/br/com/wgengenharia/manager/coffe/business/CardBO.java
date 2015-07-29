@@ -1,5 +1,7 @@
 package br.com.wgengenharia.manager.coffe.business;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.coffe.dao.CardDAO;
@@ -32,6 +34,11 @@ public class CardBO implements CardDAO {
 	@Override
 	public Card findById(Integer id) {
 		return DAO.findById(id);
+	}
+
+	@Override
+	public List<Card> listCards() {
+		return DAO.listCards();
 	}
 
 }
