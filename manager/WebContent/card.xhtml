@@ -12,12 +12,15 @@
           <p:messages id="msgCard" showDetail="true" autoUpdate="true" closable="true" />
           <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
 	          
-           <p:panelGrid id="pngControleCard" columns="2" styleClass="panelgrid_sem_borda"> 
+           <p:panelGrid id="pngControleCard" columns="3" styleClass="panelgrid_sem_borda"> 
             <h:commandButton id="btnAddCard" styleClass="btn btn-primary btn-lg" value="Incluir Comanda">
               <p:ajax event="click" listener="#{manager.addCard}" update="dtbCard"/>
             </h:commandButton>
             <h:commandButton id="btnDelCard" styleClass="btn btn-danger btn-lg" value="Excluir Comanda" disabled="#{manager.selectedCard == null}">
               <p:ajax event="click" listener="#{manager.delCard}" oncomplete="PF('dtbCard').unselectAllRows();" update="dtbCard"/>
+            </h:commandButton>
+            <h:commandButton id="btnCleanCard" styleClass="btn btn-warning btn-lg" value="Limpar Comanda" disabled="#{manager.selectedCard == null}">
+              <p:ajax event="click" listener="#{manager.cleanCard}" oncomplete="PF('dtbCard').unselectAllRows();" update="dtbCard"/>
             </h:commandButton>
            </p:panelGrid>   
 	          
@@ -32,7 +35,7 @@
 				 
 	              <p:column headerText="Status">
 								  <b:label text="Pendente" severity="warning" rendered="#{card.status eq 'Pendente'}"/>
-                  <b:badge value="#{card.products.size}" rendered="#{card.status eq 'Pendente'}"/>
+                  <b:badge value="#{card.size}" rendered="#{card.status eq 'Pendente'}"/>
                   <b:label text="Fechada" severity="success" rendered="#{card.status eq 'Fechada'}" />
 	              </p:column>
 	       

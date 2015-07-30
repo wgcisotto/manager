@@ -159,7 +159,7 @@
 				
 				<p:dialog id="dlgProductBarcode" header="Código de barras" widgetVar="dlgProductBarcode" minHeight="40" resizable="false">
 				  <p:panelGrid id="dlgNewBarcode" columns="1" styleClass="panelgrid_sem_borda">
-            <p:inputText value="#{manager.newProduct.barcode}" size="50"/>
+            <p:inputText value="#{manager.newProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
 	          <h:commandButton styleClass="btn btn-primary" value="OK">
 	            <p:ajax event="click" process="@this dlgNewBarcode"  oncomplete="PF('dlgProductBarcode').hide();" update="formManager:pngProduct"/>
 	          </h:commandButton>
@@ -233,7 +233,7 @@
         
         <p:dialog id="dlgProductBarcodeEdit" header="Código de barras" widgetVar="dlgProductBarcodeEdit" minHeight="40" resizable="false">
           <p:panelGrid id="dlgNewBarcodeEdit" columns="1" styleClass="panelgrid_sem_borda">
-            <p:inputText value="#{manager.selectedProduct.barcode}" size="50"/>
+            <p:inputText value="#{manager.selectedProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
             <h:commandButton styleClass="btn btn-primary" value="OK">
               <p:ajax event="click" process="@this dlgNewBarcodeEdit"  oncomplete="PF('dlgProductBarcodeEdit').hide();" update="formManager:pngProductEdit"/>
             </h:commandButton>
@@ -261,7 +261,7 @@
 	                PF('dlgProductEdit').hide();
 	             
 	            }
-	        }
+	        } 
 				</script>
 						
           
