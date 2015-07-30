@@ -2,7 +2,13 @@ package br.com.wgengenharia.manager.coffe.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +20,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "TAB_CARD")
@@ -21,6 +28,11 @@ import javax.persistence.Table;
 public class Card implements Serializable {
 	
 	private static final long serialVersionUID = 8533658292055517665L;
+	
+	private static final String CARD_CLOSED = "Fechada";
+	private static final String CARD_PEND = "Pendente";
+	
+	
 	
 	@Id
 	@Column(name="ID_CARD")
@@ -34,9 +46,13 @@ public class Card implements Serializable {
 	@Column(name="TOTAL",length=100)
 	private Double total;
 	
+	@Transient
+	private LinkedHashMap<Integer,GroupProducts> listGrouped;
+	
 	public Card() {
 		total = 0.0;
 		products = new ArrayList<Product>();
+		listGrouped = new LinkedHashMap<>();
 	}
 	
 	public int getId_card() {
@@ -48,22 +64,49 @@ public class Card implements Serializable {
 	public List<Product> getProducts() {
 		return products;
 	}
-	public void addProduct(Product product){
-		products.add(product);
-		total = total + product.getPrice();
+	public LinkedHashMap<Integer, GroupProducts> getListGrouped() {
+		return listGrouped;
 	}
+	
+	
+	public void addProduct(Product product, Integer qtde){
+		
+		GroupProducts gp = null;
+		if(listGrouped.containsKey(product.getId_product())){
+			gp = listGrouped.get(product.getId_product());
+			gp.addProduct(qtde);
+		}else{
+			gp = new GroupProducts(product);
+			gp.addProduct(qtde);
+			listGrouped.put(product.getId_product(), gp);
+		}
+		
+		for (int i = 0; i < qtde; i++) {
+			products.add(product);
+		}
+		
+		
+	}
+	
+	public void clear(){
+		total = 0.0;
+		products = new ArrayList<Product>();
+		listGrouped = new LinkedHashMap<>();
+	}
+	
 	public Double getTotal() {
+		for (Integer key : listGrouped.keySet()) {
+			total += listGrouped.get(key).getTotal();
+		}
 		return total;
 	}
-	public void setTotal(Double total) {
-		this.total = total;
-	}
+
 	public String getStatus(){
 		String status = "";
 		if(products.size() == 0){
-			status = "Fechada";
+			status = CARD_CLOSED;
 		}else{
-			status = "Pendente";
+			status = CARD_PEND;
 		}
 		return status;
 	}
@@ -71,5 +114,13 @@ public class Card implements Serializable {
 	public String getSize(){
 		return String.valueOf(products.size());
 	}
+	
+
+	public List<Map.Entry<Integer, GroupProducts>> getListGroupProd() {
+	    Set<Entry<Integer, GroupProducts>> gpSet = listGrouped.entrySet();
+	    return new ArrayList<Map.Entry<Integer,GroupProducts>>(gpSet);
+	}
+	
+	
 
 }

@@ -54,6 +54,9 @@ public class ManagerBean implements Serializable {
 	private Client newClient;
 	private List<Client> clients;
 	
+	private Integer	quantityProduct;
+	private Product selectedProductCash;
+	private Card selectedCardCash;
 	
 	
 	public ManagerBean() {
@@ -163,6 +166,10 @@ public class ManagerBean implements Serializable {
 		}
  }
  
+ public void cleanCard(){
+	 selectedCard.clear();
+ }
+ 
 	
 //Metodos Categoria
 	public void addCategory(){
@@ -236,7 +243,14 @@ public class ManagerBean implements Serializable {
 	// Metodos para o CAIXA
 	
 	public void addProductCard(Product prod){
-		selectedCard.addProduct(prod);
+		selectedCardCash.addProduct(prod,1);
+	}
+	
+	public void addListProductCard(){
+		selectedCardCash.addProduct(selectedProductCash, quantityProduct);
+		
+		selectedCardCash.getListGroupProd();
+		
 	}
 	
 	
@@ -337,6 +351,27 @@ public class ManagerBean implements Serializable {
 	}
 	public List<Client> getClients() {
 		return clients;
+	}
+	
+	//## Cashier ##
+
+	public Integer getQuantityProduct() {
+		return quantityProduct;
+	}
+	public void setQuantityProduct(Integer quantityProduct) {
+		this.quantityProduct = quantityProduct;
+	}
+	public Product getSelectedProductCash() {
+		return selectedProductCash;
+	}
+	public void setSelectedProductCash(Product selectedProductCash) {
+		this.selectedProductCash = selectedProductCash;
+	}
+	public Card getSelectedCardCash() {
+		return selectedCardCash;
+	}
+	public void setSelectedCardCash(Card selectedCardCash) {
+		this.selectedCardCash = selectedCardCash;
 	}
 	
 }
