@@ -15,3 +15,12 @@ function bloqCaracteres(){
 		}
     }
 }
+
+function changeImage(id_img,src) {  
+    document.getElementById(id_img).src=src;  
+}
+
+/* Funcao para acionar o evento click do button a partir do seu ID*/
+function btnClick(id) {
+	document.getElementById(id).click();
+}

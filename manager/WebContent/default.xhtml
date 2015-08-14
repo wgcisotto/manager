@@ -32,6 +32,16 @@
 		 <b:button style="display:none" value="Apenas para importar o style" look="primary" dismiss="modal"/>
 			 
 		  <!--  start nav-outer-repeat................................................................................................. START -->
+		  
+		
+		 <!-- 
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+		 
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+		    <p:graphicImage name="resources/images/icons/ajax-loader.gif" />
+		</p:dialog>
+		 
+		  --> 
 			
 	  <p:growl id="messages"/>
   
@@ -42,12 +52,12 @@
         </p:submenu>
         
         <p:submenu label="Mural" icon="ui-icon-clipboard">
-            <p:menuitem value="Avisos"  icon="ui-icon-alert"  outcome="cashier.xhtml" />
+            <p:menuitem value="Avisos"  icon="ui-icon-alert"  outcome="alerts.xhtml" />
         </p:submenu>
  
         <p:submenu label="Cadastros" icon="ui-icon-pencil">
             <p:menuitem value="Produto" icon="ui-icon-cart" outcome="product.xhtml"  oncomplete="PF('dtbProducts').clearFilters()"/>
-            <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" />
+            <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" oncomplete="PF('dtbCategory').clearFilters()" />
             <p:menuitem value="Cliente"  icon="ui-icon-person" outcome="client.xhtml" />
             <p:menuitem value="Comanda"  icon="ui-icon-person" outcome="card.xhtml" />
         </p:submenu>

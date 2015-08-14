@@ -44,7 +44,7 @@
                     
          </p:panelGrid>
          
-         <p:dialog header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40">
+         <p:dialog header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40" modal="true">
             <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
               <h:outputLabel value="Nome: "/>
               <h:inputText value="#{manager.newProduct.name}"/>

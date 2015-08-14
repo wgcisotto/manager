@@ -16,10 +16,10 @@
          
          <p:panelGrid id="pngControle" columns="3" styleClass="panelgrid_sem_borda"> 
 	        <h:commandButton id="btnOpendlg" styleClass="btn btn-primary btn-lg" value="Novo Produto">
-	          <p:ajax event="click" oncomplete="PF('dlgProduct').show();" />
+	          <p:ajax event="click" oncomplete="PF('dlgProduct').show();" listener="#{manager.newProduct}" update="pngProduct"/>
 	        </h:commandButton>
 	        <h:commandButton id="btnOpendlgEdit" styleClass="btn btn-success btn-lg" value="Editar Produto" disabled="#{manager.selectedProduct == null}">
-	          <p:ajax event="click" oncomplete="PF('dlgProductEdit').show();" update="pngProductEdit"/>
+	          <p:ajax event="click" oncomplete="PF('dlgProductEdit').show();" update="pngProductEdit" />
 	        </h:commandButton>
           <h:commandButton id="btnDelProd" styleClass="btn btn-danger btn-lg" value="Excluir Produto" disabled="#{manager.selectedProduct == null}">
             <p:ajax event="click" listener="#{manager.delProduct}" oncomplete="PF('dtbProducts').unselectAllRows();" update="dtbProducts"/>
@@ -84,7 +84,7 @@
                     
          </p:panelGrid>
          
-         <p:dialog id="dlgProduct" header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40" resizable="false" >
+         <p:dialog id="dlgProduct" header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="pngProduct" columns="1" styleClass="panelgrid_sem_borda">
             <p:growl id="growlDlgProduct" sticky="true" showDetail="true" life="3000" />
             <p:tabView id="tbvProduct">
@@ -143,31 +143,39 @@
             </p:tabView>
                 
             <f:facet name="footer">
-		        
-		          <h:commandButton styleClass="btn btn-default" value="Cancelar">
-		            <p:ajax event="click" oncomplete="PF('dlgProduct').hide();" />
-		          </h:commandButton>
             
-              <h:commandButton styleClass="btn btn-primary" value="Incluir">
-                <p:ajax event="click" listener="#{manager.addProduct}" process="@this tbvProduct"  oncomplete="handleAddProductRequest(xhr, status, args)" update="tbvProduct dtbProducts growlDlgProduct" />
-              </h:commandButton>
-		          
+              <p:panelGrid columns="2" style="float: right;">
+              
+                <h:commandButton styleClass="btn btn-primary" value="Incluir">
+                  <p:ajax event="click" listener="#{manager.addProduct}" process="@this tbvProduct"  oncomplete="handleAddProductRequest(xhr, status, args)" update="tbvProduct dtbProducts growlDlgProduct" />
+                </h:commandButton>
+                
+			          <h:commandButton styleClass="btn btn-default" value="Cancelar">
+			            <f:setPropertyActionListener value="null" target="{manager.newProduct}"/> 
+			            <p:ajax event="click" oncomplete="PF('dlgProduct').hide();" />
+			          </h:commandButton>
+			          
+	            </p:panelGrid>
                
             </f:facet>
 			   </p:panelGrid>
 				</p:dialog>
 				
-				<p:dialog id="dlgProductBarcode" header="Código de barras" widgetVar="dlgProductBarcode" minHeight="40" resizable="false">
+				<p:dialog id="dlgProductBarcode" header="Código de barras" widgetVar="dlgProductBarcode" minHeight="40" resizable="false" modal="true">
 				  <p:panelGrid id="dlgNewBarcode" columns="1" styleClass="panelgrid_sem_borda">
-            <p:inputText value="#{manager.newProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
-	          <h:commandButton styleClass="btn btn-primary" value="OK">
-	            <p:ajax event="click" process="@this dlgNewBarcode"  oncomplete="PF('dlgProductBarcode').hide();" update="formManager:pngProduct"/>
-	          </h:commandButton>
+            <p:inputText id="prdBarcode" value="#{manager.newProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
 				  </p:panelGrid>
+				  <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">				  
+			          <h:commandButton styleClass="btn btn-primary" value="OK">
+			            <p:ajax event="click" process="prdBarcode"  oncomplete="PF('dlgProductBarcode').hide();" update="formManager:pngProduct dlgNewBarcode"/>
+			          </h:commandButton>
+	          </p:panelGrid>
+				  </f:facet>
 				</p:dialog>
 				
          
-         <p:dialog id="dlgProductEdit" header="Edicao de Produto" widgetVar="dlgProductEdit" minHeight="40" resizable="false">
+         <p:dialog id="dlgProductEdit" header="Edicao de Produto" widgetVar="dlgProductEdit" minHeight="40" resizable="false" modal="true">
           <p:growl id="growlDlgProductEdit" sticky="true" showDetail="true" life="3000" />
           <p:panelGrid id="pngProductEdit" columns="1" styleClass="panelgrid_sem_borda"> 
             <p:tabView id="tbvProductEdit">
@@ -201,7 +209,7 @@
                     <p:outputLabel value="Categoria: "/>
                     <p:outputLabel value="Quantidade: "/>
                     <p:outputLabel value="Quantidade Alerta: "/>
-                    <p:selectOneMenu value="#{manager.selectedCategory.id_category}" required="true" requiredMessage="Selecione a categoria">
+                    <p:selectOneMenu value="#{manager.selectedCategoryPrd.id_category}" required="true" requiredMessage="Selecione a categoria">
                         <f:selectItem itemLabel="Selecione" itemValue="" />
                         <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id_category}" />
                     </p:selectOneMenu>
@@ -218,28 +226,34 @@
                 
             <f:facet name="footer">
             
-              <h:commandButton styleClass="btn btn-default" value="Cancelar">
-                <p:ajax event="click" oncomplete="PF('dlgProductEdit').hide();" />
-              </h:commandButton>
+              <p:panelGrid columns="2" style="float: right;">
+	            
+	              <h:commandButton styleClass="btn btn-primary" value="Editar">
+	                <p:ajax event="click" listener="#{manager.updateProduct}" process="@this tbvProductEdit"  oncomplete="handleEditProductRequest(xhr, status, args)" update="tbvProductEdit dtbProducts growlDlgProductEdit pngControle" />
+	              </h:commandButton>
             
-              <h:commandButton styleClass="btn btn-primary" value="Editar">
-                <p:ajax event="click" listener="#{manager.updateProduct}" process="@this tbvProductEdit"  oncomplete="handleEditProductRequest(xhr, status, args)" update="tbvProductEdit dtbProducts growlDlgProductEdit" />
-              </h:commandButton>
-              
+                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                  <p:ajax event="click" oncomplete="PF('dlgProductEdit').hide();" />
+                </h:commandButton>
+	              
+              </p:panelGrid>  
                
             </f:facet>
          </p:panelGrid>
         </p:dialog>
         
-        <p:dialog id="dlgProductBarcodeEdit" header="Código de barras" widgetVar="dlgProductBarcodeEdit" minHeight="40" resizable="false">
+        <p:dialog id="dlgProductBarcodeEdit" header="Código de barras" widgetVar="dlgProductBarcodeEdit" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="dlgNewBarcodeEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:inputText value="#{manager.selectedProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
-            <h:commandButton styleClass="btn btn-primary" value="OK">
-              <p:ajax event="click" process="@this dlgNewBarcodeEdit"  oncomplete="PF('dlgProductBarcodeEdit').hide();" update="formManager:pngProductEdit"/>
-            </h:commandButton>
           </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+	            <h:commandButton styleClass="btn btn-primary" value="OK">
+	              <p:ajax event="click" process="@this dlgNewBarcodeEdit"  oncomplete="PF('dlgProductBarcodeEdit').hide();" update="formManager:pngProductEdit"/>
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
         </p:dialog>
-        
         
        
 				<script type="text/javascript">

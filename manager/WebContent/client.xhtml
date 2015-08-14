@@ -42,7 +42,7 @@
                     
          </p:panelGrid>
          
-         <p:dialog header="Cadastro de Cliente" widgetVar="dlgClient" minHeight="40" resizable="false">
+         <p:dialog header="Cadastro de Cliente" widgetVar="dlgClient" minHeight="40" resizable="false" modal="true">
 				    <p:panelGrid id="pngCadCat"  columns="4" styleClass="panelgrid_sem_borda">
 				      <h:outputLabel value="Nome: "/>
 				      <h:inputText value="#{manager.newClient.name}"/>

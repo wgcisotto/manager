@@ -15,7 +15,7 @@
          
 	         <p:panelGrid id="pngControleCateg" columns="3" styleClass="panelgrid_sem_borda"> 
 	          <h:commandButton id="btnOpenDlgCateg" styleClass="btn btn-primary btn-lg" value="Nova Categoria">
-	            <p:ajax event="click" oncomplete="PF('dlgCategory').show();" update="pngCadCat"/>
+	            <p:ajax event="click" oncomplete="PF('dlgCategory').show();" listener="#{manager.newCategory}" update="pngCadCat"/>
 	          </h:commandButton>
 	          <h:commandButton id="btnOpendlgEditCateg" styleClass="btn btn-success btn-lg" value="Editar Categoria" disabled="#{manager.selectedCategory == null}">
 	            <p:ajax event="click" oncomplete="PF('dlgCategoryEdit').show();" update="pngCategoryEdit"/>
@@ -56,7 +56,7 @@
                     
          </p:panelGrid>
          
-         <p:dialog header="Cadastro de Categoria" widgetVar="dlgCategory" minHeight="40" resizable="false">
+         <p:dialog header="Cadastro de Categoria" widgetVar="dlgCategory" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="pngCategory" columns="1" styleClass="panelgrid_sem_borda">
             <p:growl id="growlDlgCategory" sticky="true" showDetail="true" life="3000" />
             <p:fieldset>
@@ -69,17 +69,19 @@
 				    </p:fieldset>
           </p:panelGrid>
           <f:facet name="footer">
-            <h:commandButton styleClass="btn btn-default" value="Cancelar">
-              <p:ajax event="click" oncomplete="PF('pngCategory').hide();" />
-            </h:commandButton>
+            <p:panelGrid columns="2" style="float: right;">
+	            <h:commandButton styleClass="btn btn-primary" value="Incluir">
+	              <p:ajax event="click" listener="#{manager.addCategory}" process="@this pngCadCat"  oncomplete="handleAddCategoryRequest(xhr, status, args)" update="pngCadCat, dtbCategory growlDlgCategory" />
+	            </h:commandButton>
+	            <h:commandButton styleClass="btn btn-default" value="Cancelar">
+	              <p:ajax event="click" oncomplete="PF('pngCategory').hide();" />
+              </h:commandButton>
+            </p:panelGrid>
           
-            <h:commandButton styleClass="btn btn-primary" value="Incluir">
-              <p:ajax event="click" listener="#{manager.addCategory}" process="@this pngCadCat"  oncomplete="handleAddCategoryRequest(xhr, status, args)" update="pngCadCat, dtbCategory growlDlgCategory" />
-            </h:commandButton>
           </f:facet>
 				</p:dialog>
          
-         <p:dialog header="Edição de Categoria" widgetVar="dlgCategoryEdit" minHeight="40" resizable="false">
+         <p:dialog header="Edição de Categoria" widgetVar="dlgCategoryEdit" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="pngCategoryEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:growl id="growlDlgCategoryEdit" sticky="true" showDetail="true" life="3000" />
             <p:fieldset>
@@ -92,13 +94,14 @@
             </p:fieldset>
           </p:panelGrid>
           <f:facet name="footer">
-            <h:commandButton styleClass="btn btn-default" value="Cancelar">
-              <p:ajax event="click" oncomplete="PF('dlgCategoryEdit').hide();" />
-            </h:commandButton>
-          
-            <h:commandButton styleClass="btn btn-primary" value="Editar">
-              <p:ajax event="click" listener="#{manager.updateCategory}" process="@this pngEditCat" oncomplete="handleEditCategoryRequest(xhr, status, args);" update="pngEditCat dtbCategory growlDlgCategoryEdit" />
-            </h:commandButton>
+            <p:panelGrid columns="2" style="float: right;">
+	            <h:commandButton styleClass="btn btn-primary" value="Editar">
+	              <p:ajax event="click" listener="#{manager.updateCategory}" process="@this pngEditCat" oncomplete="handleEditCategoryRequest(xhr, status, args);" update="pngEditCat dtbCategory growlDlgCategoryEdit pngControleCateg" />
+	            </h:commandButton>
+	            <h:commandButton styleClass="btn btn-default" value="Cancelar">
+	              <p:ajax event="click" oncomplete="PF('dlgCategoryEdit').hide();" />
+	            </h:commandButton>
+            </p:panelGrid>
           </f:facet>
         </p:dialog>
         

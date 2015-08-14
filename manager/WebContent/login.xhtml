@@ -46,21 +46,24 @@ $(document).ready(function(){
 		<table border="0" cellpadding="0" cellspacing="0">
 		<tr>
 			<th>Usuario</th>
-			<td><input type="text"  class="login-inp" /></td>
-		</tr>
+			<td><p:inputText value="#{auth.user}" styleClass="login-inp"/></td>
+		</tr> 
 		<tr>
 			<th>Senha</th>
-			<td><input type="password" value="************"  onfocus="this.value=''" class="login-inp" /></td>
+			<td><p:password value="#{auth.pass}" styleClass="login-inp"/></td>
 		</tr>
 		<tr>
 			<th></th>
 		</tr>
 		<tr> 
 			<th></th>
-			<td><p:commandButton value="logar" action="#{login.login}" style="background-color: #B4B4B4;"/></td>
+			<td align="right">
+			 <p:commandButton id="btnLogin" value="login" action="#{auth.login}" style="color: #ffffff;background: #9D9D9D;border-color: #B3B3B3;"/>
+			</td>
 		</tr>
 		</table>
 	</div>
+
  	<!--  end login-inner -->
 	<div class="clear"></div>
 	<a href="" class="forgot-pwd">Esqueceu a senha?</a>
