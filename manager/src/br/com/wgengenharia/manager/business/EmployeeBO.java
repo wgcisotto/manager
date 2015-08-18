@@ -34,6 +34,11 @@ public class EmployeeBO implements EmployeeDAO {
 	public Employee findById(Integer id) {
 		return DAO.findById(id);
 	}
+
+	@Override
+	public Employee findByEmail(String email) {
+		return DAO.findByEmail(email);
+	}
 	
 	
 	

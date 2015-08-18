@@ -5,6 +5,6 @@ import br.com.wgengenharia.manager.model.Employee;
 
 public interface EmployeeDAO extends DAOInterface<Employee, Integer>  {
 
-	
+	public Employee findByEmail(String email);
 	
 }
