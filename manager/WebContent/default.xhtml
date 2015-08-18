@@ -16,12 +16,17 @@
     <h:form id="formManager">
 			
 			<!-- Start: page-top-outer -->
-			<div id="page-top-outer">    
+			<div id="page-top-outer"> 
+			  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
+			    <img src="resources/images/shared/unknown.jpg" width="76" height="76" alt="" style="padding-top: 8px;" />
+	        <h:outputText value="Olá," style="color: white;"/>		  
+          <h:outputText value="#{auth.employee.name}" style="color: white;float: left"/>
+			  </p:panelGrid>
 				<!-- Start: page-top -->
 				<div id="page-top">
 					<!-- start logo -->
 					<div id="logo">
-					 <a href=""><img src="resources/images/shared/background_topo1.png" width="329" height="96" alt="" /></a> 
+					 <a href=""><img src="resources/images/shared/background_topo1.png" width="329" height="96" alt="" /></a>
 					</div>
 					<!-- end logo -->
 				</div>
@@ -74,18 +79,17 @@
         </p:submenu>
         
         <f:facet name="options">
-				    <p:menuButton value="Configuração">
+				    <p:menuButton value="#{auth.employee.company.name}" iconPos="right" >
 				        <p:menuitem value="Usuarios" update="messages" icon="ui-icon-person" outcome="cashier.xhtml"/>
 				        <p:menuitem value="Perfil" update="messages" icon="ui-icon-contact" outcome="cashier.xhtml"/>
+				        <p:menuitem value="Empresa" update="messages" icon="ui-icon-home" outcome="cashier.xhtml"/>
 				        <p:separator />
-				        <p:menuitem value="Logout" icon="ui-icon-extlink" outcome="cashier.xhtml"/>
+				        <p:menuitem value="Logout" icon="ui-icon-extlink" action="#{auth.logout}" process="@this"/>
 				    </p:menuButton>
-            <p:commandButton value="Logout" icon="ui-icon-extlink"  />
         </f:facet>
         
     </p:menubar>  
 			<!--  start nav-outer-repeat................................................... END -->
-			
 				 
 				<!-- start content-outer ........................................................................................................................START -->
 				<div id="content-outer">
