@@ -9,7 +9,6 @@
    <class>br.com.wgengenharia.manager.model.Client</class>
    <class>br.com.wgengenharia.manager.model.Order</class>  
    <class>br.com.wgengenharia.manager.model.Product</class>  
-   <class>br.com.wgengenharia.manager.model.User</class>
    <class>br.com.wgengenharia.manager.model.Sale</class>
    <class>br.com.wgengenharia.manager.model.Address</class>  
    <class>br.com.wgengenharia.manager.model.Branch</class>  
@@ -18,7 +17,7 @@
    <class>br.com.wgengenharia.manager.model.Module</class>  
     <properties>
       <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
       <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
       <property name="javax.persistence.jdbc.user" value="DCV7_FUS_DES"/>
