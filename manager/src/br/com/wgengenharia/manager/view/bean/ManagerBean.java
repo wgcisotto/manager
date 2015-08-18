@@ -36,6 +36,8 @@ import br.com.wgengenharia.manager.model.Employee;
 import br.com.wgengenharia.manager.model.Module;
 import br.com.wgengenharia.manager.model.Product;
 import br.com.wgengenharia.manager.model.Sale;
+import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
+import br.com.wgengenharia.manager.utils.AuthenticationUtil;
 
 @ManagedBean(name="manager")
 @SessionScoped
@@ -76,15 +78,21 @@ public class ManagerBean implements Serializable {
 	private List<Card> filteredCardCash;
 	private String globalFilterCardCash;
 	private List<Sale> salesDay;
+	private Card sale;
+	private Product selectedProductSale;
 	//SALES
 	private SaleBO saleBO;
 	
 	//DEFAULT
 	public EntityManager em;
 	
+	private AuthenticationBean userInfo;
+	
 	public ManagerBean() {
 		//new no BO
 		try {
+			userInfo = AuthenticationUtil.getUserInfo();
+			
 			em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 			clients = new ArrayList<>();
 			
@@ -167,6 +175,13 @@ public class ManagerBean implements Serializable {
 		this.newProduct = new Product();
 	}
 	
+	public void updateLucreNewPrd(){
+		this.newProduct.calculateLucre();
+	}
+	
+	public void updateLucreEditPrd(){
+		this.selectedProduct.calculateLucre();
+	}
 	
 	//Metodos Comanda
 	public void addCard(){
@@ -330,50 +345,60 @@ public class ManagerBean implements Serializable {
 		}
 	}
 	
-	
-	public void teste(){
-		try {
-			BranchBO bBO = new BranchBO(em);
-			Branch b = new Branch();
-			b.setName("ITAP DA SERRA");
-			
-			bBO.insert(b);
-			
-			ModuleBO mBO = new ModuleBO(em);
-			Module m = new Module();
-			m.setType("LANCHONETE");
-			
-			mBO.insert(m);
-			
-			CompanyBO cBO = new CompanyBO(em);
-			Company c = new Company();
-			c.setName("WGEngenharia");
-			c.addBranch(b);
-			c.addModule(m);
-			
-			cBO.insert(c);
-			
-			
-			EmployeeBO eBO = new EmployeeBO(em);
-			Employee e = new Employee();
-			e.setName("William");
-			e.setUser("admin");
-			e.setPass("will00gc");
-			e.addBranch(b);
-			e.setCompany(c);
-			
-			
-			eBO.insert(e);
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-		
+	public void newSale(){
+		this.sale= new Card(); 
 	}
 	
+	public void addProductSale(Product prod){
+		try {
+			sale.addProduct(prod,1);
+			RequestContext.getCurrentInstance().update("formManager:pngListProdSale");
+//			RequestContext.getCurrentInstance().update("formManager:dtbCardCash");
+			RequestContext.getCurrentInstance().update("formManager:pngFindProTab");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	public void addListProductSale(){
+		if(quantityProduct > 0 && quantityProduct != null && !"".equals(quantityProduct)){
+			if(quantityProduct > selectedProductSale.getQuantity()){
+				FacesContext.getCurrentInstance().addMessage("formManager:growlDlgProductQtdeSale", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Quantidade maior do que a permitida"));
+			}else{
+				try {
+					sale.addProduct(selectedProductSale, quantityProduct);
+					quantityProduct = 0;
+					sale.getListGroupProd();
+
+					RequestContext.getCurrentInstance().update("formManager:pngListProdSale");
+//					RequestContext.getCurrentInstance().update("formManager:dtbCardCash");
+					RequestContext.getCurrentInstance().update("formManager:pngFindProTab");
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}else{
+			FacesContext.getCurrentInstance().addMessage("formManager:growlDlgProductQtdeSale", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Selecione uma quantidade valida."));
+		}
+	}
 	
+	public void closeSale(){
+		try {
+			ManagerSaleFacadeInterface manager = ManagerSaleFactory.newInstance(sale,em);
+			manager.persistSale();
+			
+			sale.clear();
+			
+			sale = null;
+			
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
+			
+			salesDay =  saleBO.listSalesDay(Calendar.getInstance());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
@@ -521,4 +546,17 @@ public class ManagerBean implements Serializable {
 	public void setSalesDay(List<Sale> salesDay) {
 		this.salesDay = salesDay;
 	}
+	public Card getSale() {
+		return sale;
+	}
+	public void setSale(Card sale) {
+		this.sale = sale;
+	}
+	public Product getSelectedProductSale() {
+		return selectedProductSale;
+	}
+	public void setSelectedProductSale(Product selectedProductSale) {
+		this.selectedProductSale = selectedProductSale;
+	}
+	
 }
