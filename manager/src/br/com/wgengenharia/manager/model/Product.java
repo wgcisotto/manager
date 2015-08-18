@@ -133,4 +133,10 @@ public class Product implements Serializable {
 		return quantity.toString();
 	}
 	
+	public void calculateLucre(){
+		if(this.price != null && this.cost != null){
+			this.lucre = (((price - cost) * 100) / cost);
+		}
+	}
+	
 }
