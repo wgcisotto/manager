@@ -69,7 +69,7 @@
 				    </p:fieldset>
           </p:panelGrid>
           <f:facet name="footer">
-            <p:panelGrid columns="2" style="float: right;">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
 	            <h:commandButton styleClass="btn btn-primary" value="Incluir">
 	              <p:ajax event="click" listener="#{manager.addCategory}" process="@this pngCadCat"  oncomplete="handleAddCategoryRequest(xhr, status, args)" update="pngCadCat, dtbCategory growlDlgCategory" />
 	            </h:commandButton>

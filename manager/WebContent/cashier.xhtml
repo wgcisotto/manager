@@ -15,8 +15,8 @@
          
         
          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-          
           <h:commandButton styleClass="btn btn-primary btn-lg" value="Venda Rapida">
+             <p:ajax event="click" process="@this"  oncomplete="PF('dlgListProdSale').show();" listener="#{manager.newSale}"/>
           </h:commandButton>
           
           <h:commandButton styleClass="btn btn-danger btn-lg" value="Fechar Caixa">
@@ -26,11 +26,12 @@
          </p:panelGrid>
          
          <br/>
+         <br/>
         
           
          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
           <img src="resources/images/icons/card_icon.gif" width="25" height="24" alt="" />
-          <h:outputText value="Comandas" styleClass="hearder_cash"/>         
+          <h:outputText value="Comandas" styleClass="hearder_cash" rendered="false"/>         
          </p:panelGrid>  
          
         
@@ -85,7 +86,7 @@
          
         <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
           <img src="resources/images/icons/rel_icon.png" width="25" height="24" alt="" />
-          <h:outputText value="Vendas" styleClass="hearder_cash"/>
+          <h:outputText value="Vendas" styleClass="hearder_cash" rendered="false"/>
         </p:panelGrid>
         
         
@@ -286,6 +287,175 @@
                 </h:commandButton>
               </p:panelGrid>            
             </f:facet>
+        </p:dialog>
+        
+         
+         <p:dialog header="Produtos" id="dlgListProdSale" widgetVar="dlgListProdSale" minHeight="40" resizable="false" width="1100" modal="true" onShow="btnClick('formManager:updPngListProdSale')" >
+          <p:commandButton id="updPngListProdSale" update="pngListProdSale" style="display: none;"/>
+           <p:panelGrid id="pngListProdSale"  columns="1" styleClass="panelgrid_sem_borda">
+              
+            <p:panelGrid columns="2">  
+            
+              <h:commandButton id="btnOpendlgListProductsSale" styleClass="btn btn-primary btn-lg" value="Adicionar Produto">
+                <p:ajax event="click" oncomplete="PF('dlgAddProductSale').show();"  update="pngFindProTab"/>
+              </h:commandButton>
+            
+              <h:commandButton id="btnCloseSale" styleClass="btn btn-danger btn-lg" value="Finalizar">
+                <p:ajax event="click" oncomplete="PF('dlgListProdSale').hide();" listener="#{manager.closeSale}" update="dtbSaleDay"/>
+              </h:commandButton> 
+            
+            </p:panelGrid>
+             
+             <p:dataTable id="dtbProductsSale"  var="prd" value="#{manager.sale.listGroupProd}" 
+               emptyMessage="Nenhum Produto encontrado nesta Comanda" >
+                 <f:facet name="header">
+                     Produtos Comanda
+                 </f:facet>
+ 
+                 <p:column headerText="Cod" width="55"/>
+          
+                 <p:column headerText="Nome" width="475"/>
+          
+                 <p:column headerText="Quant." width="70"/>
+          
+                 <p:column headerText="Un.R$" width="80"/>
+          
+                 <p:column headerText="Total R$" width="85"/>
+                 
+                 <p:column width="90"/>
+                 
+                 <p:subTable var="item" value="#{prd.value}">
+                   
+                    <p:column>
+                        <h:outputText value="#{item.product.id_product}"/>
+                    </p:column> 
+            
+                    <p:column>
+                        <h:outputText value="#{item.product.name}"/>
+                    </p:column> 
+            
+                    <p:column>
+                        <h:outputText value="#{item.quantity}"/>
+                    </p:column> 
+            
+                    <p:column>
+                        <h:outputText value="#{item.product.price}">
+                          <f:convertNumber pattern="#,##0.00"/>  
+                        </h:outputText>
+                    </p:column>
+            
+                    <p:column>
+                        <h:outputText value="#{item.total}">
+                            <f:convertNumber pattern="#,##0.00"/>  
+                        </h:outputText>
+                    </p:column>
+            
+                    <p:column>
+                      <p:panelGrid columns="3">
+                        <p:commandButton icon="ui-icon-plus" action="#{manager.sale.add(item.product)}" title="Adicionar +1" styleClass="btn_opcoes"/>
+                        <p:commandButton icon="ui-icon-minus" action="#{manager.sale.remove(item.product)}" title="Remover -1" styleClass="btn_opcoes"/>
+                        <p:commandButton icon="ui-icon-close" action="#{manager.sale.removeAll(item.product)}" title="Remover todos" styleClass="btn_opcoes"/>
+                      </p:panelGrid>
+                    </p:column>
+            
+                </p:subTable>
+
+               
+                 
+             </p:dataTable>
+            </p:panelGrid>
+            
+            <f:facet name="footer">
+              <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+                <h:commandButton styleClass="btn btn-primary" value="Fechar">
+                  <p:ajax event="click" oncomplete="PF('dlgListProdSale').hide();" listener="#{manager.sale.clear}"/>
+                </h:commandButton>
+              </p:panelGrid>            
+            </f:facet>
+        </p:dialog>
+        
+         <p:dialog header="Busca Produto" widgetVar="dlgAddProductSale" minHeight="40" resizable="false" modal="true" width="905" onShow="btnClick('formManager:updPngFindProTabSale')" >
+          <p:commandButton id="updPngFindProTabSale" update="pngFindProTabSale" style="display: none;"/>
+           <p:panelGrid id="pngFindProTabSale"  columns="1" styleClass="panelgrid_sem_borda">          
+            <p:dataTable id="dtbListPrdSale" widgetVar="dtbListPrdSale" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado" 
+               filteredValue="#{manager.filteredProducts}" 
+               rowStyleClass="#{prd.quant eq '0' ? 'dtb_product_baixo_estoque' :  null }">
+       
+                <p:ajax event="rowSelect" listener="#{manager.onRowSelectProduct}" update="@form"/>
+   
+                <f:facet name="header">
+                    <p:outputPanel id="dtbHeader" styleClass="search_align">
+                        <h:outputText value="Search: " />
+                        <p:inputText id="globalFilter" onkeyup="PF('dtbListPrdSale').filter()" value="#{manager.globalFilterProduct}" style="width:150px" placeholder="Digite"/>
+                    </p:outputPanel>
+                </f:facet>
+   
+                 
+                <p:column headerText="Nome" sortBy="#{prd.name}" filterBy="#{prd.name}" filterMatchMode="contains" width="360">
+                  <h:outputText value="#{prd.name}" />
+                  <f:facet name="filter">
+                    <h:inputText style="display:none;"/>
+                  </f:facet>
+                </p:column>
+         
+                <p:column headerText="Preço" sortBy="#{prd.price}" width="85">
+                  <h:outputText value="#{prd.price}">
+                    <f:convertNumber pattern="#,##0.00"/>  
+                  </h:outputText>
+                </p:column>
+         
+                <p:column headerText="Quant." sortBy="#{prd.quantity}" width="90">  
+                  <h:outputText value="#{prd.quantity}" />
+                </p:column>
+         
+                <p:column headerText="Cod Barras" sortBy="#{prd.barcode}" filterBy="#{prd.barcode}" filterMatchMode="contains" width="200">
+                  <h:outputText value="#{prd.barcode}" />
+                  <f:facet name="filter">
+                    <h:inputText style="display:none;"/>
+                  </f:facet>
+                </p:column>
+         
+                <p:column style="width:80px">
+                  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                    <p:commandButton action="#{manager.addProductSale(prd)}" icon="ui-icon-circle-check" styleClass="btn_opcoes"         
+                      title="Adicionar Produto" disabled="#{prd.quant eq '0'}" />
+                  
+                   
+                    <p:commandButton onclick="PF('dlgListProductsSale').show();" icon="ui-icon-circle-plus"   styleClass="btn_opcoes"      
+                      title="Adicionar Produtos" disabled="#{prd.quant eq '0'}">
+                      <f:setPropertyActionListener value="#{prd}" target="#{manager.selectedProductCash}"/>
+                    </p:commandButton>
+                  </p:panelGrid>
+                  
+                </p:column>
+          
+            </p:dataTable>
+           </p:panelGrid>
+            <br/>
+            <f:facet name="footer">
+              <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+                <h:commandButton styleClass="btn btn-primary" value="Fechar">
+                  <p:ajax event="click" process="@this dlgListProducts"  oncomplete="PF('dlgAddProductSale').hide();" update="dtbCardCash"/>
+                </h:commandButton>
+              </p:panelGrid>
+            </f:facet>
+        </p:dialog>
+        
+        
+        
+        <p:dialog id="dlgListProductsSale" header="Quantidade de Produtos" widgetVar="dlgListProductsSale" minHeight="40" resizable="false" modal="true">
+          <p:growl id="growlDlgProductQtdeSale" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngQtdeProdSale"  columns="1" styleClass="panelgrid_sem_borda">
+            <p:outputLabel value="Quantidade"/>
+            <p:spinner value="#{manager.quantityProduct}"/>
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;">
+              <h:commandButton styleClass="btn btn-primary" value="OK">
+                <p:ajax event="click" process="@this dlgListProductsSale"  listener="#{manager.addListProductSale}" oncomplete="PF('dlgListProductsSale').hide();"/>
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
         </p:dialog>
         
         </ui:define>
