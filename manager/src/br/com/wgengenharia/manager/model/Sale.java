@@ -15,7 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -37,8 +37,10 @@ public class Sale implements Serializable {
 	@Column(name="ID_SALE")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqSale")
 	private int id_sale;
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-  @JoinTable(name="TAB_SALE_PRODUCT",joinColumns={@JoinColumn(name="SALE_ID", referencedColumnName="ID_SALE")}, inverseJoinColumns={@JoinColumn(name="PRODUCT_ID", referencedColumnName="ID_PRODUCT")})
+	@ManyToMany(cascade=CascadeType.ALL)
+  @JoinTable(name="TAB_SALE_PRODUCT",
+  	joinColumns={@JoinColumn(name="SALE_ID")}, 
+  	inverseJoinColumns={@JoinColumn(name="PRODUCT_ID")})
 	private List<Product> products;
 	@Column(name = "DATE_SALE")
 	@Temporal(TemporalType.DATE)
