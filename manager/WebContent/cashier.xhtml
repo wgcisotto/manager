@@ -20,6 +20,7 @@
           </h:commandButton>
           
           <h:commandButton styleClass="btn btn-danger btn-lg" value="Fechar Caixa">
+            <p:ajax event="click" listener="#{manager.closeCash}"/>
           </h:commandButton>
           
          
@@ -223,9 +224,6 @@
 	           
 	           <p:dataTable id="dtbProductsCard"  var="prd" value="#{manager.selectedCardCash.listGroupProd}" 
 	             emptyMessage="Nenhum Produto encontrado nesta Comanda"  rendered="#{manager.selectedCardCash.size > 0}">
-							   <f:facet name="header">
-							       Produtos Comanda
-							   </f:facet>
  
 	               <p:column headerText="Cod" width="55"/>
 	        
