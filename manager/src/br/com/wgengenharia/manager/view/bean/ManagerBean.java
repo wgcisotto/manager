@@ -331,11 +331,14 @@ public class ManagerBean implements Serializable {
 	public void closeCard(){
 		try {
 			ManagerSaleFacadeInterface manager = ManagerSaleFactory.newInstance(selectedCardCash,em);
+			selectedCardCash.clear();
+			selectedCardCash = null;
+			
 			manager.persistSale();
 			
-			selectedCardCash.clear();
 			
-			selectedCardCash = null;
+//			cardBO.update(selectedCard); 
+			
 			
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
 			
@@ -397,6 +400,15 @@ public class ManagerBean implements Serializable {
 			salesDay =  saleBO.listSalesDay(Calendar.getInstance());
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	
+	public void closeCash(){
+		for (Card card : cards) {
+			if(card.getProducts().size() > 0){
+				cardBO.update(card);
+			}
 		}
 	}
 	
