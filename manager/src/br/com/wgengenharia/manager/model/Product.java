@@ -23,7 +23,7 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProduct")
 	private int id_product;
 	@Column(name="BARCODE", length=100)
-	private Long barcode;
+	private String barcode;
 	@Column(name="NAME", length=50)
 	private String name;
 	@Column(name="DESCRIPTION", length=100)
@@ -49,11 +49,11 @@ public class Product implements Serializable {
 		this.id_product = id_product;
 	}
 	
-	public Long getBarcode() {
+	public String getBarcode() {
 		return barcode;
 	}
 	
-	public void setBarcode(Long barcode) {
+	public void setBarcode(String barcode) {
 		this.barcode = barcode;
 	}
 

@@ -130,8 +130,7 @@
                   </p:panelGrid>
                   <p:panelGrid id="pngBarcode" columns="1" styleClass="panelgrid_sem_borda">
                    <p:outputLabel value="Codigo de Barras: "/>
-                   <p:inputText value="#{manager.newProduct.barcode}" size="50"  styleClass="inputTextDisabled" disabled="true"/>
-                   <p:commandButton icon="ui-icon-grip-dotted-horizontal" onclick="PF('dlgProductBarcode').show()" process="@this"/>
+                   <p:inputText id="prdBarcode" value="#{manager.newProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
                   </p:panelGrid>
                 </p:tab>
                 <p:tab id="tabCadProdComp" title="Cadastro Completo">
@@ -162,19 +161,6 @@
                
             </f:facet>
 			   </p:panelGrid>
-				</p:dialog>
-				
-				<p:dialog id="dlgProductBarcode" header="Código de barras" widgetVar="dlgProductBarcode" minHeight="40" resizable="false" modal="true">
-				  <p:panelGrid id="dlgNewBarcode" columns="1" styleClass="panelgrid_sem_borda">
-            <p:inputText id="prdBarcode" value="#{manager.newProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
-				  </p:panelGrid>
-				  <f:facet name="footer">
-            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">				  
-			          <h:commandButton styleClass="btn btn-primary" value="OK">
-			            <p:ajax event="click" process="prdBarcode"  oncomplete="PF('dlgProductBarcode').hide();" update="formManager:pngProduct dlgNewBarcode"/>
-			          </h:commandButton>
-	          </p:panelGrid>
-				  </f:facet>
 				</p:dialog>
 				
          
@@ -224,8 +210,7 @@
                   </p:panelGrid>
                   <p:panelGrid id="pngBarcodeEdit" columns="1" styleClass="panelgrid_sem_borda">
                    <p:outputLabel value="Codigo de Barras: "/>
-                   <p:inputText value="#{manager.selectedProduct.barcode}" size="50"  styleClass="inputTextDisabled" disabled="true"/>
-                   <p:commandButton icon="ui-icon-grip-dotted-horizontal" onclick="PF('dlgProductBarcodeEdit').show()" process="@this"/>
+                   <p:inputText value="#{manager.selectedProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
                   </p:panelGrid>
                 </p:tab>
             </p:tabView>
@@ -248,20 +233,6 @@
          </p:panelGrid>
         </p:dialog>
         
-        <p:dialog id="dlgProductBarcodeEdit" header="Código de barras" widgetVar="dlgProductBarcodeEdit" minHeight="40" resizable="false" modal="true">
-          <p:panelGrid id="dlgNewBarcodeEdit" columns="1" styleClass="panelgrid_sem_borda">
-            <p:inputText value="#{manager.selectedProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
-          </p:panelGrid>
-          <f:facet name="footer">
-            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
-	            <h:commandButton styleClass="btn btn-primary" value="OK">
-	              <p:ajax event="click" process="@this dlgNewBarcodeEdit"  oncomplete="PF('dlgProductBarcodeEdit').hide();" update="formManager:pngProductEdit"/>
-              </h:commandButton>
-            </p:panelGrid>
-          </f:facet>
-        </p:dialog>
-        
-       
 				<script type="text/javascript">
 			    function handleAddProductRequest(xhr, status, args) {
 			        if(args.validationFailed) {

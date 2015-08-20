@@ -99,7 +99,7 @@
                
                <p:column headerText="Data/Hora">
                 <h:outputText value="#{sale.time}">
-                  <f:convertDateTime pattern="dd/MM/yyyy - HH:mm" locale="pt,BR" timeZone="Brazil/East"/> 
+                  <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" locale="pt,BR" timeZone="Brazil/East"/> 
                 </h:outputText>
                </p:column>
                <p:column headerText="Total">
@@ -197,9 +197,9 @@
             <p:spinner value="#{manager.quantityProduct}"/>
           </p:panelGrid>
           <f:facet name="footer">
-            <p:panelGrid columns="2" style="float: right;">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
 	            <h:commandButton styleClass="btn btn-primary" value="OK">
-	              <p:ajax event="click" process="@this dlgListProducts"  listener="#{manager.addListProductCard}" oncomplete="PF('dlgListProducts').hide();"/>
+	              <p:ajax event="click" process="@this dlgListProducts"  listener="#{manager.addListProductCard}" update="pngQtdeProdCard" oncomplete="PF('dlgListProducts').hide();"/>
 	            </h:commandButton>
             </p:panelGrid>
           </f:facet>
@@ -298,18 +298,15 @@
                 <p:ajax event="click" oncomplete="PF('dlgAddProductSale').show();"  update="pngFindProTab"/>
               </h:commandButton>
             
-              <h:commandButton id="btnCloseSale" styleClass="btn btn-danger btn-lg" value="Finalizar">
+              <h:commandButton id="btnCloseSale" styleClass="btn btn-danger btn-lg" value="Finalizar" disabled="#{manager.sale.size == 0}">
                 <p:ajax event="click" oncomplete="PF('dlgListProdSale').hide();" listener="#{manager.closeSale}" update="dtbSaleDay"/>
               </h:commandButton> 
             
             </p:panelGrid>
              
-             <p:dataTable id="dtbProductsSale"  var="prd" value="#{manager.sale.listGroupProd}" 
+             <p:dataTable id="dtbProductsSale"  var="prd" value="#{manager.sale.listGroupProd}"  rendered="#{manager.sale.size > 0}"
                emptyMessage="Nenhum Produto encontrado nesta Comanda" >
-                 <f:facet name="header">
-                     Produtos Comanda
-                 </f:facet>
- 
+
                  <p:column headerText="Cod" width="55"/>
           
                  <p:column headerText="Nome" width="475"/>
@@ -448,9 +445,9 @@
             <p:spinner value="#{manager.quantityProduct}"/>
           </p:panelGrid>
           <f:facet name="footer">
-            <p:panelGrid columns="2" style="float: right;">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
               <h:commandButton styleClass="btn btn-primary" value="OK">
-                <p:ajax event="click" process="@this dlgListProductsSale"  listener="#{manager.addListProductSale}" oncomplete="PF('dlgListProductsSale').hide();"/>
+                <p:ajax event="click" process="@this dlgListProductsSale"  listener="#{manager.addListProductSale}" update="pngQtdeProdSale" oncomplete="PF('dlgListProductsSale').hide();"/>
               </h:commandButton>
             </p:panelGrid>
           </f:facet>
