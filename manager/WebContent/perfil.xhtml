@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Meus Dados
+        </ui:define>
+        <ui:define name="default">
+          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+            <p:outputLabel value="Nome: *"/>
+            <p:inputText />
+            <p:outputLabel value="Telefone: "/>
+            <p:inputText />
+            <p:outputLabel value="Email: *"/>
+            <p:inputText />
+            <p:outputLabel value="Senha: *"/>
+            <p:inputText />
+          </p:panelGrid>
+          
+          <br/>
+          
+          <p:fieldset legend="Permissão">
+				    <p:selectOneRadio id="smcPerm" layout="grid" columns="1">
+				        <f:selectItem itemLabel="Administrador" itemValue="adm" />
+				        <f:selectItem itemLabel="Usuario" itemValue="user" />
+				    </p:selectOneRadio>
+          </p:fieldset>
+          
+          <br/>
+              
+          <p:commandButton value="Salvar"/>     
+        </ui:define>
+    </ui:decorate>
+</html>

@@ -53,7 +53,7 @@
     <p:menubar>
         <p:submenu label="Financeiro" icon="ui-icon-home">
             <p:menuitem value="Caixa"  icon="ui-icon-folder-open"  outcome="cashier.xhtml" />
-            <p:menuitem value="Historico" icon="ui-icon-disk"  outcome="cashier.xhtml"/>
+            <p:menuitem value="Historico" icon="ui-icon-disk"  outcome="history.xhtml"/>
         </p:submenu>
         
         <p:submenu label="Mural" icon="ui-icon-clipboard">
@@ -80,9 +80,9 @@
         
         <f:facet name="options">
 				    <p:menuButton value="#{auth.employee.company.name}" iconPos="right" >
-				        <p:menuitem value="Usuarios" update="messages" icon="ui-icon-person" outcome="cashier.xhtml"/>
-				        <p:menuitem value="Perfil" update="messages" icon="ui-icon-contact" outcome="cashier.xhtml"/>
-				        <p:menuitem value="Empresa" update="messages" icon="ui-icon-home" outcome="cashier.xhtml"/>
+				        <p:menuitem value="Usuarios" update="messages" icon="ui-icon-person" outcome="users.xhtml"/>
+				        <p:menuitem value="Perfil" update="messages" icon="ui-icon-contact" outcome="perfil.xhtml"/>
+				        <p:menuitem value="Empresa" update="messages" icon="ui-icon-home" outcome="company.xhtml"/>
 				        <p:separator />
 				        <p:menuitem value="Logout" icon="ui-icon-extlink" action="#{auth.logout}" process="@this"/>
 				    </p:menuButton>
