@@ -14,26 +14,19 @@ import javax.persistence.EntityManager;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
-import br.com.wgengenharia.manager.business.BranchBO;
 import br.com.wgengenharia.manager.business.CardBO;
 import br.com.wgengenharia.manager.business.CategoryBO;
 import br.com.wgengenharia.manager.business.ClientBO;
-import br.com.wgengenharia.manager.business.CompanyBO;
-import br.com.wgengenharia.manager.business.EmployeeBO;
-import br.com.wgengenharia.manager.business.ModuleBO;
 import br.com.wgengenharia.manager.business.ProductBO;
 import br.com.wgengenharia.manager.business.SaleBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
 import br.com.wgengenharia.manager.factory.ManagerSaleFactory;
-import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Card;
 import br.com.wgengenharia.manager.model.Category;
 import br.com.wgengenharia.manager.model.Client;
-import br.com.wgengenharia.manager.model.Company;
-import br.com.wgengenharia.manager.model.Employee;
-import br.com.wgengenharia.manager.model.Module;
 import br.com.wgengenharia.manager.model.Product;
 import br.com.wgengenharia.manager.model.Sale;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
@@ -78,6 +71,7 @@ public class ManagerBean implements Serializable {
 	private List<Card> filteredCardCash;
 	private String globalFilterCardCash;
 	private List<Sale> salesDay;
+	private List<Sale> sales;
 	private Card sale;
 	private Product selectedProductSale;
 	//SALES
@@ -111,7 +105,7 @@ public class ManagerBean implements Serializable {
 			categories = categoryBO.listCategories();
 			cards = cardBO.listCards();
 			salesDay = saleBO.listSalesDay(Calendar.getInstance());
-			
+			sales = saleBO.listSales();
 			
 			
 			// carrega para tela de produto 
@@ -558,6 +552,12 @@ public class ManagerBean implements Serializable {
 	public void setSalesDay(List<Sale> salesDay) {
 		this.salesDay = salesDay;
 	}
+	public List<Sale> getSales() {
+		return sales;
+	}
+	public void setSales(List<Sale> sales) {
+		this.sales = sales;
+	}
 	public Card getSale() {
 		return sale;
 	}
@@ -570,5 +570,23 @@ public class ManagerBean implements Serializable {
 	public void setSelectedProductSale(Product selectedProductSale) {
 		this.selectedProductSale = selectedProductSale;
 	}
+	
+	
+	 private UploadedFile file;
+	 
+   public UploadedFile getFile() {
+       return file;
+   }
+
+   public void setFile(UploadedFile file) {
+       this.file = file;
+   }
+    
+   public void upload() {
+       if(file != null) {
+           FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+           FacesContext.getCurrentInstance().addMessage(null, message);
+       }
+   }
 	
 }

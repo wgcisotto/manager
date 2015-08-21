@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Historico
+        </ui:define>
+        <ui:define name="default">
+         
+         
+         <p:messages id="msgHistory" showDetail="true" autoUpdate="true" closable="true" /> 
+         
+        
+         <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+          <h:commandButton styleClass="btn btn-primary btn-lg" value="Venda Rapida">
+             <p:ajax event="click" process="@this"  oncomplete="PF('dlgListProdSale').show();" listener="#{manager.newSale}"/>
+          </h:commandButton>
+          
+          <h:commandButton styleClass="btn btn-danger btn-lg" value="Fechar Caixa">
+            <p:ajax event="click" listener="#{manager.closeCash}"/>
+          </h:commandButton>
+          
+         
+         </p:panelGrid>
+         
+         <br/>
+         <br/>
+        
+         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+           <p:dataTable id="dtbSales" widgetVar="dtbSales" var="sale" value="#{manager.sales}" emptyMessage="Nenhuma Venda"
+               scrollRows="30" scrollable="true" liveScroll="true" scrollHeight="auto"
+               rowKey="#{sale.id_sale}">
+               
+               <p:column headerText="Data/Hora">
+                <h:outputText value="#{sale.time}">
+                  <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" locale="pt,BR" timeZone="Brazil/East"/> 
+                </h:outputText>
+               </p:column>
+               <p:column headerText="Total">
+                <h:outputText value="#{sale.total}">
+                    <f:convertNumber pattern="#,##0.00"/>  
+                </h:outputText>
+               </p:column>
+                <p:column style="width:40px;text-align: center">
+                <p:commandButton icon="ui-icon-cart" styleClass="btn_opcoes"/>
+               </p:column>
+	               
+	            <p:columnGroup type="footer">
+	                <p:row>
+	                    <p:column footerText="Total: " style="text-align:right"/>
+	                    <p:column footerText="R$ 00,00" style="text-align:right"/>
+	                </p:row>
+	            </p:columnGroup>
+               
+           </p:dataTable>
+         </p:panelGrid>
+        
+        </ui:define>
+    </ui:decorate>
+</html>

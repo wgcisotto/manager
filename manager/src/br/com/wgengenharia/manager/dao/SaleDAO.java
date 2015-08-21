@@ -11,4 +11,6 @@ public interface SaleDAO extends DAOInterface<Sale, Integer>{
 
 	public List<Sale> listSalesDay(Calendar day);
 	
+	public List<Sale> listSales();
+	
 }

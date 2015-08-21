@@ -22,4 +22,10 @@ public class SaleDAOImpl extends DAOImpl<Sale, Integer> implements SaleDAO{
 		query.setParameter("day", day);
     return query.getResultList();
 	}
+
+	@Override
+	public List<Sale> listSales() {
+		TypedQuery<Sale> query = em.createQuery("from Sale", Sale.class);
+    return query.getResultList();
+	}
 }

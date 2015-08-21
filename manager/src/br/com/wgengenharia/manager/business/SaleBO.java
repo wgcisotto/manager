@@ -44,4 +44,10 @@ public class SaleBO implements SaleDAO{
 		return DAO.listSalesDay(day);
 	}
 
+
+	@Override
+	public List<Sale> listSales() {
+		return DAO.listSales();
+	}
+
 }
