@@ -40,7 +40,7 @@
           
           
           <p:dataTable id="dtbCardCash" widgetVar="dtbCard" var="card" value="#{manager.cards}" emptyMessage="Nenhuma Comanda encontrada" 
-               scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="200"
+               scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="auto"
                rowKey="#{card.id_card}" filteredValue="#{manager.filteredCardCash}">
           
              <p:ajax event="rowSelect" listener="#{manager.onRowSelectCard}" update="@form"/>
@@ -93,7 +93,7 @@
         
         
          <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-           <p:dataTable id="dtbSaleDay" widgetVar="dtbSaleDay" var="sale" value="#{manager.salesDay}" emptyMessage="Nenhuma Venda"
+           <p:dataTable id="dtbSaleDay" widgetVar="dtbSaleDay" var="sale" value="#{manager.salesDay}" emptyMessage="Nenhuma Venda Hoje"
                scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="auto"
                rowKey="#{sale.id_sale}">
                
