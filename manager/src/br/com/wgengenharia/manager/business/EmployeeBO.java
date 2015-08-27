@@ -1,9 +1,13 @@
 package br.com.wgengenharia.manager.business;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.EmployeeDAO;
 import br.com.wgengenharia.manager.dao.EmployeeDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
+import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Employee;
 
 public class EmployeeBO implements EmployeeDAO {
@@ -39,7 +43,11 @@ public class EmployeeBO implements EmployeeDAO {
 	public Employee findByEmail(String email) {
 		return DAO.findByEmail(email);
 	}
-	
-	
+
+	@Override
+	public List<Employee> findByCompany(Company company) {
+		return DAO.findByCompany(company);
+	}
+
 	
 }

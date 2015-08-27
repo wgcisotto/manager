@@ -35,4 +35,10 @@ public class ModuleBO implements ModuleDAO {
 		return DAO.findById(id);
 	}
 
+
+	@Override
+	public Module findByName(String moduleName) {
+		return DAO.findByName(moduleName);
+	}
+
 }
