@@ -14,7 +14,8 @@
    <class>br.com.wgengenharia.manager.model.Branch</class>  
    <class>br.com.wgengenharia.manager.model.Company</class>  
    <class>br.com.wgengenharia.manager.model.Employee</class>  
-   <class>br.com.wgengenharia.manager.model.Module</class>  
+   <class>br.com.wgengenharia.manager.model.Module</class>
+   <class>br.com.wgengenharia.manager.model.Profile</class>    
     <properties>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
