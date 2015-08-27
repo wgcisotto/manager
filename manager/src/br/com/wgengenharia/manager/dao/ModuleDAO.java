@@ -5,6 +5,6 @@ import br.com.wgengenharia.manager.model.Module;
 
 public interface ModuleDAO extends DAOInterface<Module, Integer> {
 	
-	
+	public Module findByName(String moduleName);
 
 }

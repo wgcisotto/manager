@@ -40,6 +40,8 @@ public class Product implements Serializable {
 	private Integer quantity_alert;
 	@ManyToOne
 	private Category Category;
+	@ManyToOne
+	private Branch branch;
 
 	public int getId_product() {
 		return id_product;
@@ -119,6 +121,14 @@ public class Product implements Serializable {
 	
 	public void setCategory(Category category) {
 		Category = category;
+	}
+
+	public Branch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
 	}
 
 	public void removeFromStock() {

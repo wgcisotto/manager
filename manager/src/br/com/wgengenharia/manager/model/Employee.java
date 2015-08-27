@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -34,6 +35,9 @@ public class Employee {
 
 	@Column(name="NAME", nullable=false)
 	private String name;
+	
+	@Column(name="PHONE", nullable=false)
+	private String phone;
 
   @OneToOne(cascade = CascadeType.ALL, optional = true, fetch = FetchType.EAGER, orphanRemoval = true)
   @JoinColumn(name="COMPANY", nullable=false)
@@ -48,6 +52,12 @@ public class Employee {
 	
 	@Column(name="PASS", nullable=false )
 	private String pass;
+	
+	@ManyToOne
+	private Profile profile;
+	
+	@ManyToOne
+	private Address address;
 
 	
 	public String getName() {
@@ -55,6 +65,12 @@ public class Employee {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	public Company getCompany() {
 		return company;
@@ -80,9 +96,25 @@ public class Employee {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-
+	public int getId_employee() {
+		return id_employee;
+	}
+	public void setId_employee(int id_employee) {
+		this.id_employee = id_employee;
+	}
+	public Profile getProfile() {
+		return profile;
+	}
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 	//metodos
-	
 	public void addBranch(Branch branch){
 		this.branchs.add(branch);
 	}

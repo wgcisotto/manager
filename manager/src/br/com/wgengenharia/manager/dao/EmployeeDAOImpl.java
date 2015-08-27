@@ -1,10 +1,15 @@
 package br.com.wgengenharia.manager.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import br.com.wgengenharia.manager.dao.model.DAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
+import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Employee;
+import br.com.wgengenharia.manager.model.Product;
 
 public class EmployeeDAOImpl extends DAOImpl<Employee, Integer> implements EmployeeDAO {
 
@@ -20,5 +25,11 @@ public class EmployeeDAOImpl extends DAOImpl<Employee, Integer> implements Emplo
     return query.getSingleResult();
 	}
 
+	@Override
+	public List<Employee> findByCompany(Company company) {
+		TypedQuery<Employee> query = em.createQuery("from Employee e where e.company = :company", Employee.class);
+		query.setParameter("company", company);
+    return query.getResultList();
+	}
 
 }

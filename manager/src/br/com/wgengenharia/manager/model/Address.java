@@ -17,12 +17,52 @@ public class Address {
 	@Column(name="ID_ADDRESS")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqAddress")
 	private int id_address;
+	@Column(name="STREET")
+	private String Street;
+	@Column(name="DISTRICT")
+	private String district;
+	@Column(name="CITY")
+	private String citys;
+	@Column(name="STATE")
+	private String state;
+	@Column(name="STREET_NUMBER")
+	private Integer number;
 
 	public int getId_address() {
 		return id_address;
 	}
 	public void setId_address(int id_address) {
 		this.id_address = id_address;
+	}
+	public String getStreet() {
+		return Street;
+	}
+	public void setStreet(String street) {
+		Street = street;
+	}
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	public String getCitys() {
+		return citys;
+	}
+	public void setCitys(String citys) {
+		this.citys = citys;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public Integer getNumber() {
+		return number;
+	}
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 	
 	

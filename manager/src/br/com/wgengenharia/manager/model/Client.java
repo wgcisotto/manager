@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,6 +27,8 @@ public class Client implements Serializable{
 	private String name;
 	@Column(name="TEL", length=100)
 	private String tel;
+	@ManyToOne
+	private Profile profile;
 	
 	public int getId_client() {
 		return id_client;
@@ -45,5 +48,10 @@ public class Client implements Serializable{
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	
+	public Profile getProfile() {
+		return profile;
+	}
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
 }
