@@ -64,14 +64,21 @@
             <p:menuitem value="Produto" icon="ui-icon-cart" outcome="product.xhtml"  oncomplete="PF('dtbProducts').clearFilters()"/>
             <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" oncomplete="PF('dtbCategory').clearFilters()" />
             <p:menuitem value="Cliente"  icon="ui-icon-person" outcome="client.xhtml" />
+            <p:menuitem value="Aluno"  icon="ui-icon-person" outcome="client.xhtml" />
             <p:menuitem value="Comanda"  icon="ui-icon-person" outcome="card.xhtml" />
+            <p:menuitem value="Modulo"  icon="ui-icon-person" outcome="card.xhtml" />
         </p:submenu>
  
-        <p:submenu label="Encomenda" icon="ui-icon-note">
+        <p:submenu label="Encomenda" icon="ui-icon-note" rendered="#{sec.hasModule('Lanchonete')}">
             <p:menuitem value="Nova" icon="ui-icon-plus" outcome="product.xhtml" />
             <p:menuitem value="Agenda"  icon="ui-icon-calendar" outcome="category.xhtml" />
             <p:menuitem value="Pendente"  icon="ui-icon-clock" outcome="cashier.xhtml" />
             <p:menuitem value="Historico"  icon="ui-icon-disk" outcome="card.xhtml" />
+        </p:submenu>
+        
+        <p:submenu label="Escolar" icon="ui-icon-note" rendered="#{sec.hasModule('Escolar')}">
+            <p:menuitem value="Chamada" icon="ui-icon-plus" outcome="product.xhtml" />
+            <p:menuitem value="Turma"  icon="ui-icon-calendar" outcome="category.xhtml" />
         </p:submenu>
 
         <p:submenu label="Estoque" icon="ui-icon-cart">
@@ -80,9 +87,9 @@
         
         <f:facet name="options">
 				    <p:menuButton value="#{auth.employee.company.name}" iconPos="right" >
-				        <p:menuitem value="Usuarios" update="messages" icon="ui-icon-person" outcome="users.xhtml"/>
+				        <p:menuitem value="Usuarios/Prof" update="messages" icon="ui-icon-person" outcome="employee.xhtml" rendered="#{sec.hasProfile('Administrador')}"/>
 				        <p:menuitem value="Perfil" update="messages" icon="ui-icon-contact" outcome="perfil.xhtml"/>
-				        <p:menuitem value="Empresa" update="messages" icon="ui-icon-home" outcome="company.xhtml"/>
+				        <p:menuitem value="Empresa" update="messages" icon="ui-icon-home" outcome="company.xhtml"  />
 				        <p:separator />
 				        <p:menuitem value="Logout" icon="ui-icon-extlink" action="#{auth.logout}" process="@this"/>
 				    </p:menuButton>
