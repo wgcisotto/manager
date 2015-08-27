@@ -9,15 +9,19 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 
+import br.com.wgengenharia.manager.business.AddressBO;
 import br.com.wgengenharia.manager.business.BranchBO;
 import br.com.wgengenharia.manager.business.CompanyBO;
 import br.com.wgengenharia.manager.business.EmployeeBO;
 import br.com.wgengenharia.manager.business.ModuleBO;
+import br.com.wgengenharia.manager.business.ProfileBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
+import br.com.wgengenharia.manager.model.Address;
 import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Employee;
 import br.com.wgengenharia.manager.model.Module;
+import br.com.wgengenharia.manager.model.Profile;
 
 
 @ManagedBean(name="auth")
@@ -26,10 +30,8 @@ public class AuthenticationBean {
 	
 	private EntityManager em;
 	
-	private Company company;
 	private CompanyBO companyBO;
 	
-	private List<Branch> branchs;
 	private BranchBO branchBO;
 	
 	private Employee employee;
@@ -63,7 +65,7 @@ public class AuthenticationBean {
 			    session = (HttpSession) ctx.getExternalContext().getSession(false);
 			    session.setAttribute("user", employee);
 			    
-			    setUserInfo();
+//			    setUserInfo();
 			    
 			    return "cashier?faces-redirect=true";
 				}else{
@@ -88,43 +90,62 @@ public class AuthenticationBean {
 		return "login?faces-redirect=true";
 	}
 	
-	
-	public void setUserInfo(){
-		company = employee.getCompany();
-		branchs = employee.getBranchs();
-	}
+//	
+//	public void setUserInfo(){
+//		company = employee.getCompany();
+//		branchs = employee.getBranchs();
+//	}
+//	
 	
 	
 	public void teste(){
 		try {
 			BranchBO bBO = new BranchBO(em);
-			Branch b = new Branch();
-			b.setName("ITAP DA SERRA");
+			Branch b1 = new Branch();
+			b1.setName("ITAP DA SERRA");
+			bBO.insert(b1);
 			
-			bBO.insert(b);
+			Branch b2 = new Branch();
+			b2.setName("EMBU DAS ARTES");
+			bBO.insert(b2);
 			
 			ModuleBO mBO = new ModuleBO(em);
-			Module m = new Module();
-			m.setType("LANCHONETE");
-			
-			mBO.insert(m);
+			Module m = mBO.findByName("Escolar");
 			
 			CompanyBO cBO = new CompanyBO(em);
 			Company c = new Company();
 			c.setName("WGEngenharia");
-			c.addBranch(b);
+			c.addBranch(b1);
+			c.addBranch(b2);
 			c.addModule(m);
 			
 			cBO.insert(c);
 			
+			ProfileBO pBO = new ProfileBO(em);
+			Profile p = pBO.findByName("Administrador");
+			
+			Address ad = new Address();
+			ad.setStreet("Rua major telles");
+			ad.setNumber(171);
+			ad.setCitys("Itap da serra");
+			ad.setDistrict("Centro");
+			ad.setState("SP");
+			
+			AddressBO aBO = new AddressBO(em);
+			aBO.insert(ad);
 			
 			EmployeeBO eBO = new EmployeeBO(em);
 			Employee e = new Employee();
 			e.setName("William");
-			e.setUser("admin");
+			e.setUser("admin@admin.com.br");
 			e.setPass("will00gc");
-			e.addBranch(b);
+			e.addBranch(b1);
+			e.addBranch(b2);
+			e.setProfile(p);
 			e.setCompany(c);
+			e.setPhone("980845866");
+			e.setAddress(ad);
+			
 			
 			
 			eBO.insert(e);
@@ -141,12 +162,12 @@ public class AuthenticationBean {
 	
 	
 
-	public Company getCompany() {
-		return company;
-	}
-	public List<Branch> getBranchs() {
-		return branchs;
-	}
+//	public Company getCompany() {
+//		return company;
+//	}
+//	public List<Branch> getBranchs() {
+//		return branchs;
+//	}
 	public Employee getEmployee() {
 		return employee;
 	}
