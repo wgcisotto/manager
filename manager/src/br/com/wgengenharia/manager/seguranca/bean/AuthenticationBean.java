@@ -1,7 +1,5 @@
 package br.com.wgengenharia.manager.seguranca.bean;
 
-import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -100,26 +98,36 @@ public class AuthenticationBean {
 	
 	public void teste(){
 		try {
-			BranchBO bBO = new BranchBO(em);
-			Branch b1 = new Branch();
-			b1.setName("ITAP DA SERRA");
-			bBO.insert(b1);
-			
-			Branch b2 = new Branch();
-			b2.setName("EMBU DAS ARTES");
-			bBO.insert(b2);
-			
 			ModuleBO mBO = new ModuleBO(em);
 			Module m = mBO.findByName("Escolar");
+			
 			
 			CompanyBO cBO = new CompanyBO(em);
 			Company c = new Company();
 			c.setName("WGEngenharia");
-			c.addBranch(b1);
-			c.addBranch(b2);
+//			c.addBranch(b1);
+//			c.addBranch(b2);
 			c.addModule(m);
-			
 			cBO.insert(c);
+
+			Address a1 = new Address();
+			a1.setCity("Itapecerica da serra");
+			a1.setDistrict("Centro");
+			a1.setNumber(171);
+			a1.setState("SP");
+			a1.setStreet("Rua major telles");
+			a1.setZip_code("06850001");
+			
+			AddressBO abo = new AddressBO(em);
+			abo.insert(a1);
+			
+			BranchBO bBO = new BranchBO(em);
+			Branch b1 = new Branch();
+			b1.setName("ITAP DA SERRA");
+			b1.setCompany(c);
+			b1.setAddress(a1);
+			bBO.insert(b1);
+			
 			
 			ProfileBO pBO = new ProfileBO(em);
 			Profile p = pBO.findByName("Administrador");
@@ -127,7 +135,7 @@ public class AuthenticationBean {
 			Address ad = new Address();
 			ad.setStreet("Rua major telles");
 			ad.setNumber(171);
-			ad.setCitys("Itap da serra");
+			ad.setCity("Itap da serra");
 			ad.setDistrict("Centro");
 			ad.setState("SP");
 			
@@ -139,8 +147,7 @@ public class AuthenticationBean {
 			e.setName("William");
 			e.setUser("admin@admin.com.br");
 			e.setPass("will00gc");
-			e.addBranch(b1);
-			e.addBranch(b2);
+			e.setBranch(b1);
 			e.setProfile(p);
 			e.setCompany(c);
 			e.setPhone("980845866");
