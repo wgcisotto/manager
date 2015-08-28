@@ -18,12 +18,6 @@
 	          <h:commandButton id="btnOpendlgEmp" styleClass="btn btn-primary btn-lg" value="Novo Funcionario">
 	            <p:ajax event="click" oncomplete="PF('dlgEmp').show();" listener="#{company.newEmployee}" update="pngNewEmp" />
 	          </h:commandButton>
-	          <h:commandButton id="btnOpendlgEdit" styleClass="btn btn-success btn-lg" value="Editar Funcionario" disabled="#{company.selectedEmployee == null}">
-	            <p:ajax event="click" oncomplete="PF('dlgEmpEdit').show();"  />
-	          </h:commandButton>
-	          <h:commandButton id="btnDelProd" styleClass="btn btn-danger btn-lg" value="Excluir Funcionario" disabled="#{company.selectedEmployee == null}">
-	            <p:ajax event="click" listener="#{company.delEmployee}" oncomplete="PF('dtbEmp').unselectAllRows();" update="dtbEmp"/>
-	          </h:commandButton>
 	         </p:panelGrid>          
                               
           <p:dataTable id="dtbEmp" widgetVar="dtbEmp" var="emp" value="#{company.employees}" emptyMessage="Nenhum Funcionario encontrado" 
@@ -45,11 +39,17 @@
                     <h:outputText value="#{emp.name}" />
                   </p:column>
                   <p:column>
-                    <h:outputText value="Filial 1" />
+                    <h:outputText value="#{emp.branch.name}" rendered="#{emp.branch != null}" />
+                    <h:outputText value="Administrador" rendered="#{emp.branch == null}" />
                   </p:column>
-                  <p:column style="float: right;" >
-                    <h:commandButton  title="Editar" styleClass="btn_opcoes" style="float: right" image="resources/images/icons/icon_pencil.png"/>
-                  </p:column>
+                 <p:column style="float: right;" >
+                   <p:commandButton id="btnOpendlgEdit" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil" disabled="#{company.selectedEmployee == null}">
+                     <p:ajax event="click" oncomplete="PF('dlgEmpEdit').show();" process="@this" />
+                   </p:commandButton>
+                   <p:commandButton id="btnDelEmp" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" disabled="#{company.selectedEmployee == null}">
+                     <p:ajax event="click" listener="#{company.delEmployee}" oncomplete="PF('dtbEmp').unselectAllRows();" update="@form"/>
+                   </p:commandButton>
+                 </p:column>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                   <p:outputLabel value="#{emp.phone}"/>
@@ -83,16 +83,16 @@
 		           <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
 		             <p:outputLabel value="Rua: "/>
                  <p:outputLabel value="Numero: "/>
-                 <p:inputText value="#{company.newAddress.street}" size="55" />
-                 <p:inputText value="#{company.newAddress.number}" size="15" />
+                 <p:inputText value="#{company.newEmployee.address.street}" size="55" />
+                 <p:inputText value="#{company.newEmployee.address.number}" size="15" />
 		           </p:panelGrid>
 		           <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 		             <p:outputLabel value="Bairro:"/>
 		             <p:outputLabel value="Cidade:"/>
 		             <p:outputLabel value="Estado: "/>
-                 <p:inputText value="#{company.newAddress.district}" size="35" />
-                 <p:inputText value="#{company.newAddress.city}" size="35" />
-                 <p:inputText value="#{company.newAddress.state}" size="3" />
+                 <p:inputText value="#company.newEmployee.address.district}" size="35" />
+                 <p:inputText value="#{company.newEmployee.address.city}" size="35" />
+                 <p:inputText value="#{company.newEmployee.address.state}" size="3" />
 		           </p:panelGrid>
 		           <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
 		             <p:outputLabel value="Email: "/>
@@ -100,9 +100,9 @@
 		             <p:inputText value="#{company.newEmployee.user}" size="55" />
                  <p:inputText value="#{company.newEmployee.pass}" size="15" />
 		           </p:panelGrid>
-		           <p:panelGrid id="pngProfile" columns="1" styleClass="panelgrid_sem_borda">
+		           <p:panelGrid id="pngProfileNew" columns="1" styleClass="panelgrid_sem_borda">
 		            <p:outputLabel value="Perfil: "/>
-				        <p:selectOneRadio id="rdbProfile" >
+				        <p:selectOneRadio id="rdbProfileNew" >
 				            <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
 				            <f:selectItem itemLabel="Funcionario" itemValue="Funcionario" />
 				            <f:selectItem itemLabel="Professor" itemValue="Professor" />
@@ -124,6 +124,60 @@
                 
               </p:panelGrid>
                
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+         
+         <p:dialog id="dlgEmpEdit" header="Edicao de Funcionario " widgetVar="dlgEmpEdit" minHeight="40" resizable="false" modal="true">
+          <p:growl id="growlDlgEmployeeEdit" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngEmployeeEdit" columns="1" styleClass="panelgrid_sem_borda">
+            <p:fieldset>
+               <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                 <p:outputLabel value="ID: "/>
+                 <p:inputText value="#{company.selectedEmployee.id_employee}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
+                 <p:outputLabel value="Nome: "/>
+                 <p:inputText value="#{company.selectedEmployee.name}" size="55" required="true" requiredMessage="Preencha o nome do funcionario"/>      
+                 <p:outputLabel value="Telefone: "/>
+                 <p:inputText value="#{company.selectedEmployee.phone}" size="13" required="true" requiredMessage="Preencha o telefone do funcionario"/>
+               </p:panelGrid>
+               <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                 <p:outputLabel value="Rua: "/>
+                 <p:outputLabel value="Numero: "/>
+                 <p:inputText value="#{company.selectedEmployee.address.street}" size="55" />
+                 <p:inputText value="#{company.selectedEmployee.address.number}" size="15" />
+               </p:panelGrid>
+               <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+                 <p:outputLabel value="Bairro:"/>
+                 <p:outputLabel value="Cidade:"/>
+                 <p:outputLabel value="Estado: "/>
+                 <p:inputText value="#company.selectedEmployee.address.district}" size="35" />
+                 <p:inputText value="#{company.selectedEmployee.address.city}" size="35" />
+                 <p:inputText value="#{company.selectedEmployee.address.state}" size="3" />
+               </p:panelGrid>
+               <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                 <p:outputLabel value="Email: "/>
+                 <p:outputLabel value="Senha Default: "/>
+                 <p:inputText value="#{company.selectedEmployee.user}" size="55" />
+                 <p:inputText value="#{company.selectedEmployee.pass}" size="15" />
+               </p:panelGrid>
+               <p:panelGrid id="pngProfileEdit" columns="1" styleClass="panelgrid_sem_borda">
+                <p:outputLabel value="Perfil: "/>
+                <p:selectOneRadio id="rdbProfileEdit" >
+                    <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+                    <f:selectItem itemLabel="Funcionario" itemValue="Funcionario" />
+                    <f:selectItem itemLabel="Professor" itemValue="Professor" />
+                </p:selectOneRadio>
+               </p:panelGrid>
+            </p:fieldset>
+            <f:facet name="footer">
+              <p:panelGrid columns="2" style="float: right;">
+                <h:commandButton styleClass="btn btn-primary" value="Editar">
+                  <p:ajax event="click" listener="#{company.updateBranch}" process="@this pngEmployeeEdit"  oncomplete="handleEditProductRequest(xhr, status, args)" update="pngEmployeeEdit dtbEmp growlDlgEmployeeEdit pngControleEmp" />
+                </h:commandButton>
+                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                  <p:ajax event="click" oncomplete="PF('dlgEmpEdit').hide();" />
+                </h:commandButton>
+              </p:panelGrid>  
             </f:facet>
          </p:panelGrid>
         </p:dialog>

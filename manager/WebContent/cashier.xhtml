@@ -27,16 +27,15 @@
          </p:panelGrid>
          
          <br/>
-         <br/>
         
           
-         <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+         <p:panelGrid columns="2" styleClass="panelgrid_sem_borda" rendered="#{sec.hasModule('Lanchonete')}">
           <img src="resources/images/icons/card_icon.gif" width="25" height="24" alt="" />
           <h:outputText value="Comandas" styleClass="hearder_cash" rendered="false"/>         
          </p:panelGrid>  
          
         
-         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda" rendered="#{sec.hasModule('Lanchonete')}">
           
           
           <p:dataTable id="dtbCardCash" widgetVar="dtbCard" var="card" value="#{manager.cards}" emptyMessage="Nenhuma Comanda encontrada" 
@@ -82,7 +81,6 @@
                     
          </p:panelGrid>
         
-        <br/>
         <br/>
          
         <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
