@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -12,6 +13,10 @@ import javax.persistence.Table;
 @Table(name = "TAB_BRANCH")
 @SequenceGenerator(name="seqBranch", sequenceName="SEQ_BRANCH",allocationSize=1)
 public class Branch {
+	
+	public Branch() {
+		this.address = new Address();
+	}
 
 	@Id
 	@Column(name="ID_BRANCH")
@@ -21,7 +26,15 @@ public class Branch {
 	@Column(name="NAME")
 	private String name;
 	
+	@Column(name="PHONE")
+	private String phone;
 	
+	@ManyToOne
+	private Company company;
+	
+	@ManyToOne
+	private Address address;
+
 	
 	public int getId_branch() {
 		return id_branch;
@@ -34,5 +47,23 @@ public class Branch {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }

@@ -1,0 +1,175 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Filial
+        </ui:define>
+        <ui:define name="default">
+         
+         <p:messages id="msgBranch" showDetail="true" autoUpdate="true" closable="true" />
+         
+         <p:panelGrid id="pngBranchs" columns="1" styleClass="panelgrid_sem_borda">
+         
+	         <p:panelGrid id="pngControleBranch" columns="3" styleClass="panelgrid_sem_borda"> 
+	          <h:commandButton id="btnOpenBranch" styleClass="btn btn-primary btn-lg" value="Nova Filial">
+	            <p:ajax event="click" oncomplete="PF('dlgBranch').show();" listener="#{company.newBranch}" update="pngBranch"/>
+	          </h:commandButton>
+	         </p:panelGrid>          
+                              
+          <p:dataTable id="dtbBranchs" widgetVar="dtbBranchs" var="bch" value="#{company.branchs}" emptyMessage="Nenhuma Filial encontrado" 
+             selectionMode="single" rowKey="#{bch.id_branch}" filteredValue="#{company.filteredBranchs}">
+     
+              <p:ajax event="rowSelect" listener="#{company.onRowSelectBranch}" update="@form"/>
+ 
+              <f:facet name="header">
+                  <p:outputPanel id="dtbHeader" styleClass="search_align">
+                      <h:outputText value="Search: " />
+                      <p:inputText id="globalFilter" onkeyup="PF('dtbBranchs').filter()" value="#{company.globalFilterBranch}" style="width:150px" placeholder="Digite"/>
+                  </p:outputPanel>
+              </f:facet>
+ 
+              <p:column sortBy="#{bch.name}" filterBy="#{bch.name}" filterMatchMode="contains">
+                <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+	                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+	                  <p:column>
+	                    <h:outputText value="#{bch.name}" />
+	                  </p:column>
+	                  <p:column style="float: right;" >
+					            <p:commandButton id="btnOpendlgEditBranch" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil" disabled="#{company.selectedBranch == null}">
+					              <p:ajax event="click" oncomplete="PF('dlgBranchEdit').show();" update="@form" />
+					            </p:commandButton>
+					            <p:commandButton id="btnDelProd" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" disabled="#{company.selectedBranch == null}">
+					              <p:ajax event="click" listener="#{company.delBranch}" oncomplete="PF('dtbBranchs').unselectAllRows();" update="@form"/>
+					            </p:commandButton>
+	                  </p:column>
+	                </p:panelGrid>
+	                <p:panelGrid columns="1">
+	                  <p:outputLabel value="#{bch.phone}"/>
+	                  <p:outputLabel value="#{bch.address.street} - #{bch.address.number} - #{bch.address.district} - #{bch.address.city} - #{bch.address.state}"/>
+	                </p:panelGrid>
+                </p:panelGrid>
+                <f:facet name="filter">
+                  <h:inputText style="display:none;"/>
+                </f:facet>
+              </p:column>
+              
+       
+          </p:dataTable>
+         
+         </p:panelGrid>
+         
+         <p:dialog id="dlgBranch" header="Cadastro de Filial" widgetVar="dlgBranch" minHeight="40" resizable="false" modal="true">
+            <p:growl id="growlDlgBranch" sticky="true" showDetail="true" life="3000" />
+            <p:panelGrid id="pngBranch" columns="1" styleClass="panelgrid_sem_borda">
+              <fieldset>
+                  <p:panelGrid id="pngBranchInfo" columns="1" styleClass="panelgrid_sem_borda">
+                    <p:outputLabel value="ID: "/>
+                    <p:inputText value="#{company.newBranch.id_branch}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
+                    <p:outputLabel value="Nome: "/>
+                    <p:inputText value="#{company.newBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Filial"/>      
+                    <p:outputLabel value="Telefone: "/>
+                    <p:inputText value="#{company.newBranch.phone}" size="13" />
+                  </p:panelGrid>
+	                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+	                  <p:outputLabel value="Rua: "/>
+	                  <p:outputLabel value="Numero: "/>
+	                  <p:outputLabel value="CEP: "/>
+	                  <p:inputText value="#{company.newBranch.address.street}" size="53" />
+	                  <p:inputText value="#{company.newBranch.address.number}" size="10" />
+	                  <p:inputText value="#{company.newBranch.address.zip_code}" size="10" />
+	                </p:panelGrid>
+	                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+		                <p:outputLabel value="Bairro:"/>
+		                <p:outputLabel value="Cidade:"/>
+		                <p:outputLabel value="Estado: "/>
+		                <p:inputText value="#{company.newBranch.address.district}" size="35" />
+		                <p:inputText value="#{company.newBranch.address.city}" size="35" />
+		                <p:inputText value="#{company.newBranch.address.state}" size="3" />
+                  </p:panelGrid>
+              </fieldset>
+              <f:facet name="footer">
+                <p:panelGrid columns="2" style="float: right;">
+	                <h:commandButton styleClass="btn btn-primary" value="Incluir">
+	                  <p:ajax event="click" listener="#{company.addBranch}" process="@this pngBranch"  oncomplete="handleAddBranchRequest(xhr, status, args)" update="dtbBranchs pngBranchInfo growlDlgBranch" />
+	                </h:commandButton>
+	                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+	                  <f:setPropertyActionListener value="null" target="{company.newBranch}"/> 
+	                  <p:ajax event="click" oncomplete="PF('dlgBranch').hide();" />
+	                </h:commandButton>
+                </p:panelGrid>
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+         
+         <p:dialog id="dlgBranchEdit" header="Edicao de Filial" widgetVar="dlgBranchEdit" minHeight="40" resizable="false" modal="true">
+          <p:growl id="growlDlgBranchEdit" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngBranchEdit" columns="1" styleClass="panelgrid_sem_borda">
+            <p:fieldset>
+	            <p:panelGrid id="pngBranchInfoEdit" columns="1" styleClass="panelgrid_sem_borda">
+	              <p:outputLabel value="ID: "/>
+	              <p:inputText value="#{company.selectedBranch.id_branch}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
+	              <p:outputLabel value="Nome: "/>
+	              <p:inputText value="#{company.selectedBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Filial"/>      
+                <p:outputLabel value="Telefone: "/>
+                <p:inputText value="#{company.selectedBranch.phone}" size="13" />      
+	            </p:panelGrid>
+	            <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+	              <p:outputLabel value="Rua: "/>
+	              <p:outputLabel value="Numero: "/>
+	              <p:outputLabel value="CEP: "/>
+	              <p:inputText value="#{company.selectedBranch.address.street}" size="53" />
+	              <p:inputText value="#{company.selectedBranch.address.number}" size="10" />
+	              <p:inputText value="#{company.selectedBranch.address.zip_code}" size="10" />
+	            </p:panelGrid>
+	            <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+	              <p:outputLabel value="Bairro:"/>
+	              <p:outputLabel value="Cidade:"/>
+	              <p:outputLabel value="Estado: "/>
+	              <p:inputText value="#{company.selectedBranch.address.district}" size="35" />
+	              <p:inputText value="#{company.selectedBranch.address.city}" size="35" />
+	              <p:inputText value="#{company.selectedBranch.address.state}" size="3" />
+	            </p:panelGrid>
+	          </p:fieldset>
+            <f:facet name="footer">
+              <p:panelGrid columns="2" style="float: right;">
+                <h:commandButton styleClass="btn btn-primary" value="Editar">
+                  <p:ajax event="click" listener="#{company.updateBranch}" process="@this pngBranchEdit"  oncomplete="handleEditProductRequest(xhr, status, args)" update="pngBranchInfoEdit dtbBranchs growlDlgBranchEdit pngControleBranch" />
+                </h:commandButton>
+                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                  <p:ajax event="click" oncomplete="PF('dlgBranchEdit').hide();" />
+                </h:commandButton>
+              </p:panelGrid>  
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+        
+        
+        <script type="text/javascript">
+          function handleAddBranchRequest(xhr, status, args) {
+              if(args.validationFailed) {
+                  PF('dlgBrach').jq.effect("shake", {times:2}, 100);
+              }
+              else {
+                  PF('dlgBranch').hide();
+               
+              }
+          }
+          function handleEditBranchRequest(xhr, status, args) {
+              if(args.validationFailed) {
+                  PF('dlgBranchEdit').jq.effect("shake", {times:2}, 100);
+              }
+              else {
+                  PF('dtbBranchs').unselectAllRows();
+                  PF('dlgBranchEdit').hide();
+               
+              }
+          } 
+        </script>
+         
+        </ui:define>
+    </ui:decorate>
+</html>
