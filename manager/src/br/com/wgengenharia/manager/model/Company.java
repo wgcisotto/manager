@@ -23,7 +23,7 @@ public class Company {
 	
 	public Company() {
 		this.modules = new ArrayList<Module>();
-		this.branchs = new ArrayList<Branch>();
+//		this.branchs = new ArrayList<Branch>();
 	}
 	
 	@Id
@@ -36,10 +36,10 @@ public class Company {
   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
   @JoinTable(name="TAB_COMPANY_MODULE",joinColumns={@JoinColumn(name="COMPANY_ID", referencedColumnName="ID_COMPANY")}, inverseJoinColumns={@JoinColumn(name="MODULE_ID", referencedColumnName="ID_MODULE")})
 	private List<Module> modules;
-  
-  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-  @JoinTable(name="TAB_COMPANY_BRANCH",joinColumns={@JoinColumn(name="COMPANY_ID", referencedColumnName="ID_COMPANY")}, inverseJoinColumns={@JoinColumn(name="BRANCH_ID", referencedColumnName="ID_BRANCH")})
-	private List<Branch> branchs;
+//  
+//  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+//  @JoinTable(name="TAB_COMPANY_BRANCH",joinColumns={@JoinColumn(name="COMPANY_ID", referencedColumnName="ID_COMPANY")}, inverseJoinColumns={@JoinColumn(name="BRANCH_ID", referencedColumnName="ID_BRANCH")})
+//	private List<Branch> branchs;
 	
 	
 	public String getName() {
@@ -54,18 +54,18 @@ public class Company {
 	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
-	public List<Branch> getBranchs() {
-		return branchs;
-	}
-	public void setBranchs(List<Branch> branchs) {
-		this.branchs = branchs;
-	}
+//	public List<Branch> getBranchs() {
+//		return branchs;
+//	}
+//	public void setBranchs(List<Branch> branchs) {
+//		this.branchs = branchs;
+//	}
 	
 	//metodos
 	
-	public void addBranch(Branch branch){
-		this.branchs.add(branch);
-	}
+//	public void addBranch(Branch branch){
+//		this.branchs.add(branch);
+//	}
 	
 	public void addModule(Module module){
 		this.modules.add(module);

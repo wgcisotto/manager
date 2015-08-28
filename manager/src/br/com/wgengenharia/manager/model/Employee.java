@@ -25,7 +25,7 @@ import javax.persistence.Table;
 public class Employee {
 
 	public Employee() {
-		this.branchs = new ArrayList<Branch>();
+		this.address = new Address();
 	}
 	
 	@Id
@@ -42,10 +42,9 @@ public class Employee {
   @OneToOne(cascade = CascadeType.ALL, optional = true, fetch = FetchType.EAGER, orphanRemoval = true)
   @JoinColumn(name="COMPANY", nullable=false)
 	private Company company;
-  
-  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-  @JoinTable(name="TAB_EMPLOYEE_BRANCH",joinColumns={@JoinColumn(name="EMPLOYEE_ID", referencedColumnName="ID_EMPLOYEE")}, inverseJoinColumns={@JoinColumn(name="BRANCH_ID", referencedColumnName="ID_BRANCH")})
-	private List<Branch> branchs;
+	
+	@ManyToOne
+	private Branch branch;
 	
 	@Column(name="USER_NAME", nullable=false)
 	private String user;
@@ -78,11 +77,11 @@ public class Employee {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	public List<Branch> getBranchs() {
-		return branchs;
+	public Branch getBranch() {
+		return branch;
 	}
-	public void setBranchs(List<Branch> branchs) {
-		this.branchs = branchs;
+	public void setBranch(Branch branch) {
+		this.branch = branch;
 	}
 	public String getUser() {
 		return user;
@@ -114,9 +113,10 @@ public class Employee {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	//metodos
-	public void addBranch(Branch branch){
-		this.branchs.add(branch);
+	
+	public boolean isAdmin(){
+		if(branch == null) return true;
+		return false;
 	}
 	
 }

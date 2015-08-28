@@ -19,10 +19,12 @@ public class Address {
 	private int id_address;
 	@Column(name="STREET")
 	private String Street;
+	@Column(name="ZIP_CODE")
+	private String zip_code;
 	@Column(name="DISTRICT")
 	private String district;
 	@Column(name="CITY")
-	private String citys;
+	private String city;
 	@Column(name="STATE")
 	private String state;
 	@Column(name="STREET_NUMBER")
@@ -40,17 +42,23 @@ public class Address {
 	public void setStreet(String street) {
 		Street = street;
 	}
+	public String getZip_code() {
+		return zip_code;
+	}
+	public void setZip_code(String zip_code) {
+		this.zip_code = zip_code;
+	}
 	public String getDistrict() {
 		return district;
 	}
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	public String getCitys() {
-		return citys;
+	public String getCity() {
+		return city;
 	}
-	public void setCitys(String citys) {
-		this.citys = citys;
+	public void setCity(String city) {
+		this.city = city;
 	}
 	public String getState() {
 		return state;
