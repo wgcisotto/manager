@@ -15,7 +15,6 @@ import br.com.wgengenharia.manager.business.BranchBO;
 import br.com.wgengenharia.manager.business.EmployeeBO;
 import br.com.wgengenharia.manager.business.ProfileBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
-import br.com.wgengenharia.manager.model.Address;
 import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Employee;
 import br.com.wgengenharia.manager.model.Profile;
@@ -36,8 +35,7 @@ public class CompanyBean implements Serializable {
 	private List<Employee> filteredEmployees;
 	private String globalFilterEmployee;
 	//Employees Profile	
-	private String profileName;
-	
+	private List<Profile> profiles;
 	
 	
 	//BRANCHS
@@ -67,7 +65,9 @@ public class CompanyBean implements Serializable {
 			
 			employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());
 			branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
-			
+			profiles = profileBO.findByCompany(userInfo.getEmployee().getCompany());
+		
+			newEmployee = new Employee();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,9 +83,9 @@ public class CompanyBean implements Serializable {
 	
 	public void addEmployee(){
 		try {
-			Profile profile = profileBO.findByName(profileName);
-			newEmployee.setProfile(profile);
-			profileName = "";
+//			Profile profile = profileBO.findByNameAndCompany(selectedProfile.getName(),userInfo.getEmployee().getCompany());
+//			newEmployee.setProfile(profile);
+//			selectedProfile = null;
 			employeeBO.insert(newEmployee);
 //		employees = employeeBO.listEmployees();// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
 			newEmployee = new Employee();
@@ -200,13 +200,15 @@ public class CompanyBean implements Serializable {
 	public void setGlobalFilterEmployee(String globalFilterEmployee) {
 		this.globalFilterEmployee = globalFilterEmployee;
 	}
-	public String getProfileName() {
-		return profileName;
+	public List<Profile> getProfiles() {
+		return profiles;
 	}
-	public void setProfileName(String profileName) {
-		this.profileName = profileName;
+	public void setProfiles(List<Profile> profiles) {
+		this.profiles = profiles;
 	}
 	
+
+
 	//get and setters
 	//BRANCH
 	public Branch getNewBranch() {
