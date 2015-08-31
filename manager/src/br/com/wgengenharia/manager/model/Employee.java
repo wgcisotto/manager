@@ -1,8 +1,5 @@
 package br.com.wgengenharia.manager.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -24,6 +19,9 @@ import javax.persistence.Table;
 @SequenceGenerator(name="seqEmployee", sequenceName="SEQ_EMPLOYEE",allocationSize=1)
 public class Employee {
 
+	private static final String EMPLOYEE_ADMIN = "Administrador"; 
+	
+	
 	public Employee() {
 		this.address = new Address();
 	}
@@ -114,8 +112,8 @@ public class Employee {
 		this.address = address;
 	}
 	
-	public boolean isAdmin(){
-		if(branch == null) return true;
+	public boolean getIsAdmin(){
+		if(profile.getName().equals(EMPLOYEE_ADMIN)) return true;
 		return false;
 	}
 	
