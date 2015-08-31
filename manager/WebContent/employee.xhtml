@@ -32,7 +32,7 @@
                   </p:outputPanel>
               </f:facet>
  
-              <p:column>
+              <p:column sortBy="#{emp.name}" filterBy="#{emp.name}" filterMatchMode="contains">
                 <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
                 <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                   <p:column>
@@ -55,16 +55,12 @@
                   <p:outputLabel value="#{emp.phone}"/>
                   <p:outputLabel value="#{emp.address.street} - #{emp.address.number} - #{emp.address.district} - #{em.address.city} - #{em.address.state}"/>
                 </p:panelGrid>
-                  
-                
-                  
                 </p:panelGrid>
+                <f:facet name="filter">
+                  <h:inputText style="display:none;"/>
+                </f:facet>
               </p:column>
-              
-       
           </p:dataTable>   
-
-
          </p:panelGrid>
          
          
@@ -90,7 +86,7 @@
 		             <p:outputLabel value="Bairro:"/>
 		             <p:outputLabel value="Cidade:"/>
 		             <p:outputLabel value="Estado: "/>
-                 <p:inputText value="#company.newEmployee.address.district}" size="35" />
+                 <p:inputText value="#{company.newEmployee.address.district}" size="35" />
                  <p:inputText value="#{company.newEmployee.address.city}" size="35" />
                  <p:inputText value="#{company.newEmployee.address.state}" size="3" />
 		           </p:panelGrid>
@@ -100,13 +96,16 @@
 		             <p:inputText value="#{company.newEmployee.user}" size="55" />
                  <p:inputText value="#{company.newEmployee.pass}" size="15" />
 		           </p:panelGrid>
-		           <p:panelGrid id="pngProfileNew" columns="1" styleClass="panelgrid_sem_borda">
+		           <p:panelGrid id="pngProfileNew" columns="2" styleClass="panelgrid_sem_borda">
 		            <p:outputLabel value="Perfil: "/>
-				        <p:selectOneRadio id="rdbProfileNew" >
-				            <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
-				            <f:selectItem itemLabel="Funcionario" itemValue="Funcionario" />
-				            <f:selectItem itemLabel="Professor" itemValue="Professor" />
+		            <p:outputLabel value="Filial: " rendered="#{company.newEmployee.profile.name ne 'Administrador' and  company.newEmployee.profile != null}"/>
+				        <p:selectOneRadio id="rdbProfileNew" value="#{company.newEmployee.profile}">
+				            <f:selectItems value="#{company.profiles}" itemLabel="#{p.name}" itemValue="#{p}" var="p"/>
+				            <p:ajax event="change" update="pngProfileNew" />
 				        </p:selectOneRadio>
+				        <p:selectOneMenu id="slctBranch" value="#{company.newEmployee.branch}" rendered="#{company.newEmployee.profile.name ne 'Administrador' and  company.newEmployee.profile != null}">
+				           <f:selectItems value="#{company.branchs}" var="b" itemLabel="#{b.name}" itemValue="#{b}"/>
+				        </p:selectOneMenu>
 		           </p:panelGrid>
 		         </p:fieldset>
             <f:facet name="footer">
@@ -150,7 +149,7 @@
                  <p:outputLabel value="Bairro:"/>
                  <p:outputLabel value="Cidade:"/>
                  <p:outputLabel value="Estado: "/>
-                 <p:inputText value="#company.selectedEmployee.address.district}" size="35" />
+                 <p:inputText value="#{company.selectedEmployee.address.district}" size="35" />
                  <p:inputText value="#{company.selectedEmployee.address.city}" size="35" />
                  <p:inputText value="#{company.selectedEmployee.address.state}" size="3" />
                </p:panelGrid>
@@ -160,13 +159,16 @@
                  <p:inputText value="#{company.selectedEmployee.user}" size="55" />
                  <p:inputText value="#{company.selectedEmployee.pass}" size="15" />
                </p:panelGrid>
-               <p:panelGrid id="pngProfileEdit" columns="1" styleClass="panelgrid_sem_borda">
+               <p:panelGrid id="pngProfileEdit" columns="2" styleClass="panelgrid_sem_borda">
                 <p:outputLabel value="Perfil: "/>
-                <p:selectOneRadio id="rdbProfileEdit" >
-                    <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
-                    <f:selectItem itemLabel="Funcionario" itemValue="Funcionario" />
-                    <f:selectItem itemLabel="Professor" itemValue="Professor" />
+                <p:outputLabel value="Filial: " rendered="#{company.selectedEmployee.profile.name ne 'Administrador' and  company.selectedEmployee.profile != null}"/>
+                <p:selectOneRadio id="rdbProfileNew" value="#{company.selectedEmployee.profile}">
+                    <f:selectItems value="#{company.profiles}" itemLabel="#{p.name}" itemValue="#{p}" var="p"/>
+                    <p:ajax event="change" update="pngProfileNew" />
                 </p:selectOneRadio>
+                <p:selectOneMenu id="slctBranch" value="#{company.selectedEmployee.branch}" rendered="#{company.selectedEmployee.profile.name ne 'Administrador' and  company.selectedEmployee.profile != null}">
+                   <f:selectItems value="#{company.branchs}" var="b" itemLabel="#{b.name}" itemValue="#{b}"/>
+                </p:selectOneMenu>
                </p:panelGrid>
             </p:fieldset>
             <f:facet name="footer">
