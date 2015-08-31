@@ -37,8 +37,7 @@ public class Employee {
 	@Column(name="PHONE", nullable=false)
 	private String phone;
 
-  @OneToOne(cascade = CascadeType.ALL, optional = true, fetch = FetchType.EAGER, orphanRemoval = true)
-  @JoinColumn(name="COMPANY", nullable=false)
+	@ManyToOne
 	private Company company;
 	
 	@ManyToOne
