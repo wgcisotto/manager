@@ -19,5 +19,16 @@
  <lifecycle>
    <phase-listener>br.com.wgengenharia.manager.security.AuthorizationListener</phase-listener>
  </lifecycle>
+ 
+ <converter>
+  <converter-id>profileConverter</converter-id>
+  <converter-class>br.com.wgengenharia.manager.converter.ProfileConverter</converter-class>
+ </converter>
+ 
+ <converter>
+  <converter-id>branchConverter</converter-id>
+  <converter-class>br.com.wgengenharia.manager.converter.BranchConverter</converter-class>
+ </converter>
+ 
 
 </faces-config>
