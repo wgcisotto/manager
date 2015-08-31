@@ -90,7 +90,7 @@
 				    <p:menuButton value="#{auth.employee.company.name}" iconPos="right" >
 				        <p:menuitem value="Usuarios/Prof" update="messages" icon="ui-icon-person" outcome="employee.xhtml" rendered="#{sec.hasProfile('Administrador')}"/>
 				        <p:menuitem value="Meu Perfil" update="messages" icon="ui-icon-contact" outcome="perfil.xhtml"/>
-				        <p:menuitem value="Minha Empresa" update="messages" icon="ui-icon-home" outcome="company.xhtml"  />
+				        <p:menuitem value="Minha Empresa" update="messages" icon="ui-icon-home" outcome="company.xhtml" rendered="#{auth.employee.isAdmin}" />
 				        <p:separator />
 				        <p:menuitem value="Logout" icon="ui-icon-extlink" action="#{auth.logout}" process="@this"/>
 				    </p:menuButton>
