@@ -66,7 +66,7 @@
             <p:menuitem value="Cliente"  icon="ui-icon-person" outcome="client.xhtml" rendered="#{sec.hasModule('Lanchonete')}"/>
             <p:menuitem value="Aluno"  icon="ui-icon-person" outcome="client.xhtml" />
             <p:menuitem value="Modulo"  icon="ui-icon-person" outcome="card.xhtml" />
-            <p:menuitem value="Filial"  icon="ui-icon-suitcase" outcome="branch.xhtml" />
+            <p:menuitem value="Filial"  icon="ui-icon-suitcase" outcome="branch.xhtml" rendered="#{sec.hasProfile('Administrador')}"/>
             <p:menuitem value="Comanda"  icon="ui-icon-person" outcome="card.xhtml" rendered="#{sec.hasModule('Lanchonete')}"/>
         </p:submenu>
  
@@ -89,8 +89,8 @@
         <f:facet name="options">
 				    <p:menuButton value="#{auth.employee.company.name}" iconPos="right" >
 				        <p:menuitem value="Usuarios/Prof" update="messages" icon="ui-icon-person" outcome="employee.xhtml" rendered="#{sec.hasProfile('Administrador')}"/>
-				        <p:menuitem value="Meu Perfil" update="messages" icon="ui-icon-contact" outcome="perfil.xhtml"/>
-				        <p:menuitem value="Minha Empresa" update="messages" icon="ui-icon-home" outcome="company.xhtml" rendered="#{auth.employee.isAdmin}" />
+				        <p:menuitem value="Meu Perfil" update="messages" icon="ui-icon-contact" outcome="profile.xhtml"/>
+				        <p:menuitem value="Minha Empresa" update="messages" icon="ui-icon-home" outcome="company.xhtml" rendered="#{sec.hasProfile('Administrador')}" />
 				        <p:separator />
 				        <p:menuitem value="Logout" icon="ui-icon-extlink" action="#{auth.logout}" process="@this"/>
 				    </p:menuButton>
