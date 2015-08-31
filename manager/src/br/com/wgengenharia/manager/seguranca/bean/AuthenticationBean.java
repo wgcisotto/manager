@@ -4,6 +4,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +34,8 @@ public class AuthenticationBean {
 	private BranchBO branchBO;
 	
 	private Employee employee;
+ 
+	@Inject 
 	private EmployeeBO  employeeBO;
 	
 	private String login;
@@ -44,9 +47,9 @@ public class AuthenticationBean {
 	
 	public AuthenticationBean() {
 		em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-		employeeBO = new EmployeeBO(em);
-		companyBO = new CompanyBO(em);
-		branchBO = new BranchBO(em);
+//		employeeBO = new EmployeeBO(em);
+//		companyBO = new CompanyBO(em);
+//		branchBO = new BranchBO(em);
 	}
 	
 	public String login(){
@@ -125,8 +128,8 @@ public class AuthenticationBean {
 			a1.setStreet("Rua major telles");
 			a1.setZip_code("06850001");
 			
-			AddressBO abo = new AddressBO(em);
-			abo.insert(a1);
+//			AddressBO abo = new AddressBO(em);
+//			abo.insert(a1);
 			
 			BranchBO bBO = new BranchBO(em);
 			Branch b1 = new Branch();
@@ -140,12 +143,12 @@ public class AuthenticationBean {
 			Profile p = new Profile();
 			p.setCompany(c);
 			p.setName("Administrador");
-			Profile p1 = new Profile();
-			p1.setCompany(c);
-			p1.setName("Aluno");
-			Profile p2 = new Profile();
-			p2.setCompany(c);
-			p2.setName("Cliente");
+//			Profile p1 = new Profile();
+//			p1.setCompany(c);
+//			p1.setName("Aluno");
+//			Profile p2 = new Profile();
+//			p2.setCompany(c);
+//			p2.setName("Cliente");
 			Profile p3 = new Profile();
 			p3.setCompany(c);
 			p3.setName("Funcionario");
@@ -154,27 +157,28 @@ public class AuthenticationBean {
 			p4.setName("Professor");
 		
 			pBO.insert(p);
-			pBO.insert(p1);
-			pBO.insert(p2);
+//			pBO.insert(p1);
+//			pBO.insert(p2);
 			pBO.insert(p3);
 			pBO.insert(p4);
 			
 			Address ad = new Address();
 			ad.setStreet("Rua major telles");
 			ad.setNumber(171);
+			ad.setZip_code("06850-001");
 			ad.setCity("Itap da serra");
 			ad.setDistrict("Centro");
 			ad.setState("SP");
 			
-			AddressBO aBO = new AddressBO(em);
-			aBO.insert(ad);
+//			AddressBO aBO = new AddressBO(em);
+//			aBO.insert(ad);
 			
-			EmployeeBO eBO = new EmployeeBO(em);
+			EmployeeBO eBO = new EmployeeBO();
 			Employee e = new Employee();
-			e.setName("William");
+			e.setName("William Galindo Cisotto");
 			e.setUser("admin@admin.com.br");
 			e.setPass("will00gc");
-			e.setBranch(b1);
+//			e.setBranch(b1);
 			e.setProfile(p);
 			e.setCompany(c);
 			e.setPhone("980845866");
