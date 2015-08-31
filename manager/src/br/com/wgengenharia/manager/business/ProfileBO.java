@@ -1,9 +1,12 @@
 package br.com.wgengenharia.manager.business;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.ProfileDAO;
 import br.com.wgengenharia.manager.dao.ProfileDAOImpl;
+import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Profile;
 
 public class ProfileBO implements ProfileDAO {
@@ -36,8 +39,14 @@ public class ProfileBO implements ProfileDAO {
 
 
 	@Override
-	public Profile findByName(String profileName) {
-		return DAO.findByName(profileName);
+	public Profile findByNameAndCompany(String profileName, Company company) {
+		return DAO.findByNameAndCompany(profileName, company);
+	}
+
+
+	@Override
+	public List<Profile> findByCompany(Company company) {
+		return DAO.findByCompany(company);
 	}
 
 }
