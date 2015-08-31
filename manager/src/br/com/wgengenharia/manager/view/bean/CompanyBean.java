@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import org.primefaces.event.SelectEvent;
 
 import br.com.wgengenharia.manager.business.BranchBO;
+import br.com.wgengenharia.manager.business.CompanyBO;
 import br.com.wgengenharia.manager.business.EmployeeBO;
 import br.com.wgengenharia.manager.business.ProfileBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
@@ -46,9 +47,14 @@ public class CompanyBean implements Serializable {
 	private List<Branch> filteredBranchs;
 	private String globalFilterBranch;
 	
+	//COMPANY
+	private CompanyBO companyBO;
+	
+	
 	//DEFAULT
 	public EntityManager em;
 	public ProfileBO profileBO;
+	
 	
 	
 	
@@ -59,9 +65,11 @@ public class CompanyBean implements Serializable {
 			userInfo = AuthenticationUtil.getUserInfo();
 			em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 			
-			employeeBO = new EmployeeBO(em);
+			employeeBO = new EmployeeBO();
 			profileBO = new ProfileBO(em);
 			branchBO = new BranchBO(em);
+			companyBO = new CompanyBO(em);
+			
 			
 			employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());
 			branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
@@ -86,8 +94,9 @@ public class CompanyBean implements Serializable {
 //			Profile profile = profileBO.findByNameAndCompany(selectedProfile.getName(),userInfo.getEmployee().getCompany());
 //			newEmployee.setProfile(profile);
 //			selectedProfile = null;
+			newEmployee.setCompany(userInfo.getEmployee().getCompany());
 			employeeBO.insert(newEmployee);
-//		employees = employeeBO.listEmployees();// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+			employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
 			newEmployee = new Employee();
 			FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionário Inserido com sucesso"));
 		} catch (Exception e) {
@@ -95,11 +104,12 @@ public class CompanyBean implements Serializable {
 		}
 	}
 	
+	
 	public void delEmployee(){
 		try {
 			if(selectedEmployee!=null){
 				employeeBO.delete(selectedEmployee);
-//				employees = employeeBO.listEmployees();// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+				employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
 				selectedEmployee = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionário Excluido com sucesso"));
 			}else{
@@ -112,6 +122,21 @@ public class CompanyBean implements Serializable {
   
 	public void onRowSelectEmployee(SelectEvent event) {
 		this.selectedEmployee = (Employee) event.getObject();
+	}
+	
+	public void updateEmployee(){
+		try {
+			if(selectedEmployee!=null){
+				employeeBO.update(selectedEmployee);
+				employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());
+				selectedEmployee = null;
+				FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionario Atualizada com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Nescessário selecionar um Funcionario"));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
 	}
 
 	//BRANCH
@@ -166,6 +191,22 @@ public class CompanyBean implements Serializable {
 		}
 	}
 	
+	
+	
+	// COMPANY
+	
+	public void updateCompany(){
+		try {
+			if(userInfo.getEmployee().getCompany()!=null){
+				companyBO.update(userInfo.getEmployee().getCompany());
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCompany", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Informacões da Empresa Atualizada com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCompany", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Erro ao atualizar as informacoes da Empresa"));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCompany", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
 	
 	
 	//get and setters
