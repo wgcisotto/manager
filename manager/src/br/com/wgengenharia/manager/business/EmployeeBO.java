@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.EmployeeDAO;
 import br.com.wgengenharia.manager.dao.EmployeeDAOImpl;
-import br.com.wgengenharia.manager.model.Branch;
+import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Employee;
 
@@ -14,13 +14,17 @@ public class EmployeeBO implements EmployeeDAO {
 
 	
 	private EmployeeDAO DAO;
+	private AddressBO BO;
 	
-	public EmployeeBO(EntityManager em) {
+	public EmployeeBO() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		DAO = new EmployeeDAOImpl(em);
+		BO = new AddressBO(em);
 	}
 
 	@Override
 	public void insert(Employee employee) {
+		BO.insert(employee.getAddress());
 		DAO.insert(employee);
 	}
 
