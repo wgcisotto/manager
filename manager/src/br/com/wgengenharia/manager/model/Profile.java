@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,6 +21,8 @@ public class Profile {
 	private int id_profile;
 	@Column(name="NAME")
 	private String name;
+	@ManyToOne
+	private Company company;
 
 	public int getId_profile() {
 		return id_profile;
@@ -33,5 +36,10 @@ public class Profile {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 }
