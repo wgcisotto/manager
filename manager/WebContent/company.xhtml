@@ -6,19 +6,31 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:decorate template="default.xhtml">
         <ui:define name="header">
-          #{auth.company.name}
+          #{auth.employee.company.name}
         </ui:define>
         <ui:define name="default">
-          <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-            <p:outputLabel value="Logomarca: "/>
-            <img src="resources/images/shared/unknown.jpg" width="76" height="76" alt="" style="padding-top: 8px;" />
-            <p:fileUpload value="#{manager.file}" mode="simple" skinSimple="true"/>
-            <p:outputLabel value="Nome da Empresa: *"/>
-            <p:inputText value=""/>
-          </p:panelGrid>
-          
-          
-			    <p:commandButton value="Salvar" ajax="false" actionListener="#{fileUploadView.upload}" />
+          <p:fieldset>
+	          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+	            <p:outputLabel value="Nome da Empresa: *"/>
+	            <p:inputText value="#{auth.employee.company.name}"/>
+ 	            <p:outputLabel value="Logomarca: "/>
+              <img src="resources/images/shared/unknown.jpg" width="76" height="76" alt="" style="padding-top: 8px;" />
+	          </p:panelGrid>
+	          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+              <p:fileUpload value="#{manager.file}" mode="simple" skinSimple="true" style="padding-left: 130px;"/>
+	          </p:panelGrid>
+          </p:fieldset>
+         
+         <br/>
+         
+         <p:panelGrid id="pngControlCompany" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
+          <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" >
+          </h:commandButton>
+          <h:commandButton styleClass="btn btn-danger btn-lg" value="Cancelar" >
+          </h:commandButton>
+         </p:panelGrid>     
+			    
+			    
         </ui:define>
     </ui:decorate>
 </html>
