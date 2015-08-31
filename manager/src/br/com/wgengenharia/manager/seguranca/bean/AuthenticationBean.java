@@ -99,14 +99,21 @@ public class AuthenticationBean {
 	public void teste(){
 		try {
 			ModuleBO mBO = new ModuleBO(em);
-			Module m = mBO.findByName("Escolar");
+			Module m = new Module();
+			m.setType("Escolar");
+			Module m1 = new Module();
+			m1.setType("Gerenciador Vendas");
+			Module m2 = new Module();
+			m2.setType("Lanchonete");
+			
+			mBO.insert(m);
+			mBO.insert(m1);
+			mBO.insert(m2);
 			
 			
 			CompanyBO cBO = new CompanyBO(em);
 			Company c = new Company();
 			c.setName("WGEngenharia");
-//			c.addBranch(b1);
-//			c.addBranch(b2);
 			c.addModule(m);
 			cBO.insert(c);
 
@@ -130,7 +137,27 @@ public class AuthenticationBean {
 			
 			
 			ProfileBO pBO = new ProfileBO(em);
-			Profile p = pBO.findByName("Administrador");
+			Profile p = new Profile();
+			p.setCompany(c);
+			p.setName("Administrador");
+			Profile p1 = new Profile();
+			p1.setCompany(c);
+			p1.setName("Aluno");
+			Profile p2 = new Profile();
+			p2.setCompany(c);
+			p2.setName("Cliente");
+			Profile p3 = new Profile();
+			p3.setCompany(c);
+			p3.setName("Funcionario");
+			Profile p4 = new Profile();
+			p4.setCompany(c);
+			p4.setName("Professor");
+		
+			pBO.insert(p);
+			pBO.insert(p1);
+			pBO.insert(p2);
+			pBO.insert(p3);
+			pBO.insert(p4);
 			
 			Address ad = new Address();
 			ad.setStreet("Rua major telles");
