@@ -2,8 +2,6 @@ package br.com.wgengenharia.manager.business;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import br.com.wgengenharia.manager.dao.EmployeeDAO;
 import br.com.wgengenharia.manager.dao.EmployeeDAOImpl;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
@@ -17,9 +15,8 @@ public class EmployeeBO implements EmployeeDAO {
 	private AddressBO BO;
 	
 	public EmployeeBO() {
-		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-		DAO = new EmployeeDAOImpl(em);
-		BO = new AddressBO(em);
+		BO = new AddressBO(EntityManagerFactorySingleton.getInstance().createEntityManager());
+		DAO = new EmployeeDAOImpl(EntityManagerFactorySingleton.getInstance().createEntityManager());
 	}
 
 	@Override

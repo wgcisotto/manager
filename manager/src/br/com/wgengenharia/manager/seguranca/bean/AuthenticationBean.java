@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 
-import br.com.wgengenharia.manager.business.AddressBO;
 import br.com.wgengenharia.manager.business.BranchBO;
 import br.com.wgengenharia.manager.business.CompanyBO;
 import br.com.wgengenharia.manager.business.EmployeeBO;
@@ -97,6 +96,17 @@ public class AuthenticationBean {
 //		branchs = employee.getBranchs();
 //	}
 //	
+	
+	
+	
+	public void updateEmployee(){
+		try {
+			employeeBO.update(employee);
+			FacesContext.getCurrentInstance().addMessage("formManager:msgUserInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Perfil Atualizado com sucesso"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgUserInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
 	
 	
 	public void teste(){
