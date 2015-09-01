@@ -9,29 +9,66 @@
           Meus Dados
         </ui:define>
         <ui:define name="default">
-          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-            <p:outputLabel value="Nome: *"/>
-            <p:inputText />
-            <p:outputLabel value="Telefone: "/>
-            <p:inputText />
-            <p:outputLabel value="Email: *"/>
-            <p:inputText />
-            <p:outputLabel value="Senha: *"/>
-            <p:inputText />
-          </p:panelGrid>
           
-          <br/>
+          <p:messages id="msgUserInfo" showDetail="true" autoUpdate="true" closable="true" />
+          <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlUser">
           
-          <p:fieldset legend="Permissão">
-				    <p:selectOneRadio id="smcPerm" layout="grid" columns="1">
-				        <f:selectItem itemLabel="Administrador" itemValue="adm" />
-				        <f:selectItem itemLabel="Usuario" itemValue="user" />
-				    </p:selectOneRadio>
-          </p:fieldset>
-          
-          <br/>
+           <p:panel id="toggleInfoUser" header="Meus Dados" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoUser"> 
+	          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+	            <p:outputLabel value="Nome: *"/>
+	            <p:inputText value="#{auth.employee.name}"/>
+	            <p:outputLabel value="Telefone: "/>
+	            <p:inputText value="#{auth.employee.phone}"/>
+	            <p:outputLabel value="Email: *"/>
+	            <p:inputText value="#{auth.employee.user}"/>
+	            <p:outputLabel value="Senha: *"/>
+	            <p:inputText value="#{auth.employee.pass}"/>
+	            <p:outputLabel value="Repedir Senha: *"/>
+	            <p:inputText value="#{auth.employee.pass}"/>
+	          </p:panelGrid>
+          </p:panel>                    
+            
+            <br/>
               
-          <p:commandButton value="Salvar"/>     
+	          <p:panel id="toggleEndUser" header="Endereco" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleEndUser" >
+               <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+                 <p:outputLabel value="Endereço: "/>
+                 <p:outputLabel value="Numero: "/>
+                 <p:outputLabel value="CEP: "/>
+                 <p:inputText value="#{auth.employee.address.street}" size="53" />
+                 <p:inputText value="#{auth.employee.address.number}" size="10" />
+                 <p:inputText value="#{auth.employee.address.zip_code}" size="10" />
+               </p:panelGrid>
+               <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+                 <p:outputLabel value="Bairro:"/>
+                 <p:outputLabel value="Cidade:"/>
+                 <p:outputLabel value="Estado: "/>
+                 <p:inputText value="#{auth.employee.address.district}" size="35" />
+                 <p:inputText value="#{auth.employee.address.city}" size="35" />
+                 <p:inputText value="#{auth.employee.address.state}" size="3" />
+               </p:panelGrid>
+	          </p:panel>
+                    
+	          
+	          <br/>
+	          
+	          
+              
+            <p:panel id="toggleProfileUser" header="Perfil" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleProfileUser" >
+	            <h:panelGrid columns="2" cellpadding="10">
+	               <h:outputText value="#{auth.employee.profile.name}" />
+	           </h:panelGrid>
+            </p:panel>
+	          
+	          <br/>
+              
+          </p:panelGrid>
+         
+          <br/>
+         
+         <p:panelGrid id="pngControlEmployee" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
+          <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" actionListener="#{auth.updateEmployee}" update="@form"/>
+         </p:panelGrid>
         </ui:define>
     </ui:decorate>
 </html>

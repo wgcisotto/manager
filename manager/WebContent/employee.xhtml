@@ -32,7 +32,7 @@
                   </p:outputPanel>
               </f:facet>
  
-              <p:column sortBy="#{emp.name}" filterBy="#{emp.name}" filterMatchMode="contains">
+              <p:column sortBy="#{emp.name}" filterBy="#{emp.name}" filterMatchMode="contains" rendered="#{emp.user ne auth.employee.user}">
                 <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
                 <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                   <p:column>

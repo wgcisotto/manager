@@ -10,7 +10,8 @@
         </ui:define>
         <ui:define name="default">
         <p:messages id="msgCompany" showDetail="true" autoUpdate="true" closable="true" />
-          <p:fieldset>
+          
+          <p:panel id="toggleInfoUser" header="Dados da Empresa" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoUser">
 	          <p:panelGrid id="pngInfoEmp" columns="2" styleClass="panelgrid_sem_borda">
 	            <p:outputLabel value="Nome da Empresa: *"/>
 	            <p:inputText value="#{auth.employee.company.name}"/>
@@ -20,12 +21,12 @@
 	          <p:panelGrid id="pngImageEmp" columns="2" styleClass="panelgrid_sem_borda">
               <p:fileUpload value="#{manager.file}" mode="simple" skinSimple="true" style="padding-left: 130px;"/>
 	          </p:panelGrid>
-          </p:fieldset>
+          </p:panel>
          
          <br/>
          
          <p:panelGrid id="pngControlCompany" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
-          <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" actionListener="#{company.updateCompany}" update="pngInfoEmp pngImageEmp">
+          <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" actionListener="#{company.updateCompany}" update="@form">
           </h:commandButton>
          </p:panelGrid>     
 			    
