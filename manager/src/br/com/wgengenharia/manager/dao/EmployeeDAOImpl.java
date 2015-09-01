@@ -6,10 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import br.com.wgengenharia.manager.dao.model.DAOImpl;
-import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Employee;
-import br.com.wgengenharia.manager.model.Product;
 
 public class EmployeeDAOImpl extends DAOImpl<Employee, Integer> implements EmployeeDAO {
 

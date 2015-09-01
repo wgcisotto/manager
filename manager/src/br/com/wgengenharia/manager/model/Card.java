@@ -22,9 +22,6 @@ import javax.persistence.Transient;
 
 import org.primefaces.context.RequestContext;
 
-import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
-import br.com.wgengenharia.manager.factory.ManagerSaleFactory;
-
 @Entity
 @Table(name = "TAB_CARD")
 @SequenceGenerator(name="seqCard", sequenceName="SEQ_CARD",allocationSize=1)

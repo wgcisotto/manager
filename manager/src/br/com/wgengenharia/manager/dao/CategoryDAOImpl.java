@@ -7,7 +7,6 @@ import javax.persistence.TypedQuery;
 
 import br.com.wgengenharia.manager.dao.model.DAOImpl;
 import br.com.wgengenharia.manager.model.Category;
-import br.com.wgengenharia.manager.model.Product;
 
 public class CategoryDAOImpl extends DAOImpl<Category, Integer> implements CategoryDAO {
 

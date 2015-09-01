@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import br.com.wgengenharia.manager.dao.AddressDAO;
+
 import br.com.wgengenharia.manager.dao.BranchDAO;
 import br.com.wgengenharia.manager.dao.BranchDAOImpl;
 import br.com.wgengenharia.manager.model.Branch;

@@ -8,7 +8,6 @@ import javax.persistence.TypedQuery;
 import br.com.wgengenharia.manager.dao.model.DAOImpl;
 import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Company;
-import br.com.wgengenharia.manager.model.Employee;
 
 public class BranchDAOImpl extends DAOImpl<Branch, Integer> implements BranchDAO {
 

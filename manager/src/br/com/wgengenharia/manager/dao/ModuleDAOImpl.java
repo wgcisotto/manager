@@ -5,8 +5,6 @@ import javax.persistence.TypedQuery;
 
 import br.com.wgengenharia.manager.dao.model.DAOImpl;
 import br.com.wgengenharia.manager.model.Module;
-import br.com.wgengenharia.manager.model.Product;
-import br.com.wgengenharia.manager.model.Profile;
 
 public class ModuleDAOImpl extends DAOImpl<Module, Integer> implements ModuleDAO {
 
