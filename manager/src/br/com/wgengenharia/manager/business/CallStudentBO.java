@@ -2,16 +2,15 @@ package br.com.wgengenharia.manager.business;
 
 import javax.persistence.EntityManager;
 
-import br.com.wgengenharia.manager.dao.BranchDAO;
 import br.com.wgengenharia.manager.dao.CallStudentDAO;
 import br.com.wgengenharia.manager.dao.CallStudentDAOImpl;
 import br.com.wgengenharia.manager.model.CallStudent;
 
-public class CallsStudentBO implements CallStudentDAO {
+public class CallStudentBO implements CallStudentDAO {
 
 	private CallStudentDAO DAO;
 	
-	public CallsStudentBO(EntityManager em) {
+	public CallStudentBO(EntityManager em) {
 		DAO = new CallStudentDAOImpl(em);
 	}
 	
