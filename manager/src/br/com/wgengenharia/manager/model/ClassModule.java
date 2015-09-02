@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,11 +18,27 @@ public class ClassModule {
 	@Column(name="ID_CLASS_MODULE")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqClassModule")
 	private int id_class_module;
+	
 	@Column(name="NAME", length=100)
 	private String name;
+	
 	@Column(name="DESCRIPTION", length=100)
 	private String description;
 
+	@ManyToOne
+	private Company company;
+	
+	@ManyToOne
+	private Branch branch;
+	
+
+	
+	public int getId_class_module() {
+		return id_class_module;
+	}
+	public void setId_class_module(int id_class_module) {
+		this.id_class_module = id_class_module;
+	}
 	public String getName() {
 		return name;
 	}
@@ -33,6 +50,18 @@ public class ClassModule {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	public Branch getBranch() {
+		return branch;
+	}
+	public void setBranch(Branch branch) {
+		this.branch = branch;
 	}
 	
 }

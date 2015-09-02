@@ -17,13 +17,13 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "TAB_CALLS")
+@Table(name = "TAB_CALL")
 @SequenceGenerator(name="seqCalls", sequenceName="SEQ_CALLS",allocationSize=1)
 public class CallStudent {
 
 
 	@Id
-	@Column(name="ID_CALLS")
+	@Column(name="ID_CALL")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCalls")
 	private int id_calls;
 
@@ -31,15 +31,15 @@ public class CallStudent {
 	private ClassStudent class_Student;
 	
 	@ManyToMany
-  @JoinTable(name="TAB_CALLS_STUDENT_PRESENT", joinColumns={@JoinColumn(name="ID_CLASS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
+  @JoinTable(name="TAB_CALL_STUDENT_PRESENT", joinColumns={@JoinColumn(name="ID_CLASS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
 	private List<Student> students_present;
 	
 	@ManyToMany
-  @JoinTable(name="TAB_CALLS_STUDENT", joinColumns={@JoinColumn(name="ID_CALS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
+  @JoinTable(name="TAB_CALL_STUDENT", joinColumns={@JoinColumn(name="ID_CALS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
 	private List<Student> students;
 	
-	@Column(name="DATE", length=100)
-	private Date date;
+	@Column(name="CALL_DATE", length=100)
+	private Date call_date;
 	
 	@ManyToOne
 	private Employee teacher;
@@ -68,12 +68,12 @@ public class CallStudent {
 		this.students = students;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getCall_date() {
+		return call_date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCall_date(Date call_date) {
+		this.call_date = call_date;
 	}
 
 	public Employee getTeacher() {
@@ -83,5 +83,7 @@ public class CallStudent {
 	public void setTeacher(Employee teacher) {
 		this.teacher = teacher;
 	}
+
+
 	
 }
