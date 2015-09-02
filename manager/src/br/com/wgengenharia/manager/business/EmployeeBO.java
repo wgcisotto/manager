@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.wgengenharia.manager.dao.EmployeeDAO;
 import br.com.wgengenharia.manager.dao.EmployeeDAOImpl;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Employee;
 
@@ -48,6 +49,11 @@ public class EmployeeBO implements EmployeeDAO {
 	@Override
 	public List<Employee> findByCompany(Company company) {
 		return DAO.findByCompany(company);
+	}
+
+	@Override
+	public List<Employee> findByCompanyAndBranch(Company company, Branch branch) {
+		return DAO.findByCompanyAndBranch(company, branch);
 	}
 
 	
