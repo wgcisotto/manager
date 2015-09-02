@@ -17,7 +17,22 @@ public class ClassModule {
 	@Column(name="ID_CLASS_MODULE")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqClassModule")
 	private int id_class_module;
-	
-	
+	@Column(name="NAME", length=100)
+	private String name;
+	@Column(name="DESCRIPTION", length=100)
+	private String description;
 
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }
