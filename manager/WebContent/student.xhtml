@@ -1,0 +1,258 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Aluno
+        </ui:define>
+        <ui:define name="default">
+        
+        <p:messages id="msgStudent" showDetail="true" autoUpdate="true" closable="true" />
+        
+          <p:panelGrid id="pngStud" columns="1" styleClass="panelgrid_sem_borda">
+            
+           
+           <p:panelGrid id="pngControleStud" columns="3" styleClass="panelgrid_sem_borda"> 
+            <h:commandButton id="btnOpendlgStud" styleClass="btn btn-primary btn-lg" value="Novo Aluno">
+              <p:ajax event="click" oncomplete="PF('dlgStud').show();" listener="#{student.newStudent}" update="pngNewStud" />
+            </h:commandButton>
+           </p:panelGrid>
+           
+          <p:dataTable id="dtbStud" widgetVar="dtbStud" var="stud" value="#{student.students}" emptyMessage="Nenhum Aluno encontrado" 
+              selectionMode="single" rowKey="#{stud.id_student}" filteredValue="#{student.filteredStudents}" >
+     
+              <f:facet name="header">
+                  <p:outputPanel id="dtbHeader" styleClass="search_align">
+                      <h:outputText value="Search: " />
+                      <p:inputText id="globalFilter" onkeyup="PF('dtbStud').filter()" value="#{student.globalFilterStudent}" style="width:150px" placeholder="Digite"/>
+                  </p:outputPanel>
+              </f:facet>
+ 
+              <p:column sortBy="#{stud.name}" filterBy="#{stud.name}" filterMatchMode="contains">
+                <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+                  <p:column>
+                    <p:commandButton  styleClass="btn_opcoes"  icon="ui-icon-person"  />
+                    <h:outputText value="#{stud.student_name}" />
+                    <h:outputText value="#{stud.student_birth_date}" />
+                  </p:column>
+                  <p:column>
+                    <h:outputText value="#{stud.branch.name}" />
+                  </p:column>
+                 <p:column style="float: right;" >
+                   <p:commandButton id="btnOpendlgEdit" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil"  oncomplete="PF('dlgStudEdit').show();" process="@this"/>
+                   <p:commandButton id="btnDelStud" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" action="#{student.delStudent}" oncomplete="PF('dtbStud').unselectAllRows();" update="@form"/>
+                 </p:column>
+                </p:panelGrid>
+                <p:panelGrid columns="1">
+                  <p:column>
+				            <p:panel id="toggleRespTESTE" header="Responsável" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleEndUser" >
+                      <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+					              <p:outputLabel value="Nome: *"/>
+					              <p:inputText value="#{stud.resp_Name}"/>
+					              <p:outputLabel value="Data de Nascimento: "/>
+					              <p:inputText value="#{stud.resp_birth_date}"/>
+				              </p:panelGrid>
+					            <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
+					              <p:outputLabel value="Telefone Residencial: "/>
+					              <p:outputLabel value="Telefone Comercial: "/>
+					              <p:outputLabel value="RG: "/>
+					              <p:outputLabel value="CPF: "/>
+					              <p:inputText value="#{stud.resp_home_phone}"/>
+					              <p:inputText value="#{stud.resp_office_phone}"/>
+					              <p:inputText value="#{stud.resp_rg}"/>
+					              <p:inputText value="#{stud.resp_cpf}"/>
+					            </p:panelGrid>
+				               <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+				                 <p:outputLabel value="Endereço: "/>
+				                 <p:outputLabel value="Numero: "/>
+				                 <p:outputLabel value="CEP: "/>
+				                 <p:inputText value="#{stud.resp_address.street}" size="53" />
+				                 <p:inputText value="#{stud.resp_address.number}" size="10" />
+				                 <p:inputText value="#{stud.resp_address.zip_code}" size="10" />
+				               </p:panelGrid>
+				               <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+				                 <p:outputLabel value="Bairro:"/>
+				                 <p:outputLabel value="Cidade:"/>
+				                 <p:outputLabel value="Estado: "/>
+				                 <p:inputText value="#{stud.resp_address.district}" size="35" />
+				                 <p:inputText value="#{stud.resp_address.city}" size="35" />
+				                 <p:inputText value="#{stud.resp_address.state}" size="3" />
+				               </p:panelGrid>
+  			            </p:panel>
+ 			            </p:column>
+                </p:panelGrid>
+                </p:panelGrid>
+                <f:facet name="filter">
+                  <h:inputText style="display:none;"/>
+                </f:facet>
+              </p:column>
+          </p:dataTable>
+          
+          </p:panelGrid>
+         
+         <p:dialog id="dlgStud" header="Cadastro de Aluno" widgetVar="dlgStud" minHeight="40" resizable="false" modal="true">
+          <p:panelGrid id="pngNewStud" columns="1" styleClass="panelgrid_sem_borda">
+            <p:growl id="growlDlgStud" sticky="true" showDetail="true" life="3000" />
+              <p:fieldset>
+               <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                 <p:outputLabel value="ID: "/>
+                 <p:inputText value="#{student.newStudent.id_student}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
+               </p:panelGrid>
+               <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                 <p:outputLabel value="Nome: "/>
+                 <p:outputLabel value="Data de Nascimento: "/>
+                 <p:inputText value="#{student.newStudent.student_name}" size="55" required="true" requiredMessage="Preencha o nome do Aluno"/>      
+                 <p:inputText value="#{student.newStudent.student_birth_date}" size="13" />
+               </p:panelGrid>
+               <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+	               <p:panel id="toggleRespNew" header="Responsável" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleEndUser" >
+	                 <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+	                   <p:outputLabel value="Nome: "/>
+	                   <p:outputLabel value="Data de Nascimento: "/>
+	                   <p:inputText value="#{student.newStudent.resp_Name}"/>
+	                   <p:inputText value="#{student.newStudent.resp_birth_date}"/>
+	                 </p:panelGrid>
+	                 <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
+	                   <p:outputLabel value="Telefone Residencial: "/>
+	                   <p:outputLabel value="Telefone Comercial: "/>
+	                   <p:outputLabel value="RG: "/>
+	                   <p:outputLabel value="CPF: "/>
+	                   <p:inputText value="#{student.newStudent.resp_home_phone}"/>
+	                   <p:inputText value="#{student.newStudent.resp_office_phone}"/>
+	                   <p:inputText value="#{student.newStudent.resp_rg}"/>
+	                   <p:inputText value="#{student.newStudent.resp_cpf}"/>
+	                 </p:panelGrid>
+	                  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+	                    <p:outputLabel value="Endereço: "/>
+	                    <p:outputLabel value="Numero: "/>
+	                    <p:outputLabel value="CEP: "/>
+	                    <p:inputText value="#{student.newStudent.resp_address.street}" size="53" />
+	                    <p:inputText value="#{student.newStudent.resp_address.number}" size="10" />
+	                    <p:inputText value="#{student.newStudent.resp_address.zip_code}" size="10" />
+	                  </p:panelGrid>
+	                  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+	                    <p:outputLabel value="Bairro:"/>
+	                    <p:outputLabel value="Cidade:"/>
+	                    <p:outputLabel value="Estado: "/>
+	                    <p:inputText value="#{student.newStudent.resp_address.district}" size="35" />
+	                    <p:inputText value="#{student.newStudent.resp_address.city}" size="35" />
+	                    <p:inputText value="#{student.newStudent.resp_address.state}" size="3" />
+	                  </p:panelGrid>
+                    </p:panel>
+               </p:panelGrid>
+             </p:fieldset>
+            <f:facet name="footer">
+            
+              <p:panelGrid columns="2" style="float: right;">
+              
+                <h:commandButton styleClass="btn btn-primary" value="Incluir">
+                  <p:ajax event="click" listener="#{student.addStudent}" process="@this pngNewStud"  oncomplete="handleAddStudRequest(xhr, status, args)" update="dtbStud growlDlgStud" />
+                </h:commandButton>
+                
+                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                  <f:setPropertyActionListener value="null" target="#{student.newStudent}"/> 
+                  <p:ajax event="click" oncomplete="PF('dlgStud').hide();" />
+                </h:commandButton>
+                
+              </p:panelGrid>
+               
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+        
+        
+         <p:dialog id="dlgStudEdit" header="Edicao de Aluno " widgetVar="dlgStudEdit" minHeight="40" resizable="false" modal="true">
+          <p:growl id="growlDlgStudEdit" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngStudEdit" columns="1" styleClass="panelgrid_sem_borda">
+            <p:fieldset>
+               <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                <p:outputLabel value="ID: "/>
+                <p:inputText value="#{student.selectedStudent.id_student}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
+               </p:panelGrid>
+               <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                <p:outputLabel value="Nome: "/>
+                <p:outputLabel value="Data de Nascimento: "/>
+                <p:inputText value="#{student.selectedStudent.student_name}" size="55" required="true" requiredMessage="Preencha o nome do Aluno"/>      
+                <p:inputText value="#{student.selectedStudent.student_birth_date}" size="13" />
+               </p:panelGrid>
+               <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                 <p:panel id="toggleRespEdit" header="Responsável" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleEndUser" >
+                   <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                     <p:outputLabel value="Nome: "/>
+                     <p:inputText value="#{student.selectedStudent.resp_Name}"/>
+                     <p:outputLabel value="Data de Nascimento: "/>
+                     <p:inputText value="#{student.selectedStudent.resp_birth_date}"/>
+                   </p:panelGrid>
+                   <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
+                     <p:outputLabel value="Telefone Residencial: "/>
+                     <p:outputLabel value="Telefone Comercial: "/>
+                     <p:outputLabel value="RG: "/>
+                     <p:outputLabel value="CPF: "/>
+                     <p:inputText value="#{student.selectedStudent.resp_home_phone}"/>
+                     <p:inputText value="#{student.selectedStudent.resp_office_phone}"/>
+                     <p:inputText value="#{student.selectedStudent.resp_rg}"/>
+                     <p:inputText value="#{student.selectedStudent.resp_cpf}"/>
+                   </p:panelGrid>
+                    <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+                      <p:outputLabel value="Endereço: "/>
+                      <p:outputLabel value="Numero: "/>
+                      <p:outputLabel value="CEP: "/>
+                      <p:inputText value="#{student.selectedStudent.resp_address.street}" size="53" />
+                      <p:inputText value="#{student.selectedStudent.resp_address.number}" size="10" />
+                      <p:inputText value="#{student.selectedStudent.resp_address.zip_code}" size="10" />
+                    </p:panelGrid>
+                    <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+                      <p:outputLabel value="Bairro:"/>
+                      <p:outputLabel value="Cidade:"/>
+                      <p:outputLabel value="Estado: "/>
+                      <p:inputText value="#{student.selectedStudent.resp_address.district}" size="35" />
+                      <p:inputText value="#{student.selectedStudent.resp_address.city}" size="35" />
+                      <p:inputText value="#{student.selectedStudent.resp_address.state}" size="3" />
+                    </p:panelGrid>
+                    </p:panel>
+               </p:panelGrid>
+            </p:fieldset>
+            <f:facet name="footer">
+              <p:panelGrid columns="2" style="float: right;">
+                <h:commandButton styleClass="btn btn-primary" value="Editar">
+                  <p:ajax event="click" listener="#{student.updateSudent}" process="@this pngStudEdit"  oncomplete="handleEditStudRequest(xhr, status, args)" update="pngStudEdit dtbStud growlDlgStudEdit pngControleStud" />
+                </h:commandButton>
+                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                  <p:ajax event="click" oncomplete="PF('dlgEmpEdit').hide();" />
+                </h:commandButton>
+              </p:panelGrid>  
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+       
+       
+       
+       <script type="text/javascript">
+          function handleAddStudRequest(xhr, status, args) {
+              if(args.validationFailed) {
+                  PF('dlgStud').jq.effect("shake", {times:2}, 100);
+              }
+              else {
+                  PF('dlgStud').hide();
+               
+              }
+          }
+          function handleEditEmpRequest(xhr, status, args) {
+              if(args.validationFailed) {
+                  PF('dlgStudEdit').jq.effect("shake", {times:2}, 100);
+              }
+              else {
+                  PF('dtbStud').unselectAllRows();
+                  PF('dlgStudEdit').hide();
+               
+              }
+          } 
+        </script>
+         
+        </ui:define>
+    </ui:decorate>
+</html>

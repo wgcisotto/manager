@@ -1,0 +1,140 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Modulos
+        </ui:define>
+        <ui:define name="default">
+        
+         <p:messages id="msgClassModule" showDetail="true" autoUpdate="true" closable="true" />
+
+         <p:panelGrid id="pngClassModule" columns="1" styleClass="panelgrid_sem_borda">
+           
+           <p:panelGrid id="pngControleMod" columns="3" styleClass="panelgrid_sem_borda"> 
+            <h:commandButton id="btnOpendlgClassModule" styleClass="btn btn-primary btn-lg" value="Novo Modulo">
+              <p:ajax event="click" oncomplete="PF('dlgMod').show();" listener="#{student.newModule}" update="pngNewMod" />
+            </h:commandButton>
+           </p:panelGrid>          
+                              
+          <p:dataTable id="dtbMod" widgetVar="dtbMod" var="cMod" value="#{student.modules}" emptyMessage="Nenhum modulo encontrado" 
+             rowKey="#{cMod.id_class_module}" filteredValue="#{student.filteredModules}"
+              >
+     
+              <f:facet name="header">
+                  <p:outputPanel id="dtbHeader" styleClass="search_align">
+                      <h:outputText value="Search: " />
+                      <p:inputText id="globalFilter" onkeyup="PF('dtbMod').filter()" value="#{student.globalFilterModule}" style="width:150px" placeholder="Digite"/>
+                  </p:outputPanel>
+              </f:facet>
+ 
+              <p:column sortBy="#{cMod.name}" filterBy="#{cMod.name}" filterMatchMode="contains">
+                <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+                <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                  <p:column>
+                    <h:outputText value="#{cMod.name}" />
+                  </p:column>
+                 <p:column style="float: right;" >
+                   <p:commandButton id="btnOpendlgEdit" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil" oncomplete="PF('dlgModEdit').show();" process="@this">
+                    <f:setPropertyActionListener value="#{cMod}" target="#{student.selectedModule}"/>
+                   </p:commandButton>
+                   <p:commandButton id="btnDelMod" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" action="#{student.delModule}" oncomplete="PF('dtbMod').unselectAllRows();" update="@form"/>
+                 </p:column>
+                </p:panelGrid>
+                <p:panelGrid columns="1">
+                  <p:column>
+                    <p:outputLabel value="#{cMod.description}"/>
+                  </p:column>
+                </p:panelGrid>
+                </p:panelGrid>
+                <f:facet name="filter">
+                  <h:inputText style="display:none;"/>
+                </f:facet>
+              </p:column>
+          </p:dataTable>   
+         </p:panelGrid>
+         
+         
+         <p:dialog id="dlgMod" header="Cadastro de Modulo" widgetVar="dlgMod" minHeight="40" resizable="false" modal="true">
+          <p:panelGrid id="pngNewMod" columns="1" styleClass="panelgrid_sem_borda">
+            <p:growl id="growlDlgMod" sticky="true" showDetail="true" life="3000" />
+              <p:fieldset>
+              <p:panelGrid id="pngCadMod"  columns="2" styleClass="panelgrid_sem_borda">
+                <h:outputLabel value="Nome: "/>
+                <h:inputText value="#{student.newModule.name}" required="True" requiredMessage="Preencha o Nome do Modulo"/>
+                <h:outputLabel value="Descrição: "/>
+                <h:inputText value="#{student.newModule.description}"/>
+              </p:panelGrid>
+             </p:fieldset>
+            <f:facet name="footer">
+              <p:panelGrid columns="2" style="float: right;">
+                <h:commandButton styleClass="btn btn-primary" value="Incluir">
+                  <p:ajax event="click" listener="#{student.addModule}" process="@this pngNewMod"  oncomplete="handleAddModRequest(xhr, status, args)" update="dtbMod growlDlgMod" />
+                </h:commandButton>
+                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                  <f:setPropertyActionListener value="null" target="{student.newModule}"/> 
+                  <p:ajax event="click" oncomplete="PF('dlgMod').hide();" />
+                </h:commandButton>
+              </p:panelGrid>
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+         
+         <p:dialog id="dlgModEdit" header="Edicao de Modulo " widgetVar="dlgModEdit" minHeight="40" resizable="false" modal="true">
+          <p:growl id="growlDlgModEdit" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngModEdit" columns="1" styleClass="panelgrid_sem_borda">
+            <p:fieldset>
+              <p:panelGrid id="pngEditMod"  columns="2" styleClass="panelgrid_sem_borda">
+                <h:outputLabel value="Nome: "/>
+                <h:inputText value="#{student.selectedModule.name}" required="True" requiredMessage="Preencha o Nome do Modulo"/>
+                <h:outputLabel value="Descrição: "/>
+                <h:inputText value="#{student.selectedModule.description}"/>
+              </p:panelGrid>
+            </p:fieldset>
+            <f:facet name="footer">
+              <p:panelGrid columns="2" style="float: right;">
+                <h:commandButton styleClass="btn btn-primary" value="Editar">
+                  <p:ajax event="click" listener="#{student.updateModule}" process="@this pngModEdit"  oncomplete="handleEditModRequest(xhr, status, args)" update="pngModEdit dtbMod growlDlgModEdit pngControleMod" />
+                </h:commandButton>
+                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                  <p:ajax event="click" oncomplete="PF('dlgModEdit').hide();" />
+                </h:commandButton>
+              </p:panelGrid>  
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+       
+       
+       
+       <script type="text/javascript">
+          function handleAddModRequest(xhr, status, args) {
+              if(args.validationFailed) {
+                  PF('dlgMod').jq.effect("shake", {times:2}, 100);
+              }
+              else {
+                  PF('dlgMod').hide();
+               
+              }
+          }
+          function handleEditModRequest(xhr, status, args) {
+              if(args.validationFailed) {
+                  PF('dlgModEdit').jq.effect("shake", {times:2}, 100);
+              }
+              else {
+                  PF('dtbMod').unselectAllRows();
+                  PF('dlgModEdit').hide();
+               
+              }
+          } 
+        </script>
+          
+        
+         
+         
+         
+        </ui:define>
+    </ui:decorate>
+</html>
