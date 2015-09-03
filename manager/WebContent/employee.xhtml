@@ -104,7 +104,7 @@
 		           </p:panelGrid>
 		           <p:panelGrid id="pngProfileNew" columns="2" styleClass="panelgrid_sem_borda">
 		            <p:outputLabel value="Perfil: "/>
-		            <p:outputLabel value="Filial: " rendered="#{company.newEmployee.profile.name ne 'Administrador' and  company.newEmployee.profile != null}"/>
+		            <p:outputLabel value="Unidade: " rendered="#{company.newEmployee.profile.name ne 'Administrador' and  company.newEmployee.profile != null}"/>
 				        <p:selectOneRadio id="rdbProfileNew" value="#{company.newEmployee.profile}" converter="profileConverter">
 				            <f:selectItems value="#{company.profiles}" itemLabel="#{p.name}" itemValue="#{p}" var="p"/>
 				            <p:ajax event="change" update="pngProfileNew" />
@@ -170,7 +170,7 @@
                </p:panelGrid>
                <p:panelGrid id="pngProfileEdit" columns="2" styleClass="panelgrid_sem_borda">
                 <p:outputLabel value="Perfil: "/>
-                <p:outputLabel value="Filial: " rendered="#{company.selectedEmployee.profile.name ne 'Administrador' and  company.selectedEmployee.profile != null}"/>
+                <p:outputLabel value="Unidade: " rendered="#{company.selectedEmployee.profile.name ne 'Administrador' and  company.selectedEmployee.profile != null}"/>
                 <p:selectOneRadio id="rdbProfileEdit" value="#{company.selectedEmployee.profile}" rendered="#{company.selectedEmployee.profile != null}" converter="profileConverter">
                     <f:selectItems value="#{company.profiles}" itemLabel="#{p.name}" itemValue="#{p}" var="p"/>
                     <p:ajax event="change" update="pngProfileEdit" />

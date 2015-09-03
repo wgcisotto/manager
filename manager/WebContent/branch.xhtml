@@ -6,7 +6,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:decorate template="default.xhtml">
         <ui:define name="header">
-          Filial
+          Unidade
         </ui:define>
         <ui:define name="default">
          
@@ -15,12 +15,12 @@
          <p:panelGrid id="pngBranchs" columns="1" styleClass="panelgrid_sem_borda">
          
 	         <p:panelGrid id="pngControleBranch" columns="3" styleClass="panelgrid_sem_borda"> 
-	          <h:commandButton id="btnOpenBranch" styleClass="btn btn-primary btn-lg" value="Nova Filial">
+	          <h:commandButton id="btnOpenBranch" styleClass="btn btn-primary btn-lg" value="Nova Unidade">
 	            <p:ajax event="click" oncomplete="PF('dlgBranch').show();" listener="#{company.newBranch}" update="pngBranch"/>
 	          </h:commandButton>
 	         </p:panelGrid>          
                               
-          <p:dataTable id="dtbBranchs" widgetVar="dtbBranchs" var="bch" value="#{company.branchs}" emptyMessage="Nenhuma Filial encontrado" 
+          <p:dataTable id="dtbBranchs" widgetVar="dtbBranchs" var="bch" value="#{company.branchs}" emptyMessage="Nenhuma Unidade encontrado" 
              selectionMode="single" rowKey="#{bch.id_branch}" filteredValue="#{company.filteredBranchs}">
      
               <p:ajax event="rowSelect" listener="#{company.onRowSelectBranch}" update="@form"/>
@@ -62,7 +62,7 @@
          
          </p:panelGrid>
          
-         <p:dialog id="dlgBranch" header="Cadastro de Filial" widgetVar="dlgBranch" minHeight="40" resizable="false" modal="true">
+         <p:dialog id="dlgBranch" header="Cadastro de Unidade" widgetVar="dlgBranch" minHeight="40" resizable="false" modal="true">
             <p:growl id="growlDlgBranch" sticky="true" showDetail="true" life="3000" />
             <p:panelGrid id="pngBranch" columns="1" styleClass="panelgrid_sem_borda">
               <fieldset>
@@ -70,7 +70,7 @@
                     <p:outputLabel value="ID: "/>
                     <p:inputText value="#{company.newBranch.id_branch}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
                     <p:outputLabel value="Nome: "/>
-                    <p:inputText value="#{company.newBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Filial"/>      
+                    <p:inputText value="#{company.newBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Unidade"/>      
                     <p:outputLabel value="Telefone: "/>
                     <p:inputText value="#{company.newBranch.phone}" size="13" />
                   </p:panelGrid>
@@ -105,7 +105,7 @@
          </p:panelGrid>
         </p:dialog>
          
-         <p:dialog id="dlgBranchEdit" header="Edicao de Filial" widgetVar="dlgBranchEdit" minHeight="40" resizable="false" modal="true">
+         <p:dialog id="dlgBranchEdit" header="Edicao de Unidade" widgetVar="dlgBranchEdit" minHeight="40" resizable="false" modal="true">
           <p:growl id="growlDlgBranchEdit" sticky="true" showDetail="true" life="3000" />
           <p:panelGrid id="pngBranchEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
@@ -113,7 +113,7 @@
 	              <p:outputLabel value="ID: "/>
 	              <p:inputText value="#{company.selectedBranch.id_branch}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
 	              <p:outputLabel value="Nome: "/>
-	              <p:inputText value="#{company.selectedBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Filial"/>      
+	              <p:inputText value="#{company.selectedBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Unidade"/>      
                 <p:outputLabel value="Telefone: "/>
                 <p:inputText value="#{company.selectedBranch.phone}" size="13" />      
 	            </p:panelGrid>
