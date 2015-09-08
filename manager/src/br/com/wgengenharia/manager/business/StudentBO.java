@@ -13,13 +13,16 @@ import br.com.wgengenharia.manager.model.Student;
 public class StudentBO implements StudentDAO {
 
 	private StudentDAO DAO;
+	private AddressBO BO;
 	
 	public StudentBO(EntityManager em) {
 		DAO = new StudentDAOImpl(em);
+		BO = new AddressBO(em);
 	}
 	
 	@Override
 	public void insert(Student student) {
+		BO.insert(student.getResp_address());
 		DAO.insert(student);
 	}
 

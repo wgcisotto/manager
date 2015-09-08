@@ -23,6 +23,9 @@ public class EmployeeBO implements EmployeeDAO {
 	@Override
 	public void insert(Employee employee) {
 		BO.insert(employee.getAddress());
+		if(employee.getIsAdmin()){
+			employee.setBranch(null);
+		}
 		DAO.insert(employee);
 	}
 
