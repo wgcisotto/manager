@@ -10,21 +10,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TAB_SALE")
-@SequenceGenerator(name="seqSale", sequenceName="SEQ_SALE",allocationSize=1)
+//@SequenceGenerator(name="seqSale", sequenceName="SEQ_SALE",allocationSize=1)
 public class Sale implements Serializable {
 	
 	private static final long serialVersionUID = 702365879590135381L;
@@ -35,7 +32,7 @@ public class Sale implements Serializable {
 	
 	@Id
 	@Column(name="ID_SALE")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqSale")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqSale")
 	private int id_sale;
 	@ManyToMany(cascade=CascadeType.ALL)
   @JoinTable(name="TAB_SALE_PRODUCT",

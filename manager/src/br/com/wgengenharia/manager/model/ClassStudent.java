@@ -5,26 +5,23 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TAB_CLASS")
-@SequenceGenerator(name="seqClassStudent", sequenceName="SEQ_CLASSSTUDENT",allocationSize=1)
+//@SequenceGenerator(name="seqClassStudent", sequenceName="SEQ_CLASSSTUDENT",allocationSize=1)
 public class ClassStudent {
 
 	@Id
 	@Column(name="ID_CLASS_STUDENT")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqClassStudent")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqClassStudent")
 	private int id_class_student;
 	
 	@Column(name="CLASS_NAME", length=100)
@@ -45,6 +42,12 @@ public class ClassStudent {
 	
 	@ManyToOne
 	private ClassModule class_module;
+
+	@ManyToOne
+	private Company company;
+	
+	@ManyToOne
+	private Branch branch;
 
 	public int getId_class_student() {
 		return id_class_student;
@@ -101,7 +104,21 @@ public class ClassStudent {
 	public void setClass_module(ClassModule class_module) {
 		this.class_module = class_module;
 	}
-	
-	
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public Branch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
 
 	}

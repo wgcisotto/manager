@@ -11,12 +11,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TAB_MODULE")
-@SequenceGenerator(name="seqModule", sequenceName="SEQ_MODULE",allocationSize=1)
+//@SequenceGenerator(name="seqModule", sequenceName="SEQ_MODULE",allocationSize=1)
 public class Module {
 
 	@Id
 	@Column(name="ID_MODULE")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqModule")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqModule")
 	private int id_module;
 	
 	@Column(name="TYPE", nullable=false)

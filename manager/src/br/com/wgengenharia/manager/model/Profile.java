@@ -11,13 +11,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TAB_PROFILE")
-@SequenceGenerator(name="seqProfile", sequenceName="SEQ_PROFILE",allocationSize=1)
+//@SequenceGenerator(name="seqProfile", sequenceName="SEQ_PROFILE",allocationSize=1)
 public class Profile {
 	
 	
 	@Id
 	@Column(name="ID_PROFILE")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProfile")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProfile")
 	private int id_profile;
 	@Column(name="NAME")
 	private String name;

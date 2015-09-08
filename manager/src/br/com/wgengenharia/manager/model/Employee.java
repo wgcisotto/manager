@@ -2,17 +2,14 @@ package br.com.wgengenharia.manager.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "TAB_EMPLOYEE")
-@SequenceGenerator(name="seqEmployee", sequenceName="SEQ_EMPLOYEE",allocationSize=1)
+//@SequenceGenerator(name="seqEmployee", sequenceName="SEQ_EMPLOYEE",allocationSize=1)
 public class Employee {
 
 	private static final String EMPLOYEE_ADMIN = "Administrador"; 
@@ -24,7 +21,7 @@ public class Employee {
 	
 	@Id
 	@Column(name="ID_EMPLOYEE")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqEmployee")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqEmployee")
 	private int id_employee;
 
 	@Column(name="NAME", nullable=false)

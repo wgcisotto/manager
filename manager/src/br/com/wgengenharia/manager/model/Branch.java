@@ -2,16 +2,13 @@ package br.com.wgengenharia.manager.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "TAB_BRANCH")
-@SequenceGenerator(name="seqBranch", sequenceName="SEQ_BRANCH",allocationSize=1)
+//@SequenceGenerator(name="seqBranch", sequenceName="SEQ_BRANCH",allocationSize=1)
 public class Branch {
 	
 	public Branch() {
@@ -20,7 +17,7 @@ public class Branch {
 
 	@Id
 	@Column(name="ID_BRANCH")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqBranch")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqBranch")
 	private int id_branch;
 	
 	@Column(name="NAME")

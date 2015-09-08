@@ -4,23 +4,20 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "TAB_PRODUCT")
-@SequenceGenerator(name="seqProduct", sequenceName="SEQ_PRODUCT",allocationSize=1)
+//@SequenceGenerator(name="seqProduct", sequenceName="SEQ_PRODUCT",allocationSize=1)
 public class Product implements Serializable {
 	
 	private static final long serialVersionUID = -8371022467959133760L;
 	
 	@Id
 	@Column(name="ID_PRODUCT")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProduct")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProduct")
 	private int id_product;
 	@Column(name="BARCODE", length=100)
 	private String barcode;

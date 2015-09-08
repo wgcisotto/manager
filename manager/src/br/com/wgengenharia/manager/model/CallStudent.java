@@ -5,26 +5,23 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "TAB_CALL")
-@SequenceGenerator(name="seqCalls", sequenceName="SEQ_CALLS",allocationSize=1)
+//@SequenceGenerator(name="seqCalls", sequenceName="SEQ_CALLS",allocationSize=1)
 public class CallStudent {
 
 
 	@Id
 	@Column(name="ID_CALL")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCalls")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCalls")
 	private int id_calls;
 
 	@ManyToOne

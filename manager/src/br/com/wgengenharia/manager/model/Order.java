@@ -19,14 +19,14 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TAB_ORDER")
-@SequenceGenerator(name="seqOrder", sequenceName="SEQ_ORDER",allocationSize=1)
+//@SequenceGenerator(name="seqOrder", sequenceName="SEQ_ORDER",allocationSize=1)
 public class Order implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="ID_ORDER")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqOrder")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqOrder")
 	private int id_order;
 	
 	@ManyToMany

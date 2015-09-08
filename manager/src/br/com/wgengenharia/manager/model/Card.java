@@ -10,13 +10,10 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,7 +21,7 @@ import org.primefaces.context.RequestContext;
 
 @Entity
 @Table(name = "TAB_CARD")
-@SequenceGenerator(name="seqCard", sequenceName="SEQ_CARD",allocationSize=1)
+//@SequenceGenerator(name="seqCard", sequenceName="SEQ_CARD",allocationSize=1)
 public class Card implements Serializable {
 	
 	private static final long serialVersionUID = 8533658292055517665L;
@@ -36,7 +33,7 @@ public class Card implements Serializable {
 	
 	@Id
 	@Column(name="ID_CARD")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCard")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCard")
 	private int id_card;
 	
 	@ManyToMany

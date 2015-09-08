@@ -4,23 +4,20 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "TAB_CATEGORY")
-@SequenceGenerator(name="seqCategory", sequenceName="SEQ_CATEGORY",allocationSize=1)
+//@SequenceGenerator(name="seqCategory", sequenceName="SEQ_CATEGORY",allocationSize=1)
 public class Category implements Serializable {
 	
 	private static final long serialVersionUID = 1709126584637764224L;
 	
 	@Id
 	@Column(name="ID_CATEGORY")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCategory")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCategory")
 	private int id_category;
 	@Column(name="NAME", length=100)
 	private String name;

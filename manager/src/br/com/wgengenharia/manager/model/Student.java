@@ -15,11 +15,16 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TAB_STUDENT")
-@SequenceGenerator(name="seqStudent", sequenceName="SEQ_STUDENT",allocationSize=1)
+//@SequenceGenerator(name="seqStudent", sequenceName="SEQ_STUDENT",allocationSize=1)
 public class Student {
+	
+	public Student() {
+		this.resp_address = new Address();
+	}
+	
 	@Id
 	@Column(name="ID_STUDENT")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqStudent")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqStudent")
 	private int id_student;
 	
 	@Column(name="STUDENT_NAME", length=100)
@@ -27,6 +32,9 @@ public class Student {
 	
 	@Temporal(TemporalType.DATE)
 	private Date student_birth_date;
+	
+	@Column(name="STUDENT_EMAIL", length=100)
+	private String email;
 	
 	@Column(name="RESP_NAME", length=100)
 	private String resp_Name;
@@ -73,6 +81,12 @@ public class Student {
 	}
 	public void setStudent_birth_date(Date student_birth_date) {
 		this.student_birth_date = student_birth_date;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getResp_Name() {
 		return resp_Name;
