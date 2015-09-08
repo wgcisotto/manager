@@ -30,5 +30,17 @@
   <converter-class>br.com.wgengenharia.manager.converter.BranchConverter</converter-class>
  </converter>
  
+ 
+ <converter>
+  <converter-id>classModuleConverter</converter-id>
+  <converter-class>br.com.wgengenharia.manager.converter.ClassModuleConverter</converter-class>
+ </converter>
+ 
+ 
+ <converter>
+  <converter-id>classStudentConverter</converter-id>
+  <converter-class>br.com.wgengenharia.manager.converter.ClassStudentConverter</converter-class>
+ </converter>
+ 
 
 </faces-config>
