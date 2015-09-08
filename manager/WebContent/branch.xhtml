@@ -21,10 +21,8 @@
 	         </p:panelGrid>          
                               
           <p:dataTable id="dtbBranchs" widgetVar="dtbBranchs" var="bch" value="#{company.branchs}" emptyMessage="Nenhuma Unidade encontrado" 
-             selectionMode="single" rowKey="#{bch.id_branch}" filteredValue="#{company.filteredBranchs}">
+             rowKey="#{bch.id_branch}" filteredValue="#{company.filteredBranchs}">
      
-              <p:ajax event="rowSelect" listener="#{company.onRowSelectBranch}" update="@form"/>
- 
               <f:facet name="header">
                   <p:outputPanel id="dtbHeader" styleClass="search_align">
                       <h:outputText value="Search: " />
@@ -33,25 +31,33 @@
               </f:facet>
  
               <p:column sortBy="#{bch.name}" filterBy="#{bch.name}" filterMatchMode="contains">
-                <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-	                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-	                  <p:column>
-	                    <h:outputText value="#{bch.name}" />
-	                  </p:column>
-	                  <p:column style="float: right;" >
-					            <p:commandButton id="btnOpendlgEditBranch" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil" disabled="#{company.selectedBranch == null}">
-					              <p:ajax event="click" oncomplete="PF('dlgBranchEdit').show();" update="@form" />
-					            </p:commandButton>
-					            <p:commandButton id="btnDelProd" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" disabled="#{company.selectedBranch == null}">
-					              <p:ajax event="click" listener="#{company.delBranch}" oncomplete="PF('dtbBranchs').unselectAllRows();" update="@form"/>
-					            </p:commandButton>
-	                  </p:column>
-	                </p:panelGrid>
-	                <p:panelGrid columns="1">
-	                  <p:outputLabel value="#{bch.phone}"/>
-	                  <p:outputLabel value="#{bch.address.street} - #{bch.address.number} - #{bch.address.district} - #{bch.address.city} - #{bch.address.state}"/>
-	                </p:panelGrid>
-                </p:panelGrid>
+	              <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+	                <p:column>
+	                  <p:outputLabel value="Unidade: "/>
+	                  <h:outputText value=" #{bch.name}" />
+	                </p:column>
+	                <p:column style="float: right;" >
+	                   <p:commandButton id="btnDelBranch" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" action="#{company.delBranch}" process="@this" oncomplete="PF('dtbBranchs').unselectAllRows();" update="@form">
+                       <f:setPropertyActionListener target="#{company.selectedBranch}" value="#{bch}"/>
+	                   </p:commandButton>
+				            <p:commandButton id="btnOpendlgEditBranch" title="Editar" style="float: right" process="@this" styleClass="btn_opcoes" icon="ui-icon-pencil">
+				              <f:setPropertyActionListener target="#{company.selectedBranch}" value="#{bch}"/>
+				              <p:ajax event="click" oncomplete="PF('dlgBranchEdit').show();" />
+				            </p:commandButton>
+	                </p:column>
+	                 <p:column>
+	                  <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" /> 
+	                  <p:outputLabel value="Endereco: "/>
+	                  <h:outputText  value=" #{bch.address.street} - #{bch.address.number} - #{bch.address.district} - #{bch.address.city} - #{bch.address.state}"/>
+	                  <img src="resources/images/icons/icon-adress.png" width="12" height="16" alt="" style="margin-bottom: 3px;"/>
+	                 </p:column>
+	                 <p:column>
+	                   <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
+	                   <p:outputLabel value="Telefone: "/>
+	                   <h:outputText  value=" #{bch.phone}"/>
+	                   <img src="resources/images/icons/icon-phone.png" width="16" height="13" alt="" />
+	                 </p:column>
+	              </p:panelGrid>
                 <f:facet name="filter">
                   <h:inputText style="display:none;"/>
                 </f:facet>
@@ -104,8 +110,10 @@
             </f:facet>
          </p:panelGrid>
         </p:dialog>
+        
+        <p:remoteCommand id="rmcBranchEdit" name="rmcBrancEdit" update="pngBranchEdit" process="@none"/>
          
-         <p:dialog id="dlgBranchEdit" header="Edicao de Unidade" widgetVar="dlgBranchEdit" minHeight="40" resizable="false" modal="true">
+         <p:dialog id="dlgBranchEdit" header="Edicao de Unidade" widgetVar="dlgBranchEdit" minHeight="40" resizable="false" modal="true" onShow="rmcBrancEdit()">
           <p:growl id="growlDlgBranchEdit" sticky="true" showDetail="true" life="3000" />
           <p:panelGrid id="pngBranchEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
@@ -137,7 +145,7 @@
             <f:facet name="footer">
               <p:panelGrid columns="2" style="float: right;">
                 <h:commandButton styleClass="btn btn-primary" value="Editar">
-                  <p:ajax event="click" listener="#{company.updateBranch}" process="@this pngBranchEdit"  oncomplete="handleEditProductRequest(xhr, status, args)" update="pngBranchInfoEdit dtbBranchs growlDlgBranchEdit pngControleBranch" />
+                  <p:ajax event="click" listener="#{company.updateBranch}" process="@this pngBranchEdit"  oncomplete="handleEditBranchRequest(xhr, status, args)" update="pngBranchInfoEdit dtbBranchs growlDlgBranchEdit pngControleBranch" />
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-default" value="Cancelar">
                   <p:ajax event="click" oncomplete="PF('dlgBranchEdit').hide();" />

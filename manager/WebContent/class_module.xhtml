@@ -35,18 +35,23 @@
                 <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
                 <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
                   <p:column>
-                    <h:outputText value="#{cMod.name}" />
+                    <p:outputLabel value="Módulo: " />
+                    <h:outputText value=" #{cMod.name}" />
                   </p:column>
                  <p:column style="float: right;" >
+                   <p:commandButton id="btnDelMod" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" action="#{student.delModule}" process="@this" oncomplete="PF('dtbMod').unselectAllRows();" update="@form">
+                    <f:setPropertyActionListener value="#{cMod}" target="#{student.selectedModule}"/>
+                   </p:commandButton>
                    <p:commandButton id="btnOpendlgEdit" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil" oncomplete="PF('dlgModEdit').show();" process="@this">
                     <f:setPropertyActionListener value="#{cMod}" target="#{student.selectedModule}"/>
                    </p:commandButton>
-                   <p:commandButton id="btnDelMod" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" action="#{student.delModule}" oncomplete="PF('dtbMod').unselectAllRows();" update="@form"/>
                  </p:column>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                   <p:column>
-                    <p:outputLabel value="#{cMod.description}"/>
+                    <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
+                    <p:outputLabel value="Descrição"/>
+                    <h:outputText value=" #{cMod.description}"/>
                   </p:column>
                 </p:panelGrid>
                 </p:panelGrid>
@@ -83,7 +88,8 @@
          </p:panelGrid>
         </p:dialog>
          
-         <p:dialog id="dlgModEdit" header="Edicao de Modulo " widgetVar="dlgModEdit" minHeight="40" resizable="false" modal="true">
+         <p:remoteCommand id="rmcModEdit" name="rmcModEdir" update="pngModEdit" process="@this"/>
+         <p:dialog id="dlgModEdit" header="Edicao de Modulo " widgetVar="dlgModEdit" minHeight="40" resizable="false" modal="true" onShow="rmcModEdir()">
           <p:growl id="growlDlgModEdit" sticky="true" showDetail="true" life="3000" />
           <p:panelGrid id="pngModEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>

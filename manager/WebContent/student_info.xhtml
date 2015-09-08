@@ -1,0 +1,125 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Aluno
+        </ui:define>
+        <ui:define name="default">
+          
+          <p:messages id="msgStudentInfo" showDetail="true" autoUpdate="true" closable="true" />
+          
+          <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlUser">
+          
+           <p:panel id="toggleInfoStudent" header="Dados Aluno" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoStudent"> 
+            
+            <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+              <p:outputLabel value="Aluno: "/>
+              <p:inputText value="#{student.selectedStudent.student_name}" size="30" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Email: "/>
+              <p:inputText value="#{student.selectedStudent.email}" size="30" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Responsavel: "/>
+              <p:inputText value="#{student.selectedStudent.resp_Name}" size="30" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Tel Residencial: "/>
+              <p:inputText value="#{student.selectedStudent.resp_home_phone}" size="30" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Tel Comercial: "/>
+              <p:inputText value="#{student.selectedStudent.resp_office_phone}" size="30" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Turma Matriculada: "/>
+              <p:selectOneMenu id="slctClassStudent" value="#{student.studentInfoClassStudent}" converter="classStudentConverter">
+                 <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs}"/>
+              </p:selectOneMenu>
+            </p:panelGrid>
+          </p:panel>                    
+            
+          <br/> 
+          
+          <p:panel id="toggleStudentFin" header="Financeiro" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleStudentFin"> 
+           <p:panelGrid columns="7" styleClass="panelgrid_sem_borda">
+            <p:outputLabel value="Mensalidade: "/>
+            <p:inputText/>
+            <p:outputLabel value="Parcelas: "/>
+            <p:spinner />
+            <p:outputLabel value="Vencimento: "/>
+            <p:calendar/>
+            <p:commandButton icon="ui-icon-plus"/>
+           </p:panelGrid>
+           <br/>
+           <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+            <p:outputLabel value="Pagamentos"/>
+            
+            </p:panelGrid>
+          </p:panel>
+          
+          
+          <br/> 
+          
+          <p:panel id="toggleStudentClass" header="Follow Up" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleStudentClass"> 
+           <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+            <p:commandButton icon="ui-icon-plus" action="#{student.addFollowUp}" styleClass="btn_opcoes" update="dtbFUP toggleStudentClass"/>
+            <p:inputTextarea value="#{student.newFollowUp.followup}" style="width: 800px;height: 200;"/>
+            <p:dataTable id="dtbFUP" value="#{student.followups}" emptyMessage="Nenhum Follow Up" rowKey="#{fup.id_followup}" widgetVar="dtbFUP" 
+              var="fup">
+            
+            
+              <p:column headerText="Data" sortBy="#{fup.date_followup}" >
+                <h:outputText value="#{fup.date_followup}" />
+              </p:column>
+              
+       
+              <p:column headerText="Follow Up" sortBy="#{fup.followup}" >
+                <h:outputText value="#{fup.followup}" />
+              </p:column>
+              
+       
+              <p:column headerText="Responsável" sortBy="#{fup.employee.name}" >
+                <h:outputText value="#{fup.employee.name}" />
+              </p:column>
+              
+              <p:column style="width:40px;text-align: center">
+                <p:commandButton onstart="PF('dlgEditFUP').show();" icon="ui-icon-search" title="FollowUp" styleClass="btn_opcoes">
+                  <f:setPropertyActionListener target="#{student.selectedFollowUp}" value="#{fup}"/>
+                </p:commandButton>
+              </p:column>
+            
+            </p:dataTable>
+           
+           </p:panelGrid>
+          </p:panel>
+          
+          
+          <p:panelGrid id="pngControlInfoStudent" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
+            <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" actionListener="#{auth.updateEmployee}" update="@form"/>
+           </p:panelGrid>
+       
+         </p:panelGrid>
+        
+        
+        <p:remoteCommand id="rmcEditFUP" name="rmcEditFUP" update="pngdlgEditFUP" process="@this"/>
+        <p:dialog id="dlgEditFUP" header="Follow Up" widgetVar="dlgEditFUP" minHeight="40" resizable="false" modal="true" onShow="rmcEditFUP()">
+          <p:growl id="growldlgEditFUP" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngdlgEditFUP"  columns="1" styleClass="panelgrid_sem_borda" rendered="#{student.selectedFollowUp != null}">
+            <p:inputTextarea value="#{student.selectedFollowUp.followup}" style="width: 800px;height: 200;"/>
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-primary" value="Salvar">
+                <p:ajax event="click" process="@this pngdlgEditFUP"  listener="#{student.updateFollowUp}" update="dtbFUP" oncomplete="PF('dlgEditFUP').hide();"/>
+              </h:commandButton>
+              <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                <f:setPropertyActionListener value="null" target="{student.selectedFollowUp}"/> 
+                <p:ajax event="click" oncomplete="PF('dlgEditFUP').hide();" />
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
+        </p:dialog>
+         
+         
+         
+         
+         
+        </ui:define>
+    </ui:decorate>
+</html>

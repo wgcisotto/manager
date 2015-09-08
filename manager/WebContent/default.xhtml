@@ -61,10 +61,9 @@
         </p:submenu>
  
         <p:submenu label="Cadastros" icon="ui-icon-pencil">
-            <p:menuitem value="Produto" icon="ui-icon-cart" outcome="product.xhtml"  oncomplete="PF('dtbProducts').clearFilters()"/>
             <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" oncomplete="PF('dtbCategory').clearFilters()" />
+            <p:menuitem value="Produto" icon="ui-icon-cart" outcome="product.xhtml"  oncomplete="PF('dtbProducts').clearFilters()"/>
             <p:menuitem value="Cliente"  icon="ui-icon-person" outcome="client.xhtml" rendered="#{sec.hasModule('Lanchonete')}"/>
-            <p:menuitem value="Aluno"  icon="ui-icon-person" outcome="student.xhtml" />
             <p:menuitem value="Modulo"  icon="ui-icon-person" outcome="class_module.xhtml" />
             <p:menuitem value="Unidade"  icon="ui-icon-suitcase" outcome="branch.xhtml" rendered="#{sec.hasProfile('Administrador')}"/>
             <p:menuitem value="Comanda"  icon="ui-icon-person" outcome="card.xhtml" rendered="#{sec.hasModule('Lanchonete')}"/>
@@ -79,7 +78,8 @@
         
         <p:submenu label="Escolar" icon="ui-icon-note" rendered="#{sec.hasModule('Escolar')}">
             <p:menuitem value="Chamada" icon="ui-icon-plus" outcome="product.xhtml" />
-            <p:menuitem value="Turma"  icon="ui-icon-calendar" outcome="category.xhtml" />
+            <p:menuitem value="Turma"  icon="ui-icon-calendar" outcome="class_student.xhtml" />
+            <p:menuitem value="Aluno"  icon="ui-icon-person" outcome="student.xhtml" />
         </p:submenu>
 
         <p:submenu label="Estoque" icon="ui-icon-cart">

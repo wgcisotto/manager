@@ -17,18 +17,10 @@
 	          <h:commandButton id="btnOpenDlgCateg" styleClass="btn btn-primary btn-lg" value="Nova Categoria">
 	            <p:ajax event="click" oncomplete="PF('dlgCategory').show();" listener="#{manager.newCategory}" update="pngCadCat"/>
 	          </h:commandButton>
-	          <h:commandButton id="btnOpendlgEditCateg" styleClass="btn btn-success btn-lg" value="Editar Categoria" disabled="#{manager.selectedCategory == null}">
-	            <p:ajax event="click" oncomplete="PF('dlgCategoryEdit').show();" update="pngCategoryEdit"/>
-	          </h:commandButton>
-	          <h:commandButton id="btnDelCateg" styleClass="btn btn-danger btn-lg" value="Excluir Categoria" disabled="#{manager.selectedCategory == null}">
-	            <p:ajax event="click" listener="#{manager.delCategory}" oncomplete="PF('dtbCategory').unselectAllRows();" update="dtbCategory"/>
-	          </h:commandButton>
 	         </p:panelGrid>   
 	         
           <p:dataTable id="dtbCategory" widgetVar="dtbCategory" var="categ" value="#{manager.categories}" editable="true" emptyMessage="Nenhuma categoria encontrada" 
-              selectionMode="single" rowKey="#{categ.id_category}" filteredValue="#{manager.filteredCategories}">
-              
-              <p:ajax event="rowSelect" listener="#{manager.onRowSelectCategory}" update="@form"/>
+              rowKey="#{categ.id_category}" filteredValue="#{manager.filteredCategories}">
  
               <f:facet name="header">
                   <p:outputPanel id="dtbHeaderCategory" styleClass="search_align" >
@@ -37,20 +29,32 @@
                   </p:outputPanel>
               </f:facet>
                  
-			        <p:column headerText="Nome" sortBy="#{categ.name}" filterBy="#{categ.name}" filterMatchMode="contains">
-                <h:outputText value="#{categ.name}" />
+			        <p:column sortBy="#{categ.name}" filterBy="#{categ.name}" filterMatchMode="contains">
+                <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                  <p:column>
+                    <p:outputLabel value="Categoria: "/>
+                    <h:outputText value=" #{categ.name}" />
+                  </p:column>
+                  <p:column style="float: right;" >
+                     <p:commandButton id="btnDelCateg" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" action="#{manager.delCategory}" process="@this" oncomplete="PF('dtbCategory').unselectAllRows();" update="@form">
+                       <f:setPropertyActionListener target="#{manager.selectedCategory}" value="#{categ}"/>
+                     </p:commandButton>
+                    <p:commandButton id="btnOpendlgEditCateg" title="Editar" style="float: right" process="@this" oncomplete="PF('dlgCategoryEdit').show();" styleClass="btn_opcoes" icon="ui-icon-pencil">
+                      <f:setPropertyActionListener target="#{manager.selectedCategory}" value="#{categ}"/>
+                    </p:commandButton>
+                  </p:column>
+                   <p:column>
+                    <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" /> 
+                    <p:outputLabel value="Descrição: "/>
+                    <h:outputText  value=" #{categ.description}"/>
+                   </p:column>
+                   <p:column>
+                   </p:column>
+			           </p:panelGrid>
                 <f:facet name="filter">
                   <h:inputText style="display:none;"/>
                 </f:facet>
 			        </p:column>
-			 
-              <p:column headerText="Descrição" sortBy="#{categ.description}" filterBy="#{categ.description}" filterMatchMode="contains">
-                <h:outputText value="#{categ.description}" />
-                <f:facet name="filter">
-                  <h:inputText style="display:none;"/>
-                </f:facet>
-              </p:column>
-              
 			    </p:dataTable>
   
                     
@@ -74,14 +78,15 @@
 	              <p:ajax event="click" listener="#{manager.addCategory}" process="@this pngCadCat"  oncomplete="handleAddCategoryRequest(xhr, status, args)" update="pngCadCat, dtbCategory growlDlgCategory" />
 	            </h:commandButton>
 	            <h:commandButton styleClass="btn btn-default" value="Cancelar">
-	              <p:ajax event="click" oncomplete="PF('pngCategory').hide();" />
+	              <p:ajax event="click" oncomplete="PF('dlgCategory').hide();" />
               </h:commandButton>
             </p:panelGrid>
           
           </f:facet>
 				</p:dialog>
          
-         <p:dialog header="Edição de Categoria" widgetVar="dlgCategoryEdit" minHeight="40" resizable="false" modal="true">
+         <p:remoteCommand id="rmcCategoryEdit" name="rmcCategoryEdit" update="pngCategoryEdit" process="@this"/>
+         <p:dialog header="Edição de Categoria" widgetVar="dlgCategoryEdit" minHeight="40" resizable="false" modal="true" onShow="rmcCategoryEdit()">
           <p:panelGrid id="pngCategoryEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:growl id="growlDlgCategoryEdit" sticky="true" showDetail="true" life="3000" />
             <p:fieldset>
@@ -94,7 +99,7 @@
             </p:fieldset>
           </p:panelGrid>
           <f:facet name="footer">
-            <p:panelGrid columns="2" style="float: right;">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
 	            <h:commandButton styleClass="btn btn-primary" value="Editar">
 	              <p:ajax event="click" listener="#{manager.updateCategory}" process="@this pngEditCat" oncomplete="handleEditCategoryRequest(xhr, status, args);" update="pngEditCat dtbCategory growlDlgCategoryEdit pngControleCateg" />
 	            </h:commandButton>
