@@ -17,18 +17,19 @@
    <class>br.com.wgengenharia.manager.model.Module</class>
    <class>br.com.wgengenharia.manager.model.Profile</class>   
    <class>br.com.wgengenharia.manager.model.Student</class>
+   <class>br.com.wgengenharia.manager.model.StudentPayments</class>
    <class>br.com.wgengenharia.manager.model.ClassModule</class>
    <class>br.com.wgengenharia.manager.model.ClassStudent</class>
    <class>br.com.wgengenharia.manager.model.CallStudent</class>
-   <class>br.com.wgengenharia.manager.model.FollowUp</class>             
+   <class>br.com.wgengenharia.manager.model.FollowUp</class>    
     <properties>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
       <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
-      <property name="javax.persistence.jdbc.user" value="SYSTEM"/>
-      <property name="javax.persistence.jdbc.password" value="Admin123"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-    </properties>   
+      <property name="javax.persistence.jdbc.user" value="DCV7_FUS_DES"/>
+      <property name="javax.persistence.jdbc.password" value="DCV7_FUS_DES"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@DEVHMLL64:1521:hml64"/>
+    </properties> 
   </persistence-unit>
 </persistence>

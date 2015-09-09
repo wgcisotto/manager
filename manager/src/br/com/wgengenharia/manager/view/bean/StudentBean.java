@@ -16,13 +16,16 @@ import br.com.wgengenharia.manager.business.ClassModuleBO;
 import br.com.wgengenharia.manager.business.ClassStudentBO;
 import br.com.wgengenharia.manager.business.FollowUpBO;
 import br.com.wgengenharia.manager.business.StudentBO;
+import br.com.wgengenharia.manager.business.StudentPaymentsBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.model.ClassModule;
 import br.com.wgengenharia.manager.model.ClassStudent;
 import br.com.wgengenharia.manager.model.FollowUp;
 import br.com.wgengenharia.manager.model.Student;
+import br.com.wgengenharia.manager.model.StudentPayments;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
 import br.com.wgengenharia.manager.utils.AuthenticationUtil;
+import br.com.wgengenharia.manager.utils.DateUtil;
 
 @ManagedBean(name="student")
 @SessionScoped
@@ -66,6 +69,15 @@ public class StudentBean implements Serializable{
 	private FollowUp newFollowUp;
 	private FollowUp selectedFollowUp;
 	
+	//STUDENT PAYMENTS
+	private StudentPaymentsBO studentPaymentsBO; 
+	private List<StudentPayments> student_payments;
+	
+	private int quantity_parcel;
+	private Date expiry_date;
+	private double price;
+	
+	
 	
 	
 	// Default
@@ -81,6 +93,7 @@ public class StudentBean implements Serializable{
 		studentBO = new StudentBO(em);
 		classStudentBO = new ClassStudentBO(em);
 		followUpBO = new FollowUpBO(em);
+		studentPaymentsBO = new StudentPaymentsBO(em);
 		
 		
 		
@@ -259,8 +272,13 @@ public class StudentBean implements Serializable{
 	
 	public String openStudentInfo(){
 		if(selectedStudent!=null){
+			
 			followups = followUpBO.listFollowUpByStudent(this.selectedStudent);
 			newFollowUp = new FollowUp();
+			
+			student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
+			resetStudentPaymentInfo();
+
 			return "student_info?faces-redirect=true";
 		}else{
 			return "";
@@ -298,10 +316,42 @@ public class StudentBean implements Serializable{
 	}
 	
 	
+	public void addStudentPayment(){
+		try {
+			
+			for (int i = 1; i <= quantity_parcel; i++) {
+				StudentPayments sp = new StudentPayments();
+				
+				if(i>1){
+					expiry_date = DateUtil.updateDate(expiry_date);
+				}
+				
+				sp.setExpiry_date(expiry_date);
+				sp.setNumber_parcel(i);
+				sp.setPrice(price);
+				sp.setStudent(this.selectedStudent);
+				sp.setBranch(userInfo.getEmployee().getBranch());
+				sp.setCompany(userInfo.getEmployee().getCompany());
+				
+				studentPaymentsBO.insert(sp);
+			}
+
+			student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
+			resetStudentPaymentInfo();
+			
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Falha ao atualizar o financeiro do Aluno"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
 	
 	
 	
-	
+	public void resetStudentPaymentInfo(){
+		quantity_parcel = 0;
+		expiry_date = null;
+		price = 0;
+	}
 	
 	
 	
@@ -434,5 +484,32 @@ public class StudentBean implements Serializable{
 	}
 	public void setSelectedFollowUp(FollowUp selectedFollowUp) {
 		this.selectedFollowUp = selectedFollowUp;
+	}
+
+	//STUDENT PAYMENTS
+	
+	public List<StudentPayments> getStudent_payments() {
+		return student_payments;
+	}
+	public void setStudent_payments(List<StudentPayments> student_payments) {
+		this.student_payments = student_payments;
+	}
+	public int getQuantity_parcel() {
+		return quantity_parcel;
+	}
+	public void setQuantity_parcel(int quantity_parcel) {
+		this.quantity_parcel = quantity_parcel;
+	}
+	public Date getExpiry_date() {
+		return expiry_date;
+	}
+	public void setExpiry_date(Date expiry_date) {
+		this.expiry_date = expiry_date;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
 	}
 }

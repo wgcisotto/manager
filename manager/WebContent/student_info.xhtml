@@ -37,18 +37,30 @@
           <br/> 
           
           <p:panel id="toggleStudentFin" header="Financeiro" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleStudentFin"> 
-           <p:panelGrid columns="7" styleClass="panelgrid_sem_borda">
+           <p:panelGrid id="pngStudentPayments" columns="7" styleClass="panelgrid_sem_borda">
             <p:outputLabel value="Mensalidade: "/>
-            <p:inputText/>
+            <p:inputText value="#{student.price}"/>
             <p:outputLabel value="Parcelas: "/>
-            <p:spinner />
+            <p:spinner value="#{student.quantity_parcel}"/>
             <p:outputLabel value="Vencimento: "/>
-            <p:calendar/>
-            <p:commandButton icon="ui-icon-plus"/>
+            <p:calendar value="#{student.expiry_date}"/>
+            <p:commandButton icon="ui-icon-plus" action="#{student.addStudentPayment}" update="pngStudentPayments"/>
            </p:panelGrid>
            <br/>
            <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
             <p:outputLabel value="Pagamentos"/>
+            
+              <p:dataTable id="dtbSP" value="#{student.student_payments}" emptyMessage="Nenhuma Cobrança" rowKey="#{SP.id_student_payments}" widgetVar="dtbSP" 
+              var="SP">
+              
+	            
+	              <p:column headerText="Corrigir"  >
+	                <h:outputText value="#{sp}" />
+	              </p:column>
+              
+              </p:dataTable>    
+              
+            
             
             </p:panelGrid>
           </p:panel>
@@ -100,8 +112,8 @@
         <p:remoteCommand id="rmcEditFUP" name="rmcEditFUP" update="pngdlgEditFUP" process="@this"/>
         <p:dialog id="dlgEditFUP" header="Follow Up" widgetVar="dlgEditFUP" minHeight="40" resizable="false" modal="true" onShow="rmcEditFUP()">
           <p:growl id="growldlgEditFUP" sticky="true" showDetail="true" life="3000" />
-          <p:panelGrid id="pngdlgEditFUP"  columns="1" styleClass="panelgrid_sem_borda" rendered="#{student.selectedFollowUp != null}">
-            <p:inputTextarea value="#{student.selectedFollowUp.followup}" style="width: 800px;height: 200;"/>
+          <p:panelGrid id="pngdlgEditFUP"  columns="1" styleClass="panelgrid_sem_borda" >
+            <p:inputTextarea value="#{student.selectedFollowUp.followup}" style="width: 800px;height: 200;" rendered="#{student.selectedFollowUp != null}"/>
           </p:panelGrid>
           <f:facet name="footer">
             <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
