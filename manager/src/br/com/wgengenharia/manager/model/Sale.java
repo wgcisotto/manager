@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -32,6 +34,7 @@ public class Sale implements Serializable {
 	
 	@Id
 	@Column(name="ID_SALE")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqSale")
 	private int id_sale;
 	@ManyToMany(cascade=CascadeType.ALL)

@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +16,7 @@ public class Profile {
 	
 	@Id
 	@Column(name="ID_PROFILE")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProfile")
 	private int id_profile;
 	@Column(name="NAME")

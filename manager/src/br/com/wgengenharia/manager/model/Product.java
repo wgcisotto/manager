@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -17,6 +19,7 @@ public class Product implements Serializable {
 	
 	@Id
 	@Column(name="ID_PRODUCT")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqProduct")
 	private int id_product;
 	@Column(name="BARCODE", length=100)

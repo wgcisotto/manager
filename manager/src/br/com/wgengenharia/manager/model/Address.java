@@ -2,6 +2,8 @@ package br.com.wgengenharia.manager.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,6 +14,7 @@ public class Address {
 
 	@Id
 	@Column(name="ID_ADDRESS")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqAddress")
 	private int id_address;
 	@Column(name="STREET")

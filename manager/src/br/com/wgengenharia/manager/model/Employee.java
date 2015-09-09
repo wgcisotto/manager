@@ -2,6 +2,8 @@ package br.com.wgengenharia.manager.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -21,6 +23,7 @@ public class Employee {
 	
 	@Id
 	@Column(name="ID_EMPLOYEE")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqEmployee")
 	private int id_employee;
 
