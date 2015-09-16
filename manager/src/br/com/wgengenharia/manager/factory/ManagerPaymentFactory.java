@@ -2,27 +2,22 @@ package br.com.wgengenharia.manager.factory;
 
 import java.util.Calendar;
 
-import javax.persistence.EntityManager;
-
 import br.com.wgengenharia.manager.facade.ManagerSaleFacade;
 import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
-import br.com.wgengenharia.manager.model.Card;
 import br.com.wgengenharia.manager.model.Sale;
+import br.com.wgengenharia.manager.model.StudentPayments;
 
-public abstract class ManagerSaleFactory {
+public class ManagerPaymentFactory {
 	
-	
-	public static ManagerSaleFacadeInterface newInstance(Card card){
+	public static ManagerSaleFacadeInterface newInstance(StudentPayments payment){
 		Sale sale = new Sale();
 		
-		sale.getProducts().addAll(card.getProducts());
-		sale.setTotal(card.getTotal());
+		sale.setTotal(payment.getPaid());
 		sale.setDate(Calendar.getInstance());
 		sale.setTime(Calendar.getInstance().getTime());
-//		sale.set
+		
 		
 		return new ManagerSaleFacade(sale);
 	}
 	
-
 }
