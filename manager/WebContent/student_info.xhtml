@@ -16,7 +16,7 @@
           
            <p:panel id="toggleInfoStudent" header="Dados Aluno" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoStudent"> 
             
-            <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+            <p:panelGrid id="pngInfoStudent" columns="2" styleClass="panelgrid_sem_borda">
               <p:outputLabel value="Aluno: "/>
               <p:inputText value="#{student.selectedStudent.student_name}" size="30" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Email: "/>
@@ -28,7 +28,7 @@
               <p:outputLabel value="Tel Comercial: "/>
               <p:inputText value="#{student.selectedStudent.resp_office_phone}" size="30" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Turma Matriculada: "/>
-              <p:selectOneMenu id="slctClassStudent" value="#{student.studentInfoClassStudent}" converter="classStudentConverter">
+              <p:selectOneMenu id="slctClassStudent" value="#{student.studentInfoClass}" converter="classStudentConverter" >
                  <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs}"/>
               </p:selectOneMenu>
             </p:panelGrid>
@@ -44,27 +44,53 @@
             <p:spinner value="#{student.quantity_parcel}"/>
             <p:outputLabel value="Vencimento: "/>
             <p:calendar value="#{student.expiry_date}"/>
-            <p:commandButton icon="ui-icon-plus" action="#{student.addStudentPayment}" update="pngStudentPayments"/>
+            <p:commandButton icon="ui-icon-plus" >
+              <p:ajax process="@this toggleStudentFin" listener="#{student.addStudentPayment}" update="pngStudentPayments dtbSP"/>
+            </p:commandButton>
            </p:panelGrid>
            <br/>
            <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-            <p:outputLabel value="Pagamentos"/>
+             
+             <p:outputLabel value="Boletos"/>
             
               <p:dataTable id="dtbSP" value="#{student.student_payments}" emptyMessage="Nenhuma Cobrança" rowKey="#{SP.id_student_payments}" widgetVar="dtbSP" 
-              var="SP">
-              
-	            
-	              <p:column headerText="Corrigir"  >
-	                <h:outputText value="#{sp}" />
+              var="sp" sortBy="#{sp.expiry_date}">
+     
+	              <p:column headerText="Parcela" style="width:80px;text-align: center">
+	                <h:outputText value="#{sp.number_parcel}" />
 	              </p:column>
               
-              </p:dataTable>    
+                <p:column headerText="Valor">
+                  <h:outputText value="#{sp.price}" />
+                </p:column>
               
-            
-            
+                <p:column headerText="Data Vencimento">
+                  <h:outputText value="#{sp.expiry_date}" />
+                </p:column>
+              
+                <p:column headerText="Valor Pago">
+                  <h:outputText value="#{sp.paid}" />
+                </p:column>
+              
+                <p:column headerText="Data Pagamento">
+                  <h:outputText value="#{sp.payment_date}" />
+                </p:column>
+	       
+	              <p:column headerText="Status" >
+	                <b:label text="Pagamento Pendente" severity="warning" rendered="#{sp.status eq 'PENDENTE'}"/>
+	                <b:label text="Pagamento Atrasado" severity="Danger" rendered="#{sp.status eq 'ATRASADO'}" />
+	                <b:label text="Pagamento Efetuado" severity="Default" rendered="#{sp.status eq 'PAGO'}" />
+	              </p:column>
+                
+                <p:column style="width:40px;text-align: center">
+	                <p:commandButton onstart="PF('dlgPayments').show();" process="@this" icon="ui-icon-check" title="Pagamento" styleClass="btn_opcoes" disabled="#{sp.status eq 'PAGO'}">
+	                  <f:setPropertyActionListener value="#{sp}" target="#{student.selectedStudentPayments}"/>
+	                </p:commandButton>
+                </p:column>
+              
+              </p:dataTable>    
             </p:panelGrid>
           </p:panel>
-          
           
           <br/> 
           
@@ -75,16 +101,13 @@
             <p:dataTable id="dtbFUP" value="#{student.followups}" emptyMessage="Nenhum Follow Up" rowKey="#{fup.id_followup}" widgetVar="dtbFUP" 
               var="fup">
             
-            
               <p:column headerText="Data" sortBy="#{fup.date_followup}" >
                 <h:outputText value="#{fup.date_followup}" />
               </p:column>
-              
        
               <p:column headerText="Follow Up" sortBy="#{fup.followup}" >
                 <h:outputText value="#{fup.followup}" />
               </p:column>
-              
        
               <p:column headerText="Responsável" sortBy="#{fup.employee.name}" >
                 <h:outputText value="#{fup.employee.name}" />
@@ -97,17 +120,16 @@
               </p:column>
             
             </p:dataTable>
-           
            </p:panelGrid>
           </p:panel>
           
           
-          <p:panelGrid id="pngControlInfoStudent" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
-            <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" actionListener="#{auth.updateEmployee}" update="@form"/>
-           </p:panelGrid>
-       
+        <p:panelGrid id="pngControlInfoStudent" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
+          <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" >
+            <p:ajax  listener="#{student.updateStudentClass}" process="@this pngInfoStudent" update="@form" />
+          </h:commandButton>
          </p:panelGrid>
-        
+        </p:panelGrid>
         
         <p:remoteCommand id="rmcEditFUP" name="rmcEditFUP" update="pngdlgEditFUP" process="@this"/>
         <p:dialog id="dlgEditFUP" header="Follow Up" widgetVar="dlgEditFUP" minHeight="40" resizable="false" modal="true" onShow="rmcEditFUP()">
@@ -121,16 +143,54 @@
                 <p:ajax event="click" process="@this pngdlgEditFUP"  listener="#{student.updateFollowUp}" update="dtbFUP" oncomplete="PF('dlgEditFUP').hide();"/>
               </h:commandButton>
               <h:commandButton styleClass="btn btn-default" value="Cancelar">
-                <f:setPropertyActionListener value="null" target="{student.selectedFollowUp}"/> 
+                <f:setPropertyActionListener value="null" target="#{student.selectedFollowUp}"/> 
                 <p:ajax event="click" oncomplete="PF('dlgEditFUP').hide();" />
               </h:commandButton>
             </p:panelGrid>
           </f:facet>
         </p:dialog>
-         
-         
-         
-         
+        
+        <p:remoteCommand id="rmcPayments" name="rmcPayments" update="pngdlgPayments" process="@this"/>
+        <p:dialog id="dlgPayments" header="Pagamento" widgetVar="dlgPayments" minHeight="40" resizable="false" modal="true" onShow="rmcPayments()">
+          <p:growl id="growldlgPayments" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngdlgPayments"  columns="1" styleClass="panelgrid_sem_borda">
+            <p:fieldset>
+	            <p:panelGrid columns="6" styleClass="panelgrid_sem_borda" rendered="#{student.selectedStudentPayments != null}">
+		            <p:outputLabel value="Parcela: "/>
+		            <p:inputText value="#{student.selectedStudentPayments.number_parcel}" size="10" styleClass="inputTextDisabled"/>
+		            <p:outputLabel value="Valor: "/>
+		            <p:inputText value="#{student.selectedStudentPayments.price}" size="10" styleClass="inputTextDisabled"/>
+		            <p:outputLabel value="Data Vencimento: "/>
+                <p:inputText value="#{student.selectedStudentPayments.expiry_date.date}" size="10" styleClass="inputTextDisabled"/>		            
+	            </p:panelGrid>
+	            <br/>
+	            <p:panelGrid id="pngPaid" columns="2" styleClass="panelgrid_sem_borda" rendered="#{student.selectedStudentPayments != null}">
+	              <p:outputLabel value="Valor Pago: "/>
+	              <p:inputText value="#{student.selectedStudentPayments.paid}"/>     
+	            </p:panelGrid>
+	            <br/>
+             <p:panel id="toggleNeg" header="Negociar" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleNeg" rendered="#{student.selectedStudentPayments != null}"> 
+		           <p:panelGrid id="pngNeg" columns="4" styleClass="panelgrid_sem_borda">
+		            <p:outputLabel value="Valor Restante: "/>
+		            <p:inputText value="#{student.new_price}"/>
+		            <p:outputLabel value="Vencimento: "/>
+		            <p:calendar value="#{student.new_expiry_date}"/>
+		           </p:panelGrid>
+             </p:panel> 
+	          </p:fieldset>
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-primary" value="Confirmar">
+                <p:ajax event="click" process="@this pngdlgPayments"  listener="#{student.pay}" update="pngdlgPayments dtbSP" oncomplete="PF('dlgPayments').hide();"/>
+              </h:commandButton>
+              <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                <f:setPropertyActionListener value="null" target="#{student.selectedStudentPayments}"/> 
+                <p:ajax event="click" oncomplete="PF('dlgPayments').hide();" />
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
+        </p:dialog>
          
         </ui:define>
     </ui:decorate>

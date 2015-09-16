@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Chamada
+        </ui:define>
+        <ui:define name="default">
+          <p:messages id="msgStudentCall" showDetail="true" autoUpdate="true" closable="true" />
+          
+          <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlUser">
+	          
+	          <p:panelGrid id="pngStudentCall" columns="8" styleClass="panelgrid_sem_borda">
+	            <p:outputLabel value="Turma: "/>
+	            <p:inputText value="#{student.selectedClassStudent.class_name}" size="30" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Modulo: "/>
+              <p:inputText value="#{student.selectedClassStudent.class_module.name}" size="30" styleClass="inputTextDisabled"/>
+	            <p:outputLabel value="Hora Inicio: "/>
+	            <p:inputText value="#{student.selectedClassStudent.begin_time}" size="15" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Hora Inicio: "/>
+              <p:inputText value="#{student.selectedClassStudent.end_time}" size="15" styleClass="inputTextDisabled"/>
+	          </p:panelGrid>
+	          
+	          <br/>
+	          
+	          
+	         <p:panelGrid id="pngControle" columns="3" styleClass="panelgrid_sem_borda"> 
+	          <h:commandButton id="btnOpenCall" styleClass="btn btn-primary btn-lg" value="Nova Chamada">
+	          </h:commandButton>
+	         </p:panelGrid>   
+
+
+
+
+          
+          
+          </p:panelGrid>
+         
+        </ui:define>
+    </ui:decorate>
+</html>

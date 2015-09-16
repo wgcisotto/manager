@@ -24,7 +24,7 @@
               rowKey="#{emp.id_employee}" filteredValue="#{company.filteredEmployees}">
               <f:facet name="header">
                   <p:outputPanel id="dtbHeader" styleClass="search_align">
-                      <h:outputText value="Search: " />
+                      <h:outputText value="Pesquisar: " />
                       <p:inputText id="globalFilter" onkeyup="PF('dtbEmp').filter()" value="#{company.globalFilterEmployee}" style="width:150px" placeholder="Digite"/>
                   </p:outputPanel>
               </f:facet>
