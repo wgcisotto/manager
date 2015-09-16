@@ -324,7 +324,7 @@ public class ManagerBean implements Serializable {
 
 	public void closeCard(){
 		try {
-			ManagerSaleFacadeInterface manager = ManagerSaleFactory.newInstance(selectedCardCash,em);
+			ManagerSaleFacadeInterface manager = ManagerSaleFactory.newInstance(selectedCardCash);
 			selectedCardCash.clear();
 			selectedCardCash = null;
 			
@@ -382,7 +382,7 @@ public class ManagerBean implements Serializable {
 	
 	public void closeSale(){
 		try {
-			ManagerSaleFacadeInterface manager = ManagerSaleFactory.newInstance(sale,em);
+			ManagerSaleFacadeInterface manager = ManagerSaleFactory.newInstance(sale);
 			manager.persistSale();
 			
 			sale.clear();

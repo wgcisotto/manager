@@ -18,6 +18,8 @@ import br.com.wgengenharia.manager.business.FollowUpBO;
 import br.com.wgengenharia.manager.business.StudentBO;
 import br.com.wgengenharia.manager.business.StudentPaymentsBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
+import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
+import br.com.wgengenharia.manager.factory.ManagerPaymentFactory;
 import br.com.wgengenharia.manager.model.ClassModule;
 import br.com.wgengenharia.manager.model.ClassStudent;
 import br.com.wgengenharia.manager.model.FollowUp;
@@ -33,8 +35,6 @@ public class StudentBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-
-	
 	//STUDENT
 	private StudentBO studentBO;
 	private Student newStudent;
@@ -42,7 +42,6 @@ public class StudentBean implements Serializable{
 	private List<Student> students;
 	private List<Student> filteredStudents;
 	private String globalFilterStudent;
-	
 	
 	//CLASS MODULE
 	private ClassModuleBO classModuleBO;
@@ -52,7 +51,6 @@ public class StudentBean implements Serializable{
 	private List<ClassModule> filteredModules;
 	private String globalFilterModule;
 	
-	
 	//CLASS STUDENT
 	private ClassStudentBO classStudentBO;
 	private ClassStudent newClassStudent;
@@ -61,9 +59,8 @@ public class StudentBean implements Serializable{
 	private List<ClassStudent> filteredClassStudents;
 	private String globalFilterClassStudent;
 	
-	
 	//STUDENT INFO
-	private ClassStudent studentInfoClassStudent;
+	private ClassStudent studentInfoClass;
 	private List<FollowUp> followups;
 	private FollowUpBO followUpBO;
 	private FollowUp newFollowUp;
@@ -72,15 +69,16 @@ public class StudentBean implements Serializable{
 	//STUDENT PAYMENTS
 	private StudentPaymentsBO studentPaymentsBO; 
 	private List<StudentPayments> student_payments;
+	private StudentPayments selectedStudentPayments;
 	
 	private int quantity_parcel;
 	private Date expiry_date;
 	private double price;
+
+	private Date new_expiry_date;
+	private double new_price;
 	
-	
-	
-	
-	// Default
+	// DEFAULT
 	private EntityManager em;
 	private AuthenticationBean userInfo;
 	
@@ -96,15 +94,12 @@ public class StudentBean implements Serializable{
 		studentPaymentsBO = new StudentPaymentsBO(em);
 		
 		
-		
 		students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());
 		modules = classModuleBO.listModulesByCompany(userInfo.getEmployee().getCompany());
 		classStudents = classStudentBO.listClassStudentsByCompany(userInfo.getEmployee().getCompany());
 	}
 
-
 	//METODOS PARA CADASTRA ALUNO
-	
 	public void newStudent(){
 		this.newStudent = new Student();
 	}
@@ -121,7 +116,6 @@ public class StudentBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudent", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
-	
 	
 	public void delStudent(){
 		try {
@@ -157,8 +151,7 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
-	//metodos para cadastrar os modulos 
-	
+	//METODOS PARA CADASTRAR OS MODULOS 
 	public void newModule(){
 		this.newModule = new ClassModule();
 	}
@@ -175,7 +168,6 @@ public class StudentBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage("formManager:msgClassModule", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
-	
 	
 	public void delModule(){
 		try {
@@ -211,8 +203,7 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
-//metodos para cadastrar os modulos 
-	
+	//METODOS PARA CADASTRAR OS MODULOS 
 	public void newClassStudent(){
 		this.newClassStudent = new ClassStudent();
 	}
@@ -229,7 +220,6 @@ public class StudentBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage("formManager:msgClassStudent", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
-	
 	
 	public void delClassStudent(){
 		try {
@@ -265,11 +255,7 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
-	
-	
 	// METODOS PARA TELA DE STUDENT INFO
-	
-	
 	public String openStudentInfo(){
 		if(selectedStudent!=null){
 			
@@ -315,17 +301,14 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
-	
 	public void addStudentPayment(){
 		try {
-			
 			for (int i = 1; i <= quantity_parcel; i++) {
 				StudentPayments sp = new StudentPayments();
 				
 				if(i>1){
 					expiry_date = DateUtil.updateDate(expiry_date);
 				}
-				
 				sp.setExpiry_date(expiry_date);
 				sp.setNumber_parcel(i);
 				sp.setPrice(price);
@@ -345,20 +328,83 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
-	
-	
 	public void resetStudentPaymentInfo(){
 		quantity_parcel = 0;
 		expiry_date = null;
 		price = 0;
 	}
 	
+	public void pay(){
+		try {
+			if(selectedStudentPayments!=null){
+				selectedStudentPayments.setPayment_date(new Date());
+				
+				studentPaymentsBO.update(selectedStudentPayments);
+				
+				ManagerSaleFacadeInterface manager = ManagerPaymentFactory.newInstance(selectedStudentPayments);
+				manager.persistSale();
+				
+				if(new_expiry_date != null && new_price > 0){
+					newPay();
+				}
+
+				student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
+				
+				selectedStudentPayments = null;
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Pagamento efetuado com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Nescessário selecionar uma parcela"));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
+	public void newPay(){
+		StudentPayments newStudentPayment = new StudentPayments();
+		newStudentPayment.setExpiry_date(new_expiry_date);
+		newStudentPayment.setNumber_parcel(selectedStudentPayments.getNumber_parcel());
+		newStudentPayment.setStudent(this.selectedStudent);
+		newStudentPayment.setPrice(new_price);
+		newStudentPayment.setBranch(userInfo.getEmployee().getBranch());
+		newStudentPayment.setCompany(userInfo.getEmployee().getCompany());
+		
+		studentPaymentsBO.insert(newStudentPayment);
+	}
 	
 	
+	public void updateStudentClass(){
+		try {
+			this.studentInfoClass.addStudent(selectedStudent);
+			
+			classStudentBO.update(studentInfoClass);
+			
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Atualizações efetuada com sucesso"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
+	
+	// METODOS PARA CHAMADAS DE ALUNO 
+	
+	public String openCallStudent(){
+		if(selectedClassStudent!=null){
+//			
+//			followups = followUpBO.listFollowUpByStudent(this.selectedStudent);
+//			newFollowUp = new FollowUp();
+			
+//			student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
+//			resetStudentPaymentInfo();
+
+			return "student_call?faces-redirect=true";
+		}else{
+			return "";
+		}
+	}
 	
 
-
-	// gettes and setters 
+	//GETTES AND SETTERS 
 	
 	//ALUNO
 	public ClassModule getNewModule() {
@@ -395,7 +441,7 @@ public class StudentBean implements Serializable{
 		this.globalFilterStudent = globalFilterStudent;
 	}
 	
-	// Class module
+	// CLASS MODULE
 	public void setNewModule(ClassModule newModule) {
 		this.newModule = newModule;
 	}
@@ -424,9 +470,7 @@ public class StudentBean implements Serializable{
 		this.globalFilterModule = globalFilterModule;
 	}
 
-
-	//Class Student
-
+	//CLASS STUDENT
 	public ClassStudent getNewClassStudent() {
 		return newClassStudent;
 	}
@@ -458,14 +502,12 @@ public class StudentBean implements Serializable{
 		this.globalFilterClassStudent = globalFilterClassStudent;
 	}
 	
-	
 	//STUDENT INFO
-
-	public ClassStudent getStudentInfoClassStudent() {
-		return studentInfoClassStudent;
+	public ClassStudent getStudentInfoClass() {
+		return studentInfoClass;
 	}
-	public void setStudentInfoClassStudent(ClassStudent studentInfoClassStudent) {
-		this.studentInfoClassStudent = studentInfoClassStudent;
+	public void setStudentInfoClass(ClassStudent studentInfoClass) {
+		this.studentInfoClass = studentInfoClass;
 	}
 	public List<FollowUp> getFollowups() {
 		return followups;
@@ -487,12 +529,17 @@ public class StudentBean implements Serializable{
 	}
 
 	//STUDENT PAYMENTS
-	
 	public List<StudentPayments> getStudent_payments() {
 		return student_payments;
 	}
 	public void setStudent_payments(List<StudentPayments> student_payments) {
 		this.student_payments = student_payments;
+	}
+	public StudentPayments getSelectedStudentPayments() {
+		return selectedStudentPayments;
+	}
+	public void setSelectedStudentPayments(StudentPayments selectedStudentPayments) {
+		this.selectedStudentPayments = selectedStudentPayments;
 	}
 	public int getQuantity_parcel() {
 		return quantity_parcel;
@@ -511,5 +558,17 @@ public class StudentBean implements Serializable{
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public Date getNew_expiry_date() {
+		return new_expiry_date;
+	}
+	public void setNew_expiry_date(Date new_expiry_date) {
+		this.new_expiry_date = new_expiry_date;
+	}
+	public double getNew_price() {
+		return new_price;
+	}
+	public void setNew_price(double new_price) {
+		this.new_price = new_price;
 	}
 }

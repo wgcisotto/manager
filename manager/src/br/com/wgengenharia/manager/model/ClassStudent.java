@@ -1,5 +1,6 @@
 package br.com.wgengenharia.manager.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,10 @@ import javax.persistence.TemporalType;
 //@SequenceGenerator(name="seqClassStudent", sequenceName="SEQ_CLASSSTUDENT",allocationSize=1)
 public class ClassStudent {
 
+	public ClassStudent() {
+		this.students = new ArrayList<Student>();
+	}
+	
 	@Id
 	@Column(name="ID_CLASS_STUDENT")
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -122,6 +127,10 @@ public class ClassStudent {
 
 	public void setBranch(Branch branch) {
 		this.branch = branch;
+	}
+	
+	public void addStudent(Student student){
+		this.students.add(student);
 	}
 
 	}

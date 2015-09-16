@@ -17,8 +17,12 @@ import javax.persistence.TemporalType;
 @Table(name = "TAB_STUDENT_PAYMENTS")
 public class StudentPayments {
 	
+	private static final String STATUS_PENDENTE = "PENDENTE";
+	private static final String STATUS_ATRASADO = "ATRASADO";
+	private static final String STATUS_PAGO = "PAGO";
+	
 	@Id
-	@Column(name="ID_STUDENT")
+	@Column(name="ID_STUDENT_PAYMENT")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id_student_payments;
 	
@@ -100,4 +104,13 @@ public class StudentPayments {
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
+	
+	public String getStatus(){
+		Date date = new Date();
+		if(payment_date != null || paid > 0) return STATUS_PAGO;
+		if(expiry_date.after(date)) return STATUS_PENDENTE;
+		if(expiry_date.before(date)) return STATUS_ATRASADO;
+		return "";
+	}
+	
 }
