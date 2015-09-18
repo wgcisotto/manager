@@ -91,7 +91,7 @@
                 <h:outputLabel value="Nome: "/>
                 <h:outputLabel value="Data Inicio: "/>
                 <p:inputText value="#{student.newClassStudent.class_name}" size="40" required="True" requiredMessage="Preencha o Nome da turma"/>
-                <p:calendar value="#{student.newClassStudent.start_date}"/>
+                <p:calendar value="#{student.newClassStudent.start_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
               </p:panelGrid>
               <p:panelGrid id="pngCadClassStudentInfo"  columns="3" styleClass="panelgrid_sem_borda">
                 <h:outputLabel value="Hora Inicio:"/>
@@ -128,7 +128,7 @@
                 <h:outputLabel value="Nome: "/>
                 <h:outputLabel value="Data Inicio: "/>
                 <p:inputText value="#{student.selectedClassStudent.class_name}" size="40" required="True" requiredMessage="Preencha o Nome da turma"/>
-                <p:calendar value="#{student.selectedClassStudent.start_date}"/>
+                <p:calendar value="#{student.selectedClassStudent.start_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
               </p:panelGrid>
               <p:panelGrid id="pngCadClassStudentInfoEdit"  columns="3" styleClass="panelgrid_sem_borda">
                 <h:outputLabel value="Hora Inicio:"/>

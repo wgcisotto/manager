@@ -24,9 +24,9 @@
               <p:outputLabel value="Responsavel: "/>
               <p:inputText value="#{student.selectedStudent.resp_Name}" size="30" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Tel Residencial: "/>
-              <p:inputText value="#{student.selectedStudent.resp_home_phone}" size="30" styleClass="inputTextDisabled"/>
+              <p:inputMask value="#{student.selectedStudent.resp_home_phone}" size="30" mask="(999) 99999999?9" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Tel Comercial: "/>
-              <p:inputText value="#{student.selectedStudent.resp_office_phone}" size="30" styleClass="inputTextDisabled"/>
+              <p:inputMask value="#{student.selectedStudent.resp_office_phone}" size="30" mask="(999) 99999999?9" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Turma Matriculada: "/>
               <p:selectOneMenu id="slctClassStudent" value="#{student.studentInfoClass}" converter="classStudentConverter" >
                  <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs}"/>
@@ -39,11 +39,13 @@
           <p:panel id="toggleStudentFin" header="Financeiro" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleStudentFin"> 
            <p:panelGrid id="pngStudentPayments" columns="7" styleClass="panelgrid_sem_borda">
             <p:outputLabel value="Mensalidade: "/>
-            <p:inputText value="#{student.price}"/>
+            <p:inputText value="#{student.price}">
+              <f:convertNumber pattern="#,##0.00"/>  
+            </p:inputText>
             <p:outputLabel value="Parcelas: "/>
             <p:spinner value="#{student.quantity_parcel}"/>
             <p:outputLabel value="Vencimento: "/>
-            <p:calendar value="#{student.expiry_date}"/>
+            <p:calendar value="#{student.expiry_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
             <p:commandButton icon="ui-icon-plus" >
               <p:ajax process="@this toggleStudentFin" listener="#{student.addStudentPayment}" update="pngStudentPayments dtbSP"/>
             </p:commandButton>
@@ -54,26 +56,34 @@
              <p:outputLabel value="Boletos"/>
             
               <p:dataTable id="dtbSP" value="#{student.student_payments}" emptyMessage="Nenhuma Cobrança" rowKey="#{SP.id_student_payments}" widgetVar="dtbSP" 
-              var="sp" sortBy="#{sp.expiry_date}">
+              var="sp" sortBy="#{sp.expiry_date}" styleClass="dataTableAlignCenter">
      
 	              <p:column headerText="Parcela" style="width:80px;text-align: center">
 	                <h:outputText value="#{sp.number_parcel}" />
 	              </p:column>
               
                 <p:column headerText="Valor">
-                  <h:outputText value="#{sp.price}" />
+                  <h:outputText value="#{sp.price}">
+                    <f:convertNumber pattern="#,##0.00"/>  
+                  </h:outputText>
                 </p:column>
               
                 <p:column headerText="Data Vencimento">
-                  <h:outputText value="#{sp.expiry_date}" />
+                  <h:outputText value="#{sp.expiry_date}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" locale="pt,BR" timeZone="Brazil/East"/> 
+                  </h:outputText>
                 </p:column>
               
                 <p:column headerText="Valor Pago">
-                  <h:outputText value="#{sp.paid}" />
+                  <h:outputText value="#{sp.paid}">
+                    <f:convertNumber pattern="#,##0.00"/>
+                  </h:outputText>
                 </p:column>
               
                 <p:column headerText="Data Pagamento">
-                  <h:outputText value="#{sp.payment_date}" />
+                  <h:outputText value="#{sp.payment_date}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" locale="pt,BR" timeZone="Brazil/East"/>
+                  </h:outputText>
                 </p:column>
 	       
 	              <p:column headerText="Status" >
@@ -102,7 +112,9 @@
               var="fup">
             
               <p:column headerText="Data" sortBy="#{fup.date_followup}" >
-                <h:outputText value="#{fup.date_followup}" />
+                <h:outputText value="#{fup.date_followup}">
+                  <f:convertDateTime pattern="dd/MM/yyyy" locale="pt,BR" timeZone="Brazil/East"/>                
+                </h:outputText>
               </p:column>
        
               <p:column headerText="Follow Up" sortBy="#{fup.followup}" >
@@ -159,9 +171,13 @@
 		            <p:outputLabel value="Parcela: "/>
 		            <p:inputText value="#{student.selectedStudentPayments.number_parcel}" size="10" styleClass="inputTextDisabled"/>
 		            <p:outputLabel value="Valor: "/>
-		            <p:inputText value="#{student.selectedStudentPayments.price}" size="10" styleClass="inputTextDisabled"/>
+		            <p:inputText value="#{student.selectedStudentPayments.price}" size="10" styleClass="inputTextDisabled">
+		              <f:convertNumber pattern="#,##0.00"/>  
+		            </p:inputText>
 		            <p:outputLabel value="Data Vencimento: "/>
-                <p:inputText value="#{student.selectedStudentPayments.expiry_date.date}" size="10" styleClass="inputTextDisabled"/>		            
+                <p:inputText value="#{student.selectedStudentPayments.expiry_date}" size="10" styleClass="inputTextDisabled">
+                  <f:convertDateTime pattern="dd/MM/yyyy" locale="pt,BR" timeZone="Brazil/East"/>
+                </p:inputText>		            
 	            </p:panelGrid>
 	            <br/>
 	            <p:panelGrid id="pngPaid" columns="2" styleClass="panelgrid_sem_borda" rendered="#{student.selectedStudentPayments != null}">
@@ -172,9 +188,11 @@
              <p:panel id="toggleNeg" header="Negociar" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleNeg" rendered="#{student.selectedStudentPayments != null}"> 
 		           <p:panelGrid id="pngNeg" columns="4" styleClass="panelgrid_sem_borda">
 		            <p:outputLabel value="Valor Restante: "/>
-		            <p:inputText value="#{student.new_price}"/>
+		            <p:inputText value="#{student.new_price}">
+		              <f:convertNumber pattern="#,##0.00"/>  
+		            </p:inputText>
 		            <p:outputLabel value="Vencimento: "/>
-		            <p:calendar value="#{student.new_expiry_date}"/>
+		            <p:calendar value="#{student.new_expiry_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
 		           </p:panelGrid>
              </p:panel> 
 	          </p:fieldset>

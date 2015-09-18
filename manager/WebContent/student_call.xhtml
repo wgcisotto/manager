@@ -19,9 +19,13 @@
               <p:outputLabel value="Modulo: "/>
               <p:inputText value="#{student.selectedClassStudent.class_module.name}" size="30" styleClass="inputTextDisabled"/>
 	            <p:outputLabel value="Hora Inicio: "/>
-	            <p:inputText value="#{student.selectedClassStudent.begin_time}" size="15" styleClass="inputTextDisabled"/>
+	            <p:inputText value="#{student.selectedClassStudent.begin_time}" size="15" styleClass="inputTextDisabled">
+	             <f:convertDateTime pattern="HH:mm" locale="pt,BR" timeZone="Brazil/East"/>
+	            </p:inputText>
               <p:outputLabel value="Hora Inicio: "/>
-              <p:inputText value="#{student.selectedClassStudent.end_time}" size="15" styleClass="inputTextDisabled"/>
+              <p:inputText value="#{student.selectedClassStudent.end_time}" size="15" styleClass="inputTextDisabled">
+                <f:convertDateTime pattern="HH:mm" locale="pt,BR" timeZone="Brazil/East"/>
+              </p:inputText>
 	          </p:panelGrid>
 	          
 	          <br/>

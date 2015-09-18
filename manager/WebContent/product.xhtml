@@ -89,7 +89,7 @@
 										    <p:ajax update="txtCost txtLucre" process="txtCost" event="change" listener="#{manager.updateLucreNewPrd}"/>  
 										</p:inputText>
                     <p:inputText id="txtPrice" maxlength="15" size="10" required="true" value="#{manager.newProduct.price}" requiredMessage="Preencha o valor do preço." >  
-                        <f:convertNumber pattern="#,##0.00"/>  
+                        <f:convertNumber pattern="#,##0.00" />
                         <p:ajax update="txtPrice pngLucre" process="txtPrice" event="change" listener="#{manager.updateLucreNewPrd}" />  
                     </p:inputText>  
                     <p:panelGrid id="pngLucre" columns="2">
@@ -148,11 +148,11 @@
                     <p:outputLabel value="Preço de venda: "/>
                     <p:outputLabel value="Lucro: "/>
                     <p:inputText id="txtCostEdit" maxlength="15" size="10" required="true" value="#{manager.selectedProduct.cost}"  requiredMessage="Preencha o valor do custo." >  
-                        <f:convertNumber pattern="#,##0.00"/>  
+                        <f:convertNumber pattern="#,##0.00"/>
                         <p:ajax update="txtCostEdit txtLucre" process="txtCostEdit" event="change" listener="#{manager.updateLucreEditPrd}" />  
                     </p:inputText>    
                     <p:inputText id="txtPriceEdit" maxlength="15" size="10" required="true" value="#{manager.selectedProduct.price}" requiredMessage="Preencha o valor do preço." >  
-                        <f:convertNumber pattern="#,##0.00"/>  
+                        <f:convertNumber pattern="#,##0.00"/>
                         <p:ajax update="txtPriceEdit pngLucreEdit" process="txtPriceEdit" event="change" listener="#{manager.updateLucreEditPrd}" />  
                     </p:inputText>  
                     <p:panelGrid id="pngLucreEdit" columns="2">

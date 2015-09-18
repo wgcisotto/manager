@@ -92,7 +92,7 @@
                 <p:outputLabel value="Nome: "/>
                 <p:outputLabel value="Data de Nascimento: "/>
                 <p:inputText value="#{student.newStudent.student_name}" size="55" required="true" requiredMessage="Preencha o nome do Aluno"/>      
-                <p:calendar value="#{student.newStudent.student_birth_date}"/>
+                <p:calendar value="#{student.newStudent.student_birth_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
                </p:panelGrid>
                <p:panelGrid columns="1" styleClass="panelgrid_sem_broda"> 
                 <p:outputLabel value="Email: "/>
@@ -104,17 +104,17 @@
 	                   <p:outputLabel value="Nome: " />
 	                   <p:outputLabel value="Data de Nascimento: "/>
 	                   <p:inputText value="#{student.newStudent.resp_Name}" size="51"/>
-	                   <p:calendar value="#{student.newStudent.resp_birth_date}"/>
+	                   <p:calendar value="#{student.newStudent.resp_birth_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
 	                 </p:panelGrid>
 	                 <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
 	                   <p:outputLabel value="Telefone Residencial: "/>
 	                   <p:outputLabel value="Telefone Comercial: "/>
 	                   <p:outputLabel value="RG: "/>
 	                   <p:outputLabel value="CPF: "/>
-	                   <p:inputText value="#{student.newStudent.resp_home_phone}"/>
-	                   <p:inputText value="#{student.newStudent.resp_office_phone}"/>
-	                   <p:inputText value="#{student.newStudent.resp_rg}"/>
-	                   <p:inputText value="#{student.newStudent.resp_cpf}"/>
+	                   <p:inputMask value="#{student.newStudent.resp_home_phone}" mask="(999) 99999999?9"/>
+	                   <p:inputMask value="#{student.newStudent.resp_office_phone}" mask="(999) 99999999?9"/>
+	                   <p:inputMask value="#{student.newStudent.resp_rg}" mask="99.999.999-9"/>
+	                   <p:inputMask value="#{student.newStudent.resp_cpf}" mask="999.999.999-99"/> 
 	                 </p:panelGrid>
 	                  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 	                    <p:outputLabel value="Endereço: "/>
@@ -149,9 +149,9 @@
          </p:panelGrid>
         </p:dialog>
         
-        <p:remoteCommand id="rmcStudentEdit" name="rmcStudentEdit" update="pngStudEdit"/>
+        <p:remoteCommand id="rmcStudentEdit" name="rmcStudentEdit" update="pngStudEdit" process="@this"/>
         
-         <p:dialog id="dlgStudEdit" header="Edicao de Aluno " widgetVar="dlgStudEdit" minHeight="40" resizable="false" modal="true" onShow="rmcStudentEdit">
+         <p:dialog id="dlgStudEdit" header="Edicao de Aluno " widgetVar="dlgStudEdit" minHeight="40" resizable="false" modal="true" onShow="rmcStudentEdit()">
           <p:growl id="growlDlgStudEdit" sticky="true" showDetail="true" life="3000" />
           <p:panelGrid id="pngStudEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
@@ -159,7 +159,7 @@
                 <p:outputLabel value="Nome: "/>
                 <p:outputLabel value="Data de Nascimento: "/>
                 <p:inputText value="#{student.selectedStudent.student_name}" size="55" required="true" requiredMessage="Preencha o nome do Aluno"/>      
-                <p:calendar value="#{student.selectedStudent.student_birth_date}" size="13" />
+                <p:calendar value="#{student.selectedStudent.student_birth_date}" size="13"  mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
                </p:panelGrid>
                <p:panelGrid columns="1" styleClass="panelgrid_sem_broda"> 
                 <p:outputLabel value="Email: "/>
@@ -171,17 +171,17 @@
                      <p:outputLabel value="Nome: "/>
                      <p:outputLabel value="Data de Nascimento: "/>
                      <p:inputText value="#{student.selectedStudent.resp_Name}" size="51"/>
-                     <p:calendar value="#{student.selectedStudent.resp_birth_date}"/>
+                     <p:calendar value="#{student.selectedStudent.resp_birth_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
                    </p:panelGrid>
                    <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
                      <p:outputLabel value="Telefone Residencial: "/>
                      <p:outputLabel value="Telefone Comercial: "/>
                      <p:outputLabel value="RG: "/>
                      <p:outputLabel value="CPF: "/>
-                     <p:inputText value="#{student.selectedStudent.resp_home_phone}"/>
-                     <p:inputText value="#{student.selectedStudent.resp_office_phone}"/>
-                     <p:inputText value="#{student.selectedStudent.resp_rg}"/>
-                     <p:inputText value="#{student.selectedStudent.resp_cpf}"/>
+                     <p:inputMask value="#{student.selectedStudent.resp_home_phone}" mask="(999) 99999999?9"/>
+                     <p:inputMask value="#{student.selectedStudent.resp_office_phone}" mask="(999) 99999999?9"/>
+                     <p:inputMask value="#{student.selectedStudent.resp_rg}" mask="99.999.999-9"/>
+                     <p:inputMask value="#{student.selectedStudent.resp_cpf}" mask="999.999.999-9"/>
                    </p:panelGrid>
                     <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                       <p:outputLabel value="Endereço: "/>
