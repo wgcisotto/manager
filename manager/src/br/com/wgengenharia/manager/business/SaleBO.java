@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.SaleDAO;
 import br.com.wgengenharia.manager.dao.SaleDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Sale;
 
 public class SaleBO implements SaleDAO{
@@ -48,6 +49,12 @@ public class SaleBO implements SaleDAO{
 	@Override
 	public List<Sale> listSales() {
 		return DAO.listSales();
+	}
+
+
+	@Override
+	public List<Sale> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 }

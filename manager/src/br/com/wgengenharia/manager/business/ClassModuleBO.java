@@ -49,4 +49,9 @@ public class ClassModuleBO implements ClassModuleDAO {
 		return DAO.listModulesByCompanyAndBranch(company, branch);
 	}
 
+	@Override
+	public List<ClassModule> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
+	}
+
 }

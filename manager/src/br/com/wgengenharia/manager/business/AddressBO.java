@@ -1,10 +1,13 @@
 package br.com.wgengenharia.manager.business;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.AddressDAO;
 import br.com.wgengenharia.manager.dao.AddressDAOImpl;
 import br.com.wgengenharia.manager.model.Address;
+import br.com.wgengenharia.manager.model.Branch;
 
 public class AddressBO implements AddressDAO{
 
@@ -32,6 +35,11 @@ public class AddressBO implements AddressDAO{
 	@Override
 	public Address findById(Integer id) {
 		return findById(id);
+	}
+
+	@Override
+	public List<Address> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 }

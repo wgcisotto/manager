@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.FollowUpDAO;
 import br.com.wgengenharia.manager.dao.FollowUpDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.FollowUp;
 import br.com.wgengenharia.manager.model.Student;
 
@@ -41,6 +42,11 @@ public class FollowUpBO implements FollowUpDAO {
 	@Override
 	public List<FollowUp> listFollowUpByStudent(Student student) {
 		return DAO.listFollowUpByStudent(student);
+	}
+
+	@Override
+	public List<FollowUp> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 }

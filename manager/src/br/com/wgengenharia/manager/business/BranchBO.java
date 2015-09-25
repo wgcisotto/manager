@@ -45,4 +45,9 @@ public class BranchBO implements BranchDAO {
 		return DAO.findByCompany(company);
 	}
 
+	@Override
+	public List<Branch> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
+	}
+
 }

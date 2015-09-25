@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.ProductDAO;
 import br.com.wgengenharia.manager.dao.ProductDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Product;
 
 public class ProductBO implements ProductDAO{
@@ -39,6 +40,11 @@ public class ProductBO implements ProductDAO{
 	@Override
 	public List<Product> listProducts() {
 		return DAO.listProducts();
+	}
+
+	@Override
+	public List<Product> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 	
 }

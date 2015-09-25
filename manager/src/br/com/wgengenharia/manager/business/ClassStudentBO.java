@@ -9,6 +9,7 @@ import br.com.wgengenharia.manager.dao.ClassStudentDAOImpl;
 import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.ClassStudent;
 import br.com.wgengenharia.manager.model.Company;
+import br.com.wgengenharia.manager.model.Student;
 
 public class ClassStudentBO implements ClassStudentDAO{
 
@@ -50,6 +51,18 @@ public class ClassStudentBO implements ClassStudentDAO{
 	public List<ClassStudent> listClassStudentsByCompanyAndBranch(
 			Company company, Branch branch) {
 		return DAO.listClassStudentsByCompanyAndBranch(company, branch);
+	}
+
+
+	@Override
+	public Integer findClassIdByStudent(Student student) {
+		return DAO.findClassIdByStudent(student);
+	}
+
+
+	@Override
+	public List<ClassStudent> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 }

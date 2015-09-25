@@ -52,4 +52,9 @@ public class StudentBO implements StudentDAO {
 		return DAO.listStudentByCompanyAndBranch(company, branch);
 	}
 
+	@Override
+	public List<Student> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
+	}
+
 }

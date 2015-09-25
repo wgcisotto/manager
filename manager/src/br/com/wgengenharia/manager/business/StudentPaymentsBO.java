@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.StudentPaymentsDAO;
 import br.com.wgengenharia.manager.dao.StudentPaymentsDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Student;
 import br.com.wgengenharia.manager.model.StudentPayments;
 
@@ -40,6 +41,11 @@ public class StudentPaymentsBO implements StudentPaymentsDAO {
 	@Override
 	public List<StudentPayments> listStudentPayments(Student student) {
 		return DAO.listStudentPayments(student);
+	}
+
+	@Override
+	public List<StudentPayments> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 	

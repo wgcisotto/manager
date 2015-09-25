@@ -1,37 +1,45 @@
 package br.com.wgengenharia.manager.business;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.OrderDAO;
 import br.com.wgengenharia.manager.dao.OrderDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Order;
 
 public class OrderBO implements OrderDAO{
 
-	private OrderDAO orderDAO;
+	private OrderDAO DAO;
 	
 	public OrderBO(EntityManager em) {
-		orderDAO = new OrderDAOImpl(em);
+		DAO = new OrderDAOImpl(em);
 	}
 	
 	@Override
 	public void insert(Order order) {
-		orderDAO.insert(order);
+		DAO.insert(order);
 	}
 
 	@Override
 	public void update(Order order) {
-		orderDAO.update(order);
+		DAO.update(order);
 	}
 
 	@Override
 	public void delete(Order order) {
-		orderDAO.delete(order);
+		DAO.delete(order);
 	}
 
 	@Override
 	public Order findById(Integer id) {
-		return orderDAO.findById(id);
+		return DAO.findById(id);
+	}
+
+	@Override
+	public List<Order> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 	

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.CategoryDAO;
 import br.com.wgengenharia.manager.dao.CategoryDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Category;
 
 public class CategoryBO implements CategoryDAO {
@@ -39,6 +40,11 @@ public class CategoryBO implements CategoryDAO {
 	@Override
 	public List<Category> listCategories() {
 		return DAO.listCategories();
+	}
+
+	@Override
+	public List<Category> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 }

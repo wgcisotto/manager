@@ -59,5 +59,10 @@ public class EmployeeBO implements EmployeeDAO {
 		return DAO.findByCompanyAndBranch(company, branch);
 	}
 
+	@Override
+	public List<Employee> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
+	}
+
 	
 }

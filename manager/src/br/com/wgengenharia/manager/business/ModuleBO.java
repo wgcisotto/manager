@@ -1,9 +1,12 @@
 package br.com.wgengenharia.manager.business;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.ModuleDAO;
 import br.com.wgengenharia.manager.dao.ModuleDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Module;
 
 public class ModuleBO implements ModuleDAO {
@@ -39,6 +42,12 @@ public class ModuleBO implements ModuleDAO {
 	@Override
 	public Module findByName(String moduleName) {
 		return DAO.findByName(moduleName);
+	}
+
+
+	@Override
+	public List<Module> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 }

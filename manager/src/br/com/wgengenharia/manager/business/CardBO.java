@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import br.com.wgengenharia.manager.dao.CardDAO;
 import br.com.wgengenharia.manager.dao.CardDAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Card;
 
 public class CardBO implements CardDAO {
@@ -39,6 +40,11 @@ public class CardBO implements CardDAO {
 	@Override
 	public List<Card> listCards() {
 		return DAO.listCards();
+	}
+
+	@Override
+	public List<Card> listByBranch(Branch branch) {
+		return DAO.listByBranch(branch);
 	}
 
 }
