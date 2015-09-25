@@ -46,8 +46,5 @@ public abstract class DAOImpl<T,K> implements DAOInterface<T,K> {
 	public T findById(K id) {
 		return em.find(entityClass, id);
 	}
-	
-	
-	
 
 }
