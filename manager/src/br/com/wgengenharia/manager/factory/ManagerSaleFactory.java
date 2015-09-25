@@ -2,8 +2,6 @@ package br.com.wgengenharia.manager.factory;
 
 import java.util.Calendar;
 
-import javax.persistence.EntityManager;
-
 import br.com.wgengenharia.manager.facade.ManagerSaleFacade;
 import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
 import br.com.wgengenharia.manager.model.Card;
