@@ -61,6 +61,7 @@ public class StudentBean implements Serializable{
 	
 	//STUDENT INFO
 	private ClassStudent studentInfoClass;
+	private Integer	idClassStudent;
 	private List<FollowUp> followups;
 	private FollowUpBO followUpBO;
 	private FollowUp newFollowUp;
@@ -94,10 +95,21 @@ public class StudentBean implements Serializable{
 		studentPaymentsBO = new StudentPaymentsBO(em);
 		
 		
-		students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());
-		modules = classModuleBO.listModulesByCompany(userInfo.getEmployee().getCompany());
-		classStudents = classStudentBO.listClassStudentsByCompany(userInfo.getEmployee().getCompany());
+//		students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());
+		
+		loadListsInfo();
 	}
+	
+	
+	// Carrega todas as listas deste Bean
+	
+	public void loadListsInfo(){
+		students = studentBO.listByBranch(userInfo.currentBranch);
+		modules = classModuleBO.listByBranch(userInfo.currentBranch);
+		classStudents = classStudentBO.listByBranch(userInfo.currentBranch);
+	}
+	
+	
 
 	//METODOS PARA CADASTRA ALUNO
 	public void newStudent(){
@@ -107,7 +119,7 @@ public class StudentBean implements Serializable{
 	public void addStudent(){
 		try {
 			newStudent.setCompany(userInfo.getEmployee().getCompany());
-			
+			newStudent.setBranch(userInfo.currentBranch);
 			studentBO.insert(newStudent);
 			students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
 			newStudent = new Student();
@@ -159,7 +171,7 @@ public class StudentBean implements Serializable{
 	public void addModule(){
 		try {
 			newModule.setCompany(userInfo.getEmployee().getCompany());
-			
+			newModule.setBranch(userInfo.currentBranch);
 			classModuleBO.insert(newModule);
 			modules = classModuleBO.listModulesByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
 			newModule = new ClassModule();
@@ -211,7 +223,7 @@ public class StudentBean implements Serializable{
 	public void addClassStudent(){
 		try {
 			newClassStudent.setCompany(userInfo.getEmployee().getCompany());
-			
+			newClassStudent.setBranch(userInfo.currentBranch);
 			classStudentBO.insert(newClassStudent);
 			classStudents = classStudentBO.listClassStudentsByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
 			newClassStudent = new ClassStudent();
@@ -258,13 +270,14 @@ public class StudentBean implements Serializable{
 	// METODOS PARA TELA DE STUDENT INFO
 	public String openStudentInfo(){
 		if(selectedStudent!=null){
-			
 			followups = followUpBO.listFollowUpByStudent(this.selectedStudent);
 			newFollowUp = new FollowUp();
 			
+			idClassStudent = classStudentBO.findClassIdByStudent(selectedStudent);
+			studentInfoClass = classStudentBO.findById(idClassStudent);
+			
 			student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
 			resetStudentPaymentInfo();
-
 			return "student_info?faces-redirect=true";
 		}else{
 			return "";
@@ -276,6 +289,7 @@ public class StudentBean implements Serializable{
 			newFollowUp.setStudent(this.selectedStudent);
 			newFollowUp.setEmployee(userInfo.getEmployee());
 			newFollowUp.setDate_followup(new Date());
+			newFollowUp.setBranch(userInfo.currentBranch);
 			followUpBO.insert(newFollowUp);
 			followups = followUpBO.listFollowUpByStudent(selectedStudent);// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
 			newFollowUp = new FollowUp();
@@ -313,7 +327,7 @@ public class StudentBean implements Serializable{
 				sp.setNumber_parcel(i);
 				sp.setPrice(price);
 				sp.setStudent(this.selectedStudent);
-				sp.setBranch(userInfo.getEmployee().getBranch());
+				sp.setBranch(userInfo.currentBranch);
 				sp.setCompany(userInfo.getEmployee().getCompany());
 				
 				studentPaymentsBO.insert(sp);
@@ -375,16 +389,31 @@ public class StudentBean implements Serializable{
 	
 	public void updateStudentClass(){
 		try {
-			this.studentInfoClass.addStudent(selectedStudent);
+			
+			alterStudentClass();
 			
 			classStudentBO.update(studentInfoClass);
-			
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Atualizações efetuada com sucesso"));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
 	
+	// Metodo para trocar de turma.
+	
+	public void alterStudentClass(){
+		if(studentInfoClass != null && 
+				studentInfoClass.getId_class_student() == idClassStudent){
+			return;
+		}else{
+			if(studentInfoClass != null){
+				studentInfoClass.removeStudent(selectedStudent);
+				classStudentBO.update(studentInfoClass);
+			}
+			studentInfoClass = classStudentBO.findById(idClassStudent);
+			studentInfoClass.addStudent(selectedStudent);
+		}
+	}
 	
 	// METODOS PARA CHAMADAS DE ALUNO 
 	
@@ -508,6 +537,12 @@ public class StudentBean implements Serializable{
 	}
 	public void setStudentInfoClass(ClassStudent studentInfoClass) {
 		this.studentInfoClass = studentInfoClass;
+	}
+	public Integer getIdClassStudent() {
+		return idClassStudent;
+	}
+	public void setIdClassStudent(Integer idClassStudent) {
+		this.idClassStudent = idClassStudent;
 	}
 	public List<FollowUp> getFollowups() {
 		return followups;

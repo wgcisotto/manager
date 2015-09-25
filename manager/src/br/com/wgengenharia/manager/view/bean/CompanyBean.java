@@ -15,10 +15,12 @@ import br.com.wgengenharia.manager.business.BranchBO;
 import br.com.wgengenharia.manager.business.CompanyBO;
 import br.com.wgengenharia.manager.business.EmployeeBO;
 import br.com.wgengenharia.manager.business.ProfileBO;
+import br.com.wgengenharia.manager.business.StudentPaymentsBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Employee;
 import br.com.wgengenharia.manager.model.Profile;
+import br.com.wgengenharia.manager.model.StudentPayments;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
 import br.com.wgengenharia.manager.utils.AuthenticationUtil;
 
@@ -31,10 +33,13 @@ public class CompanyBean implements Serializable {
 	//EMPLOYEES
 	private EmployeeBO employeeBO;
 	private Employee newEmployee;
+	private Integer idBranchNewEmployee;
 	private Employee selectedEmployee;
+	private Integer idBranchSelectedEmployee;
 	private List<Employee> employees;
 	private List<Employee> filteredEmployees;
 	private String globalFilterEmployee;
+	
 	//Employees Profile	
 	private List<Profile> profiles;
 	
@@ -49,6 +54,10 @@ public class CompanyBean implements Serializable {
 	
 	//COMPANY
 	private CompanyBO companyBO;
+	
+	//ALERT
+	private List<StudentPayments> alertsPayments;
+	private StudentPaymentsBO studentPaymentsBO; 
 	
 	
 	//DEFAULT
@@ -69,11 +78,10 @@ public class CompanyBean implements Serializable {
 			profileBO = new ProfileBO(em);
 			branchBO = new BranchBO(em);
 			companyBO = new CompanyBO(em);
+			studentPaymentsBO = new StudentPaymentsBO(em);
 			
 			
-			employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());
-			branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
-			profiles = profileBO.findByCompany(userInfo.getEmployee().getCompany());
+			loadlistsInfo();
 		
 			newEmployee = new Employee();
 			
@@ -82,6 +90,11 @@ public class CompanyBean implements Serializable {
 		}
 	}
 	
+	public void loadlistsInfo(){
+		branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
+		employees = employeeBO.listByBranch(userInfo.currentBranch);
+		profiles = profileBO.listByBranch(userInfo.currentBranch);
+	}
 	
 	//EMPLOYEE
 	
@@ -91,13 +104,17 @@ public class CompanyBean implements Serializable {
 	
 	public void addEmployee(){
 		try {
+			Branch b = branchBO.findById(getIdBranchNewEmployee());
 //			Profile profile = profileBO.findByNameAndCompany(selectedProfile.getName(),userInfo.getEmployee().getCompany());
 //			newEmployee.setProfile(profile);
 //			selectedProfile = null;
 			newEmployee.setCompany(userInfo.getEmployee().getCompany());
+			newEmployee.setBranch(b);
+			
 			employeeBO.insert(newEmployee);
 			employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
 			newEmployee = new Employee();
+			idBranchNewEmployee = 0;
 			FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionário Inserido com sucesso"));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
@@ -127,6 +144,8 @@ public class CompanyBean implements Serializable {
 	public void updateEmployee(){
 		try {
 			if(selectedEmployee!=null){
+				Branch b = branchBO.findById(idBranchSelectedEmployee);
+				selectedEmployee.setBranch(b);
 				employeeBO.update(selectedEmployee);
 				employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());
 				selectedEmployee = null;
@@ -217,11 +236,23 @@ public class CompanyBean implements Serializable {
 	public void setNewEmployee(Employee newEmployee) {
 		this.newEmployee = newEmployee;
 	}
+	public Integer getIdBranchNewEmployee() {
+		return idBranchNewEmployee;
+	}
+	public void setIdBranchNewEmployee(Integer idBranchNewEmployee) {
+		this.idBranchNewEmployee = idBranchNewEmployee;
+	}
 	public Employee getSelectedEmployee() {
 		return selectedEmployee;
 	}
 	public void setSelectedEmployee(Employee selectedEmployee) {
 		this.selectedEmployee = selectedEmployee;
+	}
+	public Integer getIdBranchSelectedEmployee() {
+		return idBranchSelectedEmployee;
+	}
+	public void setIdBranchSelectedEmployee(Integer idBranchSelectedEmployee) {
+		this.idBranchSelectedEmployee = idBranchSelectedEmployee;
 	}
 	public List<Employee> getEmployees() {
 		return employees;

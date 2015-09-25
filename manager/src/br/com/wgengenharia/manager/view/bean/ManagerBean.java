@@ -76,7 +76,6 @@ public class ManagerBean implements Serializable {
 	private Product selectedProductSale;
 	//SALES
 	private SaleBO saleBO;
-	
 	//DEFAULT
 	public EntityManager em;
 	
@@ -100,12 +99,9 @@ public class ManagerBean implements Serializable {
 			newCategory = new Category();
 			newClient = new Client();
 			
-			//Carrega as informacoes do banco
-			products = productBO.listProducts();
-			categories = categoryBO.listCategories();
-			cards = cardBO.listCards();
-			salesDay = saleBO.listSalesDay(Calendar.getInstance());
-			sales = saleBO.listSales();
+			
+			
+			loadListsInfo();
 			
 			
 			// carrega para tela de produto 
@@ -116,11 +112,22 @@ public class ManagerBean implements Serializable {
 		}
 	}
 	
+	
+	public void loadListsInfo(){
+		//Carrega as informacoes do banco
+		products = productBO.listByBranch(userInfo.currentBranch);
+		categories = categoryBO.listByBranch(userInfo.currentBranch);
+		cards = cardBO.listByBranch(userInfo.currentBranch);
+		salesDay = saleBO.listByBranch(userInfo.currentBranch);
+		sales = saleBO.listByBranch(userInfo.currentBranch);
+	}
+	
 	//Metodos Produto
 	public void addProduct(){
 		try {
 			Category categ = categoryBO.findById(idCategProdct);
 			newProduct.setCategory(categ);
+			newProduct.setBranch(userInfo.currentBranch);
 			idCategProdct = 0;
 			productBO.insert(newProduct);
 			products = productBO.listProducts();
@@ -181,6 +188,7 @@ public class ManagerBean implements Serializable {
 	public void addCard(){
 		try {
 			Card card = new Card();
+			card.setBranch(userInfo.currentBranch);
 			cardBO.insert(card);
 			cards = cardBO.listCards();
 		} catch (Exception e) {
@@ -215,6 +223,7 @@ public class ManagerBean implements Serializable {
 //Metodos Categoria
 	public void addCategory(){
 		try {
+			newCategory.setBranch(userInfo.currentBranch);
 			categoryBO.insert(newCategory);
 			categories =  categoryBO.listCategories();
 			newCategory = new Category();
@@ -265,6 +274,7 @@ public class ManagerBean implements Serializable {
 	//Metodos Cliente
 	public void addClient(){
 		try {
+			newClient.setBranch(userInfo.currentBranch);
 			clientBO.insert(newClient);
 			clients.add(newClient);
 			// limpa o product
