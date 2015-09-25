@@ -27,19 +27,22 @@ import br.com.wgengenharia.manager.model.Profile;
 public class AuthenticationBean {
 	
 	private EntityManager em;
-	
-	private CompanyBO companyBO;
-	
+//	private CompanyBO companyBO;
 	private BranchBO branchBO;
 	
 	private Employee employee;
- 
+	
+	public Branch currentBranch;
+
 	@Inject 
 	private EmployeeBO  employeeBO;
 	
 	private String login;
 	private String pass;
 	
+	
+	//ID de selecao de branch
+	private Integer idBranchSelected;
 	
 	private HttpSession session;
 	
@@ -48,7 +51,7 @@ public class AuthenticationBean {
 		em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 //		employeeBO = new EmployeeBO(em);
 //		companyBO = new CompanyBO(em);
-//		branchBO = new BranchBO(em);
+		branchBO = new BranchBO(em);
 	}
 	
 	public String login(){
@@ -64,6 +67,14 @@ public class AuthenticationBean {
 					FacesContext ctx = FacesContext.getCurrentInstance();
 			    session = (HttpSession) ctx.getExternalContext().getSession(false);
 			    session.setAttribute("user", employee);
+			    
+			    if(employee.getBranchView()!=null){
+			    	currentBranch = employee.getBranchView();
+			    }else{
+			    	currentBranch = employee.getBranch();
+			    }
+			    
+			    idBranchSelected = currentBranch.getId_branch();
 			    
 //			    setUserInfo();
 			    
@@ -108,6 +119,16 @@ public class AuthenticationBean {
 		}
 	}
 	
+	
+	public void updateEmployeeView(){
+		try {
+			Branch b = branchBO.findById(idBranchSelected);
+			employee.setBranchView(b);
+			employeeBO.update(employee);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgUserInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
 	
 	public void teste(){
 		try {
@@ -231,4 +252,11 @@ public class AuthenticationBean {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	public Integer getIdBranchSelected() {
+		return idBranchSelected;
+	}
+	public void setIdBranchSelected(Integer idBranchSelected) {
+		this.idBranchSelected = idBranchSelected;
+	}
+	
 }
