@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,49 +44,44 @@ public class Order implements Serializable {
 	
 	@Column(name="TOTAL", length=100)
 	private Double total;
+	
+	@ManyToOne
+	private Branch branch;
 
 	public int getId_order() {
 		return id_order;
 	}
-
 	public void setId_order(int id_order) {
 		this.id_order = id_order;
 	}
-
 	public List<Product> getProducts() {
 		return products;
 	}
-
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-
 	public Date getRequest_date() {
 		return request_date;
 	}
-
 	public void setRequest_date(Date request_date) {
 		this.request_date = request_date;
 	}
-
 	public Date getDelivery_date() {
 		return delivery_date;
 	}
-
 	public void setDelivery_date(Date delivery_date) {
 		this.delivery_date = delivery_date;
 	}
-
 	public Double getTotal() {
 		return total;
 	}
-
 	public void setTotal(Double total) {
 		this.total = total;
 	}
-	
-	
-	
-	
-
+	public Branch getBranch() {
+		return branch;
+	}
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
 }

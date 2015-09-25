@@ -50,6 +50,9 @@ public class Employee {
 	
 	@ManyToOne
 	private Address address;
+	
+	@ManyToOne
+	private Branch branchView;
 
 	
 	public String getName() {
@@ -105,6 +108,12 @@ public class Employee {
 	}
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	public Branch getBranchView() {
+		return branchView;
+	}
+	public void setBranchView(Branch branchView) {
+		this.branchView = branchView;
 	}
 	
 	public boolean getIsAdmin(){

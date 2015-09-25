@@ -23,6 +23,8 @@ public class Profile {
 	private String name;
 	@ManyToOne
 	private Company company;
+	@ManyToOne
+	private Branch branch;
 
 	public int getId_profile() {
 		return id_profile;
@@ -42,4 +44,11 @@ public class Profile {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+	public Branch getBranch() {
+		return branch;
+	}
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+	
 }

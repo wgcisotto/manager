@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -54,6 +55,9 @@ public class Sale implements Serializable {
 	@Column(name = "TOTAL")
 	private Double total;
 	
+	@ManyToOne
+	private Branch branch;
+	
 	public int getId_sale() {
 		return id_sale;
 	}
@@ -90,9 +94,11 @@ public class Sale implements Serializable {
 	public void setTotal(Double total) {
 		this.total = total;
 	}
-	
-	
-	
-	
+	public Branch getBranch() {
+		return branch;
+	}
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
 
 }

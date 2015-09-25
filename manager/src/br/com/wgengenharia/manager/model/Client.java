@@ -30,6 +30,9 @@ public class Client implements Serializable{
 	@ManyToOne
 	private Profile profile;
 	
+	@ManyToOne
+	private Branch branch;
+	
 	public int getId_client() {
 		return id_client;
 	}
@@ -54,4 +57,11 @@ public class Client implements Serializable{
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
+	public Branch getBranch() {
+		return branch;
+	}
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+	
 }

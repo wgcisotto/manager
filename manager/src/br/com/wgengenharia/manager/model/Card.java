@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,7 +32,11 @@ public class Card implements Serializable {
 	private static final String CARD_CLOSED = "Fechada";
 	private static final String CARD_PEND = "Pendente";
 	
-	
+	public Card() {
+		total = 0.0;
+		products = new ArrayList<Product>();
+		listGrouped = new LinkedHashMap<>();
+	}
 	
 	@Id
 	@Column(name="ID_CARD")
@@ -49,11 +54,8 @@ public class Card implements Serializable {
 	@Transient
 	private LinkedHashMap<Integer,GroupProducts> listGrouped;
 	
-	public Card() {
-		total = 0.0;
-		products = new ArrayList<Product>();
-		listGrouped = new LinkedHashMap<>();
-	}
+	@ManyToOne
+	private Branch branch;
 	
 	public int getId_card() {
 		return id_card;
@@ -67,7 +69,13 @@ public class Card implements Serializable {
 	public LinkedHashMap<Integer, GroupProducts> getListGrouped() {
 		return listGrouped;
 	}
-	
+	public Branch getBranch() {
+		return branch;
+	}
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+
 	
 	public void addProduct(Product product, Integer qtde){
 		

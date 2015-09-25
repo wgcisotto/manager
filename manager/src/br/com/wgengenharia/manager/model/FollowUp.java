@@ -31,6 +31,8 @@ public class FollowUp {
 	private Student student;
 	@ManyToOne
 	private Employee employee;
+	@ManyToOne
+	private Branch branch;
 	
 	public int getId_followup() {
 		return id_followup;
@@ -61,5 +63,11 @@ public class FollowUp {
 	}
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+	public Branch getBranch() {
+		return branch;
+	}
+	public void setBranch(Branch branch) {
+		this.branch = branch;
 	}
 }

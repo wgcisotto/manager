@@ -43,47 +43,45 @@ public class CallStudent {
 	
 	@ManyToOne
 	private Employee teacher;
+	
+	@ManyToOne
+	private Branch branch;
 
 	public ClassStudent getClass_Student() {
 		return class_Student;
 	}
-
 	public void setClass_Student(ClassStudent class_Student) {
 		this.class_Student = class_Student;
 	}
-
 	public List<Student> getStudents_present() {
 		return students_present;
 	}
-
 	public void setStudents_present(List<Student> students_present) {
 		this.students_present = students_present;
 	}
-
 	public List<Student> getStudents() {
 		return students;
 	}
-
 	public void setStudents(List<Student> students) {
 		this.students = students;
 	}
-
 	public Date getCall_date() {
 		return call_date;
 	}
-
 	public void setCall_date(Date call_date) {
 		this.call_date = call_date;
 	}
-
 	public Employee getTeacher() {
 		return teacher;
 	}
-
 	public void setTeacher(Employee teacher) {
 		this.teacher = teacher;
 	}
-
-
+	public Branch getBranch() {
+		return branch;
+	}
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
 	
 }

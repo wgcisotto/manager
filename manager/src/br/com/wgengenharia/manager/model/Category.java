@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -26,6 +27,9 @@ public class Category implements Serializable {
 	private String name;
 	@Column(name="DESCRIPTION", length=300)
 	private String description;
+	
+	@ManyToOne
+	private Branch branch;
 	
 
 	public String getName() {
@@ -51,5 +55,14 @@ public class Category implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Branch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+	
 	
 }
