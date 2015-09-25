@@ -23,4 +23,11 @@ public class BranchDAOImpl extends DAOImpl<Branch, Integer> implements BranchDAO
     return query.getResultList();
 	}
 
+	@Override
+	public List<Branch> listByBranch(Branch branch) {
+		/** não implementado **/
+		// retornar uma exception que nao existe implementacao
+		return null;
+	}
+
 }

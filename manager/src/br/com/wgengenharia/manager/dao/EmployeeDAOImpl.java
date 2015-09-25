@@ -39,4 +39,11 @@ public class EmployeeDAOImpl extends DAOImpl<Employee, Integer> implements Emplo
     return query.getResultList();
 	}
 
+	@Override
+	public List<Employee> listByBranch(Branch branch) {
+		TypedQuery<Employee> query = em.createQuery("from Employee o where o.branch = :branch", Employee.class);
+		query.setParameter("branch", branch);
+    return query.getResultList();
+	}
+
 }

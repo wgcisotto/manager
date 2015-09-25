@@ -7,7 +7,6 @@ import javax.persistence.TypedQuery;
 
 import br.com.wgengenharia.manager.dao.model.DAOImpl;
 import br.com.wgengenharia.manager.model.Branch;
-import br.com.wgengenharia.manager.model.ClassModule;
 import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Student;
 
@@ -33,4 +32,10 @@ public class StudentDAOImpl extends DAOImpl<Student, Integer> implements Student
     return query.getResultList();
 	}
 
+	@Override
+	public List<Student> listByBranch(Branch branch) {
+		TypedQuery<Student> query = em.createQuery("from Student o where o.branch = :branch", Student.class);
+		query.setParameter("branch", branch);
+    return query.getResultList();
+	}
 }

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import br.com.wgengenharia.manager.dao.model.DAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Profile;
 
@@ -28,6 +29,13 @@ public class ProfileDAOImpl extends DAOImpl<Profile, Integer> implements Profile
 	public List<Profile> findByCompany(Company company) {
 		TypedQuery<Profile> query = em.createQuery("from Profile p where p.company = :company", Profile.class);
 		query.setParameter("company", company);
+    return query.getResultList();
+	}
+
+	@Override
+	public List<Profile> listByBranch(Branch branch) {
+		TypedQuery<Profile> query = em.createQuery("from Profile o where o.branch = :branch", Profile.class);
+		query.setParameter("branch", branch);
     return query.getResultList();
 	}
 

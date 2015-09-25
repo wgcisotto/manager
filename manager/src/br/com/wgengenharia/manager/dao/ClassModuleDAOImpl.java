@@ -32,6 +32,13 @@ public class ClassModuleDAOImpl extends DAOImpl<ClassModule, Integer> implements
     return query.getResultList();
 	}
 
+	@Override
+	public List<ClassModule> listByBranch(Branch branch) {
+		TypedQuery<ClassModule> query = em.createQuery("from ClassModule o where o.branch = :branch", ClassModule.class);
+		query.setParameter("branch", branch);
+    return query.getResultList();
+	}
+
 	
 
 }

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import br.com.wgengenharia.manager.dao.model.DAOImpl;
+import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Student;
 import br.com.wgengenharia.manager.model.StudentPayments;
 
@@ -20,6 +21,13 @@ public class StudentPaymentsDAOImpl extends DAOImpl<StudentPayments, Integer> im
 	public List<StudentPayments> listStudentPayments(Student student) {
 		TypedQuery<StudentPayments> query = em.createQuery("from StudentPayments sp where sp.student = :student", StudentPayments.class);
 		query.setParameter("student", student);
+    return query.getResultList();
+	}
+
+	@Override
+	public List<StudentPayments> listByBranch(Branch branch) {
+		TypedQuery<StudentPayments> query = em.createQuery("from StudentPayments o where o.branch = :branch", StudentPayments.class);
+		query.setParameter("branch", branch);
     return query.getResultList();
 	}
 
