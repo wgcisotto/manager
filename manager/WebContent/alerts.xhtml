@@ -9,17 +9,34 @@
           Avisos
         </ui:define>
         <ui:define name="default">
+        
+        
+        
+          
+          <p:messages id="msgUserInfo" showDetail="true" autoUpdate="true" closable="true" />
+          <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlAlerts">
+            <p:panel id="toggleAlertPayment" header="Boletos em atrasdo" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleAlertPayment">
+             
+            
+            
+            </p:panel>
+            <p:panel id="toggleAlertStock" header="Estoque" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleAlertStock">
+             
+            
+            
+            </p:panel>
+          </p:panelGrid>
          
-			 
+			     
+			     <!-- 
 			    <p:panel id="basic" header="Alerta" footer="Produto" style="margin-bottom:20px;width: 300;" >
 	            <img src="resources/images/icons/warning.png" width="16" height="16" alt="" />
 			        <h:panelGrid columns="1" cellpadding="10">
 			            <h:outputText  value="Alerta, Produto Teste abaixo do Limite Previsto" />
 			        </h:panelGrid>
 			    </p:panel>
- 
-          <p:commandButton action="#{auth.teste}" value="testar" />
-         
+           -->
+           
         </ui:define>
     </ui:decorate>
 </html>

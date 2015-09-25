@@ -18,7 +18,8 @@
 	       
          </p:panelGrid>          
           					          
-          <p:dataTable id="dtbStockProducts" widgetVar="dtbStockProducts" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado" 
+          <p:dataTable id="dtbStockProducts" widgetVar="dtbStockProducts" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado"
+          scrollRows="5" scrollable="true" scrollHeight="370"    
               rowKey="#{prd.id_product}" filteredValue="#{manager.filteredProductsStock}">
      
               <!--  <p:ajax event="rowSelect" listener="#{manager.onRowSelectProduct}" update="@form"/> -->

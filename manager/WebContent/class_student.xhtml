@@ -21,7 +21,8 @@
            </p:panelGrid>   
            
                               
-          <p:dataTable id="dtbClassStudent" widgetVar="dtbClassStudent" var="class" value="#{student.classStudents}" emptyMessage="Nenhuma turma encontrada" 
+          <p:dataTable id="dtbClassStudent" widgetVar="dtbClassStudent" var="class" value="#{student.classStudents}" emptyMessage="Nenhuma turma encontrada"
+              scrollRows="5" scrollable="true" scrollHeight="370"    
               rowKey="#{class.id_class_student}" filteredValue="#{student.filteredClassStudents}">
      
               <f:facet name="header">

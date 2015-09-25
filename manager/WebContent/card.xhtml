@@ -25,7 +25,7 @@
            </p:panelGrid>   
 	          
 	          <p:dataTable id="dtbCard" widgetVar="dtbCard" var="card" value="#{manager.cards}" emptyMessage="Nenhuma Comanda encontrada"
-	              scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="150" 
+	              scrollRows="5" scrollable="true" scrollHeight="370"    
 	              selectionMode="single" rowKey="#{card.id_card}">
 	          
 	             <p:ajax event="rowSelect" listener="#{manager.onRowSelectCard}" update="@form"/>

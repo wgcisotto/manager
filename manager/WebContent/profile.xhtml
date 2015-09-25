@@ -18,7 +18,7 @@
 	            <p:outputLabel value="Nome: *"/>
 	            <p:inputText value="#{auth.employee.name}"/>
 	            <p:outputLabel value="Telefone: "/>
-	            <p:inputMask value="#{auth.employee.phone}" mask="(999) 99999999?9"/>
+	            <p:inputMask value="#{auth.employee.phone}" mask="(99) 99999999?9"/>
 	            <p:outputLabel value="Email: *"/>
 	            <p:inputText value="#{auth.employee.user}"/>
 	            <p:outputLabel value="Senha: *"/>
@@ -37,7 +37,7 @@
                  <p:outputLabel value="CEP: "/>
                  <p:inputText value="#{auth.employee.address.street}" size="53" />
                  <p:inputText value="#{auth.employee.address.number}" size="10" />
-                 <p:inputText value="#{auth.employee.address.zip_code}" size="10" />
+                 <p:inputMask value="#{auth.employee.address.zip_code}" size="10" mask="99999-999"/>
                </p:panelGrid>
                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                  <p:outputLabel value="Bairro:"/>
@@ -45,7 +45,7 @@
                  <p:outputLabel value="Estado: "/>
                  <p:inputText value="#{auth.employee.address.district}" size="35" />
                  <p:inputText value="#{auth.employee.address.city}" size="35" />
-                 <p:inputText value="#{auth.employee.address.state}" size="3" />
+                 <p:inputText value="#{auth.employee.address.state}" size="3" maxlength="2" />
                </p:panelGrid>
 	          </p:panel>
                     

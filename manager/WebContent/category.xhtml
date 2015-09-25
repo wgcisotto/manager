@@ -19,7 +19,8 @@
 	          </h:commandButton>
 	         </p:panelGrid>   
 	         
-          <p:dataTable id="dtbCategory" widgetVar="dtbCategory" var="categ" value="#{manager.categories}" editable="true" emptyMessage="Nenhuma categoria encontrada" 
+          <p:dataTable id="dtbCategory" widgetVar="dtbCategory" var="categ" value="#{manager.categories}" editable="true" emptyMessage="Nenhuma categoria encontrada"
+              scrollRows="5" scrollable="true" scrollHeight="370"  
               rowKey="#{categ.id_category}" filteredValue="#{manager.filteredCategories}">
  
               <f:facet name="header">

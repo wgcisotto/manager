@@ -21,7 +21,9 @@
          </p:panelGrid>          
           					          
           <p:dataTable id="dtbProducts" widgetVar="dtbProducts" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado" 
+              scrollRows="5" scrollable="true" scrollHeight="370"   
               rowKey="#{prd.id_product}" filteredValue="#{manager.filteredProducts}">
+              
 			        <f:facet name="header">
 			            <p:outputPanel id="dtbHeader" styleClass="search_align">
 			                <h:outputText value="Pesquisar: " />

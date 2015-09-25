@@ -24,12 +24,13 @@
               <p:outputLabel value="Responsavel: "/>
               <p:inputText value="#{student.selectedStudent.resp_Name}" size="30" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Tel Residencial: "/>
-              <p:inputMask value="#{student.selectedStudent.resp_home_phone}" size="30" mask="(999) 99999999?9" styleClass="inputTextDisabled"/>
+              <p:inputMask value="#{student.selectedStudent.resp_home_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Tel Comercial: "/>
-              <p:inputMask value="#{student.selectedStudent.resp_office_phone}" size="30" mask="(999) 99999999?9" styleClass="inputTextDisabled"/>
+              <p:inputMask value="#{student.selectedStudent.resp_office_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Turma Matriculada: "/>
-              <p:selectOneMenu id="slctClassStudent" value="#{student.studentInfoClass}" converter="classStudentConverter" >
-                 <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs}"/>
+              <p:selectOneMenu id="slctClassStudent" value="#{student.idClassStudent}" >
+                 <f:selectItem itemLabel="Sem Matricula" itemValue="-1"/>
+                 <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs.id_class_student}"/>
               </p:selectOneMenu>
             </p:panelGrid>
           </p:panel>                    
@@ -55,7 +56,8 @@
              
              <p:outputLabel value="Boletos"/>
             
-              <p:dataTable id="dtbSP" value="#{student.student_payments}" emptyMessage="Nenhuma Cobrança" rowKey="#{SP.id_student_payments}" widgetVar="dtbSP" 
+              <p:dataTable id="dtbSP" value="#{student.student_payments}" emptyMessage="Nenhuma Cobrança" rowKey="#{SP.id_student_payments}" widgetVar="dtbSP"
+              scrollRows="5" scrollable="true" scrollHeight="370"    
               var="sp" sortBy="#{sp.expiry_date}" styleClass="dataTableAlignCenter">
      
 	              <p:column headerText="Parcela" style="width:80px;text-align: center">
@@ -108,7 +110,8 @@
            <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
             <p:commandButton icon="ui-icon-plus" action="#{student.addFollowUp}" styleClass="btn_opcoes" update="dtbFUP toggleStudentClass"/>
             <p:inputTextarea value="#{student.newFollowUp.followup}" style="width: 800px;height: 200;"/>
-            <p:dataTable id="dtbFUP" value="#{student.followups}" emptyMessage="Nenhum Follow Up" rowKey="#{fup.id_followup}" widgetVar="dtbFUP" 
+            <p:dataTable id="dtbFUP" value="#{student.followups}" emptyMessage="Nenhum Follow Up" rowKey="#{fup.id_followup}" widgetVar="dtbFUP"
+              scrollRows="5" scrollable="true" scrollHeight="370"    
               var="fup">
             
               <p:column headerText="Data" sortBy="#{fup.date_followup}" >

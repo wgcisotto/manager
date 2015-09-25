@@ -20,7 +20,8 @@
 	          </h:commandButton>
 	         </p:panelGrid>          
                               
-          <p:dataTable id="dtbEmp" widgetVar="dtbEmp" var="emp" value="#{company.employees}" emptyMessage="Nenhum Funcionario encontrado" 
+          <p:dataTable id="dtbEmp" widgetVar="dtbEmp" var="emp" value="#{company.employees}" emptyMessage="Nenhum Funcionario encontrado"
+              scrollRows="5" scrollable="true" scrollHeight="370"    
               rowKey="#{emp.id_employee}" filteredValue="#{company.filteredEmployees}">
               <f:facet name="header">
                   <p:outputPanel id="dtbHeader" styleClass="search_align">
@@ -43,6 +44,7 @@
                  <p:column style="float: right;" >
                    <p:commandButton id="btnOpendlgEdit" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil" oncomplete="PF('dlgEmpEdit').show();" process="@this">
                     <f:setPropertyActionListener target="#{company.selectedEmployee}" value="#{emp}"/>
+                    <f:setPropertyActionListener target="#{company.idBranchSelectedEmployee}" value="#{emp.branch.id_branch}"/>
                    </p:commandButton>
                    <p:commandButton id="btnDelEmp" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" process="@this" action="#{company.delEmployee}" oncomplete="PF('dtbEmp').unselectAllRows();" update="@form">
                     <f:setPropertyActionListener target="#{company.selectedEmployee}" value="#{emp}"/>
@@ -80,7 +82,7 @@
 		             <p:outputLabel value="Nome: "/>
 		             <p:inputText value="#{company.newEmployee.name}" size="55" required="true" requiredMessage="Preencha o nome do funcionario"/>      
 		             <p:outputLabel value="Telefone: "/>
-		             <p:inputMask value="#{company.newEmployee.phone}" size="13" mask="(999) 99999999?9" required="true" requiredMessage="Preencha o telefone do funcionario"/>
+		             <p:inputMask value="#{company.newEmployee.phone}" size="13" mask="(99) 99999999?9" required="true" requiredMessage="Preencha o telefone do funcionario"/>
 		           </p:panelGrid>
 		           <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 		             <p:outputLabel value="Endereço: "/>
@@ -88,7 +90,7 @@
                  <p:outputLabel value="CEP: "/>
                  <p:inputText value="#{company.newEmployee.address.street}" size="53" />
                  <p:inputText value="#{company.newEmployee.address.number}" size="10" />
-                 <p:inputText value="#{company.newEmployee.address.zip_code}" size="10" />
+                 <p:inputMask value="#{company.newEmployee.address.zip_code}" size="10" mask="99999-999"/>
 		           </p:panelGrid>
 		           <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 		             <p:outputLabel value="Bairro:"/>
@@ -96,13 +98,13 @@
 		             <p:outputLabel value="Estado: "/>
                  <p:inputText value="#{company.newEmployee.address.district}" size="35" />
                  <p:inputText value="#{company.newEmployee.address.city}" size="35" />
-                 <p:inputText value="#{company.newEmployee.address.state}" size="3" />
+                 <p:inputText value="#{company.newEmployee.address.state}" size="3" maxlength="2"/>
 		           </p:panelGrid>
 		           <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
 		             <p:outputLabel value="Email: "/>
-		             <p:outputLabel value="Senha Default: "/>
+		             <p:outputLabel value="Senha: "/>
 		             <p:inputText value="#{company.newEmployee.user}" size="55" />
-                 <p:inputText value="#{company.newEmployee.pass}" size="15" />
+                 <p:password value="#{company.newEmployee.pass}" size="15" />
 		           </p:panelGrid>
 		           <p:panelGrid id="pngProfileNew" columns="2" styleClass="panelgrid_sem_borda">
 		            <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
@@ -114,9 +116,9 @@
                  </p:panelGrid>  
 		             <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
 	                <p:outputLabel value="Unidade: " rendered="#{company.newEmployee.profile.name ne 'Administrador' and  company.newEmployee.profile != null}"/>
-	                <p:selectOneMenu id="slctBranch" value="#{company.newEmployee.branch}" converter="branchConverter" 
+	                <p:selectOneMenu id="slctBranch" value="#{company.idBranchNewEmployee}" converter="branchConverter" 
 	                  rendered="#{company.newEmployee.profile.name ne 'Administrador' and  company.newEmployee.profile != null}">
-	                   <f:selectItems value="#{company.branchs}" var="b" itemLabel="#{b.name}" itemValue="#{b}"/>
+	                   <f:selectItems value="#{company.branchs}" var="b" itemLabel="#{b.name}" itemValue="#{b.id_branch}"/>
                   </p:selectOneMenu>
                  </p:panelGrid>
 		           </p:panelGrid>
@@ -149,7 +151,7 @@
                  <p:outputLabel value="Nome: "/>
                  <p:inputText value="#{company.selectedEmployee.name}" size="55" required="true" requiredMessage="Preencha o nome do funcionario"/>      
                  <p:outputLabel value="Telefone: "/>
-                 <p:inputMask value="#{company.selectedEmployee.phone}" size="13" mask="(999) 99999999?9"  required="true" requiredMessage="Preencha o telefone do funcionario"/>
+                 <p:inputMask value="#{company.selectedEmployee.phone}" size="13" mask="(99) 99999999?9"  required="true" requiredMessage="Preencha o telefone do funcionario"/>
                </p:panelGrid>
                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                  <p:outputLabel value="Endereço: "/>
@@ -157,7 +159,7 @@
                  <p:outputLabel value="CEP: "/>
                  <p:inputText value="#{company.selectedEmployee.address.street}" size="53" />
                  <p:inputText value="#{company.selectedEmployee.address.number}" size="10" />
-                 <p:inputText value="#{company.selectedEmployee.address.zip_code}" size="10" />
+                 <p:inputMask value="#{company.selectedEmployee.address.zip_code}" size="10" mask="99999-999" />
                </p:panelGrid>
                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                  <p:outputLabel value="Bairro:"/>
@@ -165,7 +167,7 @@
                  <p:outputLabel value="Estado: "/>
                  <p:inputText value="#{company.selectedEmployee.address.district}" size="35" />
                  <p:inputText value="#{company.selectedEmployee.address.city}" size="35" />
-                 <p:inputText value="#{company.selectedEmployee.address.state}" size="3" />
+                 <p:inputText value="#{company.selectedEmployee.address.state}" size="3" maxlength="2" />
                </p:panelGrid>
                <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
                  <p:outputLabel value="Email: "/>
@@ -183,9 +185,9 @@
                 </p:panelGrid>
                 <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
                   <p:outputLabel value="Unidade: " rendered="#{company.selectedEmployee.profile.name ne 'Administrador' and  company.selectedEmployee.profile != null}"/>
-	                <p:selectOneMenu id="slctBranchEdit" value="#{company.selectedEmployee.branch}" converter="branchConverter"
+	                <p:selectOneMenu id="slctBranchEdit" value="#{company.idBranchSelectedEmployee}" converter="branchConverter"
 	                  rendered="#{company.selectedEmployee.profile.name ne 'Administrador' and  company.selectedEmployee.profile != null}">
-	                   <f:selectItems value="#{company.branchs}" var="b" itemLabel="#{b.name}" itemValue="#{b}"/>
+	                   <f:selectItems value="#{company.branchs}" var="b" itemLabel="#{b.name}" itemValue="#{b.id_branch}"/>
 	                </p:selectOneMenu>
                 </p:panelGrid>
                </p:panelGrid>

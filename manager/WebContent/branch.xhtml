@@ -20,7 +20,8 @@
 	          </h:commandButton>
 	         </p:panelGrid>          
                               
-          <p:dataTable id="dtbBranchs" widgetVar="dtbBranchs" var="bch" value="#{company.branchs}" emptyMessage="Nenhuma Unidade encontrado" 
+          <p:dataTable id="dtbBranchs" widgetVar="dtbBranchs" var="bch" value="#{company.branchs}" emptyMessage="Nenhuma Unidade encontrado"
+             scrollRows="5" scrollable="true" scrollHeight="370"   
              rowKey="#{bch.id_branch}" filteredValue="#{company.filteredBranchs}">
      
               <f:facet name="header">
@@ -73,12 +74,10 @@
             <p:panelGrid id="pngBranch" columns="1" styleClass="panelgrid_sem_borda">
               <fieldset>
                   <p:panelGrid id="pngBranchInfo" columns="1" styleClass="panelgrid_sem_borda">
-                    <p:outputLabel value="ID: "/>
-                    <p:inputText value="#{company.newBranch.id_branch}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
                     <p:outputLabel value="Nome: "/>
                     <p:inputText value="#{company.newBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Unidade"/>      
                     <p:outputLabel value="Telefone: "/>
-                    <p:inputMask value="#{company.newBranch.phone}" size="13" mask="(999) 99999999?9" />
+                    <p:inputMask value="#{company.newBranch.phone}" size="13" mask="(99) 99999999?9" />
                   </p:panelGrid>
 	                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 	                  <p:outputLabel value="Rua: "/>
@@ -86,7 +85,8 @@
 	                  <p:outputLabel value="CEP: "/>
 	                  <p:inputText value="#{company.newBranch.address.street}" size="53" />
 	                  <p:inputText value="#{company.newBranch.address.number}" size="10" />
-	                  <p:inputText value="#{company.newBranch.address.zip_code}" size="10" />
+	                  <p:inputMask value="#{company.newBranch.address.zip_code}" size="10" mask="99999-999"/>
+	                  
 	                </p:panelGrid>
 	                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 		                <p:outputLabel value="Bairro:"/>
@@ -94,7 +94,7 @@
 		                <p:outputLabel value="Estado: "/>
 		                <p:inputText value="#{company.newBranch.address.district}" size="35" />
 		                <p:inputText value="#{company.newBranch.address.city}" size="35" />
-		                <p:inputText value="#{company.newBranch.address.state}" size="3" />
+		                <p:inputText value="#{company.newBranch.address.state}" size="3" maxlength="2"/>
                   </p:panelGrid>
               </fieldset>
               <f:facet name="footer">
@@ -118,12 +118,10 @@
           <p:panelGrid id="pngBranchEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
 	            <p:panelGrid id="pngBranchInfoEdit" columns="1" styleClass="panelgrid_sem_borda">
-	              <p:outputLabel value="ID: "/>
-	              <p:inputText value="#{company.selectedBranch.id_branch}"  styleClass="inputTextDisabled" size="10" disabled="true"/>
 	              <p:outputLabel value="Nome: "/>
 	              <p:inputText value="#{company.selectedBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Unidade"/>      
                 <p:outputLabel value="Telefone: "/>
-                <p:inputMask value="#{company.selectedBranch.phone}" size="13" mask="(999) 99999999?9"/>      
+                <p:inputMask value="#{company.selectedBranch.phone}" size="13" mask="(99) 99999999?9"/>      
 	            </p:panelGrid>
 	            <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 	              <p:outputLabel value="Rua: "/>
@@ -131,7 +129,7 @@
 	              <p:outputLabel value="CEP: "/>
 	              <p:inputText value="#{company.selectedBranch.address.street}" size="53" />
 	              <p:inputText value="#{company.selectedBranch.address.number}" size="10" />
-	              <p:inputText value="#{company.selectedBranch.address.zip_code}" size="10" />
+	              <p:inputMask value="#{company.selectedBranch.address.zip_code}" size="10" mask="99999-999" />
 	            </p:panelGrid>
 	            <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 	              <p:outputLabel value="Bairro:"/>
@@ -139,7 +137,7 @@
 	              <p:outputLabel value="Estado: "/>
 	              <p:inputText value="#{company.selectedBranch.address.district}" size="35" />
 	              <p:inputText value="#{company.selectedBranch.address.city}" size="35" />
-	              <p:inputText value="#{company.selectedBranch.address.state}" size="3" />
+	              <p:inputText value="#{company.selectedBranch.address.state}" size="3" maxlength="2"/>
 	            </p:panelGrid>
 	          </p:fieldset>
             <f:facet name="footer">

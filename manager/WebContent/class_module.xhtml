@@ -21,6 +21,7 @@
            </p:panelGrid>          
                               
           <p:dataTable id="dtbMod" widgetVar="dtbMod" var="cMod" value="#{student.modules}" emptyMessage="Nenhum modulo encontrado" 
+             scrollRows="5" scrollable="true" scrollHeight="370"   
              rowKey="#{cMod.id_class_module}" filteredValue="#{student.filteredModules}"
               >
      

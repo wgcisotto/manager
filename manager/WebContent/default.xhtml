@@ -51,12 +51,28 @@
     <h:form id="formManager">
 			
 			<!-- Start: page-top-outer -->
-			<div id="page-top-outer"> 
-			  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
-			    <img src="resources/images/shared/unknown.jpg" width="76" height="76" alt="" style="padding-top: 8px;" />
-	        <h:outputText value="Olá," style="color: white;"/>		  
-          <h:outputText value="#{auth.employee.name}" style="color: white;float: left"/>
+			<div id="page-top-outer">
+			  
+			  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
+			   <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
+			     <img src="resources/images/shared/unknown.jpg" width="76" height="76" alt="" style="padding-top: 8px;" />
+			     <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
+			       <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
+		          <h:outputText value="#{auth.employee.name}" style="color: white;float: left"/>
+ 		        </p:panelGrid>
+ 		        <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" 
+ 		         rendered="#{sec.hasProfile('Administrador')}" >
+ 		         <h:outputText value="Unidade:" style="color: white;"/>
+             <p:selectOneMenu id="slctBranchFilter" value="#{auth.idBranchSelected}"  converter="branchConverter">
+                <f:selectItems value="#{company.branchs}" var="b" itemLabel="#{b.name}" itemValue="#{b.id_branch}" />
+                <p:ajax event="change" listener="#{auth.updateEmployeeView}"/>
+             </p:selectOneMenu>
+ 		        </p:panelGrid>
+			     </p:panelGrid>
+			   </p:panelGrid>
 			  </p:panelGrid>
+			   
+			  
 				<!-- Start: page-top -->
 				<div id="page-top">
 					<!-- start logo -->
