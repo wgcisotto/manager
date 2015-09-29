@@ -118,7 +118,7 @@ public class ManagerBean implements Serializable {
 		products = productBO.listByBranch(userInfo.currentBranch);
 		categories = categoryBO.listByBranch(userInfo.currentBranch);
 		cards = cardBO.listByBranch(userInfo.currentBranch);
-		salesDay = saleBO.listByBranch(userInfo.currentBranch);
+		salesDay = saleBO.listSalesDayByBranch(Calendar.getInstance(),userInfo.currentBranch);
 		sales = saleBO.listByBranch(userInfo.currentBranch);
 	}
 	
@@ -130,7 +130,9 @@ public class ManagerBean implements Serializable {
 			newProduct.setBranch(userInfo.currentBranch);
 			idCategProdct = 0;
 			productBO.insert(newProduct);
-			products = productBO.listProducts();
+			
+			products = productBO.listByBranch(userInfo.currentBranch);
+			
 			newProduct = new Product();
 			FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Produto Inserido com sucesso"));
 		} catch (Exception e) {
@@ -146,7 +148,9 @@ public class ManagerBean implements Serializable {
 		try {
 			if(selectedProduct!=null){
 				productBO.update(selectedProduct);
-				products = productBO.listProducts();
+				
+				products = productBO.listByBranch(userInfo.currentBranch);
+				
 				selectedProduct = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Produto Atualizado com sucesso"));
 			}else{
@@ -161,7 +165,9 @@ public class ManagerBean implements Serializable {
 		try {
 			if(selectedProduct!=null){
 				productBO.delete(selectedProduct);
-				products = productBO.listProducts();
+				
+				products = productBO.listByBranch(userInfo.currentBranch);
+				
 				selectedProduct = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgProduct", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Produto Excluido com sucesso"));
 			}else{
@@ -190,7 +196,7 @@ public class ManagerBean implements Serializable {
 			Card card = new Card();
 			card.setBranch(userInfo.currentBranch);
 			cardBO.insert(card);
-			cards = cardBO.listCards();
+			cards = cardBO.listByBranch(userInfo.currentBranch);
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCard", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
@@ -204,7 +210,7 @@ public class ManagerBean implements Serializable {
 	 try {
 			if(selectedCard!=null){
 				cardBO.delete(selectedCard);
-				cards = cardBO.listCards();
+				cards = cardBO.listByBranch(userInfo.currentBranch);
 				selectedCard = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgCard", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Comanda Excluida com sucesso"));
 			}else{
@@ -225,7 +231,7 @@ public class ManagerBean implements Serializable {
 		try {
 			newCategory.setBranch(userInfo.currentBranch);
 			categoryBO.insert(newCategory);
-			categories =  categoryBO.listCategories();
+			categories = categoryBO.listByBranch(userInfo.currentBranch);
 			newCategory = new Category();
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Categoria Inserida com sucesso"));
 		} catch (Exception e) {
@@ -241,7 +247,7 @@ public class ManagerBean implements Serializable {
 		try {
 			if(selectedCategory != null){
 				categoryBO.update(selectedCategory);
-				categories = categoryBO.listCategories();
+				categories = categoryBO.listByBranch(userInfo.currentBranch);
 				selectedCategory = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Categoria Atualizada com sucesso"));
 			}else{
@@ -256,7 +262,7 @@ public class ManagerBean implements Serializable {
 		try {
 			if(selectedCategory != null){
 				categoryBO.delete(selectedCategory);
-				categories = categoryBO.listCategories();
+				categories = categoryBO.listByBranch(userInfo.currentBranch);
 				selectedCategory = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgCategory", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Categoria Excluida com sucesso"));
 			}else{
@@ -341,12 +347,9 @@ public class ManagerBean implements Serializable {
 			manager.persistSale();
 			
 			
-//			cardBO.update(selectedCard); 
-			
-			
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
 			
-			salesDay =  saleBO.listSalesDay(Calendar.getInstance());
+			salesDay =  saleBO.listSalesDayByBranch(Calendar.getInstance(), userInfo.currentBranch);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -360,7 +363,6 @@ public class ManagerBean implements Serializable {
 		try {
 			sale.addProduct(prod,1);
 			RequestContext.getCurrentInstance().update("formManager:pngListProdSale");
-//			RequestContext.getCurrentInstance().update("formManager:dtbCardCash");
 			RequestContext.getCurrentInstance().update("formManager:pngFindProTab");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -401,7 +403,7 @@ public class ManagerBean implements Serializable {
 			
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
 			
-			salesDay =  saleBO.listSalesDay(Calendar.getInstance());
+			salesDay =  saleBO.listSalesDayByBranch(Calendar.getInstance(), userInfo.currentBranch);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -55,15 +55,16 @@ public class CompanyBean implements Serializable {
 	//COMPANY
 	private CompanyBO companyBO;
 	
-	//ALERT
+	
+	// ALERTS CONTROL
+	// CONTROLE DE BOLETO EM ATRASO
 	private List<StudentPayments> alertsPayments;
 	private StudentPaymentsBO studentPaymentsBO; 
 	
 	
 	//DEFAULT
-	public EntityManager em;
-	public ProfileBO profileBO;
-	
+	private EntityManager em;
+	private ProfileBO profileBO;
 	
 	
 	
@@ -104,15 +105,16 @@ public class CompanyBean implements Serializable {
 	
 	public void addEmployee(){
 		try {
-			Branch b = branchBO.findById(getIdBranchNewEmployee());
-//			Profile profile = profileBO.findByNameAndCompany(selectedProfile.getName(),userInfo.getEmployee().getCompany());
-//			newEmployee.setProfile(profile);
-//			selectedProfile = null;
+			Branch b;
+			if(idBranchNewEmployee != null){
+				 b = branchBO.findById(idBranchNewEmployee);
+			}else{
+				b = userInfo.currentBranch;
+			}
 			newEmployee.setCompany(userInfo.getEmployee().getCompany());
 			newEmployee.setBranch(b);
-			
 			employeeBO.insert(newEmployee);
-			employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+			employees = employeeBO.listByBranch(userInfo.currentBranch);
 			newEmployee = new Employee();
 			idBranchNewEmployee = 0;
 			FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionário Inserido com sucesso"));
@@ -126,7 +128,7 @@ public class CompanyBean implements Serializable {
 		try {
 			if(selectedEmployee!=null){
 				employeeBO.delete(selectedEmployee);
-				employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+				employees = employeeBO.listByBranch(userInfo.currentBranch);
 				selectedEmployee = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionário Excluido com sucesso"));
 			}else{
@@ -144,10 +146,16 @@ public class CompanyBean implements Serializable {
 	public void updateEmployee(){
 		try {
 			if(selectedEmployee!=null){
-				Branch b = branchBO.findById(idBranchSelectedEmployee);
+				Branch b;
+				if(idBranchSelectedEmployee != null){
+					b = branchBO.findById(idBranchSelectedEmployee);
+				}else{
+					b = userInfo.currentBranch;
+				}
+				
 				selectedEmployee.setBranch(b);
 				employeeBO.update(selectedEmployee);
-				employees = employeeBO.findByCompany(userInfo.getEmployee().getCompany());
+				employees = employeeBO.listByBranch(userInfo.currentBranch);
 				selectedEmployee = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionario Atualizada com sucesso"));
 			}else{

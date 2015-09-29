@@ -121,7 +121,7 @@ public class StudentBean implements Serializable{
 			newStudent.setCompany(userInfo.getEmployee().getCompany());
 			newStudent.setBranch(userInfo.currentBranch);
 			studentBO.insert(newStudent);
-			students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+			students = studentBO.listByBranch(userInfo.currentBranch);
 			newStudent = new Student();
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudent", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Aluno cadastrado com sucesso"));
 		} catch (Exception e) {
@@ -133,7 +133,7 @@ public class StudentBean implements Serializable{
 		try {
 			if(selectedStudent!=null){
 				studentBO.delete(selectedStudent);
-				students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+				students = studentBO.listByBranch(userInfo.currentBranch);
 				selectedStudent = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgStudent", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Aluno Excluido com sucesso"));
 			}else{
@@ -152,7 +152,7 @@ public class StudentBean implements Serializable{
 		try {
 			if(selectedStudent !=null){
 				studentBO.update(selectedStudent);
-				students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());
+				students = studentBO.listByBranch(userInfo.currentBranch);
 				selectedStudent = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgStudent", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Aluno Atualizada com sucesso"));
 			}else{
@@ -173,7 +173,7 @@ public class StudentBean implements Serializable{
 			newModule.setCompany(userInfo.getEmployee().getCompany());
 			newModule.setBranch(userInfo.currentBranch);
 			classModuleBO.insert(newModule);
-			modules = classModuleBO.listModulesByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+			modules = classModuleBO.listByBranch(userInfo.currentBranch);
 			newModule = new ClassModule();
 			FacesContext.getCurrentInstance().addMessage("formManager:msgClassModule", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Modulo Inserido com sucesso"));
 		} catch (Exception e) {
@@ -185,7 +185,7 @@ public class StudentBean implements Serializable{
 		try {
 			if(selectedModule!=null){
 				classModuleBO.delete(selectedModule);
-				modules = classModuleBO.listModulesByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+				modules = classModuleBO.listByBranch(userInfo.currentBranch);
 				selectedModule = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgClassModule", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Modulo Excluido com sucesso"));
 			}else{
@@ -204,7 +204,7 @@ public class StudentBean implements Serializable{
 		try {
 			if(selectedModule!=null){
 				classModuleBO.update(selectedModule);
-				modules = classModuleBO.listModulesByCompany(userInfo.getEmployee().getCompany());
+				modules = classModuleBO.listByBranch(userInfo.currentBranch);
 				selectedModule = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgClassModule", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Modulo Atualizada com sucesso"));
 			}else{
@@ -225,7 +225,7 @@ public class StudentBean implements Serializable{
 			newClassStudent.setCompany(userInfo.getEmployee().getCompany());
 			newClassStudent.setBranch(userInfo.currentBranch);
 			classStudentBO.insert(newClassStudent);
-			classStudents = classStudentBO.listClassStudentsByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+			classStudents = classStudentBO.listByBranch(userInfo.currentBranch);
 			newClassStudent = new ClassStudent();
 			FacesContext.getCurrentInstance().addMessage("formManager:msgClassStudent", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Turma inserida com sucesso"));
 		} catch (Exception e) {
@@ -237,7 +237,7 @@ public class StudentBean implements Serializable{
 		try {
 			if(selectedClassStudent!=null){
 				classStudentBO.delete(selectedClassStudent);
-				classStudents = classStudentBO.listClassStudentsByCompany(userInfo.getEmployee().getCompany());// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+				classStudents = classStudentBO.listByBranch(userInfo.currentBranch);
 				selectedModule = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgClassStudent", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Turma Excluida com sucesso"));
 			}else{
@@ -256,7 +256,7 @@ public class StudentBean implements Serializable{
 		try {
 			if(selectedClassStudent!=null){
 				classStudentBO.update(selectedClassStudent);
-				classStudents = classStudentBO.listClassStudentsByCompany(userInfo.getEmployee().getCompany());
+				classStudents = classStudentBO.listByBranch(userInfo.currentBranch);
 				selectedClassStudent = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgClassStudent", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Turma Atualizada com sucesso"));
 			}else{
