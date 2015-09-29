@@ -41,8 +41,8 @@ public class SaleBO implements SaleDAO{
 
 
 	@Override
-	public List<Sale> listSalesDay(Calendar day) {
-		return DAO.listSalesDay(day);
+	public List<Sale> listSalesDayByBranch(Calendar day, Branch branch) {
+		return DAO.listSalesDayByBranch(day, branch);
 	}
 
 

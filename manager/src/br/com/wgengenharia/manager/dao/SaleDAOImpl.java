@@ -18,9 +18,10 @@ public class SaleDAOImpl extends DAOImpl<Sale, Integer> implements SaleDAO{
 	}
 
 	@Override
-	public List<Sale> listSalesDay(Calendar day) {
-		TypedQuery<Sale> query = em.createQuery("from Sale s where s.date like :day ", Sale.class);
+	public List<Sale> listSalesDayByBranch(Calendar day, Branch branch) {
+		TypedQuery<Sale> query = em.createQuery("from Sale s where s.date like :day and s.branch = :branch", Sale.class);
 		query.setParameter("day", day);
+		query.setParameter("branch", branch);
     return query.getResultList();
 	}
 
