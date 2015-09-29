@@ -1,5 +1,6 @@
 package br.com.wgengenharia.manager.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -27,6 +28,14 @@ public class StudentPaymentsDAOImpl extends DAOImpl<StudentPayments, Integer> im
 	@Override
 	public List<StudentPayments> listByBranch(Branch branch) {
 		TypedQuery<StudentPayments> query = em.createQuery("from StudentPayments o where o.branch = :branch", StudentPayments.class);
+		query.setParameter("branch", branch);
+    return query.getResultList();
+	}
+
+	@Override
+	public List<StudentPayments> listStudentPaymentsLate(Calendar day,
+			Branch branch) {
+		TypedQuery<StudentPayments> query = em.createQuery("from StudentPayments o where o.branch = :branch and ", StudentPayments.class);
 		query.setParameter("branch", branch);
     return query.getResultList();
 	}
