@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.context.RequestContext;
+
 import br.com.wgengenharia.manager.business.BranchBO;
 import br.com.wgengenharia.manager.business.CompanyBO;
 import br.com.wgengenharia.manager.business.EmployeeBO;
@@ -20,6 +22,12 @@ import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Employee;
 import br.com.wgengenharia.manager.model.Module;
 import br.com.wgengenharia.manager.model.Profile;
+import br.com.wgengenharia.manager.utils.CompanyUtil;
+import br.com.wgengenharia.manager.utils.ManagerUtil;
+import br.com.wgengenharia.manager.utils.StudentUtil;
+import br.com.wgengenharia.manager.view.bean.CompanyBean;
+import br.com.wgengenharia.manager.view.bean.ManagerBean;
+import br.com.wgengenharia.manager.view.bean.StudentBean;
 
 
 @ManagedBean(name="auth")
@@ -68,13 +76,7 @@ public class AuthenticationBean {
 			    session = (HttpSession) ctx.getExternalContext().getSession(false);
 			    session.setAttribute("user", employee);
 			    
-			    if(employee.getBranchView()!=null){
-			    	currentBranch = employee.getBranchView();
-			    }else{
-			    	currentBranch = employee.getBranch();
-			    }
-			    
-			    idBranchSelected = currentBranch.getId_branch();
+			    updateCurrentBranch();
 			    
 //			    setUserInfo();
 			    
@@ -125,10 +127,38 @@ public class AuthenticationBean {
 			Branch b = branchBO.findById(idBranchSelected);
 			employee.setBranchView(b);
 			employeeBO.update(employee);
+			
+			updateCurrentBranch();
+			updateUserView();
+			
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgUserInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
+	
+	public void updateUserView(){
+		CompanyBean companyInfo = CompanyUtil.getCompanyInfo();
+		ManagerBean managerInfo = ManagerUtil.getManagerInfo();
+		StudentBean studentInfo = StudentUtil.getStudentInfo();
+		
+		if (companyInfo != null) companyInfo.loadlistsInfo();
+		
+		if (managerInfo != null) managerInfo.loadListsInfo();
+		
+		if (studentInfo != null) studentInfo.loadListsInfo();
+		
+		RequestContext.getCurrentInstance().update("formManager");
+	}
+	
+	public void updateCurrentBranch(){
+    if(employee.getBranchView()!=null){
+    	currentBranch = employee.getBranchView();
+    }else{
+    	currentBranch = employee.getBranch();
+    }
+    idBranchSelected = currentBranch.getId_branch();
+	}
+	
 	
 	public void teste(){
 		try {
@@ -174,6 +204,7 @@ public class AuthenticationBean {
 			Profile p = new Profile();
 			p.setCompany(c);
 			p.setName("Administrador");
+			p.setBranch(b1);
 //			Profile p1 = new Profile();
 //			p1.setCompany(c);
 //			p1.setName("Aluno");
@@ -183,9 +214,11 @@ public class AuthenticationBean {
 			Profile p3 = new Profile();
 			p3.setCompany(c);
 			p3.setName("Funcionario");
+			p3.setBranch(b1);
 			Profile p4 = new Profile();
 			p4.setCompany(c);
 			p4.setName("Professor");
+			p4.setBranch(b1);
 		
 			pBO.insert(p);
 //			pBO.insert(p1);
@@ -209,7 +242,7 @@ public class AuthenticationBean {
 			e.setName("William Galindo Cisotto");
 			e.setUser("admin@admin.com.br");
 			e.setPass("will00gc");
-//			e.setBranch(b1);
+			e.setBranchView(b1);
 			e.setProfile(p);
 			e.setCompany(c);
 			e.setPhone("980845866");
