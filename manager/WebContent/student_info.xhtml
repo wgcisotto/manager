@@ -14,24 +14,36 @@
           
           <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlUser">
           
-           <p:panel id="toggleInfoStudent" header="Dados Aluno" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoStudent"> 
+           <p:panel id="toggleInfoStudent" header="Dados Aluno" style="width: 100%" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoStudent"> 
             
-            <p:panelGrid id="pngInfoStudent" columns="2" styleClass="panelgrid_sem_borda">
-              <p:outputLabel value="Aluno: "/>
-              <p:inputText value="#{student.selectedStudent.student_name}" size="30" styleClass="inputTextDisabled"/>
-              <p:outputLabel value="Email: "/>
-              <p:inputText value="#{student.selectedStudent.email}" size="30" styleClass="inputTextDisabled"/>
-              <p:outputLabel value="Responsavel: "/>
-              <p:inputText value="#{student.selectedStudent.resp_Name}" size="30" styleClass="inputTextDisabled"/>
-              <p:outputLabel value="Tel Residencial: "/>
-              <p:inputMask value="#{student.selectedStudent.resp_home_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
-              <p:outputLabel value="Tel Comercial: "/>
-              <p:inputMask value="#{student.selectedStudent.resp_office_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
-              <p:outputLabel value="Turma Matriculada: "/>
-              <p:selectOneMenu id="slctClassStudent" value="#{student.idClassStudent}" >
-                 <f:selectItem itemLabel="Sem Matricula" itemValue="-1"/>
-                 <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs.id_class_student}"/>
-              </p:selectOneMenu>
+            <p:panelGrid columns="2" style="width: 100%">
+              <p:column>
+	            <p:panelGrid id="pngInfoStudent" columns="2" styleClass="panelgrid_sem_borda">
+	              <p:outputLabel value="Aluno: "/>
+	              <p:inputText value="#{student.selectedStudent.student_name}" size="30" styleClass="inputTextDisabled"/>
+	              <p:outputLabel value="Email: "/>
+	              <p:inputText value="#{student.selectedStudent.email}" size="30" styleClass="inputTextDisabled"/>
+	              <p:outputLabel value="Responsavel: "/>
+	              <p:inputText value="#{student.selectedStudent.resp_Name}" size="30" styleClass="inputTextDisabled"/>
+	              <p:outputLabel value="Tel Residencial: "/>
+	              <p:inputMask value="#{student.selectedStudent.resp_home_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
+	              <p:outputLabel value="Tel Comercial: "/>
+	              <p:inputMask value="#{student.selectedStudent.resp_office_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
+	              <p:outputLabel value="Turma Matriculada: "/>
+	              <p:selectOneMenu id="slctClassStudent" value="#{student.idClassStudent}" >
+	                 <f:selectItem itemLabel="Sem Matricula" itemValue="-1"/>
+	                 <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs.id_class_student}" update="pngStudentPayments"/>
+	              </p:selectOneMenu>
+	            </p:panelGrid>
+	            </p:column>
+	            <p:column>
+		            <p:panelGrid columns="1" style="float: right;">
+					        <p:graphicImage id="imgStudent" value="#{student.selectedStudent.studentImage}" style="width:180px;height:180px" /> 
+					        <h:commandButton styleClass="btn btn-primary btn-lg" value="Alterar" style="float: right;">
+					         <p:ajax event="click" onstart="PF('dlgAlterImg').show()"/>
+					        </h:commandButton>
+	              </p:panelGrid>
+	           </p:column>
             </p:panelGrid>
           </p:panel>                    
             
@@ -48,7 +60,7 @@
             <p:outputLabel value="Vencimento: "/>
             <p:calendar value="#{student.expiry_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
             <p:commandButton icon="ui-icon-plus" >
-              <p:ajax process="@this toggleStudentFin" listener="#{student.addStudentPayment}" update="pngStudentPayments dtbSP"/>
+              <p:ajax process="@this toggleStudentFin" listener="#{student.addStudentPayment}" update="pngStudentPayments dtbSP" />
             </p:commandButton>
            </p:panelGrid>
            <br/>
@@ -95,7 +107,7 @@
 	              </p:column>
                 
                 <p:column style="width:40px;text-align: center">
-	                <p:commandButton onstart="PF('dlgPayments').show();" process="@this" icon="ui-icon-check" title="Pagamento" styleClass="btn_opcoes" disabled="#{sp.status eq 'PAGO'}">
+	                <p:commandButton onstart="PF('dlgPayments').show();" process="@this" icon="ui-icon-circle-check" title="Pagamento" styleClass="btn_opcoes" disabled="#{sp.status eq 'PAGO'}">
 	                  <f:setPropertyActionListener value="#{sp}" target="#{student.selectedStudentPayments}"/>
 	                </p:commandButton>
                 </p:column>
@@ -208,6 +220,22 @@
               <h:commandButton styleClass="btn btn-default" value="Cancelar">
                 <f:setPropertyActionListener value="null" target="#{student.selectedStudentPayments}"/> 
                 <p:ajax event="click" oncomplete="PF('dlgPayments').hide();" />
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
+        </p:dialog>
+        
+        
+        <p:dialog id="dlgAlterImg" header="Imagem" widgetVar="dlgAlterImg" minHeight="40" resizable="false" modal="true" width="600">
+          <p:growl id="growlImg" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngAlterImg"  columns="1" styleClass="panelgrid_sem_borda" >
+			       <p:fileUpload fileUploadListener="#{student.fileUpload}" mode="advanced" dragDropSupport="false" label="Add" uploadLabel="Carregar" cancelLabel="Cancelar" style="width: 500px;"
+			           process="@this" update="growlImg" sizeLimit="100000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-default" value="Fecharaaa">
+                <p:ajax event="click" oncomplete="PF('dlgAlterImg').hide();" update="@form"/>
               </h:commandButton>
             </p:panelGrid>
           </f:facet>

@@ -1,6 +1,8 @@
 package br.com.wgengenharia.manager.view.bean;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -17,6 +19,8 @@ import br.com.wgengenharia.manager.business.EmployeeBO;
 import br.com.wgengenharia.manager.business.ProfileBO;
 import br.com.wgengenharia.manager.business.StudentPaymentsBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
+import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
+import br.com.wgengenharia.manager.factory.ManagerPaymentFactory;
 import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Employee;
 import br.com.wgengenharia.manager.model.Profile;
@@ -59,7 +63,8 @@ public class CompanyBean implements Serializable {
 	// ALERTS CONTROL
 	// CONTROLE DE BOLETO EM ATRASO
 	private List<StudentPayments> alertsPayments;
-	private StudentPaymentsBO studentPaymentsBO; 
+	private StudentPaymentsBO studentPaymentsBO;
+	private StudentPayments selectedPayment;
 	
 	
 	//DEFAULT
@@ -95,6 +100,7 @@ public class CompanyBean implements Serializable {
 		branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
 		employees = employeeBO.listByBranch(userInfo.currentBranch);
 		profiles = profileBO.listByBranch(userInfo.currentBranch);
+		alertsPayments =  studentPaymentsBO.listStudentPaymentsLate(Calendar.getInstance(), userInfo.currentBranch);
 	}
 	
 	//EMPLOYEE
@@ -235,6 +241,46 @@ public class CompanyBean implements Serializable {
 		}
 	}
 	
+	// ALERTS CONTROL
+	
+	public void updatePaymentDate(){
+		try {
+			if(selectedPayment!=null){
+				studentPaymentsBO.update(selectedPayment);
+				alertsPayments = studentPaymentsBO.listStudentPaymentsLate(Calendar.getInstance(),userInfo.currentBranch);
+				selectedPayment = null;
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCompanyAlert", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Alteração Efetuada com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCompanyAlert", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Erro ao atualizar data de pagamento"));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCompanyAlert", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
+	public void pay(){
+		try {
+			if(selectedPayment!=null){
+				selectedPayment.setPayment_date(new Date());
+				selectedPayment.setPaid(selectedPayment.getPrice());
+				
+				studentPaymentsBO.update(selectedPayment);
+				
+				ManagerSaleFacadeInterface manager = ManagerPaymentFactory.newInstance(selectedPayment);
+				manager.persistSale();
+
+				alertsPayments = studentPaymentsBO.listStudentPaymentsLate(Calendar.getInstance(),userInfo.currentBranch);
+				
+				selectedPayment = null;
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCompanyAlert", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Pagamento efetuado com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgCompanyAlert", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Nescessário selecionar um boleto atrasado"));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCompanyAlert", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
 	
 	//get and setters
 	//EMPLOYEES
@@ -321,5 +367,16 @@ public class CompanyBean implements Serializable {
 	public void setGlobalFilterBranch(String globalFilterBranch) {
 		this.globalFilterBranch = globalFilterBranch;
 	}
-	
+	public List<StudentPayments> getAlertsPayments() {
+		return alertsPayments;
+	}
+	public void setAlertsPayments(List<StudentPayments> alertsPayments) {
+		this.alertsPayments = alertsPayments;
+	}
+	public StudentPayments getSelectedPayment() {
+		return selectedPayment;
+	}
+	public void setSelectedPayment(StudentPayments selectedPayment) {
+		this.selectedPayment = selectedPayment;
+	}
 }
