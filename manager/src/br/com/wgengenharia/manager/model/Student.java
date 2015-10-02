@@ -1,5 +1,7 @@
 package br.com.wgengenharia.manager.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,10 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.primefaces.model.DefaultStreamedContent;
 
 @Entity
 @Table(name = "TAB_STUDENT")
@@ -29,6 +34,10 @@ public class Student {
 	
 	@Column(name="STUDENT_NAME", length=100)
 	private String student_name;
+	
+	@Lob
+	@Column(name="IMAGE", length=10000000)
+	private byte[] image;
 	
 	@Temporal(TemporalType.DATE)
 	private Date student_birth_date;
@@ -75,6 +84,12 @@ public class Student {
 	}
 	public void setStudent_name(String student_name) {
 		this.student_name = student_name;
+	}
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 	public Date getStudent_birth_date() {
 		return student_birth_date;
@@ -142,4 +157,16 @@ public class Student {
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
+	
+	
+	// retorna imagem para grafichimage
+	public DefaultStreamedContent getStudentImage(){
+		if(image != null){
+			InputStream is = new ByteArrayInputStream((byte[]) this.image);
+			return new DefaultStreamedContent(is, "image/png");
+		}else{
+			return null;
+		}
+	}
+	
 }
