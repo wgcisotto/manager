@@ -10,6 +10,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 
 import br.com.wgengenharia.manager.business.ClassModuleBO;
@@ -28,6 +30,7 @@ import br.com.wgengenharia.manager.model.StudentPayments;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
 import br.com.wgengenharia.manager.utils.AuthenticationUtil;
 import br.com.wgengenharia.manager.utils.DateUtil;
+import br.com.wgengenharia.manager.utils.StudentPaymentUtil;
 
 @ManagedBean(name="student")
 @SessionScoped
@@ -330,6 +333,10 @@ public class StudentBean implements Serializable{
 				sp.setBranch(userInfo.currentBranch);
 				sp.setCompany(userInfo.getEmployee().getCompany());
 				
+				String barcode = StudentPaymentUtil.generateStudentPaymentBarcode(sp);
+				
+				sp.setBarcode(barcode);
+				
 				studentPaymentsBO.insert(sp);
 			}
 
@@ -389,9 +396,7 @@ public class StudentBean implements Serializable{
 	
 	public void updateStudentClass(){
 		try {
-			
 			alterStudentClass();
-			
 			classStudentBO.update(studentInfoClass);
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Atualizações efetuada com sucesso"));
 		} catch (Exception e) {
@@ -414,6 +419,19 @@ public class StudentBean implements Serializable{
 			studentInfoClass.addStudent(selectedStudent);
 		}
 	}
+	
+	public void fileUpload(FileUploadEvent event) {
+  		try {
+//  			UploadedFile arq = event.getFile();
+        selectedStudent.setImage(event.getFile().getContents());
+        studentBO.update(selectedStudent);
+        
+        
+  			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Atualização efetuada com sucesso"));
+  		} catch (Exception e) {
+  			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+  		}
+  }
 	
 	// METODOS PARA CHAMADAS DE ALUNO 
 	

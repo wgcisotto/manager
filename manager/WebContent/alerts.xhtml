@@ -13,15 +13,55 @@
         
         
           
-          <p:messages id="msgUserInfo" showDetail="true" autoUpdate="true" closable="true" />
+          <p:messages id="msgCompanyAlert" showDetail="true" autoUpdate="true" closable="true" />
           <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlAlerts">
-            <p:panel id="toggleAlertPayment" header="Boletos em atraso" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleAlertPayment">
-             
-             
-             
-             
-            
-            
+            <p:panel id="toggleAlertPayment" header="Cobrança em Atraso" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleAlertPayment">
+              
+              <br/>
+               
+              <p:dataTable id="dtbAlertsPayments" value="#{company.alertsPayments}" emptyMessage="Nenhuma cobrança em Atraso" rowKey="#{SP.id_student_payments}" widgetVar="dtbAlertsPayments"
+              scrollRows="5" scrollable="true" scrollHeight="370"    
+              var="sp" sortBy="#{sp.expiry_date}" styleClass="dataTableAlignCenter">
+     
+                <p:column headerText="Parcela" style="width:80px;text-align: center">
+                  <h:outputText value="#{sp.number_parcel}" />
+                </p:column>
+              
+                <p:column headerText="Valor">
+                  <h:outputText value="#{sp.price}">
+                    <f:convertNumber pattern="#,##0.00"/>  
+                  </h:outputText>
+                </p:column>
+              
+                <p:column headerText="Data Vencimento">
+                  <h:outputText value="#{sp.expiry_date}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" locale="pt,BR" timeZone="Brazil/East"/> 
+                  </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Aluno">
+                  <h:outputText value="#{sp.student.student_name}"/>
+                </p:column>
+         
+                <p:column headerText="Status" >
+                  <b:label text="Pagamento Pendente" severity="warning" rendered="#{sp.status eq 'PENDENTE'}"/>
+                  <b:label text="Pagamento Atrasado" severity="Danger" rendered="#{sp.status eq 'ATRASADO'}" />
+                  <b:label text="Pagamento Efetuado" severity="Default" rendered="#{sp.status eq 'PAGO'}" />
+                </p:column>
+                
+                <p:column style="width:100px;text-align: center">
+                  <p:commandButton id="btnOpenInfoStudentLate" title="Informacoes do aluno" styleClass="btn_opcoes" action="#{student.openStudentInfo}" icon="ui-icon-person" process="@this" >
+                   <f:setPropertyActionListener target="#{student.selectedStudent}" value="#{sp.student}"/>
+                  </p:commandButton>
+	                <p:commandButton onstart="PF('dlgPaymentsLate').show();" process="@this" icon="ui-icon-pencil" title="Alterar data de pagamento" styleClass="btn_opcoes" >
+	                  <f:setPropertyActionListener value="#{sp}" target="#{company.selectedPayment}"/>
+	                </p:commandButton>
+	                <p:commandButton process="@this" action="#{company.pay}" icon="ui-icon-circle-check" title="Pagamento" styleClass="btn_opcoes" >
+	                  <f:setPropertyActionListener value="#{sp}" target="#{company.selectedPayment}"/>
+	                </p:commandButton>
+                </p:column>
+              
+              </p:dataTable>  
             </p:panel>
             <p:panel id="toggleAlertStock" header="Estoque" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleAlertStock">
              
@@ -29,6 +69,39 @@
             
             </p:panel>
           </p:panelGrid>
+         
+         
+         
+        
+        <p:remoteCommand id="rmcPaymentsLate" name="rmcPaymentsLate" update="pngdlgPaymentsLate" process="@this"/>
+        <p:dialog id="dlgPaymentsLate" header="Pagamento" widgetVar="dlgPaymentsLate" minHeight="40" resizable="false" modal="true" onShow="rmcPaymentsLate()">
+          <p:growl id="growldlgPaymentsLate" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngdlgPaymentsLate"  columns="1" styleClass="panelgrid_sem_borda">
+            <p:fieldset>
+              <p:panelGrid columns="6" styleClass="panelgrid_sem_borda" rendered="#{company.selectedPayment != null}">
+                <p:outputLabel value="Parcela: "/>
+                <p:inputText value="#{company.selectedPayment.number_parcel}" size="10" styleClass="inputTextDisabled"/>
+                <p:outputLabel value="Valor: "/>
+                <p:inputText value="#{company.selectedPayment.price}" size="10" styleClass="inputTextDisabled">
+                  <f:convertNumber pattern="#,##0.00"/>  
+                </p:inputText>
+                <p:outputLabel value="Data Vencimento: "/>
+                <p:calendar value="#{company.selectedPayment.expiry_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
+              </p:panelGrid>
+            </p:fieldset>
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-primary" value="Confirmar">
+                <p:ajax event="click" process="@this pngdlgPaymentsLate"  listener="#{company.updatePaymentDate}" update="pngdlgPaymentsLate dtbAlertsPayments" oncomplete="PF('dlgPaymentsLate').hide();"/>
+              </h:commandButton>
+              <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                <f:setPropertyActionListener value="null" target="#{company.selectedPayment}"/> 
+                <p:ajax event="click" oncomplete="PF('dlgPaymentsLate').hide();" />
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
+        </p:dialog>
          
 			     
 			     <!-- 

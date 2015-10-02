@@ -35,8 +35,9 @@ public class StudentPaymentsDAOImpl extends DAOImpl<StudentPayments, Integer> im
 	@Override
 	public List<StudentPayments> listStudentPaymentsLate(Calendar day,
 			Branch branch) {
-		TypedQuery<StudentPayments> query = em.createQuery("from StudentPayments o where o.branch = :branch and ", StudentPayments.class);
+		TypedQuery<StudentPayments> query = em.createQuery("from StudentPayments o where o.branch = :branch and o.expiry_date < :day and o.paid = 0", StudentPayments.class);
 		query.setParameter("branch", branch);
+		query.setParameter("day", day.getTime());
     return query.getResultList();
 	}
 

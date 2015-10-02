@@ -50,6 +50,9 @@ public class StudentPayments {
 	@ManyToOne
 	private Branch branch;
 
+	@Column(name="BARCODE")
+	private String barcode;
+	
 	public int getId_student_payments() {
 		return id_student_payments;
 	}
@@ -104,6 +107,12 @@ public class StudentPayments {
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
+	public String getBarcode() {
+		return barcode;
+	}
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
 	
 	public String getStatus(){
 		Date date = new Date();
@@ -112,5 +121,6 @@ public class StudentPayments {
 		if(expiry_date.before(date)) return STATUS_ATRASADO;
 		return "";
 	}
+	
 	
 }

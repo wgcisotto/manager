@@ -1,5 +1,6 @@
 package br.com.wgengenharia.manager.business;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -46,6 +47,11 @@ public class StudentPaymentsBO implements StudentPaymentsDAO {
 	@Override
 	public List<StudentPayments> listByBranch(Branch branch) {
 		return DAO.listByBranch(branch);
+	}
+
+	@Override
+	public List<StudentPayments> listStudentPaymentsLate(Calendar day,Branch branch) {
+		return DAO.listStudentPaymentsLate(day, branch);
 	}
 
 	
