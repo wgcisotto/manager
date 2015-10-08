@@ -13,5 +13,7 @@ public interface StudentDAO extends DAOInterface<Student, Integer> {
 	
 	public List<Student> listStudentByCompanyAndBranch(Company company, Branch branch);
 	
+	public List<Student> listStudentWithoutClass(Branch branch);
+	
 
 }

@@ -10,6 +10,6 @@ public interface ProfileDAO extends DAOInterface<Profile, Integer> {
 	
 	public Profile findByNameAndCompany(String profileName, Company company);
 	
-	public List<Profile> findByCompany(Company company);
+	public List<Profile> listByCompany(Company company);
 
 }

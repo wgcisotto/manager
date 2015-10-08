@@ -1,6 +1,6 @@
 package br.com.wgengenharia.manager.dao;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -18,7 +18,7 @@ public class SaleDAOImpl extends DAOImpl<Sale, Integer> implements SaleDAO{
 	}
 
 	@Override
-	public List<Sale> listSalesDayByBranch(Calendar day, Branch branch) {
+	public List<Sale> listSalesDayByBranch(Date day, Branch branch) {
 		TypedQuery<Sale> query = em.createQuery("from Sale s where s.date like :day and s.branch = :branch", Sale.class);
 		query.setParameter("day", day);
 		query.setParameter("branch", branch);

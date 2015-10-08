@@ -26,7 +26,7 @@ public class ProfileDAOImpl extends DAOImpl<Profile, Integer> implements Profile
 	}
 
 	@Override
-	public List<Profile> findByCompany(Company company) {
+	public List<Profile> listByCompany(Company company) {
 		TypedQuery<Profile> query = em.createQuery("from Profile p where p.company = :company", Profile.class);
 		query.setParameter("company", company);
     return query.getResultList();

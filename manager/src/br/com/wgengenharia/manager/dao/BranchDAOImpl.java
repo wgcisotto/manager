@@ -17,7 +17,7 @@ public class BranchDAOImpl extends DAOImpl<Branch, Integer> implements BranchDAO
 	}
 
 	@Override
-	public List<Branch> findByCompany(Company company) {
+	public List<Branch> listByCompany(Company company) {
 		TypedQuery<Branch> query = em.createQuery("from Branch b where b.company = :company", Branch.class);
 		query.setParameter("company", company);
     return query.getResultList();

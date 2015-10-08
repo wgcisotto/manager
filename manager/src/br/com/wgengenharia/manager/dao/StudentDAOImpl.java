@@ -38,4 +38,11 @@ public class StudentDAOImpl extends DAOImpl<Student, Integer> implements Student
 		query.setParameter("branch", branch);
     return query.getResultList();
 	}
+
+	@Override
+	public List<Student> listStudentWithoutClass(Branch branch) {
+		TypedQuery<Student> query = em.createQuery("from Student o where o.branch = :branch and o.class_registered = 0", Student.class);
+		query.setParameter("branch", branch);
+    return query.getResultList();
+	}
 }

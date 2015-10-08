@@ -50,13 +50,13 @@ public class EmployeeBO implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> findByCompany(Company company) {
-		return DAO.findByCompany(company);
+	public List<Employee> listByCompany(Company company) {
+		return DAO.listByCompany(company);
 	}
 
 	@Override
-	public List<Employee> findByCompanyAndBranch(Company company, Branch branch) {
-		return DAO.findByCompanyAndBranch(company, branch);
+	public List<Employee> listByCompanyAndBranch(Company company, Branch branch) {
+		return DAO.listByCompanyAndBranch(company, branch);
 	}
 
 	@Override

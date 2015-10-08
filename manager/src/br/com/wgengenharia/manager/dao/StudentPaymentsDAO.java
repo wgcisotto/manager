@@ -11,8 +11,9 @@ import br.com.wgengenharia.manager.model.StudentPayments;
 public interface StudentPaymentsDAO extends DAOInterface<StudentPayments, Integer> {
 	
 	public List<StudentPayments> listStudentPayments(Student student);
-
 	
 	public List<StudentPayments> listStudentPaymentsLate(Calendar day, Branch branch);
+	
+	public StudentPayments findByBarcode(String barcode);
 	
 }

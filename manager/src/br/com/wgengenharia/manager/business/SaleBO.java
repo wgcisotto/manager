@@ -1,6 +1,6 @@
 package br.com.wgengenharia.manager.business;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -41,7 +41,7 @@ public class SaleBO implements SaleDAO{
 
 
 	@Override
-	public List<Sale> listSalesDayByBranch(Calendar day, Branch branch) {
+	public List<Sale> listSalesDayByBranch(Date day, Branch branch) {
 		return DAO.listSalesDayByBranch(day, branch);
 	}
 

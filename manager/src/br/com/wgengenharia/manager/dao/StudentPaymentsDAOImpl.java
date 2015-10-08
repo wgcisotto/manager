@@ -41,4 +41,11 @@ public class StudentPaymentsDAOImpl extends DAOImpl<StudentPayments, Integer> im
     return query.getResultList();
 	}
 
+	@Override
+	public StudentPayments findByBarcode(String barcode) {
+		TypedQuery<StudentPayments> query = em.createQuery("from StudentPayments o where o.barcode = :barcode", StudentPayments.class);
+		query.setParameter("barcode", barcode);
+    return query.getSingleResult();
+	}
+
 }

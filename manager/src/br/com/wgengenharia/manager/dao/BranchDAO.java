@@ -8,7 +8,7 @@ import br.com.wgengenharia.manager.model.Company;
 
 public interface BranchDAO extends DAOInterface<Branch, Integer> {
 	
-	public List<Branch> findByCompany(Company company);
+	public List<Branch> listByCompany(Company company);
 	
 
 }

@@ -54,6 +54,11 @@ public class StudentPaymentsBO implements StudentPaymentsDAO {
 		return DAO.listStudentPaymentsLate(day, branch);
 	}
 
+	@Override
+	public StudentPayments findByBarcode(String barcode) {
+		return DAO.findByBarcode(barcode);
+	}
+
 	
 	
 	

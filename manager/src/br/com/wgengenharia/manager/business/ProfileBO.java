@@ -46,8 +46,8 @@ public class ProfileBO implements ProfileDAO {
 
 
 	@Override
-	public List<Profile> findByCompany(Company company) {
-		return DAO.findByCompany(company);
+	public List<Profile> listByCompany(Company company) {
+		return DAO.listByCompany(company);
 	}
 
 

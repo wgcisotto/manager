@@ -57,4 +57,9 @@ public class StudentBO implements StudentDAO {
 		return DAO.listByBranch(branch);
 	}
 
+	@Override
+	public List<Student> listStudentWithoutClass(Branch branch) {
+		return DAO.listStudentWithoutClass(branch);
+	}
+
 }

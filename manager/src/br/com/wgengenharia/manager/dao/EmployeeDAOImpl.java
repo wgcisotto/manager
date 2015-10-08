@@ -25,14 +25,14 @@ public class EmployeeDAOImpl extends DAOImpl<Employee, Integer> implements Emplo
 	}
 
 	@Override
-	public List<Employee> findByCompany(Company company) {
+	public List<Employee> listByCompany(Company company) {
 		TypedQuery<Employee> query = em.createQuery("from Employee e where e.company = :company", Employee.class);
 		query.setParameter("company", company);
     return query.getResultList();
 	}
 
 	@Override
-	public List<Employee> findByCompanyAndBranch(Company company,Branch branch) {
+	public List<Employee> listByCompanyAndBranch(Company company,Branch branch) {
 		TypedQuery<Employee> query = em.createQuery("from Employee e where e.company = :company and e.branch = :branch", Employee.class);
 		query.setParameter("company", company);
 		query.setParameter("branch", branch);
