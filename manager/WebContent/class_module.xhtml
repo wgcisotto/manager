@@ -18,7 +18,9 @@
             <h:commandButton id="btnOpendlgClassModule" styleClass="btn btn-primary btn-lg" value="Novo Modulo">
               <p:ajax event="click" oncomplete="PF('dlgMod').show();" listener="#{student.newModule}" update="pngNewMod" />
             </h:commandButton>
-           </p:panelGrid>          
+           </p:panelGrid>
+           
+           <p:separator />          
                               
           <p:dataTable id="dtbMod" widgetVar="dtbMod" var="cMod" value="#{student.modules}" emptyMessage="Nenhum modulo encontrado" 
              scrollRows="5" scrollable="true" scrollHeight="370"   
@@ -66,19 +68,21 @@
          
          <p:dialog id="dlgMod" header="Cadastro de Modulo" widgetVar="dlgMod" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="pngNewMod" columns="1" styleClass="panelgrid_sem_borda">
-            <p:growl id="growlDlgMod" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growlDlgMod" sticky="true" showDetail="true" life="3000" severity="error"/>
               <p:fieldset>
               <p:panelGrid id="pngCadMod"  columns="2" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Nome: "/>
-                <h:inputText value="#{student.newModule.name}" required="True" requiredMessage="Preencha o Nome do Modulo"/>
-                <h:outputLabel value="Descrição: "/>
-                <h:inputText value="#{student.newModule.description}"/>
+                <p:outputLabel value="Nome: " for="txtModuleName"/>
+                <p:inputText id="txtModuleName" value="#{student.newModule.name}" required="true" requiredMessage="Preencha o Nome do Modulo."/>
+                <p:outputLabel value="Descrição: "/>
+                <p:inputText value="#{student.newModule.description}"/>
+                <p:outputLabel value="Quantidade de Aulas: " for="spnQtdCLass"/>
+                <p:spinner id="spnQtdCLass" required="true" requiredMessage="Preencha a quantidade de aulas." min="1" size="10"/>
               </p:panelGrid>
              </p:fieldset>
             <f:facet name="footer">
               <p:panelGrid columns="2" style="float: right;">
                 <h:commandButton styleClass="btn btn-primary" value="Incluir">
-                  <p:ajax event="click" listener="#{student.addModule}" process="@this pngNewMod"  oncomplete="handleAddModRequest(xhr, status, args)" update="dtbMod growlDlgMod" />
+                  <p:ajax event="click" listener="#{student.addModule}" process="@this pngCadMod"  oncomplete="handleAddModRequest(xhr, status, args)" update="dtbMod growlDlgMod pngNewMod" />
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-default" value="Cancelar">
                   <f:setPropertyActionListener value="null" target="{student.newModule}"/> 
@@ -91,14 +95,16 @@
          
          <p:remoteCommand id="rmcModEdit" name="rmcModEdir" update="pngModEdit" process="@this"/>
          <p:dialog id="dlgModEdit" header="Edicao de Modulo " widgetVar="dlgModEdit" minHeight="40" resizable="false" modal="true" onShow="rmcModEdir()">
-          <p:growl id="growlDlgModEdit" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlDlgModEdit" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngModEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
               <p:panelGrid id="pngEditMod"  columns="2" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Nome: "/>
-                <h:inputText value="#{student.selectedModule.name}" required="True" requiredMessage="Preencha o Nome do Modulo"/>
-                <h:outputLabel value="Descrição: "/>
-                <h:inputText value="#{student.selectedModule.description}"/>
+                <p:outputLabel value="Nome: " for="txtStudEditName"/>
+                <p:inputText id="txtStudEditName" value="#{student.selectedModule.name}" required="true" requiredMessage="Preencha o Nome do Modulo"/>
+                <p:outputLabel value="Descrição: "/>
+                <p:inputText value="#{student.selectedModule.description}"/>
+                <p:outputLabel value="Quantidade de Aulas: " for="spnQtdCLassEdit"/>
+                <p:spinner id="spnQtdCLassEdit" required="true" requiredMessage="Preencha a quantidade de aulas." min="1" size="10"/>
               </p:panelGrid>
             </p:fieldset>
             <f:facet name="footer">

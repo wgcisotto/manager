@@ -18,7 +18,9 @@
 	          <h:commandButton id="btnOpendlgEmp" styleClass="btn btn-primary btn-lg" value="Novo Funcionario">
 	            <p:ajax event="click" oncomplete="PF('dlgEmp').show();" listener="#{company.newEmployee}" update="pngNewEmp" />
 	          </h:commandButton>
-	         </p:panelGrid>          
+	         </p:panelGrid> 
+	         
+	         <p:separator />         
                               
           <p:dataTable id="dtbEmp" widgetVar="dtbEmp" var="emp" value="#{company.employees}" emptyMessage="Nenhum Funcionario encontrado"
               scrollRows="5" scrollable="true" scrollHeight="370"    
@@ -73,16 +75,16 @@
           </p:dataTable>   
          </p:panelGrid>
          
-         
-         <p:dialog id="dlgEmp" header="Cadastro de Funcionário" widgetVar="dlgEmp" minHeight="40" resizable="false" modal="true">
+         <p:remoteCommand id="rmcEmp" name="rmcEmp" update="pngNewEmp" process="@this"/>
+         <p:dialog id="dlgEmp" header="Cadastro de Funcionário" widgetVar="dlgEmp" minHeight="40" resizable="false" modal="true" onShow="rmcEmp()">
           <p:panelGrid id="pngNewEmp" columns="1" styleClass="panelgrid_sem_borda">
-            <p:growl id="growlDlgEmp" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growlDlgEmp" sticky="true" showDetail="true" life="3000" severity="error" />
               <p:fieldset>
 		           <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-		             <p:outputLabel value="Nome: "/>
-		             <p:inputText value="#{company.newEmployee.name}" size="55" required="true" requiredMessage="Preencha o nome do funcionario"/>      
-		             <p:outputLabel value="Telefone: "/>
-		             <p:inputMask value="#{company.newEmployee.phone}" size="13" mask="(99) 99999999?9" required="true" requiredMessage="Preencha o telefone do funcionario"/>
+		             <p:outputLabel value="Nome: " for="txtEmpName"/>
+		             <p:inputText id="txtEmpName" value="#{company.newEmployee.name}" size="55" required="true" requiredMessage="Preencha o nome."/>      
+		             <p:outputLabel value="Telefone: " for="txtEmpPhone"/>
+		             <p:inputMask id="txtEmpPhone" value="#{company.newEmployee.phone}" size="13" mask="(99) 99999999?9" required="true" requiredMessage="Preencha o telefone."/>
 		           </p:panelGrid>
 		           <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
 		             <p:outputLabel value="Endereço: "/>
@@ -101,10 +103,10 @@
                  <p:inputText value="#{company.newEmployee.address.state}" size="3" maxlength="2"/>
 		           </p:panelGrid>
 		           <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-		             <p:outputLabel value="Email: "/>
-		             <p:outputLabel value="Senha: "/>
-		             <p:inputText value="#{company.newEmployee.user}" size="55" />
-                 <p:password value="#{company.newEmployee.pass}" size="15" feedback="true" />
+		             <p:outputLabel value="Email: " for="txtEmpEmail"/>
+		             <p:outputLabel value="Senha: " for="txtEmpPass"/>
+		             <p:inputText id="txtEmpEmail" value="#{company.newEmployee.user}" size="55" required="true" requiredMessage="Preencha o Email." />
+                 <p:password id="txtEmpPass" value="#{company.newEmployee.pass}" size="15" feedback="true" required="true" requiredMessage="Preencha a senha."/>
 		           </p:panelGrid>
 		           <p:panelGrid id="pngProfileNew" columns="2" styleClass="panelgrid_sem_borda">
 		            <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
@@ -144,14 +146,14 @@
          
          <p:remoteCommand id="rmcEmpEdit" name="rmcEmpEdit" update="pngEmployeeEdit" process="@this"/>
          <p:dialog id="dlgEmpEdit" header="Edicao de Funcionario " widgetVar="dlgEmpEdit" minHeight="40" resizable="false" modal="true" onShow="rmcEmpEdit()">
-          <p:growl id="growlDlgEmployeeEdit" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlDlgEmployeeEdit" sticky="true" showDetail="true" life="3000"  severity="error"/>
           <p:panelGrid id="pngEmployeeEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
                <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-                 <p:outputLabel value="Nome: "/>
-                 <p:inputText value="#{company.selectedEmployee.name}" size="55" required="true" requiredMessage="Preencha o nome do funcionario"/>      
-                 <p:outputLabel value="Telefone: "/>
-                 <p:inputMask value="#{company.selectedEmployee.phone}" size="13" mask="(99) 99999999?9"  required="true" requiredMessage="Preencha o telefone do funcionario"/>
+                 <p:outputLabel value="Nome: " for="txtEmpEditName"/>
+                 <p:inputText id="txtEmpEditName" value="#{company.selectedEmployee.name}" size="55" required="true" requiredMessage="Preencha o nome."/>      
+                 <p:outputLabel value="Telefone: " for="txtEmpEditPhone"/>
+                 <p:inputMask id="txtEmpEditPhone" value="#{company.selectedEmployee.phone}" size="13" mask="(99) 99999999?9"  required="true" requiredMessage="Preencha o telefone."/>
                </p:panelGrid>
                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                  <p:outputLabel value="Endereço: "/>
@@ -170,10 +172,10 @@
                  <p:inputText value="#{company.selectedEmployee.address.state}" size="3" maxlength="2" />
                </p:panelGrid>
                <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-                 <p:outputLabel value="Email: "/>
-                 <p:outputLabel value="Senha Default: "/>
-                 <p:inputText value="#{company.selectedEmployee.user}" size="55" />
-                 <p:inputText value="#{company.selectedEmployee.pass}" size="15" />
+                 <p:outputLabel value="Email: " for="txtEmpEditEmail"/>
+                 <p:outputLabel value="Senha Default: " for="txtEmpEditPass"/>
+                 <p:inputText id="txtEmpEditEmail" value="#{company.selectedEmployee.user}" size="55" required="true" requiredMessage="Preencha o Email." />
+                 <p:inputText id="txtEmpEditPass" value="#{company.selectedEmployee.pass}" size="15"  required="true" requiredMessage="Preencha a Senha."/>
                </p:panelGrid>
                <p:panelGrid id="pngProfileEdit" columns="2" styleClass="panelgrid_sem_borda">
                 <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">

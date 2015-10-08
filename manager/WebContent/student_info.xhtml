@@ -167,7 +167,7 @@
         
         <p:remoteCommand id="rmcEditFUP" name="rmcEditFUP" update="pngdlgEditFUP" process="@this"/>
         <p:dialog id="dlgEditFUP" header="Follow Up" widgetVar="dlgEditFUP" minHeight="40" resizable="false" modal="true" onShow="rmcEditFUP()">
-          <p:growl id="growldlgEditFUP" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growldlgEditFUP" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngdlgEditFUP"  columns="1" styleClass="panelgrid_sem_borda" >
             <p:inputTextarea value="#{student.selectedFollowUp.followup}" style="width: 800px;height: 200;" rendered="#{student.selectedFollowUp != null}"/>
           </p:panelGrid>
@@ -186,7 +186,7 @@
         
         <p:remoteCommand id="rmcPayments" name="rmcPayments" update="pngdlgPayments" process="@this"/>
         <p:dialog id="dlgPayments" header="Pagamento" widgetVar="dlgPayments" minHeight="40" resizable="false" modal="true" onShow="rmcPayments()">
-          <p:growl id="growldlgPayments" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growldlgPayments" sticky="true" showDetail="true" life="3000" severity="error" />
           <p:panelGrid id="pngdlgPayments"  columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
 	            <p:panelGrid columns="6" styleClass="panelgrid_sem_borda" rendered="#{student.selectedStudentPayments != null}">
@@ -234,7 +234,7 @@
         
         
         <p:dialog id="dlgAlterImg" header="Imagem" widgetVar="dlgAlterImg" minHeight="40" resizable="false" modal="true" width="600">
-          <p:growl id="growlImg" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlImg" sticky="true" showDetail="true" life="3000" severity="error" />
           <p:panelGrid id="pngAlterImg"  columns="1" styleClass="panelgrid_sem_borda" >
 			       <p:fileUpload fileUploadListener="#{student.fileUpload}" mode="advanced" dragDropSupport="false" label="Add" uploadLabel="Carregar" cancelLabel="Cancelar" style="width: 500px;"
 			           process="@this" update="growlImg" sizeLimit="100000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
@@ -251,7 +251,7 @@
         
         <p:remoteCommand id="rmcSlip" name="rmcSlip" update="pngSlip" process="@this"/>
         <p:dialog id="dlgSlip" header="Boleto" widgetVar="dlgSlip" minHeight="40" resizable="false" modal="true" onShow="rmcSlip()">
-          <p:growl id="growlSlip" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlSlip" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngSlip"  columns="1" styleClass="panelgrid_sem_borda" >
                         
             

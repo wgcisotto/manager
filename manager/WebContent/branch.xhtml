@@ -18,7 +18,9 @@
 	          <h:commandButton id="btnOpenBranch" styleClass="btn btn-primary btn-lg" value="Nova Unidade">
 	            <p:ajax event="click" oncomplete="PF('dlgBranch').show();" listener="#{company.newBranch}" update="pngBranch"/>
 	          </h:commandButton>
-	         </p:panelGrid>          
+	         </p:panelGrid>
+	         
+	         <p:separator />          
                               
           <p:dataTable id="dtbBranchs" widgetVar="dtbBranchs" var="bch" value="#{company.branchs}" emptyMessage="Nenhuma Unidade encontrado"
              scrollRows="5" scrollable="true" scrollHeight="370"   
@@ -70,41 +72,41 @@
          </p:panelGrid>
          
          <p:dialog id="dlgBranch" header="Cadastro de Unidade" widgetVar="dlgBranch" minHeight="40" resizable="false" modal="true">
-            <p:growl id="growlDlgBranch" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growlDlgBranch" sticky="true" showDetail="true" life="3000" severity="error"/>
             <p:panelGrid id="pngBranch" columns="1" styleClass="panelgrid_sem_borda">
-              <fieldset>
+              <p:fieldset>
                   <p:panelGrid id="pngBranchInfo" columns="1" styleClass="panelgrid_sem_borda">
-                    <p:outputLabel value="Nome: "/>
-                    <p:inputText value="#{company.newBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Unidade"/>      
-                    <p:outputLabel value="Telefone: "/>
-                    <p:inputMask value="#{company.newBranch.phone}" size="13" mask="(99) 99999999?9" />
+                    <p:outputLabel value="Nome: " for="txtBranchName"/>
+                    <p:inputText id="txtBranchName" value="#{company.newBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Unidade."/>      
+                    <p:outputLabel value="Telefone: " for="txtBranchPhone"/>
+                    <p:inputMask id="txtBranchPhone" value="#{company.newBranch.phone}" size="13" mask="(99) 99999999?9" required="true" requiredMessage="Preencha o Telefone da Unidade."/>
                   </p:panelGrid>
 	                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-	                  <p:outputLabel value="Rua: "/>
-	                  <p:outputLabel value="Numero: "/>
-	                  <p:outputLabel value="CEP: "/>
-	                  <p:inputText value="#{company.newBranch.address.street}" size="53" />
-	                  <p:inputText value="#{company.newBranch.address.number}" size="10" />
-	                  <p:inputMask value="#{company.newBranch.address.zip_code}" size="10" mask="99999-999"/>
+	                  <p:outputLabel value="Rua: " for="txtBranchStreet"/>
+	                  <p:outputLabel value="Numero: " for="txtBranchNumber"/>
+	                  <p:outputLabel value="CEP: " for="txtBranchZip"/>
+	                  <p:inputText id="txtBranchStreet" value="#{company.newBranch.address.street}" size="53" required="true" requiredMessage="Preencha o Endereço da Unidade."/>
+	                  <p:inputText id="txtBranchNumber" value="#{company.newBranch.address.number}" size="10" required="true" requiredMessage="Preencha o numero da Unidade."/>
+	                  <p:inputMask id="txtBranchZip" value="#{company.newBranch.address.zip_code}" size="10" mask="99999-999" required="true" requiredMessage="Preencha o CEP da Unidade."/>
 	                  
 	                </p:panelGrid>
 	                <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-		                <p:outputLabel value="Bairro:"/>
-		                <p:outputLabel value="Cidade:"/>
-		                <p:outputLabel value="Estado: "/>
-		                <p:inputText value="#{company.newBranch.address.district}" size="35" />
-		                <p:inputText value="#{company.newBranch.address.city}" size="35" />
-		                <p:inputText value="#{company.newBranch.address.state}" size="3" maxlength="2"/>
+		                <p:outputLabel value="Bairro:" for="txtBranchDisct"/>
+		                <p:outputLabel value="Cidade:" for="txtBranchCity"/>
+		                <p:outputLabel value="Estado: " for="txtBranchState" />
+		                <p:inputText id="txtBranchDisct" value="#{company.newBranch.address.district}" size="35" required="true" requiredMessage="Preencha o Bairro da Unidade."/>
+		                <p:inputText id="txtBranchCity" value="#{company.newBranch.address.city}" size="35" required="true" requiredMessage="Preencha a Cidade da Unidade."/>
+		                <p:inputText id="txtBranchState" value="#{company.newBranch.address.state}" size="3" maxlength="2" required="true" requiredMessage="Preencha o Estado da Unidade."/>
                   </p:panelGrid>
-              </fieldset>
+              </p:fieldset>
               <f:facet name="footer">
                 <p:panelGrid columns="2" style="float: right;">
 	                <h:commandButton styleClass="btn btn-primary" value="Incluir">
-	                  <p:ajax event="click" listener="#{company.addBranch}" process="@this pngBranch"  oncomplete="handleAddBranchRequest(xhr, status, args)" update="dtbBranchs pngBranchInfo growlDlgBranch" />
+	                  <p:ajax event="click" listener="#{company.addBranch}" process="@this pngBranch"  oncomplete="handleAddBranchRequest(xhr, status, args)" update="dtbBranchs pngBranch growlDlgBranch" />
 	                </h:commandButton>
 	                <h:commandButton styleClass="btn btn-default" value="Cancelar">
 	                  <f:setPropertyActionListener value="null" target="{company.newBranch}"/> 
-	                  <p:ajax event="click" oncomplete="PF('dlgBranch').hide();" />
+	                  <p:ajax event="click" oncomplete="PF('dlgBranch').hide();" process="@this" />
 	                </h:commandButton>
                 </p:panelGrid>
             </f:facet>
@@ -114,36 +116,36 @@
         <p:remoteCommand id="rmcBranchEdit" name="rmcBrancEdit" update="pngBranchEdit" process="@none"/>
          
          <p:dialog id="dlgBranchEdit" header="Edicao de Unidade" widgetVar="dlgBranchEdit" minHeight="40" resizable="false" modal="true" onShow="rmcBrancEdit()">
-          <p:growl id="growlDlgBranchEdit" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlDlgBranchEdit" sticky="true" showDetail="true" life="3000" severity="error" />
           <p:panelGrid id="pngBranchEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
 	            <p:panelGrid id="pngBranchInfoEdit" columns="1" styleClass="panelgrid_sem_borda">
-	              <p:outputLabel value="Nome: "/>
-	              <p:inputText value="#{company.selectedBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Unidade"/>      
-                <p:outputLabel value="Telefone: "/>
-                <p:inputMask value="#{company.selectedBranch.phone}" size="13" mask="(99) 99999999?9"/>      
+	              <p:outputLabel value="Nome: " for="txtBranchEditName"/>
+	              <p:inputText id="txtBranchEditName" value="#{company.selectedBranch.name}" size="55" required="true" requiredMessage="Preencha o nome da Unidade"/>      
+                <p:outputLabel value="Telefone: " for="txtBranchEditPhone"/>
+                <p:inputMask id="txtBranchEditPhone" value="#{company.selectedBranch.phone}" size="13" mask="(99) 99999999?9" required="true" requiredMessage="Preencha o Telefone da Unidade."/>    
 	            </p:panelGrid>
 	            <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-	              <p:outputLabel value="Rua: "/>
-	              <p:outputLabel value="Numero: "/>
-	              <p:outputLabel value="CEP: "/>
-	              <p:inputText value="#{company.selectedBranch.address.street}" size="53" />
-	              <p:inputText value="#{company.selectedBranch.address.number}" size="10" />
-	              <p:inputMask value="#{company.selectedBranch.address.zip_code}" size="10" mask="99999-999" />
+	              <p:outputLabel value="Rua: " for="txtBranchEditStreet"/>
+	              <p:outputLabel value="Numero: " for="txtBranchEditNumber"/>
+	              <p:outputLabel value="CEP: " for="txtBranchEditZip"/>
+	              <p:inputText id="txtBranchEditStreet" value="#{company.selectedBranch.address.street}" size="53"  required="true" requiredMessage="Preencha a Rua da Unidade."/>
+	              <p:inputText id="txtBranchEditNumber" value="#{company.selectedBranch.address.number}" size="10"  required="true" requiredMessage="Preencha o Numero da Unidade."/>
+	              <p:inputMask id="txtBranchEditZip" value="#{company.selectedBranch.address.zip_code}" size="10" mask="99999-999" required="true" requiredMessage="Preencha o CEP da Unidade."/>
 	            </p:panelGrid>
 	            <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-	              <p:outputLabel value="Bairro:"/>
-	              <p:outputLabel value="Cidade:"/>
-	              <p:outputLabel value="Estado: "/>
-	              <p:inputText value="#{company.selectedBranch.address.district}" size="35" />
-	              <p:inputText value="#{company.selectedBranch.address.city}" size="35" />
-	              <p:inputText value="#{company.selectedBranch.address.state}" size="3" maxlength="2"/>
+	              <p:outputLabel value="Bairro:" for="txtBranchEditDist"/>
+	              <p:outputLabel value="Cidade:" for="txtBranchEditCity"/>
+	              <p:outputLabel value="Estado: " for="txtBranchEditState" />
+	              <p:inputText id="txtBranchEditDist" value="#{company.selectedBranch.address.district}" size="35"  required="true" requiredMessage="Preencha o Bairro da Unidade."/>
+	              <p:inputText id="txtBranchEditCity" value="#{company.selectedBranch.address.city}" size="35"  required="true" requiredMessage="Preencha o Cidade da Unidade."/>
+	              <p:inputText id="txtBranchEditState" value="#{company.selectedBranch.address.state}" size="3" maxlength="2"  required="true" requiredMessage="Preencha o Estado da Unidade."/>
 	            </p:panelGrid>
 	          </p:fieldset>
             <f:facet name="footer">
               <p:panelGrid columns="2" style="float: right;">
                 <h:commandButton styleClass="btn btn-primary" value="Editar">
-                  <p:ajax event="click" listener="#{company.updateBranch}" process="@this pngBranchEdit"  oncomplete="handleEditBranchRequest(xhr, status, args)" update="pngBranchInfoEdit dtbBranchs growlDlgBranchEdit pngControleBranch" />
+                  <p:ajax event="click" listener="#{company.updateBranch}" process="@this pngBranchEdit"  oncomplete="handleEditBranchRequest(xhr, status, args)" update="pngBranchEdit dtbBranchs growlDlgBranchEdit pngControleBranch" />
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-default" value="Cancelar">
                   <p:ajax event="click" oncomplete="PF('dlgBranchEdit').hide();" />
@@ -157,7 +159,7 @@
         <script type="text/javascript">
           function handleAddBranchRequest(xhr, status, args) {
               if(args.validationFailed) {
-                  PF('dlgBrach').jq.effect("shake", {times:2}, 100);
+                  PF('dlgBranch').jq.effect("shake", {times:2}, 100);
               }
               else {
                   PF('dlgBranch').hide();

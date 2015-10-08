@@ -18,7 +18,9 @@
 	        <h:commandButton id="btnOpendlg" styleClass="btn btn-primary btn-lg" value="Novo Produto">
 	          <p:ajax event="click" oncomplete="PF('dlgProduct').show();" listener="#{manager.newProduct}" update="pngProduct"/>
 	        </h:commandButton>
-         </p:panelGrid>          
+         </p:panelGrid>
+         
+         <p:separator />          
           					          
           <p:dataTable id="dtbProducts" widgetVar="dtbProducts" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado" 
               scrollRows="5" scrollable="true" scrollHeight="370"   
@@ -74,23 +76,23 @@
          
          <p:dialog id="dlgProduct" header="Cadastro de Produto" widgetVar="dlgProduct" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="pngProduct" columns="1" styleClass="panelgrid_sem_borda">
-            <p:growl id="growlDlgProduct" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growlDlgProduct" sticky="true" showDetail="true" life="3000" severity="error" />
                 <p:fieldset>
                   <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-                    <p:outputLabel value="Nome: "/>
-                    <p:inputText value="#{manager.newProduct.name}" size="55" required="true" requiredMessage="Preencha o nome do produto"/>      
+                    <p:outputLabel value="Nome: " for="txtPrdName"/>
+                    <p:inputText id="txtPrdName"  value="#{manager.newProduct.name}" size="55" required="true" requiredMessage="Preencha o nome do produto"/>      
                     <p:outputLabel value="Descrição: "/>
-                    <p:inputText value="#{manager.newProduct.description}" size="55" required="true" requiredMessage="Preencha a descrição do produto"/>
+                    <p:inputText value="#{manager.newProduct.description}" size="55" />
                   </p:panelGrid>
                   <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                     <p:outputLabel value="Preço Custo: "/>
-                    <p:outputLabel value="Preço de venda: "/>
+                    <p:outputLabel value="Preço de venda: " for="txtPrice"/>
                     <p:outputLabel value="Lucro: "/>
-                    <p:inputText id="txtCost" maxlength="15" size="10" required="true" value="#{manager.newProduct.cost}"  requiredMessage="Preencha o valor do custo." >  
+                    <p:inputText id="txtCost" maxlength="15" size="10" value="#{manager.newProduct.cost}"  >  
 										    <f:convertNumber pattern="#,##0.00"/>  
 										    <p:ajax update="txtCost txtLucre" process="txtCost" event="change" listener="#{manager.updateLucreNewPrd}"/>  
 										</p:inputText>
-                    <p:inputText id="txtPrice" maxlength="15" size="10" required="true" value="#{manager.newProduct.price}" requiredMessage="Preencha o valor do preço." >  
+                    <p:inputText id="txtPrice" maxlength="15" size="10" value="#{manager.newProduct.price}" required="true"  requiredMessage="Preencha o preço." >  
                         <f:convertNumber pattern="#,##0.00" />
                         <p:ajax update="txtPrice pngLucre" process="txtPrice" event="change" listener="#{manager.updateLucreNewPrd}" />  
                     </p:inputText>  
@@ -102,15 +104,10 @@
                       <h:outputLabel value="%"/>
                     </p:panelGrid>   
                   </p:panelGrid>
-                  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-                    <p:outputLabel value="Categoria: "/>
-                    <p:outputLabel value="Quantidade: "/>
+                  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                    <p:outputLabel value="Quantidade: " for="spnQtd"/>
                     <p:outputLabel value="Quantidade Alerta: "/>
-                    <p:selectOneMenu value="#{manager.idCategProdct}">
-                        <f:selectItem itemLabel="Selecione" itemValue="" />
-                        <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id_category}" />
-                    </p:selectOneMenu>
-                    <p:spinner value="#{manager.newProduct.quantity}" size="10"/>
+                    <p:spinner id="spnQtd" value="#{manager.newProduct.quantity}" size="10" required="true"  requiredMessage="Preencha a quantidade."/>
                     <p:spinner value="#{manager.newProduct.quantity_alert}" size="10"/>
                   </p:panelGrid>
                   <p:panelGrid id="pngBarcode" columns="1" styleClass="panelgrid_sem_borda">
@@ -118,6 +115,12 @@
                    <p:inputText id="prdBarcode" value="#{manager.newProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
                   </p:panelGrid>
             </p:fieldset>
+            <!-- 
+               <p:selectOneMenu value="#{manager.idCategProdct}">
+                   <f:selectItem itemLabel="Selecione" itemValue="" />
+                   <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id_category}" />
+               </p:selectOneMenu>
+             -->
             <f:facet name="footer">
               <p:panelGrid columns="2" style="float: right; background-color: #FFF;">
                 <h:commandButton styleClass="btn btn-primary" value="Incluir">
@@ -136,24 +139,24 @@
          
          <p:remoteCommand id="rmcProductEdit" name="rmcProductEdit" update="pngProductEdit" process="@this"/>
          <p:dialog id="dlgProductEdit" header="Edicao de Produto" widgetVar="dlgProductEdit" minHeight="40" resizable="false" modal="true" onShow="rmcProductEdit()">
-          <p:growl id="growlDlgProductEdit" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlDlgProductEdit" sticky="true" showDetail="true" life="3000" severity="error" />
           <p:panelGrid id="pngProductEdit" columns="1" styleClass="panelgrid_sem_borda"> 
             <p:fieldset>
                   <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
-                    <p:outputLabel value="Nome: "/>
-                    <p:inputText value="#{manager.selectedProduct.name}" size="55" required="true" requiredMessage="Preencha o nome do produto"/>      
+                    <p:outputLabel value="Nome: " for="txtPrdEditName"/>
+                    <p:inputText id="txtPrdEditName" value="#{manager.selectedProduct.name}" size="55" required="true" requiredMessage="Preencha o nome do produto"/>      
                     <p:outputLabel value="Descrição: "/>
-                    <p:inputText value="#{manager.selectedProduct.description}" size="55" required="true" requiredMessage="Preencha a descrição do produto"/>
+                    <p:inputText value="#{manager.selectedProduct.description}" size="55" />
                   </p:panelGrid>
                   <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
                     <p:outputLabel value="Preço Custo: "/>
-                    <p:outputLabel value="Preço de venda: "/>
+                    <p:outputLabel value="Preço de venda: " for="txtPriceEdit" />
                     <p:outputLabel value="Lucro: "/>
-                    <p:inputText id="txtCostEdit" maxlength="15" size="10" required="true" value="#{manager.selectedProduct.cost}"  requiredMessage="Preencha o valor do custo." >  
+                    <p:inputText id="txtCostEdit" maxlength="15" size="10" value="#{manager.selectedProduct.cost}"  >  
                         <f:convertNumber pattern="#,##0.00"/>
                         <p:ajax update="txtCostEdit txtLucre" process="txtCostEdit" event="change" listener="#{manager.updateLucreEditPrd}" />  
                     </p:inputText>    
-                    <p:inputText id="txtPriceEdit" maxlength="15" size="10" required="true" value="#{manager.selectedProduct.price}" requiredMessage="Preencha o valor do preço." >  
+                    <p:inputText id="txtPriceEdit" maxlength="15" size="10" required="true" value="#{manager.selectedProduct.price}" requiredMessage="Preencha o preço." >  
                         <f:convertNumber pattern="#,##0.00"/>
                         <p:ajax update="txtPriceEdit pngLucreEdit" process="txtPriceEdit" event="change" listener="#{manager.updateLucreEditPrd}" />  
                     </p:inputText>  
@@ -165,15 +168,10 @@
                       <p:outputLabel value="%"/>
                     </p:panelGrid>   
                   </p:panelGrid>
-                  <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-                    <p:outputLabel value="Categoria: "/>
-                    <p:outputLabel value="Quantidade: "/>
+                  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+                    <p:outputLabel value="Quantidade: " for="spnEditQtd"/>
                     <p:outputLabel value="Quantidade Alerta: "/>
-                    <p:selectOneMenu value="#{manager.selectedCategoryPrd.id_category}">
-                        <f:selectItem itemLabel="Selecione" itemValue="" />
-                        <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id_category}" />
-                    </p:selectOneMenu>
-                    <p:spinner value="#{manager.selectedProduct.quantity}" size="10"/>
+                    <p:spinner id="spnEditQtd" value="#{manager.selectedProduct.quantity}" size="10" required="true" requiredMessage="Preencha a quantidade."/>
                     <p:spinner value="#{manager.selectedProduct.quantity_alert}" size="10"/>
                   </p:panelGrid>
                   <p:panelGrid id="pngBarcodeEdit" columns="1" styleClass="panelgrid_sem_borda">
@@ -181,7 +179,14 @@
                    <p:inputText value="#{manager.selectedProduct.barcode}" size="50" onkeydown="return bloqCaracteres();"/>
                   </p:panelGrid>
             </p:fieldset>
-                
+            
+            <!-- 
+                    <p:selectOneMenu value="#{manager.selectedCategoryPrd.id_category}">
+                        <f:selectItem itemLabel="Selecione" itemValue="" />
+                        <f:selectItems value="#{manager.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat.id_category}" />
+                    </p:selectOneMenu>
+            -->
+                 
             <f:facet name="footer">
             
               <p:panelGrid columns="2" style="float: right;">

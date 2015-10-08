@@ -75,7 +75,7 @@
         
         <p:remoteCommand id="rmcPaymentsLate" name="rmcPaymentsLate" update="pngdlgPaymentsLate" process="@this"/>
         <p:dialog id="dlgPaymentsLate" header="Pagamento" widgetVar="dlgPaymentsLate" minHeight="40" resizable="false" modal="true" onShow="rmcPaymentsLate()">
-          <p:growl id="growldlgPaymentsLate" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growldlgPaymentsLate" sticky="true" showDetail="true" life="3000"  severity="error"/>
           <p:panelGrid id="pngdlgPaymentsLate"  columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
               <p:panelGrid columns="6" styleClass="panelgrid_sem_borda" rendered="#{company.selectedPayment != null}">

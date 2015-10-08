@@ -22,7 +22,7 @@
            </p:panelGrid>
            
            
-           
+           <p:separator />
   
 			    <p:panel id="toggleable" header="Filtrar por turma" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px" >
 	         <p:panelGrid  columns="3">
@@ -38,6 +38,7 @@
 			    </p:panel>
 			           
            
+           <p:separator />
            
           <p:dataTable id="dtbStud" widgetVar="dtbStud" var="stud" value="#{student.students}" emptyMessage="Nenhum Aluno encontrado"
                scrollRows="5" scrollable="true" scrollHeight="370"    
@@ -50,7 +51,7 @@
                   </p:outputPanel>
               </f:facet>
  
-              <p:column sortBy="#{stud.name}" filterBy="#{stud.name}" filterMatchMode="contains">
+              <p:column sortBy="#{stud.student_name}" filterBy="#{stud.student_name}" filterMatchMode="contains">
                 <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
 	                <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
 	                  <p:column>
@@ -105,13 +106,13 @@
          
          <p:dialog id="dlgStud" header="Cadastro de Aluno" widgetVar="dlgStud" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="pngNewStud" columns="1" styleClass="panelgrid_sem_borda">
-            <p:growl id="growlDlgStud" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growlDlgStud" sticky="true" showDetail="true" life="3000" severity="error"/>
               <p:fieldset>
                <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-                <p:outputLabel value="Nome: "/>
-                <p:outputLabel value="Data de Nascimento: "/>
-                <p:inputText value="#{student.newStudent.student_name}" size="55" required="true" requiredMessage="Preencha o nome do Aluno"/>      
-                <p:calendar value="#{student.newStudent.student_birth_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
+                <p:outputLabel value="Nome: " for="txtStudName"/>
+                <p:outputLabel value="Data de Nascimento: " for="txtStudDateNasc"/>
+                <p:inputText id="txtStudName" value="#{student.newStudent.student_name}" size="55" required="true" requiredMessage="Preencha o nome do Aluno"/>      
+                <p:calendar id="txtStudDateNasc" value="#{student.newStudent.student_birth_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt" required="true" requiredMessage="Preencha a data de nascimento."/>
                </p:panelGrid>
                <p:panelGrid columns="1" styleClass="panelgrid_sem_broda"> 
                 <p:outputLabel value="Email: "/>
@@ -126,11 +127,11 @@
 	                   <p:calendar value="#{student.newStudent.resp_birth_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
 	                 </p:panelGrid>
 	                 <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
-	                   <p:outputLabel value="Telefone Residencial: "/>
+	                   <p:outputLabel value="Telefone Residêncial: " for="txtPhoneRes"/>
 	                   <p:outputLabel value="Telefone Comercial: "/>
 	                   <p:outputLabel value="RG: "/>
 	                   <p:outputLabel value="CPF: "/>
-	                   <p:inputMask value="#{student.newStudent.resp_home_phone}" mask="(99) 99999999?9"/>
+	                   <p:inputMask id="txtPhoneRes" value="#{student.newStudent.resp_home_phone}" mask="(99) 99999999?9" required="true" requiredMessage="Preencha o telefone residêncial."/>
 	                   <p:inputMask value="#{student.newStudent.resp_office_phone}" mask="(99) 99999999?9"/>
 	                   <p:inputMask value="#{student.newStudent.resp_rg}" mask="99.999.999-9"/>
 	                   <p:inputMask value="#{student.newStudent.resp_cpf}" mask="999.999.999-99"/> 
@@ -171,14 +172,14 @@
         <p:remoteCommand id="rmcStudentEdit" name="rmcStudentEdit" update="pngStudEdit" process="@this"/>
         
          <p:dialog id="dlgStudEdit" header="Edicao de Aluno " widgetVar="dlgStudEdit" minHeight="40" resizable="false" modal="true" onShow="rmcStudentEdit()">
-          <p:growl id="growlDlgStudEdit" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlDlgStudEdit" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngStudEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
                <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-                <p:outputLabel value="Nome: "/>
-                <p:outputLabel value="Data de Nascimento: "/>
-                <p:inputText value="#{student.selectedStudent.student_name}" size="55" required="true" requiredMessage="Preencha o nome do Aluno"/>      
-                <p:calendar value="#{student.selectedStudent.student_birth_date}" size="13"  mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
+                <p:outputLabel value="Nome: " for="txtStudEditName"/>
+                <p:outputLabel value="Data de Nascimento: " for="txtStudEditDateNasc"/>
+                <p:inputText id="txtStudEditName" value="#{student.selectedStudent.student_name}" size="55" required="true" requiredMessage="Preencha o nome do Aluno"/>      
+                <p:calendar id="txtStudEditDateNasc" value="#{student.selectedStudent.student_birth_date}" size="13"  mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt" required="true" requiredMessage="Preencha a data de nascimento."/>
                </p:panelGrid>
                <p:panelGrid columns="1" styleClass="panelgrid_sem_broda"> 
                 <p:outputLabel value="Email: "/>
@@ -193,11 +194,11 @@
                      <p:calendar value="#{student.selectedStudent.resp_birth_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
                    </p:panelGrid>
                    <p:panelGrid columns="4" styleClass="panelgrid_sem_borda">
-                     <p:outputLabel value="Telefone Residencial: "/>
+                     <p:outputLabel value="Telefone Residêncial: " for="txtStudEditPhoneRes"/>
                      <p:outputLabel value="Telefone Comercial: "/>
                      <p:outputLabel value="RG: "/>
                      <p:outputLabel value="CPF: "/>
-                     <p:inputMask value="#{student.selectedStudent.resp_home_phone}" mask="(99) 99999999?9"/>
+                     <p:inputMask id="txtStudEditPhoneRes" value="#{student.selectedStudent.resp_home_phone}" mask="(99) 99999999?9" required="true" requiredMessage="Preencha o telefone residêncial"/>
                      <p:inputMask value="#{student.selectedStudent.resp_office_phone}" mask="(99) 99999999?9"/>
                      <p:inputMask value="#{student.selectedStudent.resp_rg}" mask="99.999.999-9"/>
                      <p:inputMask value="#{student.selectedStudent.resp_cpf}" mask="999.999.999-9"/>
@@ -224,7 +225,7 @@
             <f:facet name="footer">
               <p:panelGrid columns="2" style="float: right;">
                 <h:commandButton styleClass="btn btn-primary" value="Editar">
-                  <p:ajax event="click" listener="#{student.updateSudent}" process="@this pngStudEdit"  oncomplete="handleEditStudRequest(xhr, status, args)" update="pngStudEdit dtbStud growlDlgStudEdit pngControleStud" />
+                  <p:ajax event="click" listener="#{student.updateStudent}" process="@this pngStudEdit"  oncomplete="handleEditStudRequest(xhr, status, args)" update="pngStudEdit dtbStud growlDlgStudEdit pngControleStud" />
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-default" value="Cancelar">
                   <p:ajax event="click" oncomplete="PF('dlgStudEdit').hide();" />

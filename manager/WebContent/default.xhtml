@@ -55,7 +55,7 @@
 			  
 			  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			   <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
-			     <img src="resources/images/shared/unknown.jpg" width="76" height="76" alt="" style="padding-top: 8px;" />
+			     <p:graphicImage id="imgCompany" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" />
 			     <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			       <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 		          <h:outputText value="#{auth.employee.name}" style="color: white;float: left"/>
@@ -96,6 +96,7 @@
       <p:graphicImage value="resources/images/shared/ajax_loading.gif"/>
     </p:dialog>
 			
+   <!--  <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" oncomplete="PF('dtbCategory').clearFilters()" />-->
 	  <p:growl id="messages" autoUpdate="true" globalOnly="true" severity="error"/>
   
     <p:menubar id="menuBarDefault" style="width: auto;" >
@@ -110,7 +111,6 @@
         </p:submenu>
  
         <p:submenu label="Cadastros" icon="ui-icon-pencil">
-            <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" oncomplete="PF('dtbCategory').clearFilters()" />
             <p:menuitem value="Produto" icon="ui-icon-cart" outcome="product.xhtml"  oncomplete="PF('dtbProducts').clearFilters()"/>
             <p:menuitem value="Cliente"  icon="ui-icon-person" outcome="client.xhtml" rendered="#{sec.hasModule('Lanchonete')}"/>
             <p:menuitem value="Modulo"  icon="ui-icon-person" outcome="class_module.xhtml" />

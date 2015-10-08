@@ -63,7 +63,7 @@
          
          <p:dialog header="Cadastro de Categoria" widgetVar="dlgCategory" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="pngCategory" columns="1" styleClass="panelgrid_sem_borda">
-            <p:growl id="growlDlgCategory" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growlDlgCategory" sticky="true" showDetail="true" life="3000" severity="error" />
             <p:fieldset>
 					    <p:panelGrid id="pngCadCat"  columns="2" styleClass="panelgrid_sem_borda">
 					      <h:outputLabel value="Nome: "/>
@@ -89,7 +89,7 @@
          <p:remoteCommand id="rmcCategoryEdit" name="rmcCategoryEdit" update="pngCategoryEdit" process="@this"/>
          <p:dialog header="Edição de Categoria" widgetVar="dlgCategoryEdit" minHeight="40" resizable="false" modal="true" onShow="rmcCategoryEdit()">
           <p:panelGrid id="pngCategoryEdit" columns="1" styleClass="panelgrid_sem_borda">
-            <p:growl id="growlDlgCategoryEdit" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growlDlgCategoryEdit" sticky="true" showDetail="true" life="3000" severity="error"/>
             <p:fieldset>
               <p:panelGrid id="pngEditCat"  columns="2" styleClass="panelgrid_sem_borda">
                 <h:outputLabel value="Nome: "/>

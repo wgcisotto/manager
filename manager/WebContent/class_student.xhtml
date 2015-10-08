@@ -20,6 +20,7 @@
             </h:commandButton>
            </p:panelGrid>   
            
+           <p:separator />
                               
           <p:dataTable id="dtbClassStudent" widgetVar="dtbClassStudent" var="class" value="#{student.classStudents}" emptyMessage="Nenhuma turma encontrada"
               scrollRows="5" scrollable="true" scrollHeight="370"    
@@ -86,21 +87,21 @@
          
          <p:dialog id="dlgClassStudent" header="Cadastro de Turma" widgetVar="dlgClassStudent" minHeight="40" resizable="false" modal="true">
           <p:panelGrid id="pngNewClassStudent" columns="1" styleClass="panelgrid_sem_borda">
-            <p:growl id="growlDlgClassStudent" sticky="true" showDetail="true" life="3000" />
+            <p:growl id="growlDlgClassStudent" sticky="true" showDetail="true" life="3000" severity="error"/>
               <p:fieldset>
               <p:panelGrid id="pngCadClassStudent"  columns="2" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Nome: "/>
-                <h:outputLabel value="Data Inicio: "/>
-                <p:inputText value="#{student.newClassStudent.class_name}" size="40" required="True" requiredMessage="Preencha o Nome da turma"/>
-                <p:calendar value="#{student.newClassStudent.start_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
+                <h:outputLabel value="Nome: " for="txtClassName"/>
+                <h:outputLabel value="Data Inicio: " for="txtClassDate" />
+                <p:inputText id="txtClassName" value="#{student.newClassStudent.class_name}" size="40" required="True" requiredMessage="Preencha o Nome da turma."/>
+                <p:calendar id="txtClassDate" value="#{student.newClassStudent.start_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt" required="True" requiredMessage="Selecione a data de inicio."/>
               </p:panelGrid>
               <p:panelGrid id="pngCadClassStudentInfo"  columns="3" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Hora Inicio:"/>
-                <h:outputLabel value="Hora Fim: "/>
-                <p:outputLabel value="Modulo: "/>
-                <p:calendar value="#{student.newClassStudent.begin_time}" pattern="HH:mm" size="17"/>
-                <p:calendar value="#{student.newClassStudent.end_time}" pattern="HH:mm" size="17"/>
-                <p:selectOneMenu id="rdbClassStudentNew" value="#{student.newClassStudent.class_module}" converter="classModuleConverter">
+                <h:outputLabel value="Hora Inicio:" for="txtHourB"/>
+                <h:outputLabel value="Hora Fim: " for="txtHourE"/>
+                <p:outputLabel value="Modulo: " for="rdbClassStudentNew"/>
+                <p:calendar id="txtHourB" value="#{student.newClassStudent.begin_time}" pattern="HH:mm" timeOnly="true" size="17" required="true" requiredMessage="Preencha a hora de inicio."/>
+                <p:calendar id="txtHourE" value="#{student.newClassStudent.end_time}" pattern="HH:mm" timeOnly="true" size="17" required="true" requiredMessage="Preencha a hora de saida."/>
+                <p:selectOneMenu id="rdbClassStudentNew" value="#{student.newClassStudent.class_module}" converter="classModuleConverter" >
                   <f:selectItems value="#{student.modules}" itemLabel="#{m.name}" itemValue="#{m}" var="m"/>
                   <p:ajax event="change" update="rdbClassStudentNew" />
                 </p:selectOneMenu>      
@@ -122,21 +123,21 @@
          
          <p:remoteCommand id="rmcClassStudent" name="rmcClassStudent" update="pngClassStudentEdit" process="@this"/>
          <p:dialog id="dlgClassStudentEdit" header="Edicao de Turma " widgetVar="dlgClassStudentEdit" minHeight="40" resizable="false" modal="true" onShow="rmcClassStudent()">
-          <p:growl id="growlDlgClassStudentEdit" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlDlgClassStudentEdit" sticky="true" showDetail="true" life="3000" severity="error" />
           <p:panelGrid id="pngClassStudentEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
               <p:panelGrid id="pngEditClassStudent"  columns="2" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Nome: "/>
-                <h:outputLabel value="Data Inicio: "/>
-                <p:inputText value="#{student.selectedClassStudent.class_name}" size="40" required="True" requiredMessage="Preencha o Nome da turma"/>
-                <p:calendar value="#{student.selectedClassStudent.start_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
+                <h:outputLabel value="Nome: " for="txtEditClassName"/>
+                <h:outputLabel value="Data Inicio: " for="txtEditDate"/>
+                <p:inputText id="txtEditClassName" value="#{student.selectedClassStudent.class_name}" size="40" required="True" requiredMessage="Preencha o Nome da turma"/>
+                <p:calendar id="txtEditDate" value="#{student.selectedClassStudent.start_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt" required="true" requiredMessage="Selecione a data de inicio."/>
               </p:panelGrid>
               <p:panelGrid id="pngCadClassStudentInfoEdit"  columns="3" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Hora Inicio:"/>
-                <h:outputLabel value="Hora Fim: "/>
-                <p:outputLabel value="Modulo: "/>
-                <p:calendar value="#{student.selectedClassStudent.begin_time}" pattern="HH:mm" size="17"/>
-                <p:calendar value="#{student.selectedClassStudent.end_time}" pattern="HH:mm" size="17"/>
+                <h:outputLabel value="Hora Inicio:" for="txtEditHourB"/>
+                <h:outputLabel value="Hora Fim: " for="txtEditHourE"/>
+                <p:outputLabel value="Modulo: " for="rdbClassStudentEdit"/>
+                <p:calendar id="txtEditHourB" value="#{student.selectedClassStudent.begin_time}" pattern="HH:mm" timeOnly="true" size="17" required="true" requiredMessage="Preencha a hora de inicio."/>
+                <p:calendar id="txtEditHourE" value="#{student.selectedClassStudent.end_time}" pattern="HH:mm" timeOnly="true" size="17" required="true" requiredMessage="Preencha a hora de saida."/>
                 <p:selectOneMenu id="rdbClassStudentEdit" value="#{student.selectedClassStudent.class_module}" converter="classModuleConverter">
                   <f:selectItems value="#{student.modules}" itemLabel="#{m.name}" itemValue="#{m}" var="m"/>
                   <p:ajax event="change" update="rdbClassStudentEdit" />

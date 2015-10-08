@@ -12,15 +12,18 @@
         <p:messages id="msgCompany" showDetail="true" autoUpdate="true" closable="true" />
           
           <p:panel id="toggleInfoUser" header="Dados da Empresa" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoUser">
-	          <p:panelGrid id="pngInfoEmp" columns="2" styleClass="panelgrid_sem_borda">
-	            <p:outputLabel value="Nome da Empresa: *"/>
-	            <p:inputText value="#{auth.employee.company.name}"/>
- 	            <p:outputLabel value="Logomarca: "/>
-              <img src="resources/images/shared/unknown.jpg" width="76" height="76" alt="" style="padding-top: 8px;" />
-	          </p:panelGrid>
-	          <p:panelGrid id="pngImageEmp" columns="2" styleClass="panelgrid_sem_borda">
-              <p:fileUpload value="#{manager.file}" mode="simple" skinSimple="true" style="padding-left: 130px;"/>
-	          </p:panelGrid>
+            <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+		          <p:panelGrid id="pngInfoEmp" columns="2" styleClass="panelgrid_sem_borda">
+		            <p:outputLabel value="Nome da Empresa: " for="txtCompanyName" />
+		            <p:inputText id="txtCompanyName" value="#{auth.employee.company.name}" required="true" requiredMessage="Nescessário preencher o nome da Empresa."/>
+		          </p:panelGrid>
+		          <p:panelGrid id="pngImageEmp" columns="1" styleClass="panelgrid_sem_borda">
+	              <p:graphicImage id="imgCompany" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" /> 
+	              <h:commandButton styleClass="btn btn-primary btn-lg" value="Alterar" style="float: right;">
+	               <p:ajax event="click" onstart="PF('dlgAlterImg').show()"/>
+	              </h:commandButton>
+	           </p:panelGrid>
+           </p:panelGrid>
           </p:panel>
          
          <br/>
@@ -28,7 +31,23 @@
          <p:panelGrid id="pngControlCompany" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
           <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" actionListener="#{company.updateCompany}" update="@form">
           </h:commandButton>
-         </p:panelGrid>     
+         </p:panelGrid>
+        
+        
+        <p:dialog id="dlgAlterImg" header="Imagem" widgetVar="dlgAlterImg" minHeight="40" resizable="false" modal="true" width="600">
+          <p:growl id="growlImg" sticky="true" showDetail="true" life="3000" severity="error"/>
+          <p:panelGrid id="pngAlterImg"  columns="1" styleClass="panelgrid_sem_borda" >
+             <p:fileUpload fileUploadListener="#{company.fileUpload}" mode="advanced" dragDropSupport="false" label="Add" uploadLabel="Carregar" cancelLabel="Cancelar" style="width: 500px;"
+                 process="@this" update="growlImg" sizeLimit="100000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-default" value="Fechar">
+                <p:ajax event="click" oncomplete="PF('dlgAlterImg').hide();" update="@form"/>
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
+        </p:dialog>
 			    
 			    
         </ui:define>

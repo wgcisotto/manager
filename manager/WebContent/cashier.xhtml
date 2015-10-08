@@ -10,24 +10,19 @@
         </ui:define>
         <ui:define name="default">
          
-         
          <p:messages id="msgCashier" showDetail="true" autoUpdate="true" closable="true" /> 
-         
         
          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
           <h:commandButton styleClass="btn btn-primary btn-lg" value="Venda Rapida">
              <p:ajax event="click" process="@this"  oncomplete="PF('dlgListProdSale').show();" listener="#{manager.newSale}"/>
           </h:commandButton>
-          
           <h:commandButton styleClass="btn btn-danger btn-lg" value="Fechar Caixa">
             <p:ajax event="click" listener="#{manager.closeCash}"/>
           </h:commandButton>
-          
-         
          </p:panelGrid>
          
-         <br/>
-        
+         <p:separator />
+         
           
          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda" rendered="#{sec.hasModule('Lanchonete')}">
           <img src="resources/images/icons/card_icon.gif" width="25" height="24" alt="" />
@@ -190,7 +185,7 @@
         
         
         <p:dialog id="dlgListProducts" header="Quantidade de Produtos" widgetVar="dlgListProducts" minHeight="40" resizable="false" modal="true">
-          <p:growl id="growlDlgProductQtde" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlDlgProductQtde" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngQtdeProdCard"  columns="1" styleClass="panelgrid_sem_borda">
             <p:outputLabel value="Quantidade"/>
             <p:spinner value="#{manager.quantityProduct}"/>
@@ -441,7 +436,7 @@
         
         
         <p:dialog id="dlgListProductsSale" header="Quantidade de Produtos" widgetVar="dlgListProductsSale" minHeight="40" resizable="false" modal="true">
-          <p:growl id="growlDlgProductQtdeSale" sticky="true" showDetail="true" life="3000" />
+          <p:growl id="growlDlgProductQtdeSale" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngQtdeProdSale"  columns="1" styleClass="panelgrid_sem_borda">
             <p:outputLabel value="Quantidade"/>
             <p:spinner value="#{manager.quantityProduct}"/>
