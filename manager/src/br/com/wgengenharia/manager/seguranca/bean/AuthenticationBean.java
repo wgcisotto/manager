@@ -35,7 +35,7 @@ import br.com.wgengenharia.manager.view.bean.StudentBean;
 public class AuthenticationBean {
 	
 	private EntityManager em;
-//	private CompanyBO companyBO;
+
 	private BranchBO branchBO;
 	
 	private Employee employee;
@@ -57,8 +57,6 @@ public class AuthenticationBean {
 	
 	public AuthenticationBean() {
 		em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-//		employeeBO = new EmployeeBO(em);
-//		companyBO = new CompanyBO(em);
 		branchBO = new BranchBO(em);
 	}
 	
@@ -78,8 +76,6 @@ public class AuthenticationBean {
 			    
 			    updateCurrentBranch();
 			    
-//			    setUserInfo();
-			    
 			    return "cashier?faces-redirect=true";
 				}else{
 					FacesContext.getCurrentInstance().addMessage("formLogin:msgLogin", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Senha incorreta!"));
@@ -98,18 +94,10 @@ public class AuthenticationBean {
       session.setAttribute("user", null);
       session.invalidate();
   } catch (Exception e) {
-//  	FacesContext.getCurrentInstance().addMessage("formLogin:msgLogin", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Usuario informado esta incorreto!"));
+  	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao tentar efetuar o Logout."));
   }
 		return "login?faces-redirect=true";
 	}
-	
-//	
-//	public void setUserInfo(){
-//		company = employee.getCompany();
-//		branchs = employee.getBranchs();
-//	}
-//	
-	
 	
 	
 	public void updateEmployee(){
@@ -189,9 +177,6 @@ public class AuthenticationBean {
 			a1.setStreet("Rua major telles");
 			a1.setZip_code("06850001");
 			
-//			AddressBO abo = new AddressBO(em);
-//			abo.insert(a1);
-			
 			BranchBO bBO = new BranchBO(em);
 			Branch b1 = new Branch();
 			b1.setName("ITAP DA SERRA");
@@ -205,12 +190,7 @@ public class AuthenticationBean {
 			p.setCompany(c);
 			p.setName("Administrador");
 			p.setBranch(b1);
-//			Profile p1 = new Profile();
-//			p1.setCompany(c);
-//			p1.setName("Aluno");
-//			Profile p2 = new Profile();
-//			p2.setCompany(c);
-//			p2.setName("Cliente");
+			
 			Profile p3 = new Profile();
 			p3.setCompany(c);
 			p3.setName("Funcionario");
@@ -221,8 +201,6 @@ public class AuthenticationBean {
 			p4.setBranch(b1);
 		
 			pBO.insert(p);
-//			pBO.insert(p1);
-//			pBO.insert(p2);
 			pBO.insert(p3);
 			pBO.insert(p4);
 			
@@ -234,9 +212,6 @@ public class AuthenticationBean {
 			ad.setDistrict("Centro");
 			ad.setState("SP");
 			
-//			AddressBO aBO = new AddressBO(em);
-//			aBO.insert(ad);
-			
 			EmployeeBO eBO = new EmployeeBO();
 			Employee e = new Employee();
 			e.setName("William Galindo Cisotto");
@@ -247,7 +222,6 @@ public class AuthenticationBean {
 			e.setCompany(c);
 			e.setPhone("980845866");
 			e.setAddress(ad);
-			
 			
 			
 			eBO.insert(e);
