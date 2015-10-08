@@ -1,6 +1,6 @@
 package br.com.wgengenharia.manager.factory;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import br.com.wgengenharia.manager.facade.ManagerSaleFacade;
 import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
@@ -14,8 +14,8 @@ public class ManagerPaymentFactory {
 		Sale sale = new Sale();
 		
 		sale.setTotal(payment.getPaid());
-		sale.setDate(Calendar.getInstance());
-		sale.setTime(Calendar.getInstance().getTime());
+		sale.setDate(new Date());
+		sale.setTime(new Date());
 		sale.setBranch(AuthenticationUtil.getUserInfo().currentBranch);
 		
 		

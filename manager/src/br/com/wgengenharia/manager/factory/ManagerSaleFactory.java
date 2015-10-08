@@ -1,6 +1,6 @@
 package br.com.wgengenharia.manager.factory;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import br.com.wgengenharia.manager.facade.ManagerSaleFacade;
 import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
@@ -15,8 +15,8 @@ public abstract class ManagerSaleFactory {
 		
 		sale.getProducts().addAll(card.getProducts());
 		sale.setTotal(card.getTotal());
-		sale.setDate(Calendar.getInstance());
-		sale.setTime(Calendar.getInstance().getTime());
+		sale.setDate(new Date());
+		sale.setTime(new Date());
 //		sale.set
 		
 		return new ManagerSaleFacade(sale);
