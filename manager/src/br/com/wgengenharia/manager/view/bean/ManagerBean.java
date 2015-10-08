@@ -2,7 +2,7 @@ package br.com.wgengenharia.manager.view.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -118,7 +118,7 @@ public class ManagerBean implements Serializable {
 		products = productBO.listByBranch(userInfo.currentBranch);
 		categories = categoryBO.listByBranch(userInfo.currentBranch);
 		cards = cardBO.listByBranch(userInfo.currentBranch);
-		salesDay = saleBO.listSalesDayByBranch(Calendar.getInstance(),userInfo.currentBranch);
+		salesDay = saleBO.listSalesDayByBranch(new Date(),userInfo.currentBranch);
 		sales = saleBO.listByBranch(userInfo.currentBranch);
 	}
 	
@@ -349,7 +349,7 @@ public class ManagerBean implements Serializable {
 			
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
 			
-			salesDay =  saleBO.listSalesDayByBranch(Calendar.getInstance(), userInfo.currentBranch);
+			salesDay =  saleBO.listSalesDayByBranch(new Date(), userInfo.currentBranch);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -403,7 +403,7 @@ public class ManagerBean implements Serializable {
 			
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
 			
-			salesDay =  saleBO.listSalesDayByBranch(Calendar.getInstance(), userInfo.currentBranch);
+			salesDay =  saleBO.listSalesDayByBranch(new Date(), userInfo.currentBranch);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -561,6 +561,14 @@ public class ManagerBean implements Serializable {
 	public List<Sale> getSalesDay() {
 		return salesDay;
 	}
+	public Double getsalesDayTotal(){
+		Double total = 0.0;
+		for (Sale sale : salesDay) {
+			total += sale.getTotal();
+		}
+		return  total;
+	}
+	
 	public void setSalesDay(List<Sale> salesDay) {
 		this.salesDay = salesDay;
 	}

@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.primefaces.event.SelectEvent;
 
@@ -97,7 +98,7 @@ public class CompanyBean implements Serializable {
 	}
 	
 	public void loadlistsInfo(){
-		branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
+		branchs = branchBO.listByCompany(userInfo.getEmployee().getCompany());
 		employees = employeeBO.listByBranch(userInfo.currentBranch);
 		profiles = profileBO.listByBranch(userInfo.currentBranch);
 		alertsPayments =  studentPaymentsBO.listStudentPaymentsLate(Calendar.getInstance(), userInfo.currentBranch);
@@ -111,21 +112,28 @@ public class CompanyBean implements Serializable {
 	
 	public void addEmployee(){
 		try {
-			Branch b;
-			if(idBranchNewEmployee != null){
-				 b = branchBO.findById(idBranchNewEmployee);
-			}else{
-				b = userInfo.currentBranch;
+			employeeBO.findByEmail(newEmployee.getUser());
+			FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!!", "Email ja cadastrado para login."));
+			return;
+		} catch (NoResultException e) {
+			try {
+				Branch b;
+				if(idBranchNewEmployee != null){
+					b = branchBO.findById(idBranchNewEmployee);
+				}else{
+					b = userInfo.currentBranch;
+				}
+				
+				newEmployee.setCompany(userInfo.getEmployee().getCompany());
+				newEmployee.setBranch(b);
+				employeeBO.insert(newEmployee);
+				employees = employeeBO.listByBranch(userInfo.currentBranch);
+				newEmployee = new Employee();
+				idBranchNewEmployee = 0;
+				FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionário Inserido com sucesso."));
+			} catch (Exception ex) {
+				FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 			}
-			newEmployee.setCompany(userInfo.getEmployee().getCompany());
-			newEmployee.setBranch(b);
-			employeeBO.insert(newEmployee);
-			employees = employeeBO.listByBranch(userInfo.currentBranch);
-			newEmployee = new Employee();
-			idBranchNewEmployee = 0;
-			FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Funcionário Inserido com sucesso"));
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("formManager:msgEmployee", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
 	
@@ -182,7 +190,7 @@ public class CompanyBean implements Serializable {
 		try {
 			newBranch.setCompany(userInfo.getEmployee().getCompany());
 			branchBO.insert(newBranch);
-			branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
+			branchs = branchBO.listByCompany(userInfo.getEmployee().getCompany());
 			newBranch = new Branch();
 			FacesContext.getCurrentInstance().addMessage("formManager:msgBranch", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Filial Inserido com sucesso"));
 		} catch (Exception e) {
@@ -194,7 +202,7 @@ public class CompanyBean implements Serializable {
 		try {
 			if(selectedBranch!=null){
 				branchBO.delete(selectedBranch);
-				branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
+				branchs = branchBO.listByCompany(userInfo.getEmployee().getCompany());
 				selectedBranch = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgBranch", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Filial Excluido com sucesso"));
 			}else{
@@ -213,7 +221,7 @@ public class CompanyBean implements Serializable {
 		try {
 			if(selectedBranch!=null){
 				branchBO.update(selectedBranch);
-				branchs = branchBO.findByCompany(userInfo.getEmployee().getCompany());
+				branchs = branchBO.listByCompany(userInfo.getEmployee().getCompany());
 				selectedBranch = null;
 				FacesContext.getCurrentInstance().addMessage("formManager:msgBranch", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Filial Atualizada com sucesso"));
 			}else{
@@ -280,7 +288,6 @@ public class CompanyBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCompanyAlert", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
-	
 	
 	//get and setters
 	//EMPLOYEES

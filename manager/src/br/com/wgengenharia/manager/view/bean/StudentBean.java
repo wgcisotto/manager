@@ -1,6 +1,7 @@
 package br.com.wgengenharia.manager.view.bean;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 
@@ -61,6 +61,7 @@ public class StudentBean implements Serializable{
 	private List<ClassStudent> classStudents;
 	private List<ClassStudent> filteredClassStudents;
 	private String globalFilterClassStudent;
+	private Integer idClassStudentFilter;
 	
 	//STUDENT INFO
 	private ClassStudent studentInfoClass;
@@ -81,6 +82,10 @@ public class StudentBean implements Serializable{
 
 	private Date new_expiry_date;
 	private double new_price;
+	
+	//PAYMENTS
+	private String barcode;
+	private StudentPayments studentPayment;
 	
 	// DEFAULT
 	private EntityManager em;
@@ -165,6 +170,23 @@ public class StudentBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudent", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
+	
+	public void filterStudentByClass(){
+		try {
+			if(idClassStudentFilter !=null){
+				if(idClassStudentFilter == -1){
+					students = studentBO.listStudentWithoutClass(userInfo.currentBranch);
+				}else{
+					students = classStudentBO.findById(idClassStudentFilter).getStudents();
+				}
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudent", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Nescessário selecionar a turma"));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudent", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
 	
 	//METODOS PARA CADASTRAR OS MODULOS 
 	public void newModule(){
@@ -320,30 +342,39 @@ public class StudentBean implements Serializable{
 	
 	public void addStudentPayment(){
 		try {
-			for (int i = 1; i <= quantity_parcel; i++) {
-				StudentPayments sp = new StudentPayments();
-				
-				if(i>1){
-					expiry_date = DateUtil.updateDate(expiry_date);
-				}
-				sp.setExpiry_date(expiry_date);
-				sp.setNumber_parcel(i);
-				sp.setPrice(price);
-				sp.setStudent(this.selectedStudent);
-				sp.setBranch(userInfo.currentBranch);
-				sp.setCompany(userInfo.getEmployee().getCompany());
-				
-				String barcode = StudentPaymentUtil.generateStudentPaymentBarcode(sp);
-				
-				sp.setBarcode(barcode);
-				
-				studentPaymentsBO.insert(sp);
-			}
-
-			student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
-			resetStudentPaymentInfo();
 			
-			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Falha ao atualizar o financeiro do Aluno"));
+			if(idClassStudent == -1 ){
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Nescessário selecionar uma turma, para lançar o financeiro!"));
+			}else if (expiry_date == null || quantity_parcel <= 0 || price <= 0.0 ) {
+				if(expiry_date == null) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Nescessário selecionar data de vencimento."));
+				if(quantity_parcel <= 0) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Quantidade de parcelas inválido."));
+				if(price <= 0) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Valor para pagamento inválido."));
+			}else {
+				for (int i = 1; i <= quantity_parcel; i++) {
+					StudentPayments sp = new StudentPayments();
+					
+					if(i>1){
+						expiry_date = DateUtil.updateDate(expiry_date);
+					}
+					sp.setExpiry_date(expiry_date);
+					sp.setNumber_parcel(i);
+					sp.setPrice(price);
+					sp.setStudent(this.selectedStudent);
+					sp.setBranch(userInfo.currentBranch);
+					sp.setCompany(userInfo.getEmployee().getCompany());
+					
+					String barcode = StudentPaymentUtil.generateStudentPaymentBarcode(sp);
+					
+					sp.setBarcode(barcode);
+					
+					studentPaymentsBO.insert(sp);
+				}
+				
+				student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
+				resetStudentPaymentInfo();
+				
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Financeiro atualizado com sucesso"));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
@@ -358,6 +389,11 @@ public class StudentBean implements Serializable{
 	public void pay(){
 		try {
 			if(selectedStudentPayments!=null){
+				
+				if((selectedStudentPayments.getPaid() <= 0.0) && (new_expiry_date == null || new_price <= 0.0 )){
+					FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Falha ao efetuar o pagamento."));
+				}
+				
 				selectedStudentPayments.setPayment_date(new Date());
 				
 				studentPaymentsBO.update(selectedStudentPayments);
@@ -417,6 +453,7 @@ public class StudentBean implements Serializable{
 			}
 			studentInfoClass = classStudentBO.findById(idClassStudent);
 			studentInfoClass.addStudent(selectedStudent);
+			selectedStudent.setClass_registered(true);
 		}
 	}
 	
@@ -447,6 +484,44 @@ public class StudentBean implements Serializable{
 			return "student_call?faces-redirect=true";
 		}else{
 			return "";
+		}
+	}
+	
+	
+	//METODOS PARA PAGAMENTO DE BOLETO 
+	
+	public void findStudentPayment(){
+		try {
+			studentPayment = studentPaymentsBO.findByBarcode(barcode);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgPayment", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Boleto nao encontrado!"));
+		}
+	}
+	
+	public void cancelStudentPayment(){
+		studentPayment = null;
+		barcode = "";
+	}
+	
+	public void payStudentPayment(){
+		try {
+			if(studentPayment!=null){
+				studentPayment.setPayment_date(new Date());
+				studentPayment.setPaid(studentPayment.getPrice());
+				
+				studentPaymentsBO.update(studentPayment);
+				
+				ManagerSaleFacadeInterface manager = ManagerPaymentFactory.newInstance(studentPayment);
+				manager.persistSale();
+				
+				studentPayment = null;
+				barcode = "";
+				FacesContext.getCurrentInstance().addMessage("formManager:msgPayment", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Pagamento efetuado com sucesso"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage("formManager:msgPayment", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta!", "Nescessário pesquisar um Boleto!"));
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgPayment", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
 	
@@ -487,7 +562,13 @@ public class StudentBean implements Serializable{
 	public void setGlobalFilterStudent(String globalFilterStudent) {
 		this.globalFilterStudent = globalFilterStudent;
 	}
-	
+	public Integer getIdClassStudentFilter() {
+		return idClassStudentFilter;
+	}
+	public void setIdClassStudentFilter(Integer idClassStudentFilter) {
+		this.idClassStudentFilter = idClassStudentFilter;
+	}
+
 	// CLASS MODULE
 	public void setNewModule(ClassModule newModule) {
 		this.newModule = newModule;
@@ -623,5 +704,17 @@ public class StudentBean implements Serializable{
 	}
 	public void setNew_price(double new_price) {
 		this.new_price = new_price;
+	}
+	public String getBarcode() {
+		return barcode;
+	}
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+	public StudentPayments getStudentPayment() {
+		return studentPayment;
+	}
+	public void setStudentPayment(StudentPayments studentPayment) {
+		this.studentPayment = studentPayment;
 	}
 }
