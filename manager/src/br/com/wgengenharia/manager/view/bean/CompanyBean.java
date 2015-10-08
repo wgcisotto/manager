@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 
 import br.com.wgengenharia.manager.business.BranchBO;
@@ -248,6 +249,15 @@ public class CompanyBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCompany", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
+	
+	public void fileUpload(FileUploadEvent event) {
+  		try {
+  			userInfo.getEmployee().getCompany().setImage(event.getFile().getContents());
+  			companyBO.update(userInfo.getEmployee().getCompany());
+  		} catch (Exception e) {
+  			FacesContext.getCurrentInstance().addMessage("formManager:msgCompany", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+  		}
+  }
 	
 	// ALERTS CONTROL
 	
