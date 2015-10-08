@@ -56,11 +56,11 @@
               <f:convertNumber pattern="#,##0.00"/>  
             </p:inputText>
             <p:outputLabel value="Parcelas: "/>
-            <p:spinner value="#{student.quantity_parcel}"/>
+            <p:spinner value="#{student.quantity_parcel}" min="0"/>
             <p:outputLabel value="Vencimento: "/>
             <p:calendar value="#{student.expiry_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
             <p:commandButton icon="ui-icon-plus" >
-              <p:ajax process="@this toggleStudentFin" listener="#{student.addStudentPayment}" update="pngStudentPayments dtbSP" />
+              <p:ajax process="@this toggleStudentFin" listener="#{student.addStudentPayment}" update="@form" />
             </p:commandButton>
            </p:panelGrid>
            <br/>
@@ -106,10 +106,13 @@
 	                <b:label text="Pagamento Efetuado" severity="Default" rendered="#{sp.status eq 'PAGO'}" />
 	              </p:column>
                 
-                <p:column style="width:40px;text-align: center">
+                <p:column style="width:80px;text-align: center">
 	                <p:commandButton onstart="PF('dlgPayments').show();" process="@this" icon="ui-icon-circle-check" title="Pagamento" styleClass="btn_opcoes" disabled="#{sp.status eq 'PAGO'}">
 	                  <f:setPropertyActionListener value="#{sp}" target="#{student.selectedStudentPayments}"/>
 	                </p:commandButton>
+                  <p:commandButton onstart="PF('dlgSlip').show();" process="@this" icon="ui-icon-print" title="Gerar boleto" styleClass="btn_opcoes" disabled="#{sp.status eq 'PAGO'}">
+                    <f:setPropertyActionListener value="#{sp}" target="#{student.selectedStudentPayments}"/>
+                  </p:commandButton>
                 </p:column>
               
               </p:dataTable>    
@@ -152,6 +155,10 @@
           
           
         <p:panelGrid id="pngControlInfoStudent" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
+          <h:commandButton styleClass="btn btn-default btn-lg" value="Gerar Contrato" >
+            <p:ajax  listener="#{student.updateStudentClass}" process="@this pngInfoStudent" update="@form" />
+          </h:commandButton>
+          
           <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" >
             <p:ajax  listener="#{student.updateStudentClass}" process="@this pngInfoStudent" update="@form" />
           </h:commandButton>
@@ -234,12 +241,36 @@
           </p:panelGrid>
           <f:facet name="footer">
             <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
-              <h:commandButton styleClass="btn btn-default" value="Fecharaaa">
+              <h:commandButton styleClass="btn btn-default" value="Fechar">
                 <p:ajax event="click" oncomplete="PF('dlgAlterImg').hide();" update="@form"/>
               </h:commandButton>
             </p:panelGrid>
           </f:facet>
         </p:dialog>
+        
+        
+        <p:remoteCommand id="rmcSlip" name="rmcSlip" update="pngSlip" process="@this"/>
+        <p:dialog id="dlgSlip" header="Boleto" widgetVar="dlgSlip" minHeight="40" resizable="false" modal="true" onShow="rmcSlip()">
+          <p:growl id="growlSlip" sticky="true" showDetail="true" life="3000" />
+          <p:panelGrid id="pngSlip"  columns="1" styleClass="panelgrid_sem_borda" >
+                        
+            
+            <p:barcode value="12345678"/>
+            
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-primary" value="Salvar">
+                <p:ajax event="click" process="@this pngdlgEditFUP"  listener="#{student.updateFollowUp}" update="dtbSP" oncomplete="PF('dlgSlip').hide();"/>
+              </h:commandButton>
+              <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                <f:setPropertyActionListener value="null" target="#{student.selectedStudentPayments}"/> 
+                <p:ajax event="click" oncomplete="PF('dlgSlip').hide();" />
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
+        </p:dialog>
+        
          
         </ui:define>
     </ui:decorate>

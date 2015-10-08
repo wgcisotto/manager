@@ -66,7 +66,7 @@
        
               <p:column headerText="Total" width="89">
                   <h:outputText value="#{card.total}">
-                      <f:convertNumber pattern="#,##0.00" currencyCode="R$" type="currency" />  
+                      <f:convertNumber pattern="#,##0.00" />  
                   </h:outputText>
               </p:column>
               
@@ -102,7 +102,7 @@
                </p:column>
                <p:column headerText="Total">
                 <h:outputText value="#{sale.total}">
-                    <f:convertNumber pattern="#,##0.00" currencyCode="R$" type="currency" />  
+                    <f:convertNumber pattern="#,##0.00" />  
                 </h:outputText>
                </p:column>
                 <p:column style="width:40px;text-align: center">
@@ -112,7 +112,7 @@
 	            <p:columnGroup type="footer">
 	                <p:row>
 	                    <p:column footerText="Total: " style="text-align:right"/>
-	                    <p:column footerText="R$ 00,00" style="text-align:right"/>
+	                    <p:column footerText="#{manager.salesDayTotal}" style="text-align:right"/>
 	                </p:row>
 	            </p:columnGroup>
                
@@ -146,7 +146,7 @@
 	       
 	              <p:column headerText="Preço" sortBy="#{prd.price}" width="85">
 	                <h:outputText value="#{prd.price}">
-	                  <f:convertNumber pattern="#,##0.00" currencyCode="R$" type="currency" />  
+	                  <f:convertNumber pattern="#,##0.00" />  
 	                </h:outputText>
 	              </p:column>
 	       
@@ -253,13 +253,13 @@
             
                     <p:column>
                         <h:outputText value="#{item.product.price}">
-                          <f:convertNumber pattern="#,##0.00" currencyCode="R$" type="currency" />  
+                          <f:convertNumber pattern="#,##0.00" />  
                         </h:outputText>
                     </p:column>
             
                     <p:column>
                         <h:outputText value="#{item.total}">
-                            <f:convertNumber pattern="#,##0.00" currencyCode="R$" type="currency" />  
+                            <f:convertNumber pattern="#,##0.00" />  
                         </h:outputText>
                     </p:column>
             
@@ -336,13 +336,13 @@
             
                     <p:column>
                         <h:outputText value="#{item.product.price}">
-                          <f:convertNumber pattern="#,##0.00" currencyCode="R$" type="currency" />  
+                          <f:convertNumber pattern="#,##0.00" />  
                         </h:outputText>
                     </p:column>
             
                     <p:column>
                         <h:outputText value="#{item.total}">
-                            <f:convertNumber pattern="#,##0.00" currencyCode="R$" type="currency" />  
+                            <f:convertNumber pattern="#,##0.00" />  
                         </h:outputText>
                     </p:column>
             
@@ -397,7 +397,7 @@
          
                 <p:column headerText="Preço" sortBy="#{prd.price}" width="85">
                   <h:outputText value="#{prd.price}">
-                    <f:convertNumber pattern="#,##0.00" currencyCode="R$" type="currency" />  
+                    <f:convertNumber pattern="#,##0.00" />  
                   </h:outputText>
                 </p:column>
          

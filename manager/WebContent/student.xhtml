@@ -21,6 +21,24 @@
             </h:commandButton>
            </p:panelGrid>
            
+           
+           
+  
+			    <p:panel id="toggleable" header="Filtrar por turma" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px" >
+	         <p:panelGrid  columns="3">
+	            <h:outputText value="Turma:" />
+              <p:selectOneMenu id="slctClassStudentFilter" value="#{student.idClassStudentFilter}" >
+                 <f:selectItem itemLabel="Sem Matricula" itemValue="-1"/>
+                 <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs.id_class_student}"/>
+              </p:selectOneMenu>
+	            <h:commandButton id="btnStudentClassFilter" styleClass="btn btn-default btn-lg" value="Filtrar">
+	              <p:ajax event="click" listener="#{student.filterStudentByClass}" update="dtbStud" process="toggleable"/>
+	            </h:commandButton>
+	         </p:panelGrid>
+			    </p:panel>
+			           
+           
+           
           <p:dataTable id="dtbStud" widgetVar="dtbStud" var="stud" value="#{student.students}" emptyMessage="Nenhum Aluno encontrado"
                scrollRows="5" scrollable="true" scrollHeight="370"    
               rowKey="#{stud.id_student}" filteredValue="#{student.filteredStudents}" >

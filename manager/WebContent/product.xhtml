@@ -134,8 +134,8 @@
 				
          
          
-         <p:remoteCommand id="rmcProductEdit" name="rmcProductEdit" update="pngProductEdit" />
-         <p:dialog id="dlgProductEdit" header="Edicao de Produto" widgetVar="dlgProductEdit" minHeight="40" resizable="false" modal="true" onShow="rmcProductEdit">
+         <p:remoteCommand id="rmcProductEdit" name="rmcProductEdit" update="pngProductEdit" process="@this"/>
+         <p:dialog id="dlgProductEdit" header="Edicao de Produto" widgetVar="dlgProductEdit" minHeight="40" resizable="false" modal="true" onShow="rmcProductEdit()">
           <p:growl id="growlDlgProductEdit" sticky="true" showDetail="true" life="3000" />
           <p:panelGrid id="pngProductEdit" columns="1" styleClass="panelgrid_sem_borda"> 
             <p:fieldset>

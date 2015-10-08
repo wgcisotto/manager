@@ -65,7 +65,7 @@
  		         <h:outputText value="Unidade:" style="color: white;"/>
              <p:selectOneMenu id="slctBranchFilter" value="#{auth.idBranchSelected}"  converter="branchConverter">
                 <f:selectItems value="#{company.branchs}" var="b" itemLabel="#{b.name}" itemValue="#{b.id_branch}" />
-                <p:ajax event="change" listener="#{auth.updateEmployeeView}"/>
+                <p:ajax event="change" listener="#{auth.updateEmployeeView}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
              </p:selectOneMenu>
  		        </p:panelGrid>
 			     </p:panelGrid>
@@ -90,20 +90,18 @@
 		  <!--  start nav-outer-repeat................................................................................................. START -->
 		  
 		
-		 <!-- 
-		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 		 
-		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-		    <p:graphicImage name="resources/images/icons/ajax-loader.gif" />
-		</p:dialog>
-		 
-		  --> 
+         
+    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+      <p:graphicImage value="resources/images/shared/ajax_loading.gif"/>
+    </p:dialog>
 			
 	  <p:growl id="messages" autoUpdate="true" globalOnly="true" severity="error"/>
   
-    <p:menubar>
+    <p:menubar id="menuBarDefault" style="width: auto;" >
         <p:submenu label="Financeiro" icon="ui-icon-home">
             <p:menuitem value="Caixa"  icon="ui-icon-folder-open"  outcome="cashier.xhtml" />
+            <p:menuitem value="Pagamento"  icon="ui-icon-calculator"  outcome="payment.xhtml" />
             <p:menuitem value="Historico" icon="ui-icon-disk"  outcome="history.xhtml"/>
         </p:submenu>
         
@@ -185,6 +183,8 @@
 					<!--  end footer-left -->
 				</div>
 				<!-- end footer -->
+	 		
+	 		<p:sticky target="menuBarDefault" />
 	 		
 	   </h:form>
     </f:view>	 

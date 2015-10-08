@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Pagamento de boleto
+        </ui:define>
+        <ui:define name="default">
+         
+         <p:messages id="msgPayment" showDetail="true" autoUpdate="true" closable="true" />
+         
+         <p:panelGrid id="pngStudentPayment" columns="3" styleClass="panelgrid_sem_borda">
+          <p:outputLabel value="Código de Barras: "/>
+          <p:inputText value="#{student.barcode}"/>
+          <h:commandButton id="btnFindStudentPayment" styleClass="btn btn-primary btn-lg" value="Pesquisar Boleto">
+            <p:ajax event="click" listener="#{student.findStudentPayment}" process="pngStudentPayment" update="@form" />
+          </h:commandButton>
+         </p:panelGrid>
+         
+         <br/>
+         
+         <p:fieldset rendered="#{student.studentPayment != null}">         
+	         <p:panelGrid id="pngStudentPaymentInfo" columns="2" styleClass="panelgrid_sem_borda">
+	          <p:panelGrid id="pngInfo" columns="2" rendered="#{student.studentPayment != null}" styleClass="panelgrid_sem_borda">
+	            <p:outputLabel value="Aluno: "/>
+	            <p:inputText value="#{student.studentPayment.student.student_name}" size="30" styleClass="inputTextDisabled"/>
+	            <p:outputLabel value="Email: "/>
+	            <p:inputText value="#{student.studentPayment.student.email}" size="30" styleClass="inputTextDisabled"/>
+	            <p:outputLabel value="Responsavel: "/>
+	            <p:inputText value="#{student.studentPayment.student.resp_Name}" size="30" styleClass="inputTextDisabled"/>
+	            <p:outputLabel value="Tel Residencial: "/>
+	            <p:inputMask value="#{student.studentPayment.student.resp_home_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
+	            <p:outputLabel value="Tel Comercial: "/>
+	            <p:inputMask value="#{student.studentPayment.student.resp_office_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
+	           </p:panelGrid>
+ 	           <p:panelGrid id="pngPayInfo" columns="2" rendered="#{student.studentPayment != null}" styleClass="panelgrid_sem_borda">
+	             <p:outputLabel value="Parcela: "/>
+                <p:inputText value="#{student.studentPayment.number_parcel}" size="10" styleClass="inputTextDisabled"/>
+                <p:outputLabel value="Valor: "/>
+                <p:inputText value="#{student.studentPayment.price}" size="10" styleClass="inputTextDisabled">
+                  <f:convertNumber pattern="#,##0.00"/>  
+                </p:inputText>
+                <p:outputLabel value="Data Vencimento: "/>
+                <p:calendar value="#{student.studentPayment.expiry_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
+	           </p:panelGrid> 
+	         </p:panelGrid>
+         </p:fieldset>
+         
+         <br/>
+         
+         
+         <p:panelGrid id="pngControlPayment" columns="2" styleClass="panelgrid_sem_borda" style="float: right;">
+          <h:commandButton id="btnCancelPayment" styleClass="btn btn-danger btn-lg" value="Cancelar pagamento" rendered="#{student.studentPayment != null}">
+            <p:ajax event="click" listener="#{student.cancelStudentPayment}" process="btnCancelPayment" update="@form" />
+          </h:commandButton>
+          <h:commandButton id="btnMakePayment" styleClass="btn btn-primary btn-lg" value="Efetuar pagamento" rendered="#{student.studentPayment != null}">
+            <p:ajax event="click" listener="#{student.payStudentPayment}" process="btnMakePayment" update="@form" />
+          </h:commandButton>
+         </p:panelGrid>
+        </ui:define>
+    </ui:decorate>
+</html>
