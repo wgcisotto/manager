@@ -49,6 +49,10 @@ public class AuthenticationBean {
 	private String pass;
 	
 	
+	private String newPass1;
+	private String newPass2;
+	
+	
 	//ID de selecao de branch
 	private Integer idBranchSelected;
 	
@@ -102,8 +106,16 @@ public class AuthenticationBean {
 	
 	public void updateEmployee(){
 		try {
-			employeeBO.update(employee);
-			FacesContext.getCurrentInstance().addMessage("formManager:msgUserInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Perfil Atualizado com sucesso"));
+			if(!newPass1.equals(newPass2)){
+				FacesContext.getCurrentInstance().addMessage("formManager:msgUserInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Error!", "Senhas devem ser iguais"));
+				return;
+			}else{
+				if(!"".equals(newPass1) && !"".equals(newPass2)){
+					employee.setPass(newPass1);
+				}
+				employeeBO.update(employee);
+				FacesContext.getCurrentInstance().addMessage("formManager:msgUserInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Perfil Atualizado com sucesso"));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgUserInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
@@ -259,11 +271,22 @@ public class AuthenticationBean {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	public String getNewPass1() {
+		return newPass1;
+	}
+	public void setNewPass1(String newPass1) {
+		this.newPass1 = newPass1;
+	}
+	public String getNewPass2() {
+		return newPass2;
+	}
+	public void setNewPass2(String newPass2) {
+		this.newPass2 = newPass2;
+	}
 	public Integer getIdBranchSelected() {
 		return idBranchSelected;
 	}
 	public void setIdBranchSelected(Integer idBranchSelected) {
 		this.idBranchSelected = idBranchSelected;
 	}
-	
 }
