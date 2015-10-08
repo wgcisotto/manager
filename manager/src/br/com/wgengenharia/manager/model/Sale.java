@@ -45,7 +45,7 @@ public class Sale implements Serializable {
 	private List<Product> products;
 	@Column(name = "DATE_SALE")
 	@Temporal(TemporalType.DATE)
-	private Calendar date;
+	private Date date;
 	@Column(name = "TIME_SALE")
 	@Temporal(TemporalType.TIME)
 	private Date time;
@@ -70,10 +70,10 @@ public class Sale implements Serializable {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-	public Calendar getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(Calendar date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public Date getTime() {
