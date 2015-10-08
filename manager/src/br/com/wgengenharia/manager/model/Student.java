@@ -24,6 +24,7 @@ public class Student {
 	
 	public Student() {
 		this.resp_address = new Address();
+		this.class_registered = false;
 	}
 	
 	@Id
@@ -67,11 +68,15 @@ public class Student {
 	@Column(name="RESP_OFFICE_PHONE", length=100)
 	private String resp_office_phone;
 
+	@Column(name="CLASS_REGISTERED")
+	private boolean class_registered;
+	
 	@ManyToOne
 	private Company company;
 	
 	@ManyToOne
 	private Branch branch;
+	
 
 	public int getId_student() {
 		return id_student;
@@ -144,6 +149,12 @@ public class Student {
 	}
 	public void setResp_office_phone(String resp_office_phone) {
 		this.resp_office_phone = resp_office_phone;
+	}
+	public boolean isClass_registered() {
+		return class_registered;
+	}
+	public void setClass_registered(boolean class_registered) {
+		this.class_registered = class_registered;
 	}
 	public Company getCompany() {
 		return company;
