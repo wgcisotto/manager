@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wgengenharia.manager.model.Student;
-import br.com.wgengenharia.manager.report.StudentREL;
+import br.com.wgengenharia.manager.report.ManagerReporter;
 
 public class Main {
 
@@ -20,7 +20,7 @@ public class Main {
 		
 		students.add(student);
 		
-		StudentREL rel = new StudentREL();
+		ManagerReporter rel = new ManagerReporter();
 		
 		try {
 			rel.imprimir(students);

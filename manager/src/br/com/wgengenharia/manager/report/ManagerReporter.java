@@ -10,14 +10,14 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import br.com.wgengenharia.manager.model.Student;
 
-public class StudentREL 
+public class ManagerReporter 
 {
 	private String path; //Caminho base
 	
 	private String pathToReportPackage; // Caminho para o package onde estão armazenados os relatorios Jarper
 	
 	//Recupera os caminhos para que a classe possa encontrar os relatórios
-	public StudentREL() {
+	public ManagerReporter() {
 		this.path = this.getClass().getClassLoader().getResource("").getPath();
 		this.pathToReportPackage = this.path + "br/com/wgengenharia/manager/jasper/";
 		System.out.println(path);
@@ -27,7 +27,7 @@ public class StudentREL
 	//Imprime/gera uma lista de Clientes
 	public void imprimir(List<Student> student) throws Exception	
 	{
-		JasperReport report = JasperCompileManager.compileReport(this.getPathToReportPackage() + "studentReport.jrxml");
+		JasperReport report = JasperCompileManager.compileReport(this.getPathToReportPackage() + "StudentContract.jrxml");
 		
 		JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(student));
  
