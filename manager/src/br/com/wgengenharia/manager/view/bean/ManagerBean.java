@@ -23,6 +23,7 @@ import br.com.wgengenharia.manager.business.ProductBO;
 import br.com.wgengenharia.manager.business.SaleBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
+import br.com.wgengenharia.manager.factory.ManagerPaymentFactory;
 import br.com.wgengenharia.manager.factory.ManagerSaleFactory;
 import br.com.wgengenharia.manager.model.Card;
 import br.com.wgengenharia.manager.model.Category;
@@ -125,8 +126,10 @@ public class ManagerBean implements Serializable {
 	//Metodos Produto
 	public void addProduct(){
 		try {
-			Category categ = categoryBO.findById(idCategProdct);
-			newProduct.setCategory(categ);
+			if(idCategProdct != null){
+				Category categ = categoryBO.findById(idCategProdct);
+				newProduct.setCategory(categ);
+			}
 			newProduct.setBranch(userInfo.currentBranch);
 			idCategProdct = 0;
 			productBO.insert(newProduct);
@@ -394,6 +397,7 @@ public class ManagerBean implements Serializable {
 	
 	public void closeSale(){
 		try {
+			sale.setBranch(userInfo.currentBranch);
 			ManagerSaleFacadeInterface manager = ManagerSaleFactory.newInstance(sale);
 			manager.persistSale();
 			

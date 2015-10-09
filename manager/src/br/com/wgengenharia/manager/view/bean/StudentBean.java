@@ -1,6 +1,7 @@
 package br.com.wgengenharia.manager.view.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -239,6 +240,22 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
+	public void updateModuleSeq(){
+		try {
+			int seq = 0;
+			for (ClassModule module : modules) {
+				module.setSequence(seq);
+				seq++;
+				classModuleBO.update(module);
+			}
+			modules = classModuleBO.listByBranch(userInfo.currentBranch);
+			FacesContext.getCurrentInstance().addMessage("formManager:msgClassModule", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Sequencia atualizada com sucesso"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgClassModule", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
+	
 	//METODOS PARA CADASTRAR OS MODULOS 
 	public void newClassStudent(){
 		this.newClassStudent = new ClassStudent();
@@ -310,14 +327,18 @@ public class StudentBean implements Serializable{
 	
 	public void addFollowUp(){
 		try {
-			newFollowUp.setStudent(this.selectedStudent);
-			newFollowUp.setEmployee(userInfo.getEmployee());
-			newFollowUp.setDate_followup(new Date());
-			newFollowUp.setBranch(userInfo.currentBranch);
-			followUpBO.insert(newFollowUp);
-			followups = followUpBO.listFollowUpByStudent(selectedStudent);// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
-			newFollowUp = new FollowUp();
-			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "FollowUp inserido com sucesso"));
+			if(newFollowUp.getFollowup() == null){
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Nescessário preencher o FollowUp!"));
+			}else{
+				newFollowUp.setStudent(this.selectedStudent);
+				newFollowUp.setEmployee(userInfo.getEmployee());
+				newFollowUp.setDate_followup(new Date());
+				newFollowUp.setBranch(userInfo.currentBranch);
+				followUpBO.insert(newFollowUp);
+				followups = followUpBO.listFollowUpByStudent(selectedStudent);// FAZER PERQUISA POR NOME DA EMPRESA E PELO BRANCH  ???
+				newFollowUp = new FollowUp();
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "FollowUp inserido com sucesso"));
+			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
@@ -450,9 +471,11 @@ public class StudentBean implements Serializable{
 				studentInfoClass.removeStudent(selectedStudent);
 				classStudentBO.update(studentInfoClass);
 			}
-			studentInfoClass = classStudentBO.findById(idClassStudent);
-			studentInfoClass.addStudent(selectedStudent);
-			selectedStudent.setClass_registered(true);
+			if(idClassStudent != -1){
+				studentInfoClass = classStudentBO.findById(idClassStudent);
+				studentInfoClass.addStudent(selectedStudent);
+				selectedStudent.setClass_registered(true);
+			}
 		}
 	}
 	
