@@ -130,7 +130,7 @@
               <p:panelGrid columns="2" style="float: right;">
               
                 <h:commandButton styleClass="btn btn-primary" value="Incluir">
-                  <p:ajax event="click" listener="#{company.addEmployee}" process="@this pngNewEmp"  oncomplete="handleAddEmpRequest(xhr, status, args)" update="dtbEmp growlDlgEmp" />
+                  <p:ajax event="click" listener="#{company.addEmployee}" process="@this pngNewEmp"  oncomplete="handleAddEmpRequest(xhr, status, args)" update="dtbEmp growlDlgEmp pngNewEmp" />
                 </h:commandButton>
                 
                 <h:commandButton styleClass="btn btn-default" value="Cancelar">

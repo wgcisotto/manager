@@ -91,8 +91,8 @@
                rowKey="#{sale.id_sale}">
                
                <p:column headerText="Data/Hora">
-                <h:outputText value="#{sale.time}">
-                  <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" locale="pt,BR" timeZone="Brazil/East"/> 
+                <h:outputText value="#{sale.date}">
+                  <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss"/> 
                 </h:outputText>
                </p:column>
                <p:column headerText="Total">

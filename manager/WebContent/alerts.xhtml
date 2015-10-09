@@ -56,7 +56,7 @@
 	                <p:commandButton onstart="PF('dlgPaymentsLate').show();" process="@this" icon="ui-icon-pencil" title="Alterar data de pagamento" styleClass="btn_opcoes" >
 	                  <f:setPropertyActionListener value="#{sp}" target="#{company.selectedPayment}"/>
 	                </p:commandButton>
-	                <p:commandButton process="@this" action="#{company.pay}" icon="ui-icon-circle-check" title="Pagamento" styleClass="btn_opcoes" >
+	                <p:commandButton process="@this" action="#{company.pay}" icon="ui-icon-circle-check" title="Pagamento" styleClass="btn_opcoes" update="@form" >
 	                  <f:setPropertyActionListener value="#{sp}" target="#{company.selectedPayment}"/>
 	                </p:commandButton>
                 </p:column>

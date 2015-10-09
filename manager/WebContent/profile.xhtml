@@ -1,74 +1,97 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <ui:decorate template="default.xhtml">
-        <ui:define name="header">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:decorate template="default.xhtml">
+	<ui:define name="header">
           Meus Dados
         </ui:define>
-        <ui:define name="default">
-          
-          <p:messages id="msgUserInfo" showDetail="true" autoUpdate="true" closable="true" />
-          <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlUser">
-          
-           <p:panel id="toggleInfoUser" header="Meus Dados" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoUser"> 
-	          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-	            <p:outputLabel value="Nome: " for="profName"/>
-	            <p:inputText id="profName" value="#{auth.employee.name}" required="true" requiredMessage="Nescessário preencher o Nome." />
-	            <p:outputLabel value="Telefone: " for="profPhone"/>
-	            <p:inputMask id="profPhone" value="#{auth.employee.phone}" mask="(99) 99999999?9" required="true" requiredMessage="Nescessário preencher o Telefone."/>
-	            <p:outputLabel value="Email: " for="profEmail" />
-	            <p:inputText id="profEmail" value="#{auth.employee.user}" required="true" requiredMessage="Nescessário preencher o Email."/>
-	            <p:outputLabel value="Nova Senha: " for="newPass1"/>
-	            <p:password id="newPass1" value="#{auth.newPass1}" feedback="true"/>
-	            <p:outputLabel value="Repedir Senha: " for="newPass2"/>
-	            <p:password id="newPass2" value="#{auth.newPass2}" feedback="true"/>
-	          </p:panelGrid>
-          </p:panel>                    
-            
-            <br/>
-              
-	          <p:panel id="toggleEndUser" header="Endereco" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleEndUser" >
-               <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-                 <p:outputLabel value="Endereço: " for="profStreet"/>
-                 <p:outputLabel value="Numero: " for="profnumber"/>
-                 <p:outputLabel value="CEP: " for="profZipCode"/>
-                 <p:inputText id="profStreet" value="#{auth.employee.address.street}" size="53" required="true" requiredMessage="Nescessário preencher o Endereço."/>
-                 <p:inputText id="profnumber" value="#{auth.employee.address.number}" size="10" required="true" requiredMessage="Nescessário preencher o Numero."/>
-                 <p:inputMask id="profZipCode" value="#{auth.employee.address.zip_code}" size="10" mask="99999-999" required="true" requiredMessage="Nescessário preencher o CEP."/>
-               </p:panelGrid>
-               <p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
-                 <p:outputLabel value="Bairro: " for="profDistrict"/>
-                 <p:outputLabel value="Cidade: " for="profCity"/>
-                 <p:outputLabel value="Estado: " for="profState"/>
-                 <p:inputText id="profDistrict" value="#{auth.employee.address.district}" size="35" required="true" requiredMessage="Nescessário preencher o Bairro."/>
-                 <p:inputText id="profCity" value="#{auth.employee.address.city}" size="35" required="true" requiredMessage="Nescessário preencher a Cidade"/>
-                 <p:inputText id="profState" value="#{auth.employee.address.state}" size="3" maxlength="2" required="true" requiredMessage="Nescessário preencher o Estado."/>
-               </p:panelGrid>
-	          </p:panel>
-                    
-	          
-	          <br/>
-	          
-	          
-              
-            <p:panel id="toggleProfileUser" header="Perfil" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleProfileUser" >
-	            <h:panelGrid columns="2" cellpadding="10">
-	               <h:outputText value="#{auth.employee.profile.name}" />
-	           </h:panelGrid>
-            </p:panel>
-	          
-	          <br/>
-              
-          </p:panelGrid>
-         
-          <br/>
-         
-         <p:panelGrid id="pngControlEmployee" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
-          <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" actionListener="#{auth.updateEmployee}" update="@form"/>
-         </p:panelGrid>
-        </ui:define>
-    </ui:decorate>
+	<ui:define name="default">
+
+		<p:messages id="msgUserInfo" showDetail="true" autoUpdate="true"
+			closable="true" />
+		<p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%"
+			columns="1" id="pngControlUser">
+
+			<p:panel id="toggleInfoUser" header="Meus Dados" toggleable="true"
+				toggleSpeed="500" closeSpeed="500" widgetVar="toggleInfoUser">
+				<p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
+					<p:outputLabel value="Nome: " for="profName" />
+					<p:inputText id="profName" value="#{auth.employee.name}"
+						required="true" requiredMessage="Nescessário preencher o Nome." />
+					<p:outputLabel value="Telefone: " for="profPhone" />
+					<p:inputMask id="profPhone" value="#{auth.employee.phone}"
+						mask="(99) 99999999?9" required="true"
+						requiredMessage="Nescessário preencher o Telefone." />
+					<p:outputLabel value="Email: " for="profEmail" />
+					<p:inputText id="profEmail" value="#{auth.employee.user}"
+						required="true" requiredMessage="Nescessário preencher o Email." />
+					<p:outputLabel value="Nova Senha: " for="newPass1" />
+					<p:password id="newPass1" value="#{auth.newPass1}" feedback="true" />
+					<p:outputLabel value="Repedir Senha: " for="newPass2" />
+					<p:password id="newPass2" value="#{auth.newPass2}" feedback="true" />
+				</p:panelGrid>
+			</p:panel>
+
+			<br />
+
+			<p:panel id="toggleEndUser" header="Endereco" toggleable="true"
+				toggleSpeed="500" closeSpeed="500" widgetVar="toggleEndUser">
+				<p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+					<p:outputLabel value="Endereço: " for="profStreet" />
+					<p:outputLabel value="Numero: " for="profnumber" />
+					<p:outputLabel value="CEP: " for="profZipCode" />
+					<p:inputText id="profStreet"
+						value="#{auth.employee.address.street}" size="53" required="true"
+						requiredMessage="Nescessário preencher o Endereço." />
+					<p:inputText id="profnumber"
+						value="#{auth.employee.address.number}" size="10" required="true"
+						requiredMessage="Nescessário preencher o Numero." />
+					<p:inputMask id="profZipCode"
+						value="#{auth.employee.address.zip_code}" size="10"
+						mask="99999-999" required="true"
+						requiredMessage="Nescessário preencher o CEP." />
+				</p:panelGrid>
+				<p:panelGrid columns="3" styleClass="panelgrid_sem_borda">
+					<p:outputLabel value="Bairro: " for="profDistrict" />
+					<p:outputLabel value="Cidade: " for="profCity" />
+					<p:outputLabel value="Estado: " for="profState" />
+					<p:inputText id="profDistrict"
+						value="#{auth.employee.address.district}" size="35"
+						required="true" requiredMessage="Nescessário preencher o Bairro." />
+					<p:inputText id="profCity" value="#{auth.employee.address.city}"
+						size="35" required="true"
+						requiredMessage="Nescessário preencher a Cidade" />
+					<p:inputText id="profState" value="#{auth.employee.address.state}"
+						size="3" maxlength="2" required="true"
+						requiredMessage="Nescessário preencher o Estado." />
+				</p:panelGrid>
+			</p:panel>
+
+
+			<br />
+
+
+
+			<p:panel id="toggleProfileUser" header="Perfil" toggleable="true"
+				toggleSpeed="500" closeSpeed="500" widgetVar="toggleProfileUser">
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:outputText value="#{auth.employee.profile.name}" />
+				</h:panelGrid>
+			</p:panel>
+
+			<br />
+
+		</p:panelGrid>
+
+		<br />
+
+		<p:panelGrid id="pngControlEmployee" columns="2"
+			styleClass="panelgrid_sem_borda" style="float: right;">
+			<h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar"
+				actionListener="#{auth.updateEmployee}" update="@form" />
+		</p:panelGrid>
+	</ui:define>
+</ui:decorate>
 </html>

@@ -158,7 +158,7 @@
             <f:facet name="footer">
               <p:panelGrid columns="2" style="float: right;">
                 <h:commandButton styleClass="btn btn-primary" value="Incluir">
-                  <p:ajax event="click" listener="#{student.addStudent}" process="@this pngNewStud toggleRespNew"  oncomplete="handleAddStudRequest(xhr, status, args)" update="dtbStud growlDlgStud" />
+                  <p:ajax event="click" listener="#{student.addStudent}" process="@this pngNewStud toggleRespNew"  oncomplete="handleAddStudRequest(xhr, status, args)" update="dtbStud growlDlgStud pngNewStud" />
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-default" value="Cancelar">
                   <f:setPropertyActionListener value="null" target="#{student.newStudent}"/> 

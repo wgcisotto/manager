@@ -55,7 +55,7 @@
 			  
 			  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			   <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
-			     <p:graphicImage id="imgCompany" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" />
+			     <p:graphicImage id="imgCompanyDefault" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" />
 			     <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			       <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 		          <h:outputText value="#{auth.employee.name}" style="color: white;float: left"/>
@@ -184,7 +184,7 @@
 				</div>
 				<!-- end footer -->
 	 		
-	 		<p:sticky target="menuBarDefault" />
+	 		<!--  <p:sticky target="menuBarDefault" />  -->
 	 		
 	   </h:form>
     </f:view>	 

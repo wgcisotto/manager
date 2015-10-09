@@ -18,6 +18,11 @@
             <h:commandButton id="btnOpendlgClassModule" styleClass="btn btn-primary btn-lg" value="Novo Modulo">
               <p:ajax event="click" oncomplete="PF('dlgMod').show();" listener="#{student.newModule}" update="pngNewMod" />
             </h:commandButton>
+            
+            <h:commandButton id="btnOpendlgClassModuleSeq" styleClass="btn btn-default btn-lg" value="Sequencia">
+              <p:ajax event="click" oncomplete="PF('dlgModSeq').show();" update="pngNewMod" />
+            </h:commandButton>
+            
            </p:panelGrid>
            
            <p:separator />          
@@ -53,8 +58,13 @@
                 <p:panelGrid columns="1">
                   <p:column>
                     <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
-                    <p:outputLabel value="Descrição"/>
+                    <p:outputLabel value="Descrição: "/>
                     <h:outputText value=" #{cMod.description}"/>
+                  </p:column>
+                  <p:column>
+                    <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
+                    <p:outputLabel value="Aulas: "/>
+                    <h:outputText value=" #{cMod.quantity_class}"/>
                   </p:column>
                 </p:panelGrid>
                 </p:panelGrid>
@@ -76,7 +86,7 @@
                 <p:outputLabel value="Descrição: "/>
                 <p:inputText value="#{student.newModule.description}"/>
                 <p:outputLabel value="Quantidade de Aulas: " for="spnQtdCLass"/>
-                <p:spinner id="spnQtdCLass" required="true" requiredMessage="Preencha a quantidade de aulas." min="1" size="10"/>
+                <p:spinner id="spnQtdCLass" value="#{student.newModule.quantity_class}" required="true" requiredMessage="Preencha a quantidade de aulas." min="1" size="10"/>
               </p:panelGrid>
              </p:fieldset>
             <f:facet name="footer">
@@ -104,7 +114,7 @@
                 <p:outputLabel value="Descrição: "/>
                 <p:inputText value="#{student.selectedModule.description}"/>
                 <p:outputLabel value="Quantidade de Aulas: " for="spnQtdCLassEdit"/>
-                <p:spinner id="spnQtdCLassEdit" required="true" requiredMessage="Preencha a quantidade de aulas." min="1" size="10"/>
+                <p:spinner id="spnQtdCLassEdit" value="#{student.selectedModule.quantity_class}" required="true" requiredMessage="Preencha a quantidade de aulas." min="1" size="10"/>
               </p:panelGrid>
             </p:fieldset>
             <f:facet name="footer">
@@ -116,6 +126,26 @@
                   <p:ajax event="click" oncomplete="PF('dlgModEdit').hide();" />
                 </h:commandButton>
               </p:panelGrid>  
+            </f:facet>
+         </p:panelGrid>
+        </p:dialog>
+         
+         
+         <p:dialog id="dlgModSeq" header="Sequencia" widgetVar="dlgModSeq" minHeight="40" resizable="false" modal="true">
+          <p:panelGrid id="pngModSeq" columns="1" styleClass="panelgrid_sem_borda">
+            <p:growl id="growlDlgModSeq" sticky="true" showDetail="true" life="3000" severity="error"/>
+              <p:panelGrid id="pngModSeqInter"  columns="1" styleClass="panelgrid_sem_borda">
+                <p:orderList value="#{student.modules}" var="module" controlsLocation="none" itemLabel="#{module.name}" itemValue="#{module.name}" />
+              </p:panelGrid>
+            <f:facet name="footer">
+              <p:panelGrid columns="2" style="float: right;">
+                <h:commandButton styleClass="btn btn-primary" value="Aplicar">
+                  <p:ajax event="click" listener="#{student.updateModuleSeq}" process="@this pngModSeq" update="dtbMod growlDlgModSeq pngModSeqInter" />
+                </h:commandButton>
+                <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                  <p:ajax event="click" oncomplete="PF('dlgModSeq').hide();" />
+                </h:commandButton>
+              </p:panelGrid>
             </f:facet>
          </p:panelGrid>
         </p:dialog>

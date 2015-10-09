@@ -61,9 +61,9 @@
                   <p:column>
 	                  <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
 	                  <p:outputLabel value="Data: "/>
-	                  <h:outputText value="#{class.start_date}">
+	                  <p:outputLabel value="#{class.start_date}">
 	                    <f:convertDateTime pattern="dd/MM/YYYY"/>
-	                  </h:outputText>
+	                  </p:outputLabel>
 	                  <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
 	                  <p:outputLabel value="Inicio: "/>
 	                  <h:outputText value="#{class.begin_time}">
@@ -78,7 +78,7 @@
                 </p:panelGrid>
                 </p:panelGrid>
                 <f:facet name="filter">
-                  <h:inputText style="display:none;"/>
+                  <p:inputText style="display:none;"/>
                 </f:facet>
               </p:column>
           </p:dataTable>   
@@ -90,14 +90,14 @@
             <p:growl id="growlDlgClassStudent" sticky="true" showDetail="true" life="3000" severity="error"/>
               <p:fieldset>
               <p:panelGrid id="pngCadClassStudent"  columns="2" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Nome: " for="txtClassName"/>
-                <h:outputLabel value="Data Inicio: " for="txtClassDate" />
+                <p:outputLabel value="Nome: " for="txtClassName"/>
+                <p:outputLabel value="Data Inicio: " for="txtClassDate" />
                 <p:inputText id="txtClassName" value="#{student.newClassStudent.class_name}" size="40" required="True" requiredMessage="Preencha o Nome da turma."/>
                 <p:calendar id="txtClassDate" value="#{student.newClassStudent.start_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt" required="True" requiredMessage="Selecione a data de inicio."/>
               </p:panelGrid>
               <p:panelGrid id="pngCadClassStudentInfo"  columns="3" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Hora Inicio:" for="txtHourB"/>
-                <h:outputLabel value="Hora Fim: " for="txtHourE"/>
+                <p:outputLabel value="Hora Inicio:" for="txtHourB"/>
+                <p:outputLabel value="Hora Fim: " for="txtHourE"/>
                 <p:outputLabel value="Modulo: " for="rdbClassStudentNew"/>
                 <p:calendar id="txtHourB" value="#{student.newClassStudent.begin_time}" pattern="HH:mm" timeOnly="true" size="17" required="true" requiredMessage="Preencha a hora de inicio."/>
                 <p:calendar id="txtHourE" value="#{student.newClassStudent.end_time}" pattern="HH:mm" timeOnly="true" size="17" required="true" requiredMessage="Preencha a hora de saida."/>
@@ -110,7 +110,7 @@
             <f:facet name="footer">
               <p:panelGrid columns="2" style="float: right;">
                 <h:commandButton styleClass="btn btn-primary" value="Incluir">
-                  <p:ajax event="click" listener="#{student.addClassStudent}" process="@this pngNewClassStudent"  oncomplete="handleAddClassStudentRequest(xhr, status, args)" update="dtbClassStudent growlDlgClassStudent" />
+                  <p:ajax event="click" listener="#{student.addClassStudent}" process="@this pngNewClassStudent"  oncomplete="handleAddClassStudentRequest(xhr, status, args)" update="dtbClassStudent growlDlgClassStudent pngNewClassStudent" />
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-default" value="Cancelar">
                   <f:setPropertyActionListener value="null" target="{student.newClassStudent}"/> 
@@ -127,14 +127,14 @@
           <p:panelGrid id="pngClassStudentEdit" columns="1" styleClass="panelgrid_sem_borda">
             <p:fieldset>
               <p:panelGrid id="pngEditClassStudent"  columns="2" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Nome: " for="txtEditClassName"/>
-                <h:outputLabel value="Data Inicio: " for="txtEditDate"/>
+                <p:outputLabel value="Nome: " for="txtEditClassName"/>
+                <p:outputLabel value="Data Inicio: " for="txtEditDate"/>
                 <p:inputText id="txtEditClassName" value="#{student.selectedClassStudent.class_name}" size="40" required="True" requiredMessage="Preencha o Nome da turma"/>
                 <p:calendar id="txtEditDate" value="#{student.selectedClassStudent.start_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt" required="true" requiredMessage="Selecione a data de inicio."/>
               </p:panelGrid>
               <p:panelGrid id="pngCadClassStudentInfoEdit"  columns="3" styleClass="panelgrid_sem_borda">
-                <h:outputLabel value="Hora Inicio:" for="txtEditHourB"/>
-                <h:outputLabel value="Hora Fim: " for="txtEditHourE"/>
+                <p:outputLabel value="Hora Inicio:" for="txtEditHourB"/>
+                <p:outputLabel value="Hora Fim: " for="txtEditHourE"/>
                 <p:outputLabel value="Modulo: " for="rdbClassStudentEdit"/>
                 <p:calendar id="txtEditHourB" value="#{student.selectedClassStudent.begin_time}" pattern="HH:mm" timeOnly="true" size="17" required="true" requiredMessage="Preencha a hora de inicio."/>
                 <p:calendar id="txtEditHourE" value="#{student.selectedClassStudent.end_time}" pattern="HH:mm" timeOnly="true" size="17" required="true" requiredMessage="Preencha a hora de saida."/>
