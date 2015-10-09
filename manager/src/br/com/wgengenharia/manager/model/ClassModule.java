@@ -24,6 +24,12 @@ public class ClassModule {
 	
 	@Column(name="DESCRIPTION", length=100)
 	private String description;
+	
+	@Column(name="QUANTITY_CLASS")
+	private int quantity_class;
+	
+	@Column(name="CLASS_SEQUENCE")
+	private int sequence;
 
 	@ManyToOne
 	private Company company;
@@ -50,6 +56,18 @@ public class ClassModule {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public int getQuantity_class() {
+		return quantity_class;
+	}
+	public void setQuantity_class(int quantity_class) {
+		this.quantity_class = quantity_class;
+	}
+	public int getSequence() {
+		return sequence;
+	}
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
 	}
 	public Company getCompany() {
 		return company;
