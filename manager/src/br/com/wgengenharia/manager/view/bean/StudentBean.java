@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 
@@ -29,6 +32,7 @@ import br.com.wgengenharia.manager.model.Student;
 import br.com.wgengenharia.manager.model.StudentPayments;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
 import br.com.wgengenharia.manager.utils.AuthenticationUtil;
+import br.com.wgengenharia.manager.utils.CompanyUtil;
 import br.com.wgengenharia.manager.utils.DateUtil;
 import br.com.wgengenharia.manager.utils.StudentPaymentUtil;
 
@@ -51,6 +55,7 @@ public class StudentBean implements Serializable{
 	private ClassModule newModule;
 	private ClassModule selectedModule;
 	private List<ClassModule> modules;
+	private List<String> modulesList;
 	private List<ClassModule> filteredModules;
 	private String globalFilterModule;
 	
@@ -198,6 +203,8 @@ public class StudentBean implements Serializable{
 			newModule.setCompany(userInfo.getEmployee().getCompany());
 			newModule.setBranch(userInfo.currentBranch);
 			classModuleBO.insert(newModule);
+			newModule.setSequence(newModule.getId_class_module());
+			classModuleBO.update(newModule);
 			modules = classModuleBO.listByBranch(userInfo.currentBranch);
 			newModule = new ClassModule();
 			FacesContext.getCurrentInstance().addMessage("formManager:msgClassModule", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Modulo Inserido com sucesso"));
@@ -242,11 +249,13 @@ public class StudentBean implements Serializable{
 	
 	public void updateModuleSeq(){
 		try {
-			int seq = 0;
-			for (ClassModule module : modules) {
-				module.setSequence(seq);
-				seq++;
-				classModuleBO.update(module);
+			for (int seq = 0; seq < modulesList.size(); seq++) {
+				for (ClassModule module : modules) {
+					if (module.getName().equals(modulesList.get(seq))) {
+						module.setSequence(seq);
+						classModuleBO.update(module);
+					}
+				}
 			}
 			modules = classModuleBO.listByBranch(userInfo.currentBranch);
 			FacesContext.getCurrentInstance().addMessage("formManager:msgClassModule", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Sequencia atualizada com sucesso"));
@@ -364,11 +373,11 @@ public class StudentBean implements Serializable{
 		try {
 			
 			if(idClassStudent == -1 ){
-				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Nescessário selecionar uma turma, para lançar o financeiro!"));
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso!", "Nescessário selecionar uma turma, para lançar o financeiro!"));
 			}else if (expiry_date == null || quantity_parcel <= 0 || price <= 0.0 ) {
-				if(expiry_date == null) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Nescessário selecionar data de vencimento."));
-				if(quantity_parcel <= 0) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Quantidade de parcelas inválido."));
-				if(price <= 0) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Valor para pagamento inválido."));
+				if(expiry_date == null) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso!", "Nescessário selecionar data de vencimento."));
+				if(quantity_parcel <= 0) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso!", "Quantidade de parcelas inválido."));
+				if(price <= 0) FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso!", "Valor para pagamento inválido."));
 			}else {
 				for (int i = 1; i <= quantity_parcel; i++) {
 					StudentPayments sp = new StudentPayments();
@@ -383,17 +392,24 @@ public class StudentBean implements Serializable{
 					sp.setBranch(userInfo.currentBranch);
 					sp.setCompany(userInfo.getEmployee().getCompany());
 					
-					String barcode = StudentPaymentUtil.generateStudentPaymentBarcode(sp);
-					
-					sp.setBarcode(barcode);
-					
 					studentPaymentsBO.insert(sp);
+					
+					String barcode = StudentPaymentUtil.generateStudentPaymentBarcode(sp);
+					sp.setBarcode(barcode);
+					studentPaymentsBO.update(sp);
 				}
 				
 				student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
 				resetStudentPaymentInfo();
 				
 				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Financeiro atualizado com sucesso"));
+				
+				
+				CompanyBean companyInfo = CompanyUtil.getCompanyInfo();
+				
+				if (companyInfo != null) companyInfo.loadlistsInfo();
+								
+				RequestContext.getCurrentInstance().update("formManager");
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
@@ -606,6 +622,16 @@ public class StudentBean implements Serializable{
 	}
 	public void setModules(List<ClassModule> modules) {
 		this.modules = modules;
+	}
+	public List<String> getModulesList() {
+		Map<Integer, String> orderList = new TreeMap<Integer, String>();
+		for (ClassModule module : modules) {
+			orderList.put(module.getSequence(), module.getName());
+		}
+		return  new ArrayList<String>(orderList.values());
+	}
+	public void setModulesList(List<String> modulesList) {
+		this.modulesList = modulesList;
 	}
 	public List<ClassModule> getFilteredModules() {
 		return filteredModules;

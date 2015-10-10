@@ -60,7 +60,7 @@
             <p:outputLabel value="Vencimento: "/>
             <p:calendar value="#{student.expiry_date}" mask="9?9/99/9999" pattern="dd/MM/yyyy" maxlength="10" locale="pt"/>
             <p:commandButton icon="ui-icon-plus" >
-              <p:ajax process="@this toggleStudentFin" listener="#{student.addStudentPayment}" update="pngStudentPayments" />
+              <p:ajax process="@this toggleStudentFin pngInfoStudent" listener="#{student.addStudentPayment}" update="@form" />
             </p:commandButton>
            </p:panelGrid>
            <br/>
@@ -99,6 +99,11 @@
                     <f:convertDateTime pattern="dd/MM/yyyy" locale="pt,BR" timeZone="Brazil/East"/>
                   </h:outputText>
                 </p:column>
+                
+              
+                <p:column headerText="Cod. Pagamento">
+                  <h:outputText value="#{sp.barcode}"/>
+                </p:column>
 	       
 	              <p:column headerText="Status" >
 	                <b:label text="Pagamento Pendente" severity="warning" rendered="#{sp.status eq 'PENDENTE'}"/>
@@ -124,9 +129,9 @@
           <p:panel id="toggleStudentClass" header="Follow Up" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleStudentClass"> 
            <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
             <p:outputLabel value="Adicionar: " for="txtFollowUp" />
-            <p:commandButton icon="ui-icon-plus" action="#{student.addFollowUp}" styleClass="btn_opcoes" process="@this" update="dtbFUP toggleStudentClass growldlgEditFUP"/>
+            <p:commandButton icon="ui-icon-plus" action="#{student.addFollowUp}" styleClass="btn_opcoes" process="@this pngFup" update="dtbFUP toggleStudentClass growldlgEditFUP"/>
            </p:panelGrid>
-           <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+           <p:panelGrid id="pngFup" columns="1" styleClass="panelgrid_sem_borda">
             <p:inputTextarea id="txtFollowUp" value="#{student.newFollowUp.followup}" style="width: 800px;height: 200;"/>
             <p:dataTable id="dtbFUP" value="#{student.followups}" emptyMessage="Nenhum Follow Up" rowKey="#{fup.id_followup}" widgetVar="dtbFUP"
               scrollRows="5" scrollable="true" scrollHeight="370"    
@@ -158,7 +163,7 @@
           
           
         <p:panelGrid id="pngControlInfoStudent" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
-          <h:commandButton styleClass="btn btn-default btn-lg" value="Gerar Contrato" >
+          <h:commandButton styleClass="btn btn-default btn-lg" value="Gerar Contrato" rendered="false" >
             <p:ajax  listener="#{student.updateStudentClass}" process="@this pngInfoStudent" update="@form" />
           </h:commandButton>
           
@@ -258,7 +263,7 @@
           <p:panelGrid id="pngSlip"  columns="1" styleClass="panelgrid_sem_borda" >
                         
             
-              <p:barcode value="20123451" type="ean8"/>
+              <p:barcode value="#{student.selectedStudentPayments.barcode}" type="ean8"/>
             
           </p:panelGrid>
           <f:facet name="footer">

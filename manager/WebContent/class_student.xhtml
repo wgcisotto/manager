@@ -56,14 +56,14 @@
                   <p:column>
                     <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
                     <p:outputLabel value="Modulo: "/>
-                    <h:outputText value="#{class.class_module.name}"/>
+                    <h:outputText value=" #{class.class_module.name}"/>
                   </p:column>
                   <p:column>
 	                  <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
 	                  <p:outputLabel value="Data: "/>
-	                  <p:outputLabel value="#{class.start_date}">
+	                  <h:outputText value="#{class.start_date}">
 	                    <f:convertDateTime pattern="dd/MM/YYYY"/>
-	                  </p:outputLabel>
+	                  </h:outputText>
 	                  <img src="resources/images/icons/icon-bar.png" width="5" height="20" alt="" style="margin-right: 8px;" />
 	                  <p:outputLabel value="Inicio: "/>
 	                  <h:outputText value="#{class.begin_time}">

@@ -177,7 +177,7 @@ public class AuthenticationBean {
 			
 			CompanyBO cBO = new CompanyBO(em);
 			Company c = new Company();
-			c.setName("WGEngenharia");
+			c.setName("Advanced");
 			c.addModule(m);
 			cBO.insert(c);
 
@@ -191,7 +191,7 @@ public class AuthenticationBean {
 			
 			BranchBO bBO = new BranchBO(em);
 			Branch b1 = new Branch();
-			b1.setName("ITAP DA SERRA");
+			b1.setName("ADVANCED - ITAP DA SERRA");
 			b1.setCompany(c);
 			b1.setAddress(a1);
 			bBO.insert(b1);
@@ -220,19 +220,19 @@ public class AuthenticationBean {
 			ad.setStreet("Rua major telles");
 			ad.setNumber(171);
 			ad.setZip_code("06850-001");
-			ad.setCity("Itap da serra");
+			ad.setCity("Itapecerica da serra");
 			ad.setDistrict("Centro");
 			ad.setState("SP");
 			
 			EmployeeBO eBO = new EmployeeBO();
 			Employee e = new Employee();
-			e.setName("William Galindo Cisotto");
+			e.setName("Administrador Advanced");
 			e.setUser("admin@admin.com.br");
-			e.setPass("will00gc");
+			e.setPhone("(11) 46664673");
+			e.setPass("admin123");
 			e.setBranchView(b1);
 			e.setProfile(p);
 			e.setCompany(c);
-			e.setPhone("980845866");
 			e.setAddress(ad);
 			
 			

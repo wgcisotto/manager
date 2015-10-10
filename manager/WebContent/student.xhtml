@@ -32,7 +32,7 @@
                  <f:selectItems value="#{student.classStudents}" var="cs" itemLabel="#{cs.class_name}" itemValue="#{cs.id_class_student}"/>
               </p:selectOneMenu>
 	            <h:commandButton id="btnStudentClassFilter" styleClass="btn btn-default btn-lg" value="Filtrar">
-	              <p:ajax event="click" listener="#{student.filterStudentByClass}" update="dtbStud" process="toggleable"/>
+	              <p:ajax event="click" listener="#{student.filterStudentByClass}" update="@form" process="toggleable"/>
 	            </h:commandButton>
 	         </p:panelGrid>
 			    </p:panel>
@@ -65,7 +65,7 @@
 	                   <p:commandButton id="btnOpendlgEdit" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil"  oncomplete="PF('dlgStudEdit').show();" process="@this">
 	                    <f:setPropertyActionListener target="#{student.selectedStudent}" value="#{stud}"/>
 	                   </p:commandButton>
-                     <p:commandButton id="btnOpenInfoStudent" title="Opcoes" style="float: right" styleClass="btn_opcoes" action="#{student.openStudentInfo}" icon="ui-icon-search" process="@this" >
+                     <p:commandButton id="btnOpenInfoStudent" title="Opcoes" style="float: right" styleClass="btn_opcoes" action="#{student.openStudentInfo}" icon="ui-icon-search" process="@this" rendered="#{sec.hasProfile('Administrador') or sec.hasProfile('Funcionario')}">
                       <f:setPropertyActionListener target="#{student.selectedStudent}" value="#{stud}"/>
                      </p:commandButton>
 	                 </p:column>

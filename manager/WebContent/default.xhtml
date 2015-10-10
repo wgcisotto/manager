@@ -99,14 +99,14 @@
    <!--  <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" oncomplete="PF('dtbCategory').clearFilters()" />-->
 	  <p:growl id="messages" autoUpdate="true" globalOnly="true" severity="error"/>
   
-    <p:menubar id="menuBarDefault" style="width: auto;" >
-        <p:submenu label="Financeiro" icon="ui-icon-home">
-            <p:menuitem value="Caixa"  icon="ui-icon-folder-open"  outcome="cashier.xhtml" />
+    <p:menubar id="menuBarDefault" style="width: auto;">
+        <p:submenu label="Financeiro" icon="ui-icon-home" rendered="#{sec.hasProfile('Administrador') or sec.hasProfile('Funcionario')}">
+            <p:menuitem value="Caixa"  icon="ui-icon-folder-open"  outcome="cashier.xhtml"  />
             <p:menuitem value="Pagamento"  icon="ui-icon-calculator"  outcome="payment.xhtml" />
             <p:menuitem value="Historico" icon="ui-icon-disk"  outcome="history.xhtml"/>
         </p:submenu>
         
-        <p:submenu label="Mural" icon="ui-icon-clipboard">
+        <p:submenu label="Mural" icon="ui-icon-clipboard" rendered="#{sec.hasProfile('Administrador') or sec.hasProfile('Funcionario')}">
             <p:menuitem value="Avisos"  icon="ui-icon-alert"  outcome="alerts.xhtml" />
         </p:submenu>
  

@@ -130,17 +130,17 @@
          </p:panelGrid>
         </p:dialog>
          
-         
-         <p:dialog id="dlgModSeq" header="Sequencia" widgetVar="dlgModSeq" minHeight="40" resizable="false" modal="true">
+         <p:remoteCommand id="rmcModSeq" name="rmcModSeq" update="pngModSeq" process="@this"/>
+         <p:dialog id="dlgModSeq" header="Sequencia" widgetVar="dlgModSeq" minHeight="40" resizable="false" modal="true" onShow="rmcModSeq()">
           <p:panelGrid id="pngModSeq" columns="1" styleClass="panelgrid_sem_borda">
             <p:growl id="growlDlgModSeq" sticky="true" showDetail="true" life="3000" severity="error"/>
               <p:panelGrid id="pngModSeqInter"  columns="1" styleClass="panelgrid_sem_borda">
-                <p:orderList value="#{student.modules}" var="module" controlsLocation="none" itemLabel="#{module.name}" itemValue="#{module.name}" />
+                <p:orderList value="#{student.modulesList}" var="module" controlsLocation="none" itemLabel="#{module}" itemValue="#{module}" />
               </p:panelGrid>
             <f:facet name="footer">
               <p:panelGrid columns="2" style="float: right;">
                 <h:commandButton styleClass="btn btn-primary" value="Aplicar">
-                  <p:ajax event="click" listener="#{student.updateModuleSeq}" process="@this pngModSeq" update="dtbMod growlDlgModSeq pngModSeqInter" />
+                  <p:ajax event="click" listener="#{student.updateModuleSeq}" process="@this pngModSeq" oncomplete="handleEditModSeqRequest(xhr, status, args)" update="dtbMod growlDlgModSeq pngModSeqInter" />
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-default" value="Cancelar">
                   <p:ajax event="click" oncomplete="PF('dlgModSeq').hide();" />
@@ -171,7 +171,17 @@
                   PF('dlgModEdit').hide();
                
               }
-          } 
+          }
+
+          function handleEditModSeqRequest(xhr, status, args) {
+              if(args.validationFailed) {
+                  PF('dlgModSeq').jq.effect("shake", {times:2}, 100);
+              }
+              else {
+                  PF('dlgModSeq').hide();
+               
+              }
+          }
         </script>
           
         

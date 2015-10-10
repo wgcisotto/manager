@@ -23,7 +23,6 @@ import br.com.wgengenharia.manager.business.ProductBO;
 import br.com.wgengenharia.manager.business.SaleBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
-import br.com.wgengenharia.manager.factory.ManagerPaymentFactory;
 import br.com.wgengenharia.manager.factory.ManagerSaleFactory;
 import br.com.wgengenharia.manager.model.Card;
 import br.com.wgengenharia.manager.model.Category;
@@ -405,11 +404,10 @@ public class ManagerBean implements Serializable {
 			
 			sale = null;
 			
-			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
-			
 			salesDay =  saleBO.listSalesDayByBranch(new Date(), userInfo.currentBranch);
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Função ainda não implementada!"));
 		}
 	}
 	

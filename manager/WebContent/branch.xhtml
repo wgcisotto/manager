@@ -102,7 +102,7 @@
               <f:facet name="footer">
                 <p:panelGrid columns="2" style="float: right;">
 	                <h:commandButton styleClass="btn btn-primary" value="Incluir">
-	                  <p:ajax event="click" listener="#{company.addBranch}" process="@this pngBranch"  oncomplete="handleAddBranchRequest(xhr, status, args)" update="dtbBranchs pngBranch growlDlgBranch" />
+	                  <p:ajax event="click" listener="#{company.addBranch}" process="@this pngBranch"  oncomplete="handleAddBranchRequest(xhr, status, args)" update="@form" />
 	                </h:commandButton>
 	                <h:commandButton styleClass="btn btn-default" value="Cancelar">
 	                  <f:setPropertyActionListener value="null" target="{company.newBranch}"/> 
