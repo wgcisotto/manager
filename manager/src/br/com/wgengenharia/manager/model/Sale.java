@@ -2,7 +2,6 @@ package br.com.wgengenharia.manager.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class Sale implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqSale")
 	private int id_sale;
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany
   @JoinTable(name="TAB_SALE_PRODUCT",
   	joinColumns={@JoinColumn(name="SALE_ID")}, 
   	inverseJoinColumns={@JoinColumn(name="PRODUCT_ID")})

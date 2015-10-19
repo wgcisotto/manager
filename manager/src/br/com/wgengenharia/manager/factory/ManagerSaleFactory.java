@@ -17,6 +17,7 @@ public abstract class ManagerSaleFactory {
 		sale.setTotal(card.getTotal());
 		sale.setDate(new Date());
 		sale.setTime(new Date());
+		sale.setBranch(card.getBranch());
 //		sale.set
 		
 		return new ManagerSaleFacade(sale);
