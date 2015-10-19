@@ -18,6 +18,7 @@ import org.primefaces.event.SelectEvent;
 import br.com.wgengenharia.manager.business.BranchBO;
 import br.com.wgengenharia.manager.business.CompanyBO;
 import br.com.wgengenharia.manager.business.EmployeeBO;
+import br.com.wgengenharia.manager.business.ProductBO;
 import br.com.wgengenharia.manager.business.ProfileBO;
 import br.com.wgengenharia.manager.business.StudentPaymentsBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
@@ -25,6 +26,7 @@ import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
 import br.com.wgengenharia.manager.factory.ManagerPaymentFactory;
 import br.com.wgengenharia.manager.model.Branch;
 import br.com.wgengenharia.manager.model.Employee;
+import br.com.wgengenharia.manager.model.Product;
 import br.com.wgengenharia.manager.model.Profile;
 import br.com.wgengenharia.manager.model.StudentPayments;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
@@ -67,6 +69,11 @@ public class CompanyBean implements Serializable {
 	private List<StudentPayments> alertsPayments;
 	private StudentPaymentsBO studentPaymentsBO;
 	private StudentPayments selectedPayment;
+	//CONTROLE DE BOLETO EM ATRASO
+	private List<Product> alertsProducts;
+	private ProductBO productBO;
+	
+	
 	
 	
 	//DEFAULT
@@ -87,6 +94,7 @@ public class CompanyBean implements Serializable {
 			branchBO = new BranchBO(em);
 			companyBO = new CompanyBO(em);
 			studentPaymentsBO = new StudentPaymentsBO(em);
+			productBO = new ProductBO(em);
 			
 			
 			loadlistsInfo();
@@ -102,7 +110,12 @@ public class CompanyBean implements Serializable {
 		branchs = branchBO.listByCompany(userInfo.getEmployee().getCompany());
 		employees = employeeBO.listByBranch(userInfo.currentBranch);
 		profiles = profileBO.listByBranch(userInfo.currentBranch);
+		loadlistAlert();
+	}
+	
+	public void loadlistAlert(){
 		alertsPayments =  studentPaymentsBO.listStudentPaymentsLate(Calendar.getInstance(), userInfo.currentBranch);
+		alertsProducts = productBO.listProductsAlert(userInfo.currentBranch);
 	}
 	
 	//EMPLOYEE
@@ -389,6 +402,12 @@ public class CompanyBean implements Serializable {
 	}
 	public void setAlertsPayments(List<StudentPayments> alertsPayments) {
 		this.alertsPayments = alertsPayments;
+	}
+	public List<Product> getAlertsProducts() {
+		return alertsProducts;
+	}
+	public void setAlertsProducts(List<Product> alertsProducts) {
+		this.alertsProducts = alertsProducts;
 	}
 	public StudentPayments getSelectedPayment() {
 		return selectedPayment;
