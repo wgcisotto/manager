@@ -46,5 +46,10 @@ public class ProductBO implements ProductDAO{
 	public List<Product> listByBranch(Branch branch) {
 		return DAO.listByBranch(branch);
 	}
+
+	@Override
+	public List<Product> listProductsAlert(Branch branch) {
+		return DAO.listProductsAlert(branch);
+	}
 	
 }

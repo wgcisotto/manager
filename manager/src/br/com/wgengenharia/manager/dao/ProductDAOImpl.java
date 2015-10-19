@@ -28,6 +28,13 @@ public class ProductDAOImpl extends DAOImpl<Product, Integer> implements Product
 		query.setParameter("branch", branch);
     return query.getResultList();
 	}
+
+	@Override
+	public List<Product> listProductsAlert(Branch branch) {
+		TypedQuery<Product> query = em.createQuery("from Product o where o.branch = :branch and o.quantity_alert > o.quantity", Product.class);
+		query.setParameter("branch", branch);
+    return query.getResultList();
+	}
 	
 
 
