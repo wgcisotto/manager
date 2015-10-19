@@ -1,13 +1,17 @@
 package br.com.wgengenharia.manager.report.facade;
 
-import br.com.wgengenharia.manager.report.model.ManagerReport;
+import br.com.wgengenharia.manager.report.model.ContractReport;
+import br.com.wgengenharia.manager.report.model.PaymentReport;
 
 public class ManagerReportFacade {
-
 	
 	
+	public ManagerReportFacade(ContractReport report) {
+		
+		
+	}
 	
-	public ManagerReportFacade(ManagerReport report) {
+	public ManagerReportFacade(PaymentReport report) {
 		
 		
 	}

@@ -1,7 +1,7 @@
 package br.com.wgengenharia.manager.report.model;
 
 
-public class ManagerReport {
+public class ContractReport {
 
 
 	private int id_contract;
