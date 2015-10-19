@@ -20,7 +20,7 @@
               <br/>
                
               <p:dataTable id="dtbAlertsPayments" value="#{company.alertsPayments}" emptyMessage="Nenhuma cobrança em Atraso" rowKey="#{SP.id_student_payments}" widgetVar="dtbAlertsPayments"
-              scrollRows="5" scrollable="true" scrollHeight="370"    
+              scrollRows="5" scrollable="true" scrollHeight="185"    
               var="sp" sortBy="#{sp.expiry_date}" styleClass="dataTableAlignCenter">
      
                 <p:column headerText="Parcela" style="width:80px;text-align: center">
@@ -64,8 +64,40 @@
               </p:dataTable>  
             </p:panel>
             <p:panel id="toggleAlertStock" header="Estoque" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="toggleAlertStock">
-             
-            
+		                              
+		          <p:dataTable id="dtbStockProducts" widgetVar="dtbStockProducts" var="prd" value="#{company.alertsProducts}" emptyMessage="Nenhum Produto abaixo do previsto"
+		              scrollRows="5" scrollable="true" scrollHeight="185"    
+		              rowKey="#{prd.id_product}">
+		     
+		               
+		              <p:column headerText="Nome" sortBy="#{prd.name}" >
+		                <h:outputText value="#{prd.name}" />
+		              </p:column>
+		       
+		       
+		              <p:column headerText="Descrição" sortBy="#{prd.description}" >
+		                <h:outputText value="#{prd.description}" />
+		              </p:column>
+		       
+		       
+		              <p:column headerText="Preço" sortBy="#{prd.price}">
+		                <h:outputText value="#{prd.price}">
+		                  <f:convertNumber pattern="#,##0.00"/>  
+		                </h:outputText>
+		              </p:column>
+		       
+		              <p:column headerText="Quantidade" sortBy="#{prd.quantity}">
+		                <h:outputText value="#{prd.quantity}" />
+		              </p:column>
+		       
+		              <p:column headerText="Cod Barras" sortBy="#{prd.barcode}">
+		                <h:outputText value="#{prd.barcode}" />
+		              </p:column>
+		       
+		              <p:column headerText="Status" >
+		                <b:label text="Estoque abaixo do previsto" severity="Danger" />
+		              </p:column>
+             </p:dataTable> 
             
             </p:panel>
           </p:panelGrid>
