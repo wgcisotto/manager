@@ -87,12 +87,15 @@
         
          <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
            <p:dataTable id="dtbSaleDay" widgetVar="dtbSaleDay" var="sale" value="#{manager.salesDay}" emptyMessage="Nenhuma Venda Hoje"
-               scrollRows="5" scrollable="true" scrollHeight="370"   
+               scrollRows="5" scrollable="true" scrollHeight="185"   
                rowKey="#{sale.id_sale}">
                
                <p:column headerText="Data/Hora">
                 <h:outputText value="#{sale.date}">
-                  <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss"/> 
+                  <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                </h:outputText>
+                <h:outputText value=" - #{sale.time}">
+                  <f:convertDateTime pattern="HH:mm:ss"/>
                 </h:outputText>
                </p:column>
                <p:column headerText="Total">
@@ -114,7 +117,7 @@
            </p:dataTable>
          </p:panelGrid>
         
-         <p:dialog header="Busca Produto" widgetVar="dlgAddProduct" minHeight="40" resizable="false" modal="true" width="905" onShow="btnClick('formManager:updPngFindProTab')" >
+         <p:dialog header="Buscar Produto" widgetVar="dlgAddProduct" minHeight="40" resizable="false" modal="true" width="905" onShow="btnClick('formManager:updPngFindProTab')" >
           <p:commandButton id="updPngFindProTab" update="pngFindProTab" style="display: none;"/>
 	         <p:panelGrid id="pngFindProTab"  columns="1" styleClass="panelgrid_sem_borda">          
 	          <p:dataTable id="dtbProductsCash" widgetVar="dtbProductsCash" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado" 
@@ -283,7 +286,7 @@
         </p:dialog>
         
          
-         <p:dialog header="Produtos" id="dlgListProdSale" widgetVar="dlgListProdSale" minHeight="40" resizable="false" width="1100" modal="true" onShow="btnClick('formManager:updPngListProdSale')" >
+         <p:dialog header="Produtos" id="dlgListProdSale" widgetVar="dlgListProdSale" minHeight="40" resizable="false" width="1150" modal="true" onShow="btnClick('formManager:updPngListProdSale')" >
           <p:commandButton id="updPngListProdSale" update="pngListProdSale" style="display: none;"/>
            <p:panelGrid id="pngListProdSale"  columns="1" styleClass="panelgrid_sem_borda">
               
@@ -300,12 +303,12 @@
             </p:panelGrid>
              
              <p:dataTable id="dtbProductsSale"  var="prd" value="#{manager.sale.listGroupProd}"  rendered="#{manager.sale.size > 0}"
-               scrollRows="5" scrollable="true" scrollHeight="370"   
+               scrollRows="5" scrollable="true" scrollHeight="185"   
                emptyMessage="Nenhum Produto encontrado nesta Comanda" >
 
                  <p:column headerText="Cod" width="55"/>
           
-                 <p:column headerText="Nome" width="475"/>
+                 <p:column headerText="Nome" width="465"/>
           
                  <p:column headerText="Quant." width="70"/>
           
@@ -313,7 +316,7 @@
           
                  <p:column headerText="Total R$" width="85"/>
                  
-                 <p:column width="90"/>
+                 <p:column width="95"/>
                  
                  <p:subTable var="item" value="#{prd.value}">
                    
@@ -341,8 +344,8 @@
                         </h:outputText>
                     </p:column>
             
-                    <p:column>
-                      <p:panelGrid columns="3">
+                    <p:column width="100">
+                      <p:panelGrid columns="3" >
                         <p:commandButton icon="ui-icon-plus" action="#{manager.sale.add(item.product)}" title="Adicionar +1" styleClass="btn_opcoes"/>
                         <p:commandButton icon="ui-icon-minus" action="#{manager.sale.remove(item.product)}" title="Remover -1" styleClass="btn_opcoes"/>
                         <p:commandButton icon="ui-icon-close" action="#{manager.sale.removeAll(item.product)}" title="Remover todos" styleClass="btn_opcoes"/>
@@ -365,24 +368,22 @@
             </f:facet>
         </p:dialog>
         
-         <p:dialog header="Busca Produto" widgetVar="dlgAddProductSale" minHeight="40" resizable="false" modal="true" width="905" onShow="btnClick('formManager:updPngFindProTabSale')" >
-          <p:commandButton id="updPngFindProTabSale" update="pngFindProTabSale" style="display: none;"/>
+         <p:remoteCommand id="rmcFindProduct" name="rmcFindProduct" update="pngFindProTabSale" process="@this"/>
+         <p:dialog header="Buscar Produto" widgetVar="dlgAddProductSale" minHeight="40" resizable="false" modal="true" width="905" onShow="rmcFindProduct()" >
            <p:panelGrid id="pngFindProTabSale"  columns="1" styleClass="panelgrid_sem_borda">          
             <p:dataTable id="dtbListPrdSale" widgetVar="dtbListPrdSale" var="prd" value="#{manager.products}" emptyMessage="Nenhum Produto encontrado" 
                filteredValue="#{manager.filteredProducts}"
-               scrollRows="5" scrollable="true" scrollHeight="370"    
+               scrollRows="5" scrollable="true" scrollHeight="185"    
                rowStyleClass="#{prd.quant eq '0' ? 'dtb_product_baixo_estoque' :  null }">
        
-                <p:ajax event="rowSelect" listener="#{manager.onRowSelectProduct}" update="@form"/>
-   
                 <f:facet name="header">
-                    <p:outputPanel id="dtbHeader" styleClass="search_align">
+                    <p:outputPanel id="dtbHeader" styleClass="search_align" style="padding-bottom: 4px;">
                         <h:outputText value="Pesquisar: " />
-                        <p:inputText id="globalFilter" onkeyup="PF('dtbListPrdSale').filter()" value="#{manager.globalFilterProduct}" style="width:150px" placeholder="Digite"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtbListPrdSale').filter()" value="#{manager.globalFilterProduct}" style="width:150px;" placeholder="Digite"/>
                     </p:outputPanel>
                 </f:facet>
    
-                 
+              
                 <p:column headerText="Nome" sortBy="#{prd.name}" filterBy="#{prd.name}" filterMatchMode="contains" width="360">
                   <h:outputText value="#{prd.name}" />
                   <f:facet name="filter">
@@ -415,7 +416,7 @@
                    
                     <p:commandButton onclick="PF('dlgListProductsSale').show();" icon="ui-icon-circle-plus"   styleClass="btn_opcoes"      
                       title="Adicionar Produtos" disabled="#{prd.quant eq '0'}">
-                      <f:setPropertyActionListener value="#{prd}" target="#{manager.selectedProductCash}"/>
+                      <f:setPropertyActionListener value="#{prd}" target="#{manager.selectedProductSale}"/>
                     </p:commandButton>
                   </p:panelGrid>
                   
@@ -437,7 +438,7 @@
         
         <p:dialog id="dlgListProductsSale" header="Quantidade de Produtos" widgetVar="dlgListProductsSale" minHeight="40" resizable="false" modal="true">
           <p:growl id="growlDlgProductQtdeSale" sticky="true" showDetail="true" life="3000" severity="error"/>
-          <p:panelGrid id="pngQtdeProdSale"  columns="1" styleClass="panelgrid_sem_borda">
+          <p:panelGrid id="pngQtdeProdSale"  columns="2" styleClass="panelgrid_sem_borda">
             <p:outputLabel value="Quantidade"/>
             <p:spinner value="#{manager.quantityProduct}"/>
           </p:panelGrid>
