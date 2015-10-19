@@ -11,33 +11,37 @@
         <ui:define name="default">
          
          
-         <p:messages id="msgHistory" showDetail="true" autoUpdate="true" closable="true" /> 
+         <p:messages id="msgHistory" showDetail="true" autoUpdate="true" closable="true" />
          
+  
+         <p:panel id="toggleable" header="Filtro" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px" >
+          <p:panelGrid  columns="5" styleClass="panelgrid_sem_borda">
+             <h:outputText value="Periodo de:" />
+             <p:calendar/>
+             <h:outputText value="ate:" />
+             <p:calendar/>
+             <h:commandButton id="btnStudentClassFilter" styleClass="btn btn-default btn-lg" value="Filtrar">
+               <p:ajax event="click" listener="#{student.filterStudentByClass}" update="@form" process="toggleable"/>
+             </h:commandButton>
+          </p:panelGrid>
+         </p:panel> 
         
-         <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
-          <h:commandButton styleClass="btn btn-primary btn-lg" value="Venda Rapida">
-             <p:ajax event="click" process="@this"  oncomplete="PF('dlgListProdSale').show();" listener="#{manager.newSale}"/>
-          </h:commandButton>
-          
-          <h:commandButton styleClass="btn btn-danger btn-lg" value="Fechar Caixa">
-            <p:ajax event="click" listener="#{manager.closeCash}"/>
-          </h:commandButton>
-          
-         
-         </p:panelGrid>
-         
          <p:separator />
         
          <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
            <p:dataTable id="dtbSales" widgetVar="dtbSales" var="sale" value="#{manager.sales}" emptyMessage="Nenhuma Venda"
-               scrollRows="5" scrollable="true" scrollHeight="370"   
+               scrollRows="5" scrollable="true" scrollHeight="185"   
                rowKey="#{sale.id_sale}">
                
                <p:column headerText="Data/Hora">
-                <h:outputText value="#{sale.time}">
-                  <f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" locale="pt,BR" timeZone="Brazil/East"/> 
+                <h:outputText value="#{sale.date}">
+                  <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                </h:outputText>
+                <h:outputText value=" - #{sale.time}">
+                  <f:convertDateTime pattern="HH:mm:ss"/>
                 </h:outputText>
                </p:column>
+               
                <p:column headerText="Total">
                 <h:outputText value="#{sale.total}">
                     <f:convertNumber pattern="#,##0.00" />  
