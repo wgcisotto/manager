@@ -14,7 +14,7 @@ public class EntityManagerFactorySingleton {
 	
 	public static EntityManagerFactory getInstance(){
 		if (factory == null){
-			factory = Persistence.createEntityManagerFactory("CLIENTE_ORACLE");
+			factory = Persistence.createEntityManagerFactory("CLIENT");
 		}
 		return factory;
 	}
