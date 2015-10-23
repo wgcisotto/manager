@@ -1,12 +1,12 @@
-package br.com.wgengenharia.manager.report;
+package br.com.wgengenharia.manager.report.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -15,22 +15,17 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import br.com.wgengenharia.manager.model.Student;
 
-public class ManagerReporter implements ManagerReporterInterface 
-{
-	private String path; //Caminho base
+public class ContractReporter extends AbstractManagerReport {
+
+	private Student student;
 	
-	private String pathToReportPackage; // Caminho para o package onde estão armazenados os relatorios Jarper
-	
-	//Recupera os caminhos para que a classe possa encontrar os relatórios
-	public ManagerReporter() throws UnsupportedEncodingException {
-	   StringBuilder sb = new StringBuilder();
-	   sb.append("/").append(System.getProperty("jboss.server.base.dir")).append("/deployments/manager.war/WEB-INF/classes/br/com/wgengenharia/manager/jasper/");
-		 pathToReportPackage = sb.toString().replaceAll("\\\\","/");
+	public ContractReporter(Student student) {
+		this.student = student;
 	}
 	
-	
-	//Imprime/gera uma lista de Clientes
-	public InputStream generate(Student student) throws Exception{
+	@Override
+	public InputStream generateReport() throws JRException {
+		
 		List<Student> students = new ArrayList<Student>();
 		students.add(student);
 		JasperReport report = JasperCompileManager.compileReport(this.getPathToReportPackage() + "StudentContract.jrxml");
@@ -46,16 +41,8 @@ public class ManagerReporter implements ManagerReporterInterface
 		
 		InputStream is = new ByteArrayInputStream(out.toByteArray());
 
-//		StreamedContent file = new DefaultStreamedContent(is, "", "contrato.pdf");
 		
 		return is;
 	}
- 
-	public String getPathToReportPackage() {
-		return this.pathToReportPackage;
-	}
-	
-	public String getPath() {
-		return this.path;
-	}
+
 }
