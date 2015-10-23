@@ -6,7 +6,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:decorate template="default.xhtml">
         <ui:define name="header">
-          Chamada
+          Chamadas
         </ui:define>
         <ui:define name="default">
           <p:messages id="msgStudentCall" showDetail="true" autoUpdate="true" closable="true" />
@@ -28,12 +28,40 @@
               </p:inputText>
 	          </p:panelGrid>
 	          
-	          <br/>
+            <p:separator/>	          
+	          
+	          <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngListCall" >
+	           
+	                              
+	          <p:dataTable id="dtbCallStudent" widgetVar="dtbCallStudent" var="calls" value="#{student.selectedClassStudent.calls}" emptyMessage="Nenhuma Chamada"
+	              scrollRows="5" scrollable="true" scrollHeight="185"    
+	              rowKey="#{class.id_calls}" >
+	              
+               <p:column headerText="Data" >
+                <h:outputText value="#{calls.call_date}">
+                  <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                </h:outputText>
+               </p:column>
+           
+               <p:column headerText="Responsavel">
+                 <h:outputText value="#{calls.teacher.name}"/>     
+               </p:column>
+               
+               <p:column style="width:40px;text-align: center">
+                <p:commandButton onstart="PF('dlgListProdCard').show();" icon="ui-icon-search" title="Informações" styleClass="btn_opcoes"/>
+              </p:column>
+	              
+	     
+	          </p:dataTable>  
+	          
+	          </p:panelGrid>
 	          
 	          
 	         <p:panelGrid id="pngControle" columns="3" styleClass="panelgrid_sem_borda"> 
 	          <h:commandButton id="btnOpenCall" styleClass="btn btn-primary btn-lg" value="Nova Chamada">
+	           <p:ajax oncomplete="btnClick('formManager:btnOpenCallHidden')"/>
 	          </h:commandButton>
+	          <p:commandButton id="btnOpenCallHidden" style="display: none;" action="#{student.createCall}" process="@this" update="@form"/>
 	         </p:panelGrid>   
 
 

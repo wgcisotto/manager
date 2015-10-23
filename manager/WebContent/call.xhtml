@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="default.xhtml">
+        <ui:define name="header">
+          Chamada
+        </ui:define>
+        <ui:define name="default">
+        
+         <p:messages id="msgCall" showDetail="true" autoUpdate="true" closable="true" />
+         
+         <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlCall">
+            
+            <p:dataTable id="dtbCallStudent" widgetVar="dtbCall" var="stud" value="#{student.selectedCall.students_info}" emptyMessage="Nenhuma Chamada"
+                scrollRows="5" scrollable="true" scrollHeight="185"    
+                rowKey="#{stud.id_student}" >
+                
+               <p:column headerText="Aluno" >
+                <h:outputText value="#{stud.student.student_name}"/>
+               </p:column>
+           
+               <p:column headerText="Status">
+                 <h:outputText value="#{stud.status}"/>     
+               </p:column>
+               
+               <p:column style="width:40px;text-align: center">
+                <p:commandButton action="#{stud.alterStatus}" icon="ui-icon-check" title="Confirmar presenca" styleClass="btn_opcoes" update="@form"/>
+              </p:column>
+                
+       
+            </p:dataTable>  
+          
+          
+         
+           
+          <h:commandButton styleClass="btn btn-primary btn-lg" value="Concluir chamada">
+             <p:ajax event="click" process="@this" listener="#{student.completeCall}"/>
+          </h:commandButton> 
+         
+         </p:panelGrid>
+         
+         
+
+         
+        </ui:define>
+    </ui:decorate>
+</html>

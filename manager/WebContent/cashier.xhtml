@@ -10,15 +10,23 @@
         </ui:define>
         <ui:define name="default">
          
-         <p:messages id="msgCashier" showDetail="true" autoUpdate="true" closable="true" /> 
+         <p:messages id="msgCashier" showDetail="true" autoUpdate="true" closable="true" />
+         
+         <f:metadata>    
+				    <f:event type="preRenderView" listener="#{manager.loadListsInfo}"/>
+				</f:metadata> 
         
          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
           <h:commandButton styleClass="btn btn-primary btn-lg" value="Venda Rapida">
              <p:ajax event="click" process="@this"  oncomplete="PF('dlgListProdSale').show();" listener="#{manager.newSale}"/>
           </h:commandButton>
           <h:commandButton styleClass="btn btn-danger btn-lg" value="Fechar Caixa">
-            <p:ajax event="click" listener="#{manager.closeCash}"/>
+            <p:ajax event="click" listener="#{manager.closeCash}" oncomplete="btnClick('formManager:btnPrintSalesDay')" />
           </h:commandButton>
+          <p:commandButton id="btnPrintSalesDay"  value="fechar Caixa" style="display: none;">
+            <p:printer target="dtbSaleDay"/>
+          </p:commandButton>
+          
          </p:panelGrid>
          
          <p:separator />
@@ -85,9 +93,9 @@
         
         
         
-         <p:panelGrid columns="1" styleClass="panelgrid_sem_borda">
+         <p:panelGrid id="pngSalesDay" columns="1" styleClass="panelgrid_sem_borda" >
            <p:dataTable id="dtbSaleDay" widgetVar="dtbSaleDay" var="sale" value="#{manager.salesDay}" emptyMessage="Nenhuma Venda Hoje"
-               scrollRows="5" scrollable="true" scrollHeight="185"   
+               scrollRows="5" scrollable="true" scrollHeight="185"    
                rowKey="#{sale.id_sale}">
                
                <p:column headerText="Data/Hora">
@@ -104,7 +112,9 @@
                 </h:outputText>
                </p:column>
                 <p:column style="width:40px;text-align: center">
-                <p:commandButton icon="ui-icon-cart" styleClass="btn_opcoes"/>
+                <p:commandButton icon="ui-icon-cart" styleClass="btn_opcoes" oncomplete="PF('dlgDetailSaleDay').show();">
+                  <f:setPropertyActionListener value="#{sale}" target="#{manager.selectedSale}"/>
+                </p:commandButton>
                </p:column>
 	               
 	            <p:columnGroup type="footer">
@@ -450,6 +460,79 @@
             </p:panelGrid>
           </f:facet>
         </p:dialog>
+        
+        
+        
+        
+        <p:remoteCommand id="rmcDetailSaleDay" name="rmcDetailSaleDay" update="pngDetailSaleDay" process="@this"/>
+        <p:dialog id="dlgDetailSaleDay" header="Detalhamento" widgetVar="dlgDetailSaleDay" minHeight="40" width="400" resizable="false" modal="true" onShow="rmcDetailSaleDay()">
+          <p:growl id="growlDetailSaleDay" sticky="true" showDetail="true" life="3000" severity="error"/>
+          <p:panelGrid id="pngDetailSaleDay"  columns="2" styleClass="panelgrid_sem_borda">
+            
+            <p:panelGrid rendered="#{manager.selectedSale.productsSize == 0}" columns="1">
+              <p:column>
+              <h:outputText value="Pagamendo de Boleto:"/>
+              </p:column>
+              <p:column>
+                <p:outputLabel value="Data: "/>
+                <h:outputText value="#{manager.selectedSale.date}">
+                  <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                </h:outputText>              
+                <h:outputText value=" - #{manager.selectedSale.time}">
+                  <f:convertDateTime pattern="HH:mm:ss"/>
+                </h:outputText>
+              </p:column>
+              <p:column>
+                <p:outputLabel value="Valor: "/>
+                <h:outputText value=" #{manager.selectedSale.total}">
+                  <f:convertNumber pattern="#,##0.00" />  
+                </h:outputText>
+              </p:column>
+            </p:panelGrid>
+            
+            <p:panelGrid rendered="#{manager.selectedSale.productsSize > 0}" columns="1">
+              <h:outputText value="Venda de produtos:"/>
+              
+              <p:separator/>
+              
+              <br/>
+	            <p:dataTable id="dtbDetailSaleDay" widgetVar="dtbDetailSaleDay" var="prd" value="#{manager.selectedSale.products}" emptyMessage="Nenhum Produto encontrado" 
+	               scrollRows="5" scrollable="true" scrollHeight="90" >
+	       
+	                <p:column headerText="Nome" >
+	                  <h:outputText value="#{prd.name}" />
+	                </p:column>
+	         
+	                <p:column headerText="Preço">
+	                  <h:outputText value="#{prd.price}">
+	                    <f:convertNumber pattern="#,##0.00" />  
+	                  </h:outputText>
+	                </p:column>
+	          
+	            </p:dataTable>
+              
+              <p:separator/>
+              
+              <p:panelGrid style="float: right;" styleClass="panelgrid_sem_borda" columns="2" >
+                <p:outputLabel value="Total: "/>
+	              <h:outputText value="#{manager.selectedSale.total}">
+	               <f:convertNumber pattern="#,##0.00" />
+	              </h:outputText>
+              </p:panelGrid>
+            </p:panelGrid>
+            
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-primary" value="OK">
+                <p:ajax event="click" process="@this"  update="pngDetailSaleDay" oncomplete="PF('dlgDetailSaleDay').hide();"/>
+              </h:commandButton>
+            </p:panelGrid>
+          </f:facet>
+        </p:dialog>
+        
+        
+        
         
         </ui:define>
     </ui:decorate>

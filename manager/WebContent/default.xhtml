@@ -57,7 +57,8 @@
 			   <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			     <p:graphicImage id="imgCompanyDefault" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" />
 			     <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
-			       <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
+			       <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
+			        <h:outputText value="Ola, " style="color: white;float: left"/>
 		          <h:outputText value="#{auth.employee.name}" style="color: white;float: left"/>
  		        </p:panelGrid>
  		        <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" 
@@ -77,7 +78,7 @@
 				<div id="page-top">
 					<!-- start logo -->
 					<div id="logo">
-					 <a href=""><img src="resources/images/shared/background_topo1.png" width="329" height="96" alt="" /></a>
+					 <a href=""><img src="resources/images/shared/banner.png" width="329" height="96" alt="" /></a>
 					</div>
 					<!-- end logo -->
 				</div>
@@ -101,7 +102,7 @@
   
     <p:menubar id="menuBarDefault" style="width: auto;">
         <p:submenu label="Financeiro" icon="ui-icon-home" rendered="#{sec.hasProfile('Administrador') or sec.hasProfile('Funcionario')}">
-            <p:menuitem value="Caixa"  icon="ui-icon-folder-open"  outcome="cashier.xhtml"  />
+            <p:menuitem value="Caixa"  icon="ui-icon-folder-open"  outcome="cashier.xhtml" />
             <p:menuitem value="Pagamento"  icon="ui-icon-calculator"  outcome="payment.xhtml" />
             <p:menuitem value="Historico" icon="ui-icon-disk"  outcome="history.xhtml"/>
         </p:submenu>
@@ -126,8 +127,8 @@
         </p:submenu>
         
         <p:submenu label="Escolar" icon="ui-icon-note" rendered="#{sec.hasModule('Escolar')}">
-            <p:menuitem value="Turma"  icon="ui-icon-calendar" outcome="class_student.xhtml" />
             <p:menuitem value="Aluno"  icon="ui-icon-person" outcome="student.xhtml" />
+            <p:menuitem value="Turma"  icon="ui-icon-calendar" outcome="class_student.xhtml" />
         </p:submenu>
 
         <p:submenu label="Estoque" icon="ui-icon-cart">

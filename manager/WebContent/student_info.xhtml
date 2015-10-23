@@ -69,7 +69,7 @@
              <p:outputLabel value="Boletos"/>
             
               <p:dataTable id="dtbSP" value="#{student.student_payments}" emptyMessage="Nenhuma Cobrança" rowKey="#{SP.id_student_payments}" widgetVar="dtbSP"
-              scrollRows="5" scrollable="true" scrollHeight="370"    
+              scrollRows="5" scrollable="true" scrollHeight="185"    
               var="sp" sortBy="#{sp.expiry_date}" styleClass="dataTableAlignCenter">
      
 	              <p:column headerText="Parcela" style="width:80px;text-align: center">
@@ -134,7 +134,7 @@
            <p:panelGrid id="pngFup" columns="1" styleClass="panelgrid_sem_borda">
             <p:inputTextarea id="txtFollowUp" value="#{student.newFollowUp.followup}" style="width: 800px;height: 200;"/>
             <p:dataTable id="dtbFUP" value="#{student.followups}" emptyMessage="Nenhum Follow Up" rowKey="#{fup.id_followup}" widgetVar="dtbFUP"
-              scrollRows="5" scrollable="true" scrollHeight="370"    
+              scrollRows="5" scrollable="true" scrollHeight="185"    
               var="fup">
             
               <p:column headerText="Data" sortBy="#{fup.date_followup}" >
@@ -162,17 +162,37 @@
           </p:panel>
           
           
-        <p:panelGrid id="pngControlInfoStudent" columns="2" styleClass="panelgrid_sem_borda" style="float: right;"> 
-          <h:commandButton styleClass="btn btn-default btn-lg" value="Gerar Contrato" rendered="false" >
-            <p:ajax  listener="#{student.updateStudentClass}" process="@this pngInfoStudent" update="@form" />
+        <p:panelGrid id="pngControlInfoStudent" columns="3" styleClass="panelgrid_sem_borda" style="float: right;"> 
+           
+          <p:commandButton id="btnDownloadContract"  style="display: none;" value="Download Contrato" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" >
+              <p:fileDownload value="#{student.studentContract}"/>
+          </p:commandButton>
+          
+          <h:commandButton  styleClass="btn btn-default btn-lg" value="Gerar Contrato" rendered="#{student.selectedStudent.contract.type == null}" >
+            <p:ajax event="click" onstart="PF('dlgTypeContract').show();"/>
           </h:commandButton>
           
+          <h:commandButton  styleClass="btn btn-default btn-lg" value="Contrato" rendered="#{student.selectedStudent.contract.type != null}" >
+            <p:ajax event="click" oncomplete="btnClick('formManager:btnDownloadContract');"/>
+          </h:commandButton>
+	          
           <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" >
-            <p:ajax  listener="#{student.updateStudentClass}" process="@this pngInfoStudent" update="@form" />
+            <p:ajax  listener="#{student.updateStudentClass}" process="@this pngInfoStudent dlgTypeContract" update="@form" />
           </h:commandButton>
          </p:panelGrid>
         </p:panelGrid>
         
+
+				<script type="text/javascript">
+				function start() {
+				    PF('statusDialog').show();
+				}
+				 
+				function stop() {
+				    PF('statusDialog').hide();
+				}
+				</script>
+       
         <p:remoteCommand id="rmcEditFUP" name="rmcEditFUP" update="pngdlgEditFUP" process="@this"/>
         <p:dialog id="dlgEditFUP" header="Follow Up" widgetVar="dlgEditFUP" minHeight="40" resizable="false" modal="true" onShow="rmcEditFUP()">
           <p:growl id="growldlgEditFUP" sticky="true" showDetail="true" life="3000" severity="error"/>
@@ -244,8 +264,8 @@
         <p:dialog id="dlgAlterImg" header="Imagem" widgetVar="dlgAlterImg" minHeight="40" resizable="false" modal="true" width="600">
           <p:growl id="growlImg" sticky="true" showDetail="true" life="3000" severity="error" />
           <p:panelGrid id="pngAlterImg"  columns="1" styleClass="panelgrid_sem_borda" >
-			       <p:fileUpload fileUploadListener="#{student.fileUpload}" mode="advanced" dragDropSupport="false" label="Add" uploadLabel="Carregar" cancelLabel="Cancelar" style="width: 500px;"
-			           process="@this" update="growlImg" sizeLimit="100000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+			       <p:fileUpload fileUploadListener="#{student.fileUpload}" mode="advanced" dragDropSupport="false" label="Add" uploadLabel="Carregar" cancelLabel="Cancelar" style="width: 100%;"
+			           process="@this" update="growlImg" sizeLimit="100000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
           </p:panelGrid>
           <f:facet name="footer">
             <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
@@ -257,23 +277,68 @@
         </p:dialog>
         
         
-        <p:remoteCommand id="rmcSlip" name="rmcSlip" update="pngSlip" process="@this"/>
+        <p:remoteCommand id="rmcSlip" name="rmcSlip" update="pngPrint" process="@this"/>
         <p:dialog id="dlgSlip" header="Boleto" widgetVar="dlgSlip" minHeight="40" resizable="false" modal="true" onShow="rmcSlip()">
           <p:growl id="growlSlip" sticky="true" showDetail="true" life="3000" severity="error"/>
-          <p:panelGrid id="pngSlip"  columns="1" styleClass="panelgrid_sem_borda" >
-                        
-            
-              <p:barcode value="#{student.selectedStudentPayments.barcode}" type="ean8"/>
-            
-          </p:panelGrid>
+          <p:panelGrid id="pngPrint"  columns="1" styleClass="panelgrid_sem_borda">
+	          <p:panelGrid id="pngSlip"  columns="2" styleClass="panelgrid_sem_borda" >
+	            <p:outputLabel value="Aluno: "/>
+	            <p:inputText value="#{student.selectedStudent.student_name}" size="50" styleClass="inputTextDisabled"/>                        
+	            <p:outputLabel value="Telefone: "/>
+	            <p:inputText value="#{student.selectedStudent.resp_home_phone}" size="50" styleClass="inputTextDisabled"/>
+	            <p:outputLabel value="Cedente: "/>
+	            <p:inputText value="Advanced School of Arts and Visual Effects" size="50" styleClass="inputTextDisabled"/>
+	            <p:outputLabel value="Vencimento: "/>
+	            <p:inputText value="#{student.selectedStudentPayments.expiry_date}" size="10" styleClass="inputTextDisabled">
+	              <f:convertDateTime pattern="dd/MM/yyyy" locale="pt,BR" timeZone="Brazil/East"/>
+	            </p:inputText>
+	            <p:outputLabel value="Parcela: "/>
+	            <p:inputText value="#{student.selectedStudentPayments.number_parcel}" size="30" styleClass="inputTextDisabled"/>
+	            <p:outputLabel value="Total: "/>
+	            <p:inputText value="#{student.selectedStudentPayments.price}" size="30" styleClass="inputTextDisabled"/>
+	          </p:panelGrid>
+	          <p:separator/>
+	          <p:panelGrid id="pngbarcode" columns="1" style="float: right;">
+	            <p:barcode value="#{student.selectedStudentPayments.barcode}" type="ean8" width="130"/>
+	          </p:panelGrid>
+	         </p:panelGrid>
           <f:facet name="footer">
-            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
-              <h:commandButton styleClass="btn btn-primary" value="Salvar">
-                <p:ajax event="click" process="@this pngdlgEditFUP"  listener="#{student.updateFollowUp}" update="dtbSP" oncomplete="PF('dlgSlip').hide();"/>
+            <p:panelGrid columns="3" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-primary" value="Imprimir">
+                <p:ajax event="click" oncomplete="btnClick('formManager:btnImprimirBoleto');" />
               </h:commandButton>
               <h:commandButton styleClass="btn btn-default" value="Cancelar">
                 <f:setPropertyActionListener value="null" target="#{student.selectedStudentPayments}"/> 
                 <p:ajax event="click" oncomplete="PF('dlgSlip').hide();" />
+              </h:commandButton>
+              <p:commandButton id="btnImprimirBoleto" value="Imprimir" type="button" icon="ui-icon-print" style="display:none;margin-bottom: 20px">
+                  <p:printer target="pngPrint" />
+              </p:commandButton>
+            </p:panelGrid>
+          </f:facet>
+        </p:dialog>
+        
+        
+        
+        <p:dialog id="dlgTypeContract" header="Contrato" widgetVar="dlgTypeContract" minHeight="40" resizable="false" modal="true" >
+          <p:growl id="growlTypeContract" sticky="true" showDetail="true" life="3000" severity="error"/>
+          <p:panelGrid id="pngTypeContract"  columns="1" styleClass="panelgrid_sem_borda" >
+	        <p:outputLabel for="slcContract" value="Selecione o contrato:" />
+	        <p:selectOneMenu id="slcContract" value="#{student.selectedStudent.contract.type}" style="width:300px">
+	           <f:selectItem itemLabel="Selecione" itemValue="" />
+	            <f:selectItem itemLabel="Contrato curso 159,90 com bonus 40,00" itemValue="1" />
+	            <f:selectItem itemLabel="Contrato curso 239,90 com bonus 40,00" itemValue="2" />
+	            <f:selectItem itemLabel="Contrato curso 199,90 com bonus 40,00" itemValue="3" />
+	            <f:selectItem itemLabel="Contrato Oficial Curta Duração - Uol tapecerica" itemValue="4" />
+	        </p:selectOneMenu>
+          </p:panelGrid>
+          <f:facet name="footer">
+            <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
+              <h:commandButton styleClass="btn btn-primary" value="Ok">
+                <p:ajax event="click" process="@this pngdlgEditFUP"  listener="#{student.updateStudentContract}" update="pngControlInfoStudent" oncomplete="PF('dlgTypeContract').hide();"/>
+              </h:commandButton>
+              <h:commandButton styleClass="btn btn-default" value="Cancelar">
+                <p:ajax event="click" oncomplete="PF('dlgTypeContract').hide();" />
               </h:commandButton>
             </p:panelGrid>
           </f:facet>
