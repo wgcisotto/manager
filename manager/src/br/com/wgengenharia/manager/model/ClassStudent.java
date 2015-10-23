@@ -39,6 +39,10 @@ public class ClassStudent {
   @JoinTable(name="TAB_CLASS_STUDENT", joinColumns={@JoinColumn(name="ID_CLASS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
 	private List<Student> students;
 	
+	@ManyToMany
+  @JoinTable(name="TAB_CLASS_CALL", joinColumns={@JoinColumn(name="ID_CLASS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_CALL")})
+	private List<CallStudent> calls;
+	
 	@Temporal(TemporalType.DATE)
 	private Date start_date;
 	
@@ -47,6 +51,9 @@ public class ClassStudent {
 	
 	@Temporal(TemporalType.TIME)
 	private Date end_time;
+	
+	@Column(name="QUANTITY_CALL", nullable=true)
+	private Integer quantity_call;
 	
 	@ManyToOne
 	private ClassModule class_module;
@@ -80,6 +87,14 @@ public class ClassStudent {
 	public void setStudents(List<Student> students) {
 		this.students = students;
 	}
+	
+	public List<CallStudent> getCalls() {
+		return calls;
+	}
+
+	public void setCalls(List<CallStudent> calls) {
+		this.calls = calls;
+	}
 
 	public Date getStart_date() {
 		return start_date;
@@ -103,6 +118,14 @@ public class ClassStudent {
 
 	public void setEnd_time(Date end_time) {
 		this.end_time = end_time;
+	}
+	
+	public Integer getQuantity_call() {
+		return quantity_call;
+	}
+
+	public void setQuantity_call(Integer quantity_call) {
+		this.quantity_call = quantity_call;
 	}
 
 	public ClassModule getClass_module() {
@@ -135,6 +158,10 @@ public class ClassStudent {
 	
 	public void removeStudent(Student student){
 		this.students.remove(student);
+	}
+	
+	public void addCall(CallStudent call){
+		this.calls.add(call);
 	}
 
 	}

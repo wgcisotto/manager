@@ -1,5 +1,6 @@
 package br.com.wgengenharia.manager.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,9 @@ import javax.persistence.Table;
 //@SequenceGenerator(name="seqCalls", sequenceName="SEQ_CALLS",allocationSize=1)
 public class CallStudent {
 
+	public CallStudent() {
+		students_info = new ArrayList<>();
+	}
 
 	@Id
 	@Column(name="ID_CALL")
@@ -27,16 +31,9 @@ public class CallStudent {
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCalls")
 	private int id_calls;
 
-	@ManyToOne
-	private ClassStudent class_Student;
-	
 	@ManyToMany
-  @JoinTable(name="TAB_CALL_STUDENT_PRESENT", joinColumns={@JoinColumn(name="ID_CLASS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
-	private List<Student> students_present;
-	
-	@ManyToMany
-  @JoinTable(name="TAB_CALL_STUDENT", joinColumns={@JoinColumn(name="ID_CALS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
-	private List<Student> students;
+  @JoinTable(name="TAB_CALL_STUDENT_INFO", joinColumns={@JoinColumn(name="ID_CALL")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
+	private List<StudentInfo> students_info;
 	
 	@Column(name="CALL_DATE", length=100)
 	private Date call_date;
@@ -47,41 +44,53 @@ public class CallStudent {
 	@ManyToOne
 	private Branch branch;
 
-	public ClassStudent getClass_Student() {
-		return class_Student;
+	public int getId_calls() {
+		return id_calls;
 	}
-	public void setClass_Student(ClassStudent class_Student) {
-		this.class_Student = class_Student;
+
+	public void setId_calls(int id_calls) {
+		this.id_calls = id_calls;
 	}
-	public List<Student> getStudents_present() {
-		return students_present;
+
+	public List<StudentInfo> getStudents_info() {
+		return students_info;
 	}
-	public void setStudents_present(List<Student> students_present) {
-		this.students_present = students_present;
+
+	public void setStudents_info(List<StudentInfo> students_info) {
+		this.students_info = students_info;
 	}
-	public List<Student> getStudents() {
-		return students;
-	}
-	public void setStudents(List<Student> students) {
-		this.students = students;
-	}
+
 	public Date getCall_date() {
 		return call_date;
 	}
+
 	public void setCall_date(Date call_date) {
 		this.call_date = call_date;
 	}
+
 	public Employee getTeacher() {
 		return teacher;
 	}
+
 	public void setTeacher(Employee teacher) {
 		this.teacher = teacher;
 	}
+
 	public Branch getBranch() {
 		return branch;
 	}
+
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
+
+	
+	public void addStudentsInfo(List<Student> student){
+		for (Student stud : student) {
+			StudentInfo studentInfo = new StudentInfo(stud); 
+			students_info.add(studentInfo);
+		}
+	}
+	
 	
 }

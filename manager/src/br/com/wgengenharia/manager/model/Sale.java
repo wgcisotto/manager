@@ -100,4 +100,8 @@ public class Sale implements Serializable {
 		this.branch = branch;
 	}
 
+	public int getProductsSize() {
+		return products.size();
+	}
+
 }

@@ -72,6 +72,9 @@ public class Student {
 	private boolean class_registered;
 	
 	@ManyToOne
+	private Contract contract;
+	
+	@ManyToOne
 	private Company company;
 	
 	@ManyToOne
@@ -155,6 +158,12 @@ public class Student {
 	}
 	public void setClass_registered(boolean class_registered) {
 		this.class_registered = class_registered;
+	}
+	public Contract getContract() {
+		return contract;
+	}
+	public void setContract(Contract contract) {
+		this.contract = contract;
 	}
 	public Company getCompany() {
 		return company;
