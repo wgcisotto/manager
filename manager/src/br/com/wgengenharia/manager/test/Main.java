@@ -1,10 +1,8 @@
 package br.com.wgengenharia.manager.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.wgengenharia.manager.model.Student;
 import br.com.wgengenharia.manager.report.ManagerReporter;
+import br.com.wgengenharia.manager.report.ManagerReporterInterface;
 
 public class Main {
 
@@ -14,16 +12,10 @@ public class Main {
 		
 		Student student = new Student();
 		
-//		student.setNome("Joao");
-		
-		List<Student> students = new ArrayList<>();
-		
-		students.add(student);
-		
-		ManagerReporter rel = new ManagerReporter();
-		
+		student.setStudent_name("Joao");
 		try {
-			rel.imprimir(students);
+			ManagerReporterInterface rel = new ManagerReporter();
+			rel.generate(student);
 		} catch (Exception e) {
 			System.out.println("Erro: " + e.getMessage());
 		}
