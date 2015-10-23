@@ -57,4 +57,11 @@ public class SaleBO implements SaleDAO{
 		return DAO.listByBranch(branch);
 	}
 
+
+	@Override
+	public List<Sale> listSalesFiltered(Date begin, Date end, Branch branch) {
+		return DAO.listSalesFiltered(begin, end, branch);
+	}
+	
+
 }

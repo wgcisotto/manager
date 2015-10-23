@@ -14,4 +14,6 @@ public interface SaleDAO extends DAOInterface<Sale, Integer>{
 	
 	public List<Sale> listSales();
 	
+	public List<Sale> listSalesFiltered(Date begin, Date end, Branch branch);
+	
 }
