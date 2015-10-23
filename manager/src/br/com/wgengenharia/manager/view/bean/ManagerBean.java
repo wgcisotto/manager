@@ -74,6 +74,11 @@ public class ManagerBean implements Serializable {
 	private List<Sale> sales;
 	private Card sale;
 	private Product selectedProductSale;
+	private Sale selectedSale;
+	
+	private Date beginDateFilter;
+	private Date endDateFilter;
+	
 	//SALES
 	private SaleBO saleBO;
 	//DEFAULT
@@ -119,7 +124,6 @@ public class ManagerBean implements Serializable {
 		categories = categoryBO.listByBranch(userInfo.currentBranch);
 		cards = cardBO.listByBranch(userInfo.currentBranch);
 		salesDay = saleBO.listSalesDayByBranch(new Date(),userInfo.currentBranch);
-		sales = saleBO.listByBranch(userInfo.currentBranch);
 	}
 	
 	//Metodos Produto
@@ -407,7 +411,7 @@ public class ManagerBean implements Serializable {
 			salesDay =  saleBO.listSalesDayByBranch(new Date(), userInfo.currentBranch);
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Venda concluida!"));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Função ainda não implementada!"));
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Falha ao fechar compra!"));
 		}
 	}
 	
@@ -417,6 +421,22 @@ public class ManagerBean implements Serializable {
 			if(card.getProducts().size() > 0){
 				cardBO.update(card);
 			}
+		}
+	}
+	
+	public void filterSales(){
+		try {
+			if(beginDateFilter == null){
+				FacesContext.getCurrentInstance().addMessage("formManager:msgHistory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Nescessario selecionar data de iníco, para efetuar a busca"));
+				return;
+			}
+			if (endDateFilter == null) {
+				FacesContext.getCurrentInstance().addMessage("formManager:msgHistory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Nescessario selecionar data de fim, para efetuar a busca."));
+				return;
+			}
+			sales = saleBO.listSalesFiltered(beginDateFilter, endDateFilter, userInfo.currentBranch);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgHistory", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Falha ao filtrar vendas do histórico"));
 		}
 	}
 	
@@ -577,6 +597,13 @@ public class ManagerBean implements Serializable {
 	public List<Sale> getSales() {
 		return sales;
 	}
+	public Double getSalesTotal(){
+		Double total = 0.0;
+		for (Sale sale : sales) {
+			total += sale.getTotal();
+		}
+		return  total;
+	}
 	public void setSales(List<Sale> sales) {
 		this.sales = sales;
 	}
@@ -592,9 +619,27 @@ public class ManagerBean implements Serializable {
 	public void setSelectedProductSale(Product selectedProductSale) {
 		this.selectedProductSale = selectedProductSale;
 	}
-	
-	
-	 private UploadedFile file;
+	public Sale getSelectedSale() {
+		return selectedSale;
+	}
+
+	public void setSelectedSale(Sale selectedSale) {
+		this.selectedSale = selectedSale;
+	}
+	public Date getBeginDateFilter() {
+		return beginDateFilter;
+	}
+	public void setBeginDateFilter(Date beginDateFilter) {
+		this.beginDateFilter = beginDateFilter;
+	}
+	public Date getEndDateFilter() {
+		return endDateFilter;
+	}
+	public void setEndDateFilter(Date endDateFilter) {
+		this.endDateFilter = endDateFilter;
+	}
+
+	private UploadedFile file;
 	 
    public UploadedFile getFile() {
        return file;

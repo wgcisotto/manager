@@ -16,20 +16,28 @@ import javax.persistence.EntityManager;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
+import br.com.wgengenharia.manager.business.CallStudentBO;
 import br.com.wgengenharia.manager.business.ClassModuleBO;
 import br.com.wgengenharia.manager.business.ClassStudentBO;
 import br.com.wgengenharia.manager.business.FollowUpBO;
 import br.com.wgengenharia.manager.business.StudentBO;
+import br.com.wgengenharia.manager.business.StudentInfoBO;
 import br.com.wgengenharia.manager.business.StudentPaymentsBO;
 import br.com.wgengenharia.manager.db.EntityManagerFactorySingleton;
 import br.com.wgengenharia.manager.facade.ManagerSaleFacadeInterface;
 import br.com.wgengenharia.manager.factory.ManagerPaymentFactory;
+import br.com.wgengenharia.manager.model.CallStudent;
 import br.com.wgengenharia.manager.model.ClassModule;
 import br.com.wgengenharia.manager.model.ClassStudent;
 import br.com.wgengenharia.manager.model.FollowUp;
 import br.com.wgengenharia.manager.model.Student;
+import br.com.wgengenharia.manager.model.StudentInfo;
 import br.com.wgengenharia.manager.model.StudentPayments;
+import br.com.wgengenharia.manager.report.factory.ManagerReportFactory;
+import br.com.wgengenharia.manager.report.model.ManagerReport;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
 import br.com.wgengenharia.manager.utils.AuthenticationUtil;
 import br.com.wgengenharia.manager.utils.CompanyUtil;
@@ -61,12 +69,15 @@ public class StudentBean implements Serializable{
 	
 	//CLASS STUDENT
 	private ClassStudentBO classStudentBO;
+	private CallStudentBO callStudentBO;
+	private StudentInfoBO studentInfoBO;
 	private ClassStudent newClassStudent;
 	private ClassStudent selectedClassStudent;
 	private List<ClassStudent> classStudents;
 	private List<ClassStudent> filteredClassStudents;
 	private String globalFilterClassStudent;
 	private Integer idClassStudentFilter;
+	private CallStudent selectedCall;
 	
 	//STUDENT INFO
 	private ClassStudent studentInfoClass;
@@ -75,6 +86,9 @@ public class StudentBean implements Serializable{
 	private FollowUpBO followUpBO;
 	private FollowUp newFollowUp;
 	private FollowUp selectedFollowUp;
+	
+	// CONTRATO
+	private StreamedContent studentContract;
 	
 	//STUDENT PAYMENTS
 	private StudentPaymentsBO studentPaymentsBO; 
@@ -106,7 +120,8 @@ public class StudentBean implements Serializable{
 		classStudentBO = new ClassStudentBO(em);
 		followUpBO = new FollowUpBO(em);
 		studentPaymentsBO = new StudentPaymentsBO(em);
-		
+		callStudentBO = new CallStudentBO(em);
+		studentInfoBO = new StudentInfoBO(em);
 		
 //		students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());
 		
@@ -469,13 +484,14 @@ public class StudentBean implements Serializable{
 	public void updateStudentClass(){
 		try {
 			alterStudentClass();
-			classStudentBO.update(studentInfoClass);
+			if(studentInfoClass != null)
+				classStudentBO.update(studentInfoClass);
+			studentBO.update(selectedStudent);
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Atualizações efetuada com sucesso"));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
-	
 	// Metodo para trocar de turma.
 	
 	public void alterStudentClass(){
@@ -512,6 +528,8 @@ public class StudentBean implements Serializable{
 	
 	public String openCallStudent(){
 		if(selectedClassStudent!=null){
+			
+			
 //			
 //			followups = followUpBO.listFollowUpByStudent(this.selectedStudent);
 //			newFollowUp = new FollowUp();
@@ -525,6 +543,37 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
+	public String createCall(){
+		if(selectedClassStudent!=null){
+			selectedCall = new CallStudent();
+			selectedCall.setCall_date(new Date());
+			selectedCall.setTeacher(userInfo.getEmployee());
+			selectedCall.setBranch(userInfo.currentBranch);
+			selectedCall.addStudentsInfo(selectedClassStudent.getStudents());
+			try {
+				callStudentBO.insert(selectedCall);
+				selectedClassStudent.addCall(selectedCall);
+				classStudentBO.update(selectedClassStudent);
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentCall", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao criar Chamada"));
+			}
+			return "call?faces-redirect=true";
+		}else{
+			return "";
+		}
+	}
+	
+	public void completeCall(){
+		try {
+			for (StudentInfo student_info : selectedCall.getStudents_info()) {
+				studentInfoBO.insert(student_info);
+			}
+			callStudentBO.update(selectedCall);
+			classStudentBO.update(selectedClassStudent);	
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCall", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao Finalizar Chamada"));
+		}
+	}
 	
 	//METODOS PARA PAGAMENTO DE BOLETO 
 	
@@ -605,6 +654,12 @@ public class StudentBean implements Serializable{
 	}
 	public void setIdClassStudentFilter(Integer idClassStudentFilter) {
 		this.idClassStudentFilter = idClassStudentFilter;
+	}
+	public CallStudent getSelectedCall() {
+		return selectedCall;
+	}
+	public void setSelectedCall(CallStudent selectedCall) {
+		this.selectedCall = selectedCall;
 	}
 
 	// CLASS MODULE
@@ -709,6 +764,17 @@ public class StudentBean implements Serializable{
 	public void setSelectedFollowUp(FollowUp selectedFollowUp) {
 		this.selectedFollowUp = selectedFollowUp;
 	}
+	
+	public StreamedContent getStudentContract() {
+		try {
+			ManagerReport manager =  ManagerReportFactory.newInstanceContract(selectedStudent);
+			studentContract = new DefaultStreamedContent(manager.generateReport(), "", "contrato_"+selectedStudent.getStudent_name()+".pdf");
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Falha ao efetuar o download do contrato."));
+		}
+		return studentContract;
+	}
+
 
 	//STUDENT PAYMENTS
 	public List<StudentPayments> getStudent_payments() {
