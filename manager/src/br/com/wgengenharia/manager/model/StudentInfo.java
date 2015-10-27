@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,19 +17,18 @@ public class StudentInfo {
 	private static final String STATUS_STUDENT_PRESENTE = "Presente";
 	
 	
-	public StudentInfo(Student student) {
-		this.student = student;
+	public StudentInfo() {
 		this.status = STATUS_STUDENT_AUSENTE;
 		this.info  = "";
 	}
 
 	@Id
-	@Column(name="ID_STUDENT_INFO")
+	@Column(name="ID_INFO")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id_student_info;
 	
-	@ManyToOne
-	private Student student;
+	@Column(name="STUDENT_NAME")
+	private String student_name;
 	
 	@Column(name="INFO")
 	private String info;
@@ -43,11 +42,11 @@ public class StudentInfo {
 	public void setId_student_info(int id_student_info) {
 		this.id_student_info = id_student_info;
 	}
-	public Student getStudent() {
-		return student;
+	public String getStudent_name() {
+		return student_name;
 	}
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudent_name(String student_name) {
+		this.student_name = student_name;
 	}
 	public String getInfo() {
 		return info;

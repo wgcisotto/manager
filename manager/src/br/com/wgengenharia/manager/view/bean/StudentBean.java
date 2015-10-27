@@ -22,6 +22,7 @@ import org.primefaces.model.StreamedContent;
 import br.com.wgengenharia.manager.business.CallStudentBO;
 import br.com.wgengenharia.manager.business.ClassModuleBO;
 import br.com.wgengenharia.manager.business.ClassStudentBO;
+import br.com.wgengenharia.manager.business.ContractBO;
 import br.com.wgengenharia.manager.business.FollowUpBO;
 import br.com.wgengenharia.manager.business.StudentBO;
 import br.com.wgengenharia.manager.business.StudentInfoBO;
@@ -32,6 +33,7 @@ import br.com.wgengenharia.manager.factory.ManagerPaymentFactory;
 import br.com.wgengenharia.manager.model.CallStudent;
 import br.com.wgengenharia.manager.model.ClassModule;
 import br.com.wgengenharia.manager.model.ClassStudent;
+import br.com.wgengenharia.manager.model.Contract;
 import br.com.wgengenharia.manager.model.FollowUp;
 import br.com.wgengenharia.manager.model.Student;
 import br.com.wgengenharia.manager.model.StudentInfo;
@@ -88,6 +90,7 @@ public class StudentBean implements Serializable{
 	private FollowUp selectedFollowUp;
 	
 	// CONTRATO
+	private ContractBO contractBO;
 	private StreamedContent studentContract;
 	
 	//STUDENT PAYMENTS
@@ -122,6 +125,7 @@ public class StudentBean implements Serializable{
 		studentPaymentsBO = new StudentPaymentsBO(em);
 		callStudentBO = new CallStudentBO(em);
 		studentInfoBO = new StudentInfoBO(em);
+		contractBO = new ContractBO(em);
 		
 //		students = studentBO.listStudentByCompany(userInfo.getEmployee().getCompany());
 		
@@ -492,6 +496,32 @@ public class StudentBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
+	
+	public void generateContract(){
+		if(selectedStudent != null){
+			try {
+				Contract contract = new Contract();
+				contractBO.insert(contract);
+				selectedStudent.setContract(contract);
+				studentBO.update(selectedStudent);
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao gerar o contrato." + e.getMessage()));
+			}
+		}
+	}
+	
+
+	public void updateStudentContract(){
+		if(selectedStudent != null){
+			try {
+				// atualiza as informacoes do aluno com o contrato selecionado. 
+				studentBO.update(selectedStudent);
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Contrato gerado com sucesso"));	
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao gerar o contrato." + e.getMessage()));
+			}
+		}
+	}
 	// Metodo para trocar de turma.
 	
 	public void alterStudentClass(){
@@ -551,6 +581,9 @@ public class StudentBean implements Serializable{
 			selectedCall.setBranch(userInfo.currentBranch);
 			selectedCall.addStudentsInfo(selectedClassStudent.getStudents());
 			try {
+				for (StudentInfo studentInfo : selectedCall.getStudents_info()) {
+					studentInfoBO.insert(studentInfo);
+				}
 				callStudentBO.insert(selectedCall);
 				selectedClassStudent.addCall(selectedCall);
 				classStudentBO.update(selectedClassStudent);
@@ -565,10 +598,11 @@ public class StudentBean implements Serializable{
 	
 	public void completeCall(){
 		try {
-			for (StudentInfo student_info : selectedCall.getStudents_info()) {
-				studentInfoBO.insert(student_info);
-			}
 			callStudentBO.update(selectedCall);
+			for (StudentInfo student_info : selectedCall.getStudents_info()) {
+				studentInfoBO.update(student_info);
+			}
+			selectedClassStudent.addCall(selectedCall);
 			classStudentBO.update(selectedClassStudent);	
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCall", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao Finalizar Chamada"));

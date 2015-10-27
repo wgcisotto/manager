@@ -24,6 +24,7 @@ public class ClassStudent {
 
 	public ClassStudent() {
 		this.students = new ArrayList<Student>();
+		this.calls = new ArrayList<CallStudent>();
 	}
 	
 	@Id
@@ -40,7 +41,7 @@ public class ClassStudent {
 	private List<Student> students;
 	
 	@ManyToMany
-  @JoinTable(name="TAB_CLASS_CALL", joinColumns={@JoinColumn(name="ID_CLASS_STUDENT")}, inverseJoinColumns={@JoinColumn(name="ID_CALL")})
+  @JoinTable(name="TAB_CLASS_CALL", joinColumns={@JoinColumn(name="CLASS_STUDENT_ID")}, inverseJoinColumns={@JoinColumn(name="CALL_ID")})
 	private List<CallStudent> calls;
 	
 	@Temporal(TemporalType.DATE)

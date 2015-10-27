@@ -22,7 +22,7 @@ import javax.persistence.Table;
 public class CallStudent {
 
 	public CallStudent() {
-		students_info = new ArrayList<>();
+		students_info = new ArrayList<StudentInfo>();
 	}
 
 	@Id
@@ -32,7 +32,9 @@ public class CallStudent {
 	private int id_calls;
 
 	@ManyToMany
-  @JoinTable(name="TAB_CALL_STUDENT_INFO", joinColumns={@JoinColumn(name="ID_CALL")}, inverseJoinColumns={@JoinColumn(name="ID_STUDENT")})
+  @JoinTable(name="TAB_CALL_STUDENT_INFO",
+  	joinColumns={@JoinColumn(name="CALL_ID")}, 
+  	inverseJoinColumns={@JoinColumn(name="INFO_ID")})
 	private List<StudentInfo> students_info;
 	
 	@Column(name="CALL_DATE", length=100)
@@ -87,7 +89,8 @@ public class CallStudent {
 	
 	public void addStudentsInfo(List<Student> student){
 		for (Student stud : student) {
-			StudentInfo studentInfo = new StudentInfo(stud); 
+			StudentInfo studentInfo = new StudentInfo();
+			studentInfo.setStudent_name(stud.getStudent_name());
 			students_info.add(studentInfo);
 		}
 	}
