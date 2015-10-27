@@ -162,23 +162,24 @@
           </p:panel>
           
           
-        <p:panelGrid id="pngControlInfoStudent" columns="3" styleClass="panelgrid_sem_borda" style="float: right;"> 
+        <p:panelGrid id="pngControlInfoStudent" columns="4" styleClass="panelgrid_sem_borda" style="float: right;"> 
            
           <p:commandButton id="btnDownloadContract"  style="display: none;" value="Download Contrato" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" >
               <p:fileDownload value="#{student.studentContract}"/>
           </p:commandButton>
           
           <h:commandButton  styleClass="btn btn-default btn-lg" value="Gerar Contrato" rendered="#{student.selectedStudent.contract.type == null}" >
-            <p:ajax event="click" onstart="PF('dlgTypeContract').show();"/>
+            <p:ajax event="click" listener="#{student.generateContract}"  oncomplete="PF('dlgTypeContract').show();"/>
           </h:commandButton>
           
           <h:commandButton  styleClass="btn btn-default btn-lg" value="Contrato" rendered="#{student.selectedStudent.contract.type != null}" >
             <p:ajax event="click" oncomplete="btnClick('formManager:btnDownloadContract');"/>
           </h:commandButton>
 	          
-          <h:commandButton styleClass="btn btn-primary btn-lg" value="Salvar" >
-            <p:ajax  listener="#{student.updateStudentClass}" process="@this pngInfoStudent dlgTypeContract" update="@form" />
+          <h:commandButton id="btnUpdateStudentClass" styleClass="btn btn-primary btn-lg" value="Salvar" >
+            <p:ajax event="click" listener="#{student.updateStudentClass}" process="@this pngInfoStudent dlgTypeContract" update="@form" />
           </h:commandButton>
+          
          </p:panelGrid>
         </p:panelGrid>
         
