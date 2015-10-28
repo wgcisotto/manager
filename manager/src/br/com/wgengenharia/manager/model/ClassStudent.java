@@ -172,9 +172,9 @@ public class ClassStudent {
 		this.quantity_call +=1;
 	}
 	
-	public boolean hasStudents(){
-		if(students.size() > 0) return true;
-		return false;
+	public boolean gethasNoStudents(){
+		if(students.size() > 0) return false;
+		return true;
 	}
 
 	}
