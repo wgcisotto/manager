@@ -81,5 +81,8 @@ public class ClassModule {
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
+	public Integer getNextSequence() {
+		return this.sequence+1;
+	}
 	
 }

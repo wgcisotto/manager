@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import br.com.wgengenharia.manager.dao.ClassStudentDAO;
 import br.com.wgengenharia.manager.dao.ClassStudentDAOImpl;
 import br.com.wgengenharia.manager.model.Branch;
+import br.com.wgengenharia.manager.model.ClassModule;
 import br.com.wgengenharia.manager.model.ClassStudent;
 import br.com.wgengenharia.manager.model.Company;
 import br.com.wgengenharia.manager.model.Student;
@@ -14,9 +15,11 @@ import br.com.wgengenharia.manager.model.Student;
 public class ClassStudentBO implements ClassStudentDAO{
 
 	private ClassStudentDAO DAO;
+	private ClassModuleBO BO;
 	
 	public ClassStudentBO(EntityManager em) {
 		DAO = new ClassStudentDAOImpl(em);
+		BO = new ClassModuleBO(em);
 	}
 	
 	
@@ -27,6 +30,10 @@ public class ClassStudentBO implements ClassStudentDAO{
 
 	@Override
 	public void update(ClassStudent entity) {
+		if(entity.getQuantity_call() > entity.getClass_module().getQuantity_class()){
+			ClassModule newModule = BO.findByClassModuleSequence(entity.getClass_module().getNextSequence());
+			entity.setClass_module(newModule);
+		}
 		DAO.update(entity);
 	}
 
@@ -64,5 +71,4 @@ public class ClassStudentBO implements ClassStudentDAO{
 	public List<ClassStudent> listByBranch(Branch branch) {
 		return DAO.listByBranch(branch);
 	}
-
 }

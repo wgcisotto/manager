@@ -54,4 +54,9 @@ public class ClassModuleBO implements ClassModuleDAO {
 		return DAO.listByBranch(branch);
 	}
 
+	@Override
+	public ClassModule findByClassModuleSequence(Integer sequenceNumber) {
+		return DAO.findByClassModuleSequence(sequenceNumber);
+	}
+
 }

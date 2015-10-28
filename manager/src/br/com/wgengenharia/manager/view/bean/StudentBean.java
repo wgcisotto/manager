@@ -603,6 +603,7 @@ public class StudentBean implements Serializable{
 				studentInfoBO.update(student_info);
 			}
 			selectedClassStudent.addCall(selectedCall);
+			selectedClassStudent.updateClassControl();
 			classStudentBO.update(selectedClassStudent);	
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCall", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao Finalizar Chamada"));

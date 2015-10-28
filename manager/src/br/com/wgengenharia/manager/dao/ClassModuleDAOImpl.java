@@ -39,6 +39,13 @@ public class ClassModuleDAOImpl extends DAOImpl<ClassModule, Integer> implements
     return query.getResultList();
 	}
 
+	@Override
+	public ClassModule findByClassModuleSequence(Integer sequenceNumber) {
+		TypedQuery<ClassModule> query = em.createQuery("from ClassModule o where o.sequence = :sequenceNumber", ClassModule.class);
+		query.setParameter("sequenceNumber", sequenceNumber);
+    return query.getSingleResult();
+	}
+
 	
 
 }

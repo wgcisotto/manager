@@ -14,4 +14,6 @@ public interface ClassModuleDAO extends DAOInterface<ClassModule, Integer> {
 	
 	public List<ClassModule> listModulesByCompanyAndBranch(Company company, Branch branch);
 	
+	public ClassModule findByClassModuleSequence(Integer sequenceNumber);
+	
 }

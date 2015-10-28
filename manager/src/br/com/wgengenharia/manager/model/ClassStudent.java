@@ -22,9 +22,12 @@ import javax.persistence.TemporalType;
 //@SequenceGenerator(name="seqClassStudent", sequenceName="SEQ_CLASSSTUDENT",allocationSize=1)
 public class ClassStudent {
 
+	private static final int QUANTITY_CLASS_DEFAULT = 1;
+	
 	public ClassStudent() {
 		this.students = new ArrayList<Student>();
 		this.calls = new ArrayList<CallStudent>();
+		this.quantity_call = QUANTITY_CLASS_DEFAULT;
 	}
 	
 	@Id
@@ -163,6 +166,15 @@ public class ClassStudent {
 	
 	public void addCall(CallStudent call){
 		this.calls.add(call);
+	}
+	
+	public void updateClassControl(){
+		this.quantity_call +=1;
+	}
+	
+	public boolean hasStudents(){
+		if(students.size() > 0) return true;
+		return false;
 	}
 
 	}
