@@ -25,6 +25,8 @@ public class StudentPaymentUtil {
 		result_code = impar * 3 + par;
 		
 		result_code = 10 - (result_code % 10);
+		
+		if(result_code == 10)result_code = 0;
 		 
 		return String.valueOf(result_code);
 	}
