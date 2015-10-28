@@ -10,7 +10,7 @@
         </ui:define>
         <ui:define name="default">
           
-          <p:messages id="msgStudentInfo" showDetail="true" autoUpdate="true" closable="true" />
+          <p:growl id="msgStudentInfo" sticky="true" showDetail="true" life="3000" autoUpdate="true"/>
           
           <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlUser">
           
@@ -168,8 +168,8 @@
               <p:fileDownload value="#{student.studentContract}"/>
           </p:commandButton>
           
-          <h:commandButton  styleClass="btn btn-default btn-lg" value="Gerar Contrato" rendered="#{student.selectedStudent.contract.type == null}" >
-            <p:ajax event="click" listener="#{student.generateContract}"  oncomplete="PF('dlgTypeContract').show();"/>
+          <h:commandButton  styleClass="btn btn-default btn-lg" value="Gerar Contrato" rendered="#{student.selectedStudent.contract == null}" >
+            <p:ajax event="click" listener="#{student.generateContract}"  oncomplete="PF('dlgTypeContract').show();" update="@form"/>
           </h:commandButton>
           
           <h:commandButton  styleClass="btn btn-default btn-lg" value="Contrato" rendered="#{student.selectedStudent.contract.type != null}" >
@@ -177,7 +177,7 @@
           </h:commandButton>
 	          
           <h:commandButton id="btnUpdateStudentClass" styleClass="btn btn-primary btn-lg" value="Salvar" >
-            <p:ajax event="click" listener="#{student.updateStudentClass}" process="@this pngInfoStudent dlgTypeContract" update="@form" />
+            <p:ajax event="click" listener="#{student.updateStudentClass}" process="@this pngInfoStudent" update="@form" />
           </h:commandButton>
           
          </p:panelGrid>
@@ -282,6 +282,7 @@
         <p:dialog id="dlgSlip" header="Boleto" widgetVar="dlgSlip" minHeight="40" resizable="false" modal="true" onShow="rmcSlip()">
           <p:growl id="growlSlip" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngPrint"  columns="1" styleClass="panelgrid_sem_borda">
+            <img src="resources/images/shared/advanced.jpg" width="329" height="96" alt="" />
 	          <p:panelGrid id="pngSlip"  columns="2" styleClass="panelgrid_sem_borda" >
 	            <p:outputLabel value="Aluno: "/>
 	            <p:inputText value="#{student.selectedStudent.student_name}" size="50" styleClass="inputTextDisabled"/>                        
@@ -298,9 +299,11 @@
 	            <p:outputLabel value="Total: "/>
 	            <p:inputText value="#{student.selectedStudentPayments.price}" size="30" styleClass="inputTextDisabled"/>
 	          </p:panelGrid>
+	          <br/>
+	          <h:outputText value="Pagável somente na Advanced School."/>
 	          <p:separator/>
 	          <p:panelGrid id="pngbarcode" columns="1" style="float: right;">
-	            <p:barcode value="#{student.selectedStudentPayments.barcode}" type="ean8" width="130"/>
+	            <p:barcode value="78900370" type="ean8" width="130"/>
 	          </p:panelGrid>
 	         </p:panelGrid>
           <f:facet name="footer">
@@ -320,8 +323,8 @@
         </p:dialog>
         
         
-        
-        <p:dialog id="dlgTypeContract" header="Contrato" widgetVar="dlgTypeContract" minHeight="40" resizable="false" modal="true" >
+        <p:remoteCommand id="rmcSlcTypeContract" name="rmcSlcTypeContract" update="pngTypeContract" process="@this"/>
+        <p:dialog id="dlgTypeContract" header="Contrato" widgetVar="dlgTypeContract" minHeight="40" resizable="false" modal="true" onShow="rmcSlcTypeContract()">
           <p:growl id="growlTypeContract" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngTypeContract"  columns="1" styleClass="panelgrid_sem_borda" >
 	        <p:outputLabel for="slcContract" value="Selecione o contrato:" />
@@ -336,7 +339,7 @@
           <f:facet name="footer">
             <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
               <h:commandButton styleClass="btn btn-primary" value="Ok">
-                <p:ajax event="click" process="@this pngdlgEditFUP"  listener="#{student.updateStudentContract}" update="pngControlInfoStudent" oncomplete="PF('dlgTypeContract').hide();"/>
+                <p:ajax event="click" process="@this pngTypeContract"  listener="#{student.updateStudentContract}" update="pngControlInfoStudent" oncomplete="PF('dlgTypeContract').hide();"/>
               </h:commandButton>
               <h:commandButton styleClass="btn btn-default" value="Cancelar">
                 <p:ajax event="click" oncomplete="PF('dlgTypeContract').hide();" />
