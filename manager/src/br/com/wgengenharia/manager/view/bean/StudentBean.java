@@ -38,8 +38,8 @@ import br.com.wgengenharia.manager.model.FollowUp;
 import br.com.wgengenharia.manager.model.Student;
 import br.com.wgengenharia.manager.model.StudentInfo;
 import br.com.wgengenharia.manager.model.StudentPayments;
+import br.com.wgengenharia.manager.report.ManagerReport;
 import br.com.wgengenharia.manager.report.factory.ManagerReportFactory;
-import br.com.wgengenharia.manager.report.model.ManagerReport;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
 import br.com.wgengenharia.manager.utils.AuthenticationUtil;
 import br.com.wgengenharia.manager.utils.CompanyUtil;
@@ -498,15 +498,21 @@ public class StudentBean implements Serializable{
 	}
 	
 	public void generateContract(){
-		if(selectedStudent != null){
-			try {
-				Contract contract = new Contract();
-				contractBO.insert(contract);
-				selectedStudent.setContract(contract);
-				studentBO.update(selectedStudent);
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao gerar o contrato." + e.getMessage()));
+		try {
+			if(selectedStudent != null){
+				if(idClassStudent == -1 ){
+					FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso!", "Nescessário selecionar uma turma, para selecionar o contrato!"));
+				}else{
+					Contract contract = new Contract();
+					contractBO.insert(contract);
+					selectedStudent.setContract(contract);
+					studentBO.update(selectedStudent);
+				}
+			}else{
+				
 			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao gerar o contrato." + e.getMessage()));
 		}
 	}
 	
