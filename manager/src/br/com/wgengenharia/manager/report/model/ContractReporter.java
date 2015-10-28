@@ -14,6 +14,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import br.com.wgengenharia.manager.model.Student;
+import br.com.wgengenharia.manager.report.AbstractManagerReport;
 
 public class ContractReporter extends AbstractManagerReport {
 
