@@ -37,7 +37,7 @@
         <p:dialog id="dlgAlterImg" header="Imagem" widgetVar="dlgAlterImg" minHeight="40" resizable="false" modal="true" width="600">
           <p:growl id="growlImg" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngAlterImg"  columns="1" styleClass="panelgrid_sem_borda" >
-             <p:fileUpload fileUploadListener="#{company.fileUpload}" mode="advanced" dragDropSupport="false" label="Add" uploadLabel="Carregar" cancelLabel="Cancelar" style="width: 500px;"
+             <p:fileUpload fileUploadListener="#{company.fileUpload}" mode="advanced" dragDropSupport="false" label="Add" uploadLabel="Carregar" cancelLabel="Cancelar" style="width: 100%;"
                  process="@this" update="growlImg" sizeLimit="100000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
           </p:panelGrid>
           <f:facet name="footer">

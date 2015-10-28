@@ -13,17 +13,19 @@
           
           <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlUser">
 	          
-	          <p:panelGrid id="pngStudentCall" columns="8" styleClass="panelgrid_sem_borda">
+	          <p:panelGrid id="pngStudentCall" columns="10" styleClass="panelgrid_sem_borda">
 	            <p:outputLabel value="Turma: "/>
-	            <p:inputText value="#{student.selectedClassStudent.class_name}" size="30" styleClass="inputTextDisabled"/>
+	            <p:inputText value="#{student.selectedClassStudent.class_name}" size="20" styleClass="inputTextDisabled"/>
               <p:outputLabel value="Modulo: "/>
-              <p:inputText value="#{student.selectedClassStudent.class_module.name}" size="30" styleClass="inputTextDisabled"/>
+              <p:inputText value="#{student.selectedClassStudent.class_module.name}" size="20" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Aula: "/>
+              <p:inputText value="#{student.selectedClassStudent.quantity_call}" size="5" styleClass="inputTextDisabled"/>
 	            <p:outputLabel value="Hora Inicio: "/>
-	            <p:inputText value="#{student.selectedClassStudent.begin_time}" size="15" styleClass="inputTextDisabled">
+	            <p:inputText value="#{student.selectedClassStudent.begin_time}" size="7" styleClass="inputTextDisabled">
 	             <f:convertDateTime pattern="HH:mm" locale="pt,BR" timeZone="Brazil/East"/>
 	            </p:inputText>
               <p:outputLabel value="Hora Inicio: "/>
-              <p:inputText value="#{student.selectedClassStudent.end_time}" size="15" styleClass="inputTextDisabled">
+              <p:inputText value="#{student.selectedClassStudent.end_time}" size="7" styleClass="inputTextDisabled">
                 <f:convertDateTime pattern="HH:mm" locale="pt,BR" timeZone="Brazil/East"/>
               </p:inputText>
 	          </p:panelGrid>
@@ -58,7 +60,7 @@
 	          
 	          
 	         <p:panelGrid id="pngControle" columns="3" styleClass="panelgrid_sem_borda"> 
-	          <h:commandButton id="btnOpenCall" styleClass="btn btn-primary btn-lg" value="Nova Chamada">
+	          <h:commandButton id="btnOpenCall" styleClass="btn btn-primary btn-lg" value="Nova Chamada" disabled="#{!student.selectedClassStudent.hasStudents}">
 	           <p:ajax oncomplete="btnClick('formManager:btnOpenCallHidden')"/>
 	          </h:commandButton>
 	          <p:commandButton id="btnOpenCallHidden" style="display: none;" action="#{student.createCall}" process="@this" update="@form"/>
