@@ -809,7 +809,7 @@ public class StudentBean implements Serializable{
 	public StreamedContent getStudentContract() {
 		try {
 			ManagerReport manager =  ManagerReportFactory.newInstanceContract(selectedStudent);
-			studentContract = new DefaultStreamedContent(manager.generateReport(), "", "contrato_"+selectedStudent.getStudent_name()+".pdf");
+			studentContract = new DefaultStreamedContent(manager.generateReport(), "", "contrato_"+selectedStudent.getStudent_name().trim()+".pdf");
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Falha ao efetuar o download do contrato."));
 		}

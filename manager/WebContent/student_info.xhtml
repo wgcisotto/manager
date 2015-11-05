@@ -164,7 +164,8 @@
           
         <p:panelGrid id="pngControlInfoStudent" columns="4" styleClass="panelgrid_sem_borda" style="float: right;"> 
            
-          <p:commandButton id="btnDownloadContract"  style="display: none;" value="Download Contrato" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" >
+          <p:commandButton id="btnDownloadContract"  style="display: none;" value="Download Contrato" process="@this" ajax="false"
+            onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" >
               <p:fileDownload value="#{student.studentContract}"/>
           </p:commandButton>
           
@@ -173,7 +174,7 @@
           </h:commandButton>
           
           <h:commandButton  styleClass="btn btn-default btn-lg" value="Contrato" rendered="#{student.selectedStudent.contract.type != null}" >
-            <p:ajax event="click" oncomplete="btnClick('formManager:btnDownloadContract');"/>
+            <p:ajax event="click" oncomplete="btnClick('formManager:btnDownloadContract');" process="@this"/>
           </h:commandButton>
 	          
           <h:commandButton id="btnUpdateStudentClass" styleClass="btn btn-primary btn-lg" value="Salvar" >
@@ -281,9 +282,9 @@
         <p:remoteCommand id="rmcSlip" name="rmcSlip" update="pngPrint" process="@this"/>
         <p:dialog id="dlgSlip" header="Boleto" widgetVar="dlgSlip" minHeight="40" resizable="false" modal="true" onShow="rmcSlip()">
           <p:growl id="growlSlip" sticky="true" showDetail="true" life="3000" severity="error"/>
-          <p:panelGrid id="pngPrint"  columns="1" styleClass="panelgrid_sem_borda">
+          <p:panelGrid id="pngPrint"  columns="1" styleClass="panelgrid_sem_borda" >
             <img src="resources/images/shared/advanced.jpg" width="329" height="96" alt="" />
-	          <p:panelGrid id="pngSlip"  columns="2" styleClass="panelgrid_sem_borda" >
+	          <p:panelGrid id="pngSlip"  columns="2" styleClass="panelgrid_sem_borda" rendered="#{student.selectedStudentPayments != null}">
 	            <p:outputLabel value="Aluno: "/>
 	            <p:inputText value="#{student.selectedStudent.student_name}" size="50" styleClass="inputTextDisabled"/>                        
 	            <p:outputLabel value="Telefone: "/>
@@ -333,7 +334,7 @@
 	            <f:selectItem itemLabel="Contrato curso 159,90 com bonus 40,00" itemValue="1" />
 	            <f:selectItem itemLabel="Contrato curso 239,90 com bonus 40,00" itemValue="2" />
 	            <f:selectItem itemLabel="Contrato curso 199,90 com bonus 40,00" itemValue="3" />
-	            <f:selectItem itemLabel="Contrato Oficial Curta Duração - Uol tapecerica" itemValue="4" />
+	            <f:selectItem itemLabel="Contrato Oficial Curta Duração - Uol Itapecerica" itemValue="4" />
 	        </p:selectOneMenu>
           </p:panelGrid>
           <f:facet name="footer">

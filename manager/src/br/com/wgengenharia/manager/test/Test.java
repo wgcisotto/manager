@@ -11,7 +11,7 @@ public class Test {
 	
 
 	public static void main (String args[]){
-		int id = 1;
+		int id = 37;
 		System.out.println(COUNTRY_CODE+String.format(ZERO_FILL,id)+codeResult(COUNTRY_CODE + String.format(ZERO_FILL,id)));
 	}
 	
@@ -27,6 +27,8 @@ public class Test {
 		result_code = impar * 3 + par;
 		
 		result_code = 10 - (result_code % 10);
+		
+		if(result_code == 10)result_code = 0;
 		 
 		System.out.println(result_code);
 		return String.valueOf(result_code);

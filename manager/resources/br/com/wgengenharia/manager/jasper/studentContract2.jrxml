@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="studentContract1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ef271e8-6fba-4361-8f90-d7914e7eb0a0">
+	<property name="ireport.zoom" value="1.464100000000007"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="452"/>
+	<field name="contratante" class="java.lang.String"/>
+	<field name="rg" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="nascimento" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="bairro" class="java.lang.String"/>
+	<field name="cidade" class="java.lang.String"/>
+	<field name="cep" class="java.lang.String"/>
+	<field name="telefone_res" class="java.lang.String"/>
+	<field name="telefone_com" class="java.lang.String"/>
+	<field name="aluno" class="java.lang.String"/>
+	<field name="aluno_nascimento" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="15" width="411" height="23" uuid="7e6a91e0-d4c5-4884-a939-129ddf3992c5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[COMPUTER TRAINING
+CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE TREINAMENTO DE COMPUTAÇÃO
+
+COMPUTER TRAINING
+CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE TREINAMENTO DE COMPUTAÇÃO
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="84" height="18" uuid="b4e9a780-b3fa-454e-820b-786d424cfe37"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ADVANCED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="446" y="1" width="100" height="14" uuid="6dd05bbc-5497-41e0-b154-4cd0a0b61baf"/>
+				<text><![CDATA[Nº ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="448" y="14" width="100" height="1" uuid="5207425f-8f22-4620-8a0b-1ee35c0d6eed"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="-4" width="553" height="26" uuid="0507a22c-9156-477e-bdda-4c51d6067387"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[De um lado ADVANCED COMPUTER TRAINING, doravante denominada ESCOLA, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº 10.984.702/0002-91  Rua felipe Callieira  n°50 e de outro lado:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="124" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="0" width="555" height="122" uuid="7bd9d5bf-246e-4efe-a7ec-5d8480de7980"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="6" y="3" width="63" height="20" uuid="079b4b70-dd4c-405d-a996-932bb6acbefe"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATANTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="23" width="22" height="20" uuid="a2b50121-490c-48c8-8bd6-a00500075e9f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RG:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="23" width="27" height="20" uuid="3220cca6-b73f-4b40-8afa-4ec77eed6d0b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="23" width="98" height="20" uuid="415f5530-e87e-4a3a-98e9-9d4e32c0e75c"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA DE NASCIMENTO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="42" width="107" height="20" uuid="090b2c8b-6d6f-4f13-b204-4647bf3b0e9c"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENDEREÇO RESIDENCIAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="62" width="43" height="20" uuid="6bd842cd-9c52-4db7-9620-b815afc56284"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BAIRRO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="62" width="43" height="20" uuid="46f985de-71fc-43f0-81bb-8a92b1e4e80b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CIDADE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="424" y="62" width="25" height="20" uuid="9a3add99-4f36-4e38-b0b3-d3a0cbf7a724"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CEP:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="82" width="107" height="20" uuid="bd8c6e25-14d6-46ee-b1fc-37fc89f38147"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEFONE RESIDENCIAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="82" width="105" height="20" uuid="226a8d91-7261-44a0-98c9-15e2e9935d59"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEFONE COMERCIAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="102" width="43" height="20" uuid="daf749d3-e68f-46fe-b667-7314654504b2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALUNO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="102" width="94" height="20" uuid="bcb38359-0980-4213-a35a-963335091521"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA DE NASCIMENTO:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="22" width="555" height="1" uuid="160e2c2c-fe20-4506-b44e-c61e7f1da587"/>
+			</line>
+			<line>
+				<reportElement x="2" y="42" width="555" height="1" uuid="cbf5db44-ea4f-4b77-a791-9a52ca0aaf29"/>
+			</line>
+			<line>
+				<reportElement x="2" y="62" width="555" height="1" uuid="f0332ac6-579e-4ad1-adfd-a5d8c2c2e1fd"/>
+			</line>
+			<line>
+				<reportElement x="2" y="81" width="555" height="1" uuid="c07817a9-7488-465a-a1c2-b20a03036315"/>
+			</line>
+			<line>
+				<reportElement x="1" y="101" width="555" height="1" uuid="1526becc-703f-40d5-a16a-a4bae7fee928"/>
+			</line>
+			<line>
+				<reportElement x="288" y="23" width="1" height="20" uuid="67b64e86-2d74-4fff-8df3-10ae416b6d17"/>
+			</line>
+			<line>
+				<reportElement x="160" y="62" width="1" height="19" uuid="c1c6d49e-619a-48b3-91ac-3713a2b6895b"/>
+			</line>
+			<line>
+				<reportElement x="423" y="62" width="1" height="19" uuid="32ecf541-6045-44c2-bda2-a04f2a575ea3"/>
+			</line>
+			<line>
+				<reportElement x="287" y="82" width="1" height="19" uuid="9a48f6d3-28af-429c-b0ab-819715266134"/>
+			</line>
+			<line>
+				<reportElement x="287" y="102" width="1" height="20" uuid="5840c104-2383-4e1b-84ad-0ef714d489fe"/>
+			</line>
+			<textField>
+				<reportElement x="77" y="7" width="478" height="15" uuid="d6e7e8e1-d5d1-46e5-b3c4-4b8596d80559"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contratante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="27" width="132" height="15" uuid="86eee8a5-2b22-4e9e-b699-eb16c5654638"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="187" y="28" width="100" height="15" uuid="415e188b-4bf3-405f-a559-9ca93ee8cd34"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="394" y="28" width="156" height="15" uuid="e3162f8f-9cc0-47b1-97a4-8ac50e8f7db7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nascimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="119" y="48" width="433" height="14" uuid="0ce49ab0-0e89-478a-8cd6-14ade36be5a9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="42" y="67" width="118" height="14" uuid="ada9fd8a-fe62-436b-8726-1e69f2bad7a5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bairro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="67" width="218" height="14" uuid="68d03afe-a646-46c3-9f63-2f4aa85282e0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="454" y="67" width="100" height="14" uuid="6b7f4d42-d8f5-4377-90ed-7460e53e3b4d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="86" width="170" height="15" uuid="1150669d-f470-49a3-be5a-6ff247caaa25"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefone_res}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="394" y="87" width="160" height="15" uuid="57808e8a-f320-4b86-b269-cae850e22077"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefone_com}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="42" y="108" width="245" height="16" uuid="f14b104a-4017-471a-8d95-baf46b8611fd"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aluno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="387" y="107" width="163" height="15" uuid="45789096-3b40-4b12-bf42-52bb2ca6b0c4"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aluno_nascimento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="542" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="47" height="13" uuid="f6b1d5d7-671e-4afa-a5cf-68e51618c2ff"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRIMEIRA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="0" width="506" height="13" uuid="a84e899d-c7b4-406e-9c83-765e897657b7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[O BENEFICIÁRIO ingressará no Programa de Captação em Tecnologias de Informação que será ministrado na dependência da ESCOLA.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="13" width="47" height="11" uuid="4bdbb87d-02f5-4f30-8a75-507a011a8358"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEGUNDA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="13" width="506" height="21" uuid="7230789f-0516-41ed-9f11-a3eaee596c2a"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[A duração deste Programa de Capitação é de 24 (vinte e quatro) meses, divididos em 3 (três) unidades de 8 (oito)  meses cada uma, com o total de 192 (cento e noventa e duas) horas aulas.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="36" width="47" height="11" uuid="c31538f7-9916-4975-9ab4-334f1139c3e5"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TERCEIRA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="36" width="506" height="61" uuid="ff184aae-5348-4cd1-8a89-9728febeeab1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[As unidades e suas disciplinas estão dispostas da seguinte maneira:
+UNIDADE 1: Windows e Internet, CorelDraw, Photoshop, DreamWeaver e Flash correspondendo a área de criação.
+UNIDADE 2: Princípios de Design, Teoria das Cores e Diagramação de Layout, correspondendo a área de combinação de cores e design de produtos.
+UNIDADE 3:Visualização Arquitetônica, Desenho Industrial, correspondendo a área de criação de objetos em 3D com os programas de 3D Max, AutoCAD, Maya e Sculptris.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="97" width="49" height="11" uuid="63292826-fda7-45f6-b993-da2a87e5f6f2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUARTA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="97" width="506" height="11" uuid="e8a20420-1dc3-4f20-80cf-d214f1b1e53a"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[O BENEFICIÁRIO começará o seu treinamento OBRIGATÓRAMENTE PELA PRIMEIRA UNIDADE.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="109" width="47" height="13" uuid="88b54117-72a1-4e10-86d1-09a00293b797"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUINTA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="108" width="505" height="32" uuid="2691f7cb-e322-4d7f-84cd-5668b917d0f8"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[A ESCOLA informará ao CONTRATANTE e/ou ao BENEFICIÁRIO, através de circular, aviso em sala, afixo em quadro de avisos, telefonema e outro meio, a data de inicio, a disciplina e os dias e horário das turmas que se iniciarão com no mínimo uma semana de antecedência. Fica reservado a ESCOLA dispor as turmas, disciplinas e horário conforme lhe for mais apropriado.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="140" width="47" height="15" uuid="408e4c05-5302-44ff-a06e-0395b624d0d2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEXTA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="140" width="506" height="15" uuid="c5fc9682-8a1b-4913-a8e8-c56ff98c2017"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Após o término de uma unidade o ALUNO deverá OBRIGATÒRIAMENTE se inscrever em outra, até que se completem as (três) unidades.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="155" width="47" height="12" uuid="ce19bef4-9530-4cec-947d-021d7f02798e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SÈTIMA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="155" width="505" height="22" uuid="d379b4d6-6466-44e9-83c4-e4f49e530e2c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[A aulas se darão em uma sala com microcomputadores tantos quantos necessários para que não ultrapasse a razão de 2 (dois) alunos para cada microcomputador.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="177" width="47" height="12" uuid="4ee506c1-40d2-477e-8056-8681b00d2247"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OITAVA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="177" width="506" height="12" uuid="fd88bcdf-7e5b-4857-9d00-3fad720dadbc"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Fica garantido ao BENEFICIÀRIO acesso aos horários de treinamento que a ESCOLA disponibilizará.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="190" width="47" height="11" uuid="12970923-2350-4fcf-8b3c-c89efe546e46"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NONA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="190" width="504" height="11" uuid="1dd4b45f-66ff-4fe8-a174-c15f87131650"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[A ESCOLA proverá avaliações para verificar o aproveitamento dos alunos. Somente farão justo ao certificado técnico contrato ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="201" width="123" height="13" uuid="30b043f6-31eb-43cc-8153-aba05f2d59d9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[profissional, o aluno que possuir ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="201" width="376" height="13" uuid="84c0e9ef-91ae-44f5-9c8f-389815ffdd74"/>
+				<textElement>
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[nota maior ou igual a 7 (sete) e frequência igual ou maior que 75% da carga horária do curso.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="213" width="501" height="11" uuid="f1530a3d-2d64-42be-a226-354062d7daf7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Não cabendo qualquer recurso ao aluno, exceto aqueles disponibilizados pela direção acadêmica da CONTRATADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="225" width="49" height="12" uuid="d99e68f7-6ba6-4c9a-bf8e-39add024fd35"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DÈCIMA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="225" width="504" height="23" uuid="a38b4a5e-d24e-4f68-8082-f3e04a33d0fd"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Caso o Beneficiário falte as aulas justifique sua falta através de documentação competente, a ESCOLA disponibilizará dentro do possível, horários para reposição das mesmas.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="248" width="82" height="13" uuid="6e7d964e-f90e-4976-9f93-519f2d1e4c84"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DÉCIMA PRIMEIRA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="248" width="471" height="13" uuid="6ef7bb95-ff49-44dc-89bc-233790d2d132"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Como contra prestação dos serviços a serem prestados, o CONTRATANTE pagará no a toda assinatura do contrato ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="261" width="499" height="11" uuid="062e2400-8550-4d12-92e4-123181888b11"/>
+				<textElement>
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[R$ 150,00 de matricula, R$ 920,00 de material didático, R$ 170,00 de praticas pedagógicas e mais 24 parcelas iguais e ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="272" width="100" height="11" uuid="48bb599f-4ec3-4593-b7e9-2c3de7bdfd5d"/>
+				<textElement>
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[consecutivas de 485,90. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="272" width="401" height="11" uuid="f16bbed5-61ce-4b17-a225-37d0f58597aa"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[A PRIMEIRA PARCELA SERÁ PAGA ANTECIPADAMENTE COMO RESERVA E SINAL DE NEGOCIO NÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="283" width="180" height="11" uuid="5d52db13-1e69-477e-bc2c-b101d75eb9a3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[SENDO DEVOLVIDA SOB-HIPÓTESE ALGUMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="294" width="533" height="11" uuid="f7e1f866-38bb-48bf-afcd-b9a3752cf92f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Parágrafo Único: As demais parcelas terão inicio no mês subsequente ao inicio dos cursos e terão como vencimento todos os dias 5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="305" width="270" height="13" uuid="ff377b20-4aa3-4cb7-9187-6a1443f6d514"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[(cinco) de cada mês podendo ser pagas até o dia 8(oito) com bônus de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="305" width="38" height="13" uuid="65bdc0d7-1f8c-423c-a79e-0bf85f2abd80"/>
+				<textElement>
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[R$ 40,00 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="313" y="305" width="100" height="13" uuid="e36b61f7-dbcc-46e9-a4a1-27c48dcab879"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[sobre a mesma.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="318" width="83" height="11" uuid="97a51da5-cf6b-454b-9381-afe5057edf22"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DÉCIMA SEGUNDA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="318" width="471" height="23" uuid="d3a6a823-03b4-4400-8338-c26f78f04592"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[O CONTRATANTE beneficiado pelo SISTEMA DE BOLSA através do P.I.Q. ficará isento de taxas de matricula, material didático e  praticas pedagógicas. E pagará 24 parcelas iguais e consecutivas de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="336" y="328" width="216" height="11" uuid="b7542708-3dd7-4ad9-bffc-846bcd568779"/>
+				<textElement>
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[R$ 239,90  (Duzentos  e Trinta e Nove Reais e  Noventa ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="341" width="44" height="12" uuid="dcc545b3-7c3d-485a-9fcd-fcf1b67abde0"/>
+				<textElement>
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Centavos).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="353" width="82" height="12" uuid="be84862c-d2d0-48d8-9923-af6f073c31c5"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECIMA TERCEIRA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="353" width="468" height="61" uuid="cd3de821-0d7b-4e20-9562-26b6e8c69fad"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[O CONTRATANTE poderá suspender por até 60 dias a prestação de serviços mediante requerimento do trancamento da matricula do BENEFICIARIO na secretaria da ESCOLA. O requerimento do trancamento só será deferido pela escola se: 1) CONTRATANTE estiver com mês corrente pago, mesmo que ainda não tenha chegado a data do vencimento. 2) O trancamento coincidir com o término de uma disciplina e 3) Mediante pagamento da taxa administrativa no valor de R$ 15,00. Durante o período de trancamento, o pagamento das parcelas por parte do CONTRATANTE NÃO FICA SUSPENSO, salvo sob autorização da ESCOLA.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="414" width="82" height="12" uuid="ff0653b6-fd3e-4f15-b494-66971e30929c"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECIMA QUARTA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="414" width="466" height="32" uuid="c1b6b991-154f-41fa-9a76-436fe681c924"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TRANSFERENCIA, DESISTENCIA E RESCISÃO CONTRATUAL: As transferências contratuais, somente poderão ser solicitadas por alunos que estiverem em dia com suas parcelas e através de comunicação por escrito para secretaria da CONTRATADA com antecedência mínima de 15 dias.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="446" width="531" height="24" uuid="70c02d23-a1a6-4b15-bc5a-d285f4e1ab66"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Parágrafo 1º: na transferência de benefícios, será cobrada uma taxa administrativa no valor de R$ 30,00.
+Parágrafo 2º: Desistência ou rescisão contratual – o CONTRATANTE terá cancelado todos os benefícios adquiridos, pagará uma taxa
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="470" width="99" height="13" uuid="1986142e-77e2-492f-a44f-24c9443d90ee"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[administrativa no valor de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="470" width="218" height="13" uuid="fb0897ec-97d1-4235-8b9f-4d8e278ba1d1"/>
+				<textElement>
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[R$ 520,00 pela desistência e multa deste contrato.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="483" width="81" height="11" uuid="ac4633c9-3843-436e-a7a2-c7357f25083a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECIMA QUINTA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="483" width="466" height="23" uuid="19909b54-84a1-43b6-8352-71a4c333ee08"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Não fica caracterizado rescisão do contratado ou suspensão da prestação de serviços o abandono das aulas ou o não ingresso em uma turma após o termino de uma disciplina por meio do beneficiário.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="506" width="81" height="12" uuid="5c634b64-6c60-4032-a4f8-d2843f5104d0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECIMA SEXTA: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="506" width="467" height="36" uuid="5b61e348-cc5e-4110-9661-e44763b3a142"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Em caso de inadimplência ou ausência  por 2 (dois)  ,meses consecutivos, a CONTRATADA  rescindirá este contrato e efetuar cobranças deste titulo em cartório e comunicar o fato aos órgãos de proteção ao Crédito, nos termos do Artigo 5, parágrafo 1º da lei nº 1999 de setembro de 1990, chamada de Código de Defesa do Consumidor.
+Fica eleito o foro da comarca do local de assinatura deste contrato, para dirimir duvidas e pendências judiciais e extrajudiciais oriunda dele, assim o presente em duas vias de igual teor e forma.
+]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="506" height="13" uuid="bc25eba2-a39f-44db-a739-1fb487eba592"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CONTRATANTE: ________________________________ ESCOLA: _____________________]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="9" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="317" y="8" width="240" height="11" uuid="501588f4-2198-4015-a801-096daa74506d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[      Itapecerica da Serra  _____de_______________ de 20 ____]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

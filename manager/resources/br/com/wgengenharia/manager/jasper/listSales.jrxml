@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listSales" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="71e5b08e-8cbf-4847-a240-4f783503e95c">
-	<property name="ireport.zoom" value="1.7715610000000044"/>
+	<property name="ireport.zoom" value="1.3310000000000046"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="110"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -26,6 +26,12 @@
 	<field name="date" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="price" class="java.lang.String"/>
+	<variable name="date_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{date}]]></variableExpression>
+	</variable>
+	<variable name="description_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{description}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -38,7 +44,7 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="37" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="2" width="100" height="20" uuid="9f78fb2c-5abb-45af-9a53-e6ba4e2f877b"/>
 				<textElement>
@@ -49,7 +55,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="27" splitType="Stretch">
+		<band height="32" splitType="Stretch">
 			<staticText>
 				<reportElement x="366" y="4" width="123" height="20" uuid="3c705606-4537-4339-9c52-073b43821d73"/>
 				<textElement>
@@ -71,34 +77,34 @@
 				</textElement>
 				<text><![CDATA[Produto / Serviço]]></text>
 			</staticText>
+			<line>
+				<reportElement x="90" y="25" width="399" height="1" uuid="9fdc5bf4-97a2-49fe-b805-882e94769e85"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="62" splitType="Stretch">
+		<band height="32" splitType="Stretch">
 			<textField>
-				<reportElement x="90" y="11" width="100" height="20" uuid="58a641dd-725b-41b5-abd7-e5d585fefef8"/>
+				<reportElement x="90" y="5" width="100" height="20" uuid="58a641dd-725b-41b5-abd7-e5d585fefef8"/>
 				<textElement>
 					<font fontName="Batang" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="11" width="176" height="20" uuid="a5281346-307e-4750-9e31-6473cb3153b3"/>
+				<reportElement x="190" y="5" width="176" height="20" uuid="a5281346-307e-4750-9e31-6473cb3153b3"/>
 				<textElement>
 					<font fontName="Batang" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="366" y="11" width="123" height="20" uuid="9c5d75d7-af00-48ce-ada1-968a60b174c4"/>
+				<reportElement x="366" y="5" width="123" height="20" uuid="9c5d75d7-af00-48ce-ada1-968a60b174c4"/>
 				<textElement>
 					<font fontName="Batang" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement x="90" y="-3" width="399" height="1" uuid="9fdc5bf4-97a2-49fe-b805-882e94769e85"/>
-			</line>
 		</band>
 	</detail>
 	<columnFooter>
