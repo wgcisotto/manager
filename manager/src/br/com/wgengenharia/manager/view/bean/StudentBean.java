@@ -80,6 +80,8 @@ public class StudentBean implements Serializable{
 	private String globalFilterClassStudent;
 	private Integer idClassStudentFilter;
 	private CallStudent selectedCall;
+	private CallStudent selectedCallDetails;
+	private StudentInfo selectedStudentInfo;
 	
 	//STUDENT INFO
 	private ClassStudent studentInfoClass;
@@ -585,16 +587,20 @@ public class StudentBean implements Serializable{
 			selectedCall.setCall_date(new Date());
 			selectedCall.setTeacher(userInfo.getEmployee());
 			selectedCall.setBranch(userInfo.currentBranch);
+			
 			selectedCall.addStudentsInfo(selectedClassStudent.getStudents());
 			try {
-				for (StudentInfo studentInfo : selectedCall.getStudents_info()) {
-					studentInfoBO.insert(studentInfo);
-				}
+//				for (StudentInfo studentInfo : selectedCall.getStudents_info()) {
+//					studentInfoBO.insert(studentInfo);
+//				}
+				
 				callStudentBO.insert(selectedCall);
 				selectedClassStudent.addCall(selectedCall);
+				
 				classStudentBO.update(selectedClassStudent);
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentCall", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao criar Chamada"));
+				return "";
 			}
 			return "call?faces-redirect=true";
 		}else{
@@ -602,20 +608,49 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
-	public void completeCall(){
+	public String completeCall(){
 		try {
 			callStudentBO.update(selectedCall);
-			for (StudentInfo student_info : selectedCall.getStudents_info()) {
-				studentInfoBO.update(student_info);
-			}
+//			for (StudentInfo student_info : selectedCall.getStudents_info()) {
+//				studentInfoBO.update(student_info);
+//			}
 			selectedClassStudent.addCall(selectedCall);
 			selectedClassStudent.updateClassControl();
 			classStudentBO.update(selectedClassStudent);	
+			
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentCall", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Chamada concluida."));
+			
+			return "student_call?faces-redirect=true";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCall", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao Finalizar Chamada"));
+			return "";
 		}
 	}
 	
+	public String openCallDetails(){
+		if(selectedCallDetails!=null){
+			
+			
+//		
+//		followups = followUpBO.listFollowUpByStudent(this.selectedStudent);
+//		newFollowUp = new FollowUp();
+		
+//		student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
+//		resetStudentPaymentInfo();
+
+		return "call_details?faces-redirect=true";
+	}else{
+		return "";
+	}
+	}
+	
+	public void updateStudentInfo(){
+		try {
+			studentInfoBO.update(selectedStudentInfo);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCallDetail", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Erro ao atulizar informacoes! " + e.getMessage()));
+		}
+	}
 	//METODOS PARA PAGAMENTO DE BOLETO 
 	
 	public void findStudentPayment(){
@@ -701,6 +736,18 @@ public class StudentBean implements Serializable{
 	}
 	public void setSelectedCall(CallStudent selectedCall) {
 		this.selectedCall = selectedCall;
+	}
+	public CallStudent getSelectedCallDetails() {
+		return selectedCallDetails;
+	}
+	public void setSelectedCallDetails(CallStudent selectedCallDetails) {
+		this.selectedCallDetails = selectedCallDetails;
+	}
+	public StudentInfo getSelectedStudentInfo() {
+		return selectedStudentInfo;
+	}
+	public void setSelectedStudentInfo(StudentInfo selectedStudentInfo) {
+		this.selectedStudentInfo = selectedStudentInfo;
 	}
 
 	// CLASS MODULE

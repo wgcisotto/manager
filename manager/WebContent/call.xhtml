@@ -18,12 +18,18 @@
                 scrollRows="5" scrollable="true" scrollHeight="185"    
                 rowKey="#{stud.id_student}" >
                 
+               <p:column headerText="Foto" >
+                <p:graphicImage id="imgStudent" value="#{stud.student.studentImage}" rendered="#{stud.student.studentImage != null}"  style="width:90px;height:90px" />
+                <p:graphicImage id="imgStudent2" url="resources/images/shared/unknown.gif" rendered="#{stud.student.studentImage == null}" style="width:90px;height:90px" />
+               </p:column>
+                
                <p:column headerText="Aluno" >
-                <h:outputText value="#{stud.student_name}"/>
+                <h:outputText value="#{stud.student.student_name}"/>
                </p:column>
            
                <p:column headerText="Status">
-                 <h:outputText value="#{stud.status}"/>     
+                <b:label text="#{stud.status}" severity="warning" rendered="#{stud.status eq 'Ausente'}"/>
+                <b:label text="#{stud.status}" severity="Default" rendered="#{stud.status eq 'Presente'}" />    
                </p:column>
                
                <p:column style="width:40px;text-align: center">
@@ -37,9 +43,10 @@
          
            
           <h:commandButton styleClass="btn btn-primary btn-lg" value="Concluir chamada">
-             <p:ajax event="click" process="@this" listener="#{student.completeCall}"/>
+             <p:ajax event="click" process="@this" oncomplete="btnClick('formManager:btnCompleteCallHidden')"/>
           </h:commandButton> 
-         
+          <p:commandButton id="btnCompleteCallHidden" style="display: none;" action="#{student.completeCall}" process="@this" update="@form"/>
+          
          </p:panelGrid>
          
          

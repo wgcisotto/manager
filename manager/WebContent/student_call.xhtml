@@ -11,7 +11,12 @@
         <ui:define name="default">
           <p:messages id="msgStudentCall" showDetail="true" autoUpdate="true" closable="true" />
           
+          <b:label text="Não existe Alunos Matriculados nesta turma!" severity="warning" rendered="#{student.selectedClassStudent.hasNoStudents}"/>
+          <b:label text="Turma Concluida" severity="Default" rendered="#{student.selectedClassStudent.concluded}" />
+            	          
+            	          
           <p:panelGrid styleClass="panelgrid_sem_borda" style="width: 100%" columns="1" id="pngControlUser">
+	          
 	          
 	          <p:panelGrid id="pngStudentCall" columns="10" styleClass="panelgrid_sem_borda">
 	            <p:outputLabel value="Turma: "/>
@@ -50,7 +55,9 @@
                </p:column>
                
                <p:column style="width:40px;text-align: center">
-                <p:commandButton onstart="PF('dlgListProdCard').show();" icon="ui-icon-search" title="Informações" styleClass="btn_opcoes"/>
+                <p:commandButton icon="ui-icon-search" action="#{student.openCallDetails}" title="Informações" styleClass="btn_opcoes">
+                  <f:setPropertyActionListener target="#{student.selectedCallDetails}" value="#{calls}"/>
+                </p:commandButton>
               </p:column>
 	              
 	     
@@ -60,7 +67,7 @@
 	          
 	          
 	         <p:panelGrid id="pngControle" columns="3" styleClass="panelgrid_sem_borda"> 
-	          <h:commandButton id="btnOpenCall" styleClass="btn btn-primary btn-lg" value="Nova Chamada" disabled="#{student.selectedClassStudent.hasNoStudents}">
+	          <h:commandButton id="btnOpenCall" styleClass="btn btn-primary btn-lg" value="Nova Chamada" disabled="#{student.selectedClassStudent.hasNoStudents || student.selectedClassStudent.concluded}">
 	           <p:ajax oncomplete="btnClick('formManager:btnOpenCallHidden')"/>
 	          </h:commandButton>
 	          <p:commandButton id="btnOpenCallHidden" style="display: none;" action="#{student.createCall}" process="@this" update="@form"/>

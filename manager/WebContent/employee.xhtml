@@ -49,6 +49,7 @@
                     <f:setPropertyActionListener target="#{company.idBranchSelectedEmployee}" value="#{emp.branch.id_branch}"/>
                    </p:commandButton>
                    <p:commandButton id="btnDelEmp" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" process="@this" action="#{company.delEmployee}" oncomplete="PF('dtbEmp').unselectAllRows();" update="@form">
+                    <p:confirm header="Aviso" message="Tem certeza que deseja continuar ?"  icon="ui-icon-alert"/>
                     <f:setPropertyActionListener target="#{company.selectedEmployee}" value="#{emp}"/>
                    </p:commandButton>
                  </p:column>

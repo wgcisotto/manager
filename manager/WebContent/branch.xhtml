@@ -41,6 +41,7 @@
 	                </p:column>
 	                <p:column style="float: right;" >
 	                   <p:commandButton id="btnDelBranch" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" action="#{company.delBranch}" process="@this" oncomplete="PF('dtbBranchs').unselectAllRows();" update="@form">
+	                     <p:confirm header="Aviso" message="Tem certeza que deseja continuar ?"  icon="ui-icon-alert"/>
                        <f:setPropertyActionListener target="#{company.selectedBranch}" value="#{bch}"/>
 	                   </p:commandButton>
 				            <p:commandButton id="btnOpendlgEditBranch" title="Editar" style="float: right" process="@this" styleClass="btn_opcoes" icon="ui-icon-pencil">

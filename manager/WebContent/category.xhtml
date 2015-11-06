@@ -38,6 +38,7 @@
                   </p:column>
                   <p:column style="float: right;" >
                      <p:commandButton id="btnDelCateg" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" action="#{manager.delCategory}" process="@this" oncomplete="PF('dtbCategory').unselectAllRows();" update="@form">
+                       <p:confirm header="Aviso" message="Tem certeza que deseja continuar ?"  icon="ui-icon-alert"/>
                        <f:setPropertyActionListener target="#{manager.selectedCategory}" value="#{categ}"/>
                      </p:commandButton>
                     <p:commandButton id="btnOpendlgEditCateg" title="Editar" style="float: right" process="@this" oncomplete="PF('dlgCategoryEdit').show();" styleClass="btn_opcoes" icon="ui-icon-pencil">

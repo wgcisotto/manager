@@ -38,7 +38,8 @@
 	            </p:column>
 	            <p:column>
 		            <p:panelGrid columns="1" style="float: right;">
-					        <p:graphicImage id="imgStudent" value="#{student.selectedStudent.studentImage}" style="width:180px;height:180px" /> 
+					        <p:graphicImage id="imgStudent" value="#{student.selectedStudent.studentImage}" rendered="#{student.selectedStudent.studentImage != null}"  style="width:180px;height:180px" />
+					        <p:graphicImage id="imgStudent2" url="resources/images/shared/unknown.gif" rendered="#{student.selectedStudent.studentImage == null}" style="width:180px;height:180px" /> 
 					        <h:commandButton styleClass="btn btn-primary btn-lg" value="Alterar" style="float: right;">
 					         <p:ajax event="click" onstart="PF('dlgAlterImg').show()"/>
 					        </h:commandButton>

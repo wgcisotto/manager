@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +32,7 @@ public class CallStudent {
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seqCalls")
 	private int id_calls;
 
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
   @JoinTable(name="TAB_CALL_STUDENT_INFO",
   	joinColumns={@JoinColumn(name="CALL_ID")}, 
   	inverseJoinColumns={@JoinColumn(name="INFO_ID")})
@@ -91,6 +92,7 @@ public class CallStudent {
 		for (Student stud : student) {
 			StudentInfo studentInfo = new StudentInfo();
 			studentInfo.setStudent_name(stud.getStudent_name());
+			studentInfo.setStudent(stud);
 			students_info.add(studentInfo);
 		}
 	}

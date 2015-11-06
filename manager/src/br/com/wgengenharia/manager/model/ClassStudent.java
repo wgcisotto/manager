@@ -23,11 +23,14 @@ import javax.persistence.TemporalType;
 public class ClassStudent {
 
 	private static final int QUANTITY_CLASS_DEFAULT = 1;
+	private static final boolean CONCLUDED_FALSE = false;
+	private static final boolean CONCLUDED_TRUE = true;
 	
 	public ClassStudent() {
 		this.students = new ArrayList<Student>();
 		this.calls = new ArrayList<CallStudent>();
 		this.quantity_call = QUANTITY_CLASS_DEFAULT;
+		this.concluded = CONCLUDED_FALSE;
 	}
 	
 	@Id
@@ -58,6 +61,9 @@ public class ClassStudent {
 	
 	@Column(name="QUANTITY_CALL", nullable=true)
 	private Integer quantity_call;
+	
+	@Column(name="CLASS_CONCLUDED")
+	private boolean concluded;
 	
 	@ManyToOne
 	private ClassModule class_module;
@@ -131,6 +137,14 @@ public class ClassStudent {
 	public void setQuantity_call(Integer quantity_call) {
 		this.quantity_call = quantity_call;
 	}
+	
+	public boolean isConcluded() {
+		return concluded;
+	}
+
+	public void setConcluded(boolean concluded) {
+		this.concluded = concluded;
+	}
 
 	public ClassModule getClass_module() {
 		return class_module;
@@ -177,4 +191,8 @@ public class ClassStudent {
 		return true;
 	}
 
+	public void alterStatusClass(){
+		this.concluded = CONCLUDED_TRUE;
 	}
+	
+}

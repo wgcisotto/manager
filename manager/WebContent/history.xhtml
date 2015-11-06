@@ -15,7 +15,7 @@
          
   
          <p:panel id="toggleable" header="Filtro" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px" >
-          <p:panelGrid  columns="5" styleClass="panelgrid_sem_borda">
+          <p:panelGrid  columns="7" styleClass="panelgrid_sem_borda">
              <h:outputText value="Periodo de:" />
              <p:calendar value="#{manager.beginDateFilter}"  />
              <h:outputText value="ate:" />
@@ -23,6 +23,12 @@
              <h:commandButton id="btnStudentClassFilter" styleClass="btn btn-default btn-lg" value="Filtrar">
                <p:ajax event="click" listener="#{manager.filterSales}" update="@form" process="toggleable"/>
              </h:commandButton>
+             <h:commandButton id="btnPrintSales" styleClass="btn btn-primary" value="Imprimir">
+               <p:ajax event="click" process="@this" onstart="btnClick('formManager:btnPrintSalesFiltered')"/>
+             </h:commandButton>
+              <p:commandButton id="btnPrintSalesFiltered" style="display: none;" onclick="PrimeFaces.monitorDownload(start, stop);" >
+                <p:fileDownload value="#{manager.salesFilteredDownload}"/>
+              </p:commandButton>
           </p:panelGrid>
          </p:panel> 
         

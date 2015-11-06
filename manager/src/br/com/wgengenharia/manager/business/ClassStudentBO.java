@@ -3,6 +3,7 @@ package br.com.wgengenharia.manager.business;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import br.com.wgengenharia.manager.dao.ClassStudentDAO;
 import br.com.wgengenharia.manager.dao.ClassStudentDAOImpl;
@@ -31,8 +32,13 @@ public class ClassStudentBO implements ClassStudentDAO{
 	@Override
 	public void update(ClassStudent entity) {
 		if(entity.getQuantity_call() > entity.getClass_module().getQuantity_class()){
-			ClassModule newModule = BO.findByClassModuleSequence(entity.getClass_module().getNextSequence());
-			entity.setClass_module(newModule);
+			try {
+				ClassModule newModule = BO.findByClassModuleSequence(entity.getClass_module().getNextSequence());
+				entity.setClass_module(newModule);
+				entity.setQuantity_call(1);
+			} catch (NoResultException e) {
+				entity.alterStatusClass();
+			}
 		}
 		DAO.update(entity);
 	}

@@ -1,6 +1,8 @@
 package br.com.wgengenharia.manager.view.bean;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,8 @@ import javax.persistence.EntityManager;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import br.com.wgengenharia.manager.business.CardBO;
@@ -29,6 +33,8 @@ import br.com.wgengenharia.manager.model.Category;
 import br.com.wgengenharia.manager.model.Client;
 import br.com.wgengenharia.manager.model.Product;
 import br.com.wgengenharia.manager.model.Sale;
+import br.com.wgengenharia.manager.report.ManagerReport;
+import br.com.wgengenharia.manager.report.factory.ManagerReportFactory;
 import br.com.wgengenharia.manager.seguranca.bean.AuthenticationBean;
 import br.com.wgengenharia.manager.utils.AuthenticationUtil;
 
@@ -75,6 +81,9 @@ public class ManagerBean implements Serializable {
 	private Card sale;
 	private Product selectedProductSale;
 	private Sale selectedSale;
+	
+	private StreamedContent salesDayDownload;
+	private StreamedContent salesFilteredDownload;
 	
 	private Date beginDateFilter;
 	private Date endDateFilter;
@@ -599,8 +608,10 @@ public class ManagerBean implements Serializable {
 	}
 	public Double getSalesTotal(){
 		Double total = 0.0;
-		for (Sale sale : sales) {
-			total += sale.getTotal();
+		if(sales!=null){
+			for (Sale sale : sales) {
+				total += sale.getTotal();
+			}
 		}
 		return  total;
 	}
@@ -622,10 +633,38 @@ public class ManagerBean implements Serializable {
 	public Sale getSelectedSale() {
 		return selectedSale;
 	}
-
 	public void setSelectedSale(Sale selectedSale) {
 		this.selectedSale = selectedSale;
 	}
+	public StreamedContent getSalesDayDownload() {
+		try {
+			ManagerReport manager =  ManagerReportFactory.newInstanceSales(salesDay);
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			salesDayDownload = new DefaultStreamedContent(manager.generateReport(), "", "relatorio_"+ df.format(new Date()) +".pdf");
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Falha ao efetuar o download do relatório."));
+		}
+		return salesDayDownload;
+	}
+	public void setSalesDayDownload(StreamedContent salesDayDownload) {
+		this.salesDayDownload = salesDayDownload;
+	}
+	public StreamedContent getSalesFilteredDownload() {
+		try {
+			ManagerReport manager =  ManagerReportFactory.newInstanceSales(sales);
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			String dateString = df.format(beginDateFilter) +"_" + df.format(endDateFilter);
+			salesDayDownload = new DefaultStreamedContent(manager.generateReport(), "", "relatorio_"+dateString+".pdf");
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Falha ao efetuar o download do relatório."));
+		}
+		return salesFilteredDownload;
+	}
+	public void setSalesFilteredDownload(StreamedContent salesFilteredDownload) {
+		this.salesFilteredDownload = salesFilteredDownload;
+	}
+
+
 	public Date getBeginDateFilter() {
 		return beginDateFilter;
 	}

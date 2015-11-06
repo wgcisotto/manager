@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,6 +31,9 @@ public class StudentInfo {
 	@Column(name="STUDENT_NAME")
 	private String student_name;
 	
+	@ManyToOne
+	private Student student;
+	
 	@Column(name="INFO")
 	private String info;
 	
@@ -47,6 +51,12 @@ public class StudentInfo {
 	}
 	public void setStudent_name(String student_name) {
 		this.student_name = student_name;
+	}
+	public Student getStudent() {
+		return student;
+	}
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 	public String getInfo() {
 		return info;

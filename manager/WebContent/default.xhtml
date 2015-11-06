@@ -55,7 +55,8 @@
 			  
 			  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			   <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
-			     <p:graphicImage id="imgCompanyDefault" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" />
+			     <p:graphicImage id="imgCompanyDefault" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" rendered="#{auth.employee.company.companyImage != null}" />
+			     <p:graphicImage id="imgCompanyDefault2" url="resources/images/shared/logo.png" style="width:76px;height:76px" rendered="#{auth.employee.company.companyImage == null}" />
 			     <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			       <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			        <h:outputText value="Ola, " style="color: white;float: left"/>
@@ -96,9 +97,15 @@
     <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
       <p:graphicImage value="resources/images/shared/ajax_loading.gif"/>
     </p:dialog>
+    
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
 			
    <!--  <p:menuitem value="Categoria"  icon="ui-icon-flag" outcome="category.xhtml" oncomplete="PF('dtbCategory').clearFilters()" />-->
 	  <p:growl id="messages" autoUpdate="true" globalOnly="true" severity="error"/>
+	  
   
     <p:menubar id="menuBarDefault" style="width: auto;">
         <p:submenu label="Financeiro" icon="ui-icon-home" rendered="#{sec.hasProfile('Administrador') or sec.hasProfile('Funcionario')}">

@@ -42,6 +42,7 @@
                   </p:column>
                  <p:column style="float: right;" >
                    <p:commandButton id="btnDelClassStudent" styleClass="btn_opcoes" icon="ui-icon-close" style="float: right" title="Excluir" process="@this" action="#{student.delClassStudent}" oncomplete="PF('dtbClassStudent').unselectAllRows();" update="@form">
+                    <p:confirm header="Aviso" message="Tem certeza que deseja continuar ?"  icon="ui-icon-alert"/> 
                     <f:setPropertyActionListener value="#{class}" target="#{student.selectedClassStudent}"/>
                    </p:commandButton>
                    <p:commandButton id="btnOpendlgEdit" title="Editar" style="float: right" styleClass="btn_opcoes" icon="ui-icon-pencil" oncomplete="PF('dlgClassStudentEdit').show();" process="@this">
