@@ -138,9 +138,13 @@ public class StudentBean implements Serializable{
 	// Carrega todas as listas deste Bean
 	
 	public void loadListsInfo(){
-		students = studentBO.listByBranch(userInfo.currentBranch);
-		modules = classModuleBO.listByBranch(userInfo.currentBranch);
-		classStudents = classStudentBO.listByBranch(userInfo.currentBranch);
+		try {
+			students = studentBO.listByBranch(userInfo.currentBranch);
+			modules = classModuleBO.listByBranch(userInfo.currentBranch);
+			classStudents = classStudentBO.listByBranch(userInfo.currentBranch);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	
@@ -587,17 +591,9 @@ public class StudentBean implements Serializable{
 			selectedCall.setCall_date(new Date());
 			selectedCall.setTeacher(userInfo.getEmployee());
 			selectedCall.setBranch(userInfo.currentBranch);
-			
 			selectedCall.addStudentsInfo(selectedClassStudent.getStudents());
 			try {
-//				for (StudentInfo studentInfo : selectedCall.getStudents_info()) {
-//					studentInfoBO.insert(studentInfo);
-//				}
-				
 				callStudentBO.insert(selectedCall);
-				selectedClassStudent.addCall(selectedCall);
-				
-				classStudentBO.update(selectedClassStudent);
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentCall", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao criar Chamada"));
 				return "";
@@ -611,9 +607,6 @@ public class StudentBean implements Serializable{
 	public String completeCall(){
 		try {
 			callStudentBO.update(selectedCall);
-//			for (StudentInfo student_info : selectedCall.getStudents_info()) {
-//				studentInfoBO.update(student_info);
-//			}
 			selectedClassStudent.addCall(selectedCall);
 			selectedClassStudent.updateClassControl();
 			classStudentBO.update(selectedClassStudent);	
@@ -768,8 +761,10 @@ public class StudentBean implements Serializable{
 	}
 	public List<String> getModulesList() {
 		Map<Integer, String> orderList = new TreeMap<Integer, String>();
-		for (ClassModule module : modules) {
-			orderList.put(module.getSequence(), module.getName());
+		if(modules != null){
+			for (ClassModule module : modules) {
+				orderList.put(module.getSequence(), module.getName());
+			}
 		}
 		return  new ArrayList<String>(orderList.values());
 	}
