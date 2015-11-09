@@ -18,11 +18,6 @@
                 scrollRows="5" scrollable="true" scrollHeight="185"    
                 rowKey="#{stud.id_student}" >
                 
-               <p:column headerText="Foto" >
-                <p:graphicImage id="imgStudent" value="#{stud.student.studentImage}" rendered="#{stud.student.studentImage != null}"  style="width:90px;height:90px" />
-                <p:graphicImage id="imgStudent2" url="resources/images/shared/unknown.gif" rendered="#{stud.student.studentImage == null}" style="width:90px;height:90px" />
-               </p:column>
-                
                <p:column headerText="Aluno" >
                 <h:outputText value="#{stud.student.student_name}"/>
                </p:column>

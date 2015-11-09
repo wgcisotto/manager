@@ -153,7 +153,7 @@
               </p:column>
               
               <p:column style="width:40px;text-align: center">
-                <p:commandButton onstart="PF('dlgEditFUP').show();" icon="ui-icon-search" title="FollowUp" styleClass="btn_opcoes">
+                <p:commandButton onstart="PF('dlgEditFUP').show();" process="@this" icon="ui-icon-search" title="FollowUp" styleClass="btn_opcoes">
                   <f:setPropertyActionListener target="#{student.selectedFollowUp}" value="#{fup}"/>
                 </p:commandButton>
               </p:column>
@@ -200,7 +200,7 @@
         <p:dialog id="dlgEditFUP" header="Follow Up" widgetVar="dlgEditFUP" minHeight="40" resizable="false" modal="true" onShow="rmcEditFUP()">
           <p:growl id="growldlgEditFUP" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngdlgEditFUP"  columns="1" styleClass="panelgrid_sem_borda" >
-            <p:inputTextarea value="#{student.selectedFollowUp.followup}" style="width: 800px;height: 200;" rendered="#{student.selectedFollowUp != null}"/>
+            <p:inputTextarea value="#{student.selectedFollowUp.followup}" style="width: 600px;height: 200px;" rendered="#{student.selectedFollowUp != null}"/>
           </p:panelGrid>
           <f:facet name="footer">
             <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">

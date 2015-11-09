@@ -18,11 +18,6 @@
                 scrollRows="5" scrollable="true" scrollHeight="370"    
                 rowKey="#{stud.id_student}" >
                 
-               <p:column headerText="Foto" >
-                <p:graphicImage id="imgStudent" value="#{stud.student.studentImage}" rendered="#{stud.student.studentImage != null}"  style="width:90px;height:90px" />
-                <p:graphicImage id="imgStudent2" url="resources/images/shared/unknown.gif" rendered="#{stud.student.studentImage == null}" style="width:90px;height:90px" />
-               </p:column>
-                
                <p:column headerText="Aluno" >
                 <h:outputText value="#{stud.student.student_name}"/>
                </p:column>
@@ -33,7 +28,7 @@
                </p:column>
                
                <p:column style="width:40px;text-align: center">
-                <p:commandButton icon="ui-icon-search" title="Comentarios" styleClass="btn_opcoes" oncomplete="PF('dlgInfo').show();">
+                <p:commandButton icon="ui-icon-search" title="Comentarios" styleClass="btn_opcoes" process="@this" oncomplete="PF('dlgInfo').show();">
                   <f:setPropertyActionListener value="#{stud}" target="#{student.selectedStudentInfo}"/>     
                 </p:commandButton>
               </p:column>
@@ -47,7 +42,19 @@
         <p:dialog id="dlgInfo" header="Informações" widgetVar="dlgInfo" minHeight="40" resizable="false" modal="true" onShow="rmcInfo()">
           <p:growl id="growlInfo" sticky="true" showDetail="true" life="3000" severity="error"/>
           <p:panelGrid id="pngInfo"  columns="1" styleClass="panelgrid_sem_borda" >
-            <p:inputTextarea value="#{student.selectedStudentInfo.info}" style="width: 800px;height: 200;" />
+            <p:panelGrid id="pngInfoStudentDetails" columns="2" styleClass="panelgrid_sem_borda">
+              <p:outputLabel value="Aluno: "/>
+              <p:inputText value="#{student.selectedStudentInfo.student.student_name}" size="30" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Responsavel: "/>
+              <p:inputText value="#{student.selectedStudentInfo.student.resp_Name}" size="30" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Tel Residencial: "/>
+              <p:inputMask value="#{student.selectedStudentInfo.student.resp_home_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
+              <p:outputLabel value="Tel Comercial: "/>
+              <p:inputMask value="#{student.selectedStudentInfo.student.resp_office_phone}" size="30" mask="(99) 99999999?9" styleClass="inputTextDisabled"/>
+            </p:panelGrid>
+            <p:separator/>
+            <p:outputLabel value="Informações: "/>
+            <p:inputTextarea value="#{student.selectedStudentInfo.info}" style="width: 400px;height: 200;" />
           </p:panelGrid>
           <f:facet name="footer">
             <p:panelGrid columns="2" style="float: right;" styleClass="panelgrid_sem_borda">
