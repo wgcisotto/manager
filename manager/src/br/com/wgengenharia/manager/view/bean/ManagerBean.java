@@ -654,7 +654,7 @@ public class ManagerBean implements Serializable {
 			ManagerReport manager =  ManagerReportFactory.newInstanceSales(sales);
 			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			String dateString = df.format(beginDateFilter) +"_" + df.format(endDateFilter);
-			salesDayDownload = new DefaultStreamedContent(manager.generateReport(), "", "relatorio_"+dateString+".pdf");
+			salesFilteredDownload = new DefaultStreamedContent(manager.generateReport(), "", "relatorio_"+dateString+".pdf");
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgCashier", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Falha ao efetuar o download do relatório."));
 		}

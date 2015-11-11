@@ -52,6 +52,8 @@ public class StudentBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	private static final int SEM_MATRICULA = -1; 
+	
 	//STUDENT
 	private StudentBO studentBO;
 	private Student newStudent;
@@ -106,6 +108,8 @@ public class StudentBean implements Serializable{
 
 	private Date new_expiry_date;
 	private double new_price;
+	
+	private Date unlocking_new_date;
 	
 	//PAYMENTS
 	private String barcode;
@@ -363,7 +367,9 @@ public class StudentBean implements Serializable{
 		try {
 			if(newFollowUp.getFollowup() == null){
 				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Nescessário preencher o FollowUp!"));
-			}else{
+			}else if(newFollowUp.getFollowup().equals("")){
+				FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso!", "Nescessário preencher o FollowUp!"));
+			}else {
 				newFollowUp.setStudent(this.selectedStudent);
 				newFollowUp.setEmployee(userInfo.getEmployee());
 				newFollowUp.setDate_followup(new Date());
@@ -497,16 +503,82 @@ public class StudentBean implements Serializable{
 			if(studentInfoClass != null)
 				classStudentBO.update(studentInfoClass);
 			studentBO.update(selectedStudent);
-			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Atualizações efetuada com sucesso"));
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Atualizações efetuada com sucesso!"));
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage() + " " + e.getCause()));
 		}
 	}
 	
+	public void cancelingStudentContract(){
+		try {
+			// remove aluno da turma
+			studentInfoClass.removeStudent(selectedStudent);
+			// deleta os proximos pagamentos do aluno
+			for (StudentPayments payment : this.student_payments) {
+				studentPaymentsBO.delete(payment);
+			}
+			// salva contrato para remocao 
+			Contract contract = selectedStudent.getContract(); 
+			// null to contract
+			selectedStudent.cancelingStudentContract();
+			studentBO.update(selectedStudent);
+			
+			// remove o contrato
+			contractBO.delete(contract);
+			
+			// atualiza informacoes do aluno
+			classStudentBO.update(studentInfoClass);
+			
+			//remove a turma da combo 
+			idClassStudent = SEM_MATRICULA;
+			
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Cancelamento efetuado com sucesso!"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao efetuar o cancelamento! " +e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
+	public void lockingStudentContract(){
+		try {
+			this.selectedStudent.lockingStudent();
+			studentBO.update(selectedStudent);
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Trancamento efetuado com sucesso!"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao efetuar o trancamento! " +e.getMessage() + " " + e.getCause()));
+		}
+	}
+	
+	public void unlockingStudentContract(){
+		try {
+			this.selectedStudent.unlockingStudent();
+			if(unlocking_new_date != null){
+				for (int i = 0; i <= student_payments.size()-1; i++) {
+					StudentPayments sp = student_payments.get(i);
+					if(sp.getPayment_date() == null){
+						if(i>0){
+							unlocking_new_date = DateUtil.updateDate(unlocking_new_date);
+						}
+						sp.setExpiry_date(unlocking_new_date);
+						studentPaymentsBO.update(sp);
+					}
+				}
+			}
+			studentBO.update(selectedStudent);
+			
+			student_payments = studentPaymentsBO.listStudentPayments(selectedStudent);
+			
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Atualização efetuada com sucesso!"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha " +e.getMessage() + " " + e.getCause()));
+		}
+	}
+			
+	
+	
 	public void generateContract(){
 		try {
 			if(selectedStudent != null){
-				if(idClassStudent == -1 ){
+				if(idClassStudent == SEM_MATRICULA ){
 					FacesContext.getCurrentInstance().addMessage("formManager:msgStudentInfo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso!", "Nescessário selecionar uma turma, para selecionar o contrato!"));
 				}else{
 					Contract contract = new Contract();
@@ -591,6 +663,8 @@ public class StudentBean implements Serializable{
 			selectedCall.setCall_date(new Date());
 			selectedCall.setTeacher(userInfo.getEmployee());
 			selectedCall.setBranch(userInfo.currentBranch);
+			selectedCall.setClass_number(selectedClassStudent.getQuantity_call());
+			selectedCall.setModule_name(selectedClassStudent.getClass_module().getName());
 			selectedCall.addStudentsInfo(selectedClassStudent.getStudents());
 			try {
 				callStudentBO.insert(selectedCall);
@@ -609,7 +683,7 @@ public class StudentBean implements Serializable{
 			callStudentBO.update(selectedCall);
 			selectedClassStudent.addCall(selectedCall);
 			selectedClassStudent.updateClassControl();
-			classStudentBO.update(selectedClassStudent);	
+			classStudentBO.updateWithValidation(selectedClassStudent);	
 			
 			FacesContext.getCurrentInstance().addMessage("formManager:msgStudentCall", new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Chamada concluida."));
 			
@@ -620,17 +694,18 @@ public class StudentBean implements Serializable{
 		}
 	}
 	
+	public String cancelCall(){
+		try {
+			callStudentBO.delete(selectedCall);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("formManager:msgCall", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Falha ao cancelar Chamada"));
+			return "";
+		}
+		return "student_call?faces-redirect=true";
+	}
+	
 	public String openCallDetails(){
 		if(selectedCallDetails!=null){
-			
-			
-//		
-//		followups = followUpBO.listFollowUpByStudent(this.selectedStudent);
-//		newFollowUp = new FollowUp();
-		
-//		student_payments = studentPaymentsBO.listStudentPayments(this.selectedStudent);
-//		resetStudentPaymentInfo();
-
 		return "call_details?faces-redirect=true";
 	}else{
 		return "";
@@ -901,6 +976,12 @@ public class StudentBean implements Serializable{
 	}
 	public void setNew_price(double new_price) {
 		this.new_price = new_price;
+	}
+	public Date getUnlocking_new_date() {
+		return unlocking_new_date;
+	}
+	public void setUnlocking_new_date(Date unlocking_new_date) {
+		this.unlocking_new_date = unlocking_new_date;
 	}
 	public String getBarcode() {
 		return barcode;
