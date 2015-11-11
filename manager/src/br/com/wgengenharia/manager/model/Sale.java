@@ -53,6 +53,9 @@ public class Sale implements Serializable {
 	private Client client;
 	@Column(name = "TOTAL")
 	private Double total;
+	@Column(name = "DESCRIPTION", nullable=true)
+	private String description;
+	
 	
 	@ManyToOne
 	private Branch branch;
@@ -99,7 +102,13 @@ public class Sale implements Serializable {
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
-
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	public int getProductsSize() {
 		return products.size();
 	}

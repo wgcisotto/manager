@@ -41,6 +41,12 @@ public class CallStudent {
 	@Column(name="CALL_DATE", length=100)
 	private Date call_date;
 	
+	@Column(name="CLASS_NUMBER", length=100, nullable=true)
+	private int class_number;
+	
+	@Column(name="MODULE_NAME",  length=100, nullable=true)
+	private String module_name;
+	
 	@ManyToOne
 	private Employee teacher;
 	
@@ -50,39 +56,42 @@ public class CallStudent {
 	public int getId_calls() {
 		return id_calls;
 	}
-
 	public void setId_calls(int id_calls) {
 		this.id_calls = id_calls;
 	}
-
 	public List<StudentInfo> getStudents_info() {
 		return students_info;
 	}
-
 	public void setStudents_info(List<StudentInfo> students_info) {
 		this.students_info = students_info;
 	}
-
 	public Date getCall_date() {
 		return call_date;
 	}
-
 	public void setCall_date(Date call_date) {
 		this.call_date = call_date;
 	}
-
+	public int getClass_number() {
+		return class_number;
+	}
+	public void setClass_number(int class_number) {
+		this.class_number = class_number;
+	}
+	public String getModule_name() {
+		return module_name;
+	}
+	public void setModule_name(String module_name) {
+		this.module_name = module_name;
+	}
 	public Employee getTeacher() {
 		return teacher;
 	}
-
 	public void setTeacher(Employee teacher) {
 		this.teacher = teacher;
 	}
-
 	public Branch getBranch() {
 		return branch;
 	}
-
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
@@ -90,10 +99,12 @@ public class CallStudent {
 	
 	public void addStudentsInfo(List<Student> student){
 		for (Student stud : student) {
-			StudentInfo studentInfo = new StudentInfo();
-			studentInfo.setStudent_name(stud.getStudent_name());
-			studentInfo.setStudent(stud);
-			students_info.add(studentInfo);
+			if(!stud.isLocking()){
+				StudentInfo studentInfo = new StudentInfo();
+				studentInfo.setStudent_name(stud.getStudent_name());
+				studentInfo.setStudent(stud);
+				students_info.add(studentInfo);
+			}
 		}
 	}
 	

@@ -16,15 +16,22 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 @Entity
 @Table(name = "TAB_STUDENT")
 //@SequenceGenerator(name="seqStudent", sequenceName="SEQ_STUDENT",allocationSize=1)
 public class Student {
+
+	private static final String ZERO_FILL = "%06d";
+	private static boolean LOCK = true;
+	private static boolean UNLOCK = false;
+	
 	
 	public Student() {
 		this.resp_address = new Address();
 		this.class_registered = false;
+		this.locking = UNLOCK;
 	}
 	
 	@Id
@@ -70,6 +77,9 @@ public class Student {
 
 	@Column(name="CLASS_REGISTERED")
 	private boolean class_registered;
+	
+	@Column(name="LOCKING")
+	private boolean locking;
 	
 	@ManyToOne
 	private Contract contract;
@@ -159,6 +169,12 @@ public class Student {
 	public void setClass_registered(boolean class_registered) {
 		this.class_registered = class_registered;
 	}
+	public boolean isLocking() {
+		return locking;
+	}
+	public void setLocking(boolean locking) {
+		this.locking = locking;
+	}
 	public Contract getContract() {
 		return contract;
 	}
@@ -180,13 +196,30 @@ public class Student {
 	
 	
 	// retorna imagem para grafichimage
-	public DefaultStreamedContent getStudentImage(){
+	public StreamedContent getStudentImage(){
 		if(image != null){
 			InputStream is = new ByteArrayInputStream((byte[]) this.image);
 			return new DefaultStreamedContent(is, "image/png");
 		}else{
 			return null;
 		}
+	}
+	
+	
+	public String getRegistry(){
+		return String.format(ZERO_FILL,this.id_student);
+	}
+	
+	public void lockingStudent(){
+		this.locking = LOCK;
+	}
+
+	public void unlockingStudent() {
+		this.locking = UNLOCK;
+	}
+	
+	public void cancelingStudentContract(){
+		this.contract = null;
 	}
 	
 }

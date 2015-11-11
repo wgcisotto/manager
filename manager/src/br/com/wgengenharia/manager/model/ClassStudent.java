@@ -175,7 +175,8 @@ public class ClassStudent {
 	}
 	
 	public void removeStudent(Student student){
-		this.students.remove(student);
+		if(students.contains(student))
+			this.students.remove(student);
 	}
 	
 	public void addCall(CallStudent call){
