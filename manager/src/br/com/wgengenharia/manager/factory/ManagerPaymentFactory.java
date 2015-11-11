@@ -10,12 +10,15 @@ import br.com.wgengenharia.manager.utils.AuthenticationUtil;
 
 public class ManagerPaymentFactory {
 	
+	
+	
 	public static ManagerSaleFacadeInterface newInstance(StudentPayments payment){
 		Sale sale = new Sale();
 		
 		sale.setTotal(payment.getPaid());
 		sale.setDate(new Date());
 		sale.setTime(new Date());
+		sale.setDescription("Pagamento de boleto: " + payment.getBarcode() + " Aluno:" + payment.getStudent().getStudent_name());
 		sale.setBranch(AuthenticationUtil.getUserInfo().currentBranch);
 		
 		
