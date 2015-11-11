@@ -16,7 +16,11 @@
          
          <p:dataTable id="dtbCallStudentDetails" widgetVar="dtbCallDetails" var="stud" value="#{student.selectedCallDetails.students_info}" 
                 scrollRows="5" scrollable="true" scrollHeight="370"    
-                rowKey="#{stud.id_student}" >
+                rowKey="#{stud.student.id_student}" >
+               
+               <p:column headerText="Matricula" >
+                <h:outputText value="#{stud.student.registry}"/>
+               </p:column>
                 
                <p:column headerText="Aluno" >
                 <h:outputText value="#{stud.student.student_name}"/>
@@ -35,6 +39,7 @@
                 
        
             </p:dataTable>
+            
           </p:panelGrid>
             
             
@@ -68,7 +73,6 @@
             </p:panelGrid>
           </f:facet>
         </p:dialog>
-         
 
          
         </ui:define>

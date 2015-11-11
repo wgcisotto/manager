@@ -49,6 +49,18 @@
                   <f:convertDateTime pattern="dd/MM/yyyy"/> 
                 </h:outputText>
                </p:column>
+               
+               <p:column headerText="Turma" >
+                <h:outputText value="#{student.selectedClassStudent.class_name}"/>
+               </p:column>
+               
+               <p:column headerText="Modulo " >
+                <h:outputText value="#{calls.module_name}"/>
+               </p:column>
+               
+               <p:column headerText="Aula " >
+                <h:outputText value="#{calls.class_number}"/>
+               </p:column>
            
                <p:column headerText="Responsavel">
                  <h:outputText value="#{calls.teacher.name}"/>     
@@ -66,18 +78,13 @@
 	          </p:panelGrid>
 	          
 	          
-	         <p:panelGrid id="pngControle" columns="3" styleClass="panelgrid_sem_borda"> 
+	         <p:panelGrid id="pngControle" columns="3" styleClass="panelgrid_sem_borda" style="float: right;"> 
 	          <h:commandButton id="btnOpenCall" styleClass="btn btn-primary btn-lg" value="Nova Chamada" disabled="#{student.selectedClassStudent.hasNoStudents || student.selectedClassStudent.concluded}">
 	           <p:ajax oncomplete="btnClick('formManager:btnOpenCallHidden')"/>
 	          </h:commandButton>
 	          <p:commandButton id="btnOpenCallHidden" style="display: none;" action="#{student.createCall}" process="@this" update="@form"/>
 	         </p:panelGrid>   
 
-
-
-
-          
-          
           </p:panelGrid>
          
         </ui:define>

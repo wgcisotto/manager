@@ -14,7 +14,7 @@
          
          <f:metadata>    
 				    <f:event type="preRenderView" listener="#{manager.loadListsInfo}"/>
-				</f:metadata> 
+				 </f:metadata> 
         
          <p:panelGrid columns="2" styleClass="panelgrid_sem_borda">
           <h:commandButton styleClass="btn btn-primary btn-lg" value="Venda Rapida">
@@ -463,8 +463,6 @@
         </p:dialog>
         
         
-        
-        
         <p:remoteCommand id="rmcDetailSaleDay" name="rmcDetailSaleDay" update="pngDetailSaleDay" process="@this"/>
         <p:dialog id="dlgDetailSaleDay" header="Detalhamento" widgetVar="dlgDetailSaleDay" minHeight="40" width="400" resizable="false" modal="true" onShow="rmcDetailSaleDay()">
           <p:growl id="growlDetailSaleDay" sticky="true" showDetail="true" life="3000" severity="error"/>
@@ -472,7 +470,7 @@
             
             <p:panelGrid rendered="#{manager.selectedSale.productsSize == 0}" columns="1">
               <p:column>
-              <h:outputText value="Pagamendo de Boleto:"/>
+              <h:outputText value="#{manager.selectedSale.description}"/>
               </p:column>
               <p:column>
                 <p:outputLabel value="Data: "/>

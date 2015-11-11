@@ -10,7 +10,10 @@
         </ui:define>
         <ui:define name="default">
         
-        
+         
+         <f:metadata>    
+            <f:event type="preRenderView" listener="#{company.loadlistAlert}"/>
+         </f:metadata> 
         
           
           <p:messages id="msgCompanyAlert" showDetail="true" autoUpdate="true" closable="true" />

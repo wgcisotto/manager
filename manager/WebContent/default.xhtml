@@ -55,8 +55,8 @@
 			  
 			  <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			   <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
-			     <p:graphicImage id="imgCompanyDefault" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" rendered="#{auth.employee.company.companyImage != null}" />
-			     <p:graphicImage id="imgCompanyDefault2" url="resources/images/shared/logo.png" style="width:76px;height:76px" rendered="#{auth.employee.company.companyImage == null}" />
+			     <p:graphicImage id="imgCompanyDefault" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" rendered="#{auth.employee.company.companyImage != null}" cache="false"/>
+			     <p:graphicImage id="imgCompanyDefault2" url="resources/images/shared/logo.png" style="width:76px;height:76px" rendered="#{auth.employee.company.companyImage == null}" cache="false"/>
 			     <p:panelGrid columns="1" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			       <p:panelGrid columns="2" styleClass="panelgrid_sem_borda panelgrid_user" style="float: right;" >
 			        <h:outputText value="Ola, " style="color: white;float: left"/>

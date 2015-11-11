@@ -18,7 +18,7 @@
 		            <p:inputText id="txtCompanyName" value="#{auth.employee.company.name}" required="true" requiredMessage="Nescessário preencher o nome da Empresa."/>
 		          </p:panelGrid>
 		          <p:panelGrid id="pngImageEmp" columns="1" styleClass="panelgrid_sem_borda">
-	              <p:graphicImage id="imgCompany" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" /> 
+	              <p:graphicImage id="imgCompany" value="#{auth.employee.company.companyImage}" style="width:76px;height:76px" cache="false" /> 
 	              <h:commandButton styleClass="btn btn-primary btn-lg" value="Alterar" style="float: right;">
 	               <p:ajax event="click" onstart="PF('dlgAlterImg').show()"/>
 	              </h:commandButton>

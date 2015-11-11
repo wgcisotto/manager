@@ -17,6 +17,11 @@
             <p:dataTable id="dtbCallStudent" widgetVar="dtbCall" var="stud" value="#{student.selectedCall.students_info}" emptyMessage="Nenhuma Chamada"
                 scrollRows="5" scrollable="true" scrollHeight="185"    
                 rowKey="#{stud.id_student}" >
+               
+                
+               <p:column headerText="Matricula" >
+                <h:outputText value="#{stud.student.registry}"/>
+               </p:column>
                 
                <p:column headerText="Aluno" >
                 <h:outputText value="#{stud.student.student_name}"/>
@@ -36,12 +41,18 @@
           
           
          
-           
-          <h:commandButton styleClass="btn btn-primary btn-lg" value="Concluir chamada">
-             <p:ajax event="click" process="@this" oncomplete="btnClick('formManager:btnCompleteCallHidden')"/>
-          </h:commandButton> 
-          <p:commandButton id="btnCompleteCallHidden" style="display: none;" action="#{student.completeCall}" process="@this" update="@form"/>
+          <p:panelGrid styleClass="panelgrid_sem_borda" columns="2" id="pngControlCallOptions" style="float: right;">    
+	          <h:commandButton styleClass="btn btn-primary btn-lg" value="Concluir chamada">
+	             <p:ajax event="click" process="@this" oncomplete="btnClick('formManager:btnCompleteCallHidden')"/>
+	          </h:commandButton>
+	          <h:commandButton styleClass="btn btn-danger btn-lg" value="Cancelar">
+	             <p:ajax event="click" process="@this" oncomplete="btnClick('formManager:btnCancelCallHidden')"/>
+	          </h:commandButton>  
+	          <p:commandButton id="btnCompleteCallHidden" style="display: none;" action="#{student.completeCall}" process="@this" update="@form"/>
+	          <p:commandButton id="btnCancelCallHidden" style="display: none;" action="#{student.cancelCall}" process="@this" update="@form"/>
+          </p:panelGrid>  
           
+                 
          </p:panelGrid>
          
          
