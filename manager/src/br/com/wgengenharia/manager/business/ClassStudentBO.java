@@ -31,6 +31,10 @@ public class ClassStudentBO implements ClassStudentDAO{
 
 	@Override
 	public void update(ClassStudent entity) {
+		DAO.update(entity);
+	}
+	
+	public void updateWithValidation(ClassStudent entity){
 		if(entity.getQuantity_call() > entity.getClass_module().getQuantity_class()){
 			try {
 				ClassModule newModule = BO.findByClassModuleSequence(entity.getClass_module().getNextSequence());
