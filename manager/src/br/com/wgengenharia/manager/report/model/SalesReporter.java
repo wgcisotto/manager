@@ -22,6 +22,7 @@ import br.com.wgengenharia.manager.report.ManagerReport;
 
 public class SalesReporter extends AbstractManagerReport implements ManagerReport {
 
+	
 	private List<Sale> sales;
 	
 	public SalesReporter(List<Sale> sales) {
@@ -30,7 +31,7 @@ public class SalesReporter extends AbstractManagerReport implements ManagerRepor
 	
 	@Override
 	public InputStream generateReport() throws JRException {
-		JasperReport report = JasperCompileManager.compileReport(this.getPathToReportPackage() + "listSales.jrxml");
+		JasperReport report = JasperCompileManager.compileReport(getPath() + "listSales.jrxml");
 		JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(parserSale()));
 //		JasperExportManager.exportReportToPdfFile(print, "C:/Users/william.galindo/Desktop/firstDataTable.pdf");
 		
@@ -63,4 +64,5 @@ public class SalesReporter extends AbstractManagerReport implements ManagerRepor
 		}
 		return salesResport;
 	}
+
 }

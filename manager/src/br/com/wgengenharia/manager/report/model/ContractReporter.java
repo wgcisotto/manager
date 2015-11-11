@@ -38,7 +38,7 @@ public class ContractReporter extends AbstractManagerReport {
 		InputStream is = null;
 		
 		try {
-			JasperReport report = JasperCompileManager.compileReport(this.getPathToReportPackage() + CONTRACT + student.getContract().getType() +".jrxml");
+			JasperReport report = JasperCompileManager.compileReport(this.getPath() + CONTRACT + student.getContract().getType() +".jrxml");
 			JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(students));
 //			JasperExportManager.exportReportToPdfFile(print, "C:/Users/william.galindo/Desktop/firstReportaa.pdf");
 			ByteArrayOutputStream out = new ByteArrayOutputStream();

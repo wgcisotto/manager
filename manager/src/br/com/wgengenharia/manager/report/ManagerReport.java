@@ -8,8 +8,6 @@ public interface ManagerReport {
 
 	abstract InputStream generateReport() throws JRException;
 	
-	public String getPathToReportPackage();
-
 	public String getPath();
 	
 }
