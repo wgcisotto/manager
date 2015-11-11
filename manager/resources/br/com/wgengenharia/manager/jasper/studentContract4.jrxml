@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="studentContract1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ef271e8-6fba-4361-8f90-d7914e7eb0a0">
 	<property name="ireport.zoom" value="1.464100000000007"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="452"/>
+	<property name="ireport.y" value="668"/>
 	<field name="contratante" class="java.lang.String"/>
 	<field name="rg" class="java.lang.String"/>
 	<field name="cpf" class="java.lang.String"/>
@@ -293,7 +293,7 @@ CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE TREINAMENTO DE COMPUTAÇÃO
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[A duração deste Programa de Capitação é de 24 (vinte e quatro) meses, divididos em 3 (três) unidades de 8 (oito)  meses cada uma, com o total de 192 (cento e noventa e duas) horas aulas.]]></text>
+				<text><![CDATA[A duração deste Programa de Capitação é de 8 (oito) meses.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="2" y="36" width="47" height="11" uuid="c31538f7-9916-4975-9ab4-334f1139c3e5"/>
@@ -451,14 +451,14 @@ UNIDADE 3:Visualização Arquitetônica, Desenho Industrial, correspondendo a á
 				<textElement>
 					<font size="8" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[R$ 150,00 de matricula, R$ 320,00  de material didático, R$ 170,00 de praticas pedagógicas e mais 24 parcelas iguais e ]]></text>
+				<text><![CDATA[R$ 150,00 de matricula, R$ 320,00  de material didático, R$ 170,00 de praticas pedagógicas e mais 8 parcelas iguais e ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="51" y="272" width="100" height="11" uuid="48bb599f-4ec3-4593-b7e9-2c3de7bdfd5d"/>
 				<textElement>
 					<font size="8" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[consecutivas de 485,90. ]]></text>
+				<text><![CDATA[consecutivas de 245,90. ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="151" y="272" width="401" height="11" uuid="f16bbed5-61ce-4b17-a225-37d0f58597aa"/>
@@ -521,8 +521,7 @@ UNIDADE 3:Visualização Arquitetônica, Desenho Industrial, correspondendo a á
 				<textElement>
 					<font size="8" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[R$ 199,90 (Cento e Noventa e Nove  Reais e
- Noventa ]]></text>
+				<text><![CDATA[R$ 159,90 (Cento e Cinquenta  e Nove Reais e Noventa ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="84" y="341" width="44" height="12" uuid="dcc545b3-7c3d-485a-9fcd-fcf1b67abde0"/>
@@ -580,7 +579,7 @@ Parágrafo 2º: Desistência ou rescisão contratual – o CONTRATANTE terá can
 				<textElement>
 					<font size="8" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[R$ 520,00 pela desistência e multa deste contrato.]]></text>
+				<text><![CDATA[R$ 320,00 pela desistência e multa deste contrato.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="2" y="483" width="81" height="11" uuid="ac4633c9-3843-436e-a7a2-c7357f25083a"/>
